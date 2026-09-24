@@ -7,7 +7,8 @@
 <title>أكاديمية النبراس للتعليم عن بعد</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--brand:#0f3460;--brand-2:#1e5fa8;--gold:#f59e0b;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;--bg:#f8fafc;--bg-2:#f1f5f9;--surface:#fff;--text:#0f172a;--text-2:#334155;--text-3:#64748b;--text-4:#94a3b8;--border:#e2e8f0;--radius:14px;--shadow:0 1px 3px rgba(0,0,0,.08);--font:'Tajawal',sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px)}
+:root{--brand:#0f3460;--brand-2:#1e5fa8;--gold:#f59e0b;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;--purple:#8b5cf6;--bg:#f8fafc;--bg-2:#f1f5f9;--surface:#fff;--text:#0f172a;--text-2:#334155;--text-3:#64748b;--text-4:#94a3b8;--border:#e2e8f0;--radius:14px;--shadow:0 1px 3px rgba(0,0,0,.08);--font:'Tajawal',sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px)}
+[data-theme="dark"]{--bg:#0f172a;--bg-2:#1e293b;--surface:#1e293b;--text:#f1f5f9;--text-2:#cbd5e1;--text-3:#94a3b8;--border:#334155}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;padding-bottom:calc(72px + var(--safe-bottom));-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit}
@@ -159,6 +160,8 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .pt2{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-3);font-weight:600}
 .sect{font-size:15.5px;font-weight:900;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
 .sect::before{content:'';width:4px;height:18px;background:linear-gradient(180deg,var(--brand),var(--gold));border-radius:2px}
+.ref-box{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px;color:#78350f;line-height:1.9}
+.ref-num{background:#fff;padding:6px 12px;border-radius:8px;font-weight:900;letter-spacing:2px;display:inline-block;margin-top:6px;font-size:16px}
 @media(max-width:360px){.ag,.stats,.fr{grid-template-columns:1fr}}
 </style>
 </head>
@@ -238,7 +241,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
   </header>
 
   <main>
-    <!-- ADMIN HOME -->
     <section class="pg active" id="pg-adminHome">
       <div class="hero"><div class="hin"><div class="hl">لوحة تحكم المدير</div><div class="ht">أهلًا بك 👋</div><div class="hs" id="awel">—</div></div></div>
       <div class="stats" id="astats"></div>
@@ -246,7 +248,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div class="ag">
         <button class="at" data-goto="adminUsers" style="--tc:#3b82f6"><div class="ai">👥</div><div class="atit">المستخدمون</div><div class="ads">إدارة الحسابات</div><span class="ab" id="pub" style="display:none">0</span></button>
         <button class="at" data-goto="adminTopups" style="--tc:#f59e0b"><div class="ai">💳</div><div class="atit">طلبات الشحن</div><div class="ads">الشام كاش</div><span class="ab" id="ptb" style="display:none">0</span></button>
-        <button class="at" data-goto="adminWithdrawals" style="--tc:#10b981"><div class="ai">💸</div><div class="atit">سحب الأرباح</div><div class="ads">طلبات المعلمين</div><span class="ab" id="pwb" style="display:none">0</span></button>
+        <button class="at" data-goto="adminWithdrawals" style="--tc:#10b981"><div class="ai">💸</div><div class="atit">سحب الأرصدة</div><div class="ads">طلبات الطلاب والمعلمين</div><span class="ab" id="pwb" style="display:none">0</span></button>
         <button class="at" data-goto="adminSubjects" style="--tc:#ec4899"><div class="ai">📖</div><div class="atit">المواد</div><div class="ads">إدارة المواد</div></button>
         <button class="at" data-goto="adminCourses" style="--tc:#0f3460"><div class="ai">📚</div><div class="atit">الدورات</div><div class="ads">إدارة الدورات</div></button>
         <button class="at" data-goto="adminLessons" style="--tc:#06b6d4"><div class="ai">🎬</div><div class="atit">الدروس</div><div class="ads">إدارة الدروس</div></button>
@@ -255,7 +257,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       </div>
     </section>
 
-    <!-- TEACHER HOME -->
     <section class="pg" id="pg-teacherHome">
       <div class="card" id="tp" style="display:none;background:#fffbeb;border-color:#fde68a">
         <div style="display:flex;gap:12px"><div style="font-size:32px">⏳</div><div><div style="font-size:15px;font-weight:800;color:#92400e">حسابك قيد المراجعة</div><div style="font-size:13px;color:#78350f;line-height:1.7">سيتم تفعيل حسابك من الإدارة قريبًا.</div></div></div>
@@ -273,7 +274,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       </div>
     </section>
 
-    <!-- STUDENT HOME -->
     <section class="pg" id="pg-studentHome">
       <div class="hero"><div class="hin"><div class="hl">مرحبًا بك 👋</div><div class="ht" id="swel">—</div><div class="hs" id="sgr">—</div></div></div>
       <div class="stats" id="sstats"></div>
@@ -283,7 +283,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="sact"></div>
     </section>
 
-    <!-- ADMIN USERS -->
     <section class="pg" id="pg-adminUsers">
       <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">المستخدمون</h2><div style="width:40px"></div></div>
       <div class="sbox"><input id="usearch" placeholder="ابحث..."></div>
@@ -370,14 +369,24 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       </div>
       <div class="card">
         <div class="ct">💳 شحن عبر الشام كاش</div>
-        <p style="font-size:13.5px;color:var(--text-2);line-height:1.8;margin-bottom:14px">حوّل المبلغ إلى رقم الشام كاش:</p>
+        <p style="font-size:13.5px;color:var(--text-2);line-height:1.8;margin-bottom:14px">حوّل المبلغ إلى رقم الشام كاش التالي، ثم ارفع طلب شحن:</p>
         <div style="background:var(--bg-2);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px">
           <div style="font-size:12px;color:var(--text-3);font-weight:600">رقم الشام كاش</div>
           <div style="font-size:22px;font-weight:900;color:var(--brand);margin-top:4px">0912 345 678</div>
         </div>
         <button class="btn bp" id="reqTopBtn">📤 طلب شحن</button>
       </div>
+      <div class="card">
+        <div class="ct">💸 سحب الرصيد</div>
+        <p style="font-size:13px;color:var(--text-3);line-height:1.7;margin-bottom:12px">يمكنك سحب رصيدك (الحد الأدنى 1000 ل.س) إلى محفظتك.</p>
+        <button class="btn bi" id="goStdWd">سحب رصيدي</button>
+      </div>
       <div class="card"><div class="ct">📋 سجل المعاملات</div><div id="stxs"></div></div>
+    </section>
+
+    <section class="pg" id="pg-studentWithdrawal">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">سحب رصيدي</h2><button class="btn bg-g bsm" id="reqStdWdBtn">💸 طلب جديد</button></div>
+      <div id="stdWdContent"></div>
     </section>
 
     <section class="pg" id="pg-studentPurchases">
@@ -426,7 +435,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -530,7 +539,7 @@ function go(name,silent){
   $$('.pg').forEach(p=>p.classList.toggle('active',p.id==='pg-'+name));
   $$('.nv').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));
   if(!silent)window.scrollTo({top:0,behavior:'smooth'});
-  const map={adminHome:renderAH,adminUsers:renderU,adminTopups:renderT,adminWithdrawals:renderWA,adminSubjects:renderSubs,adminCourses:renderAC,adminLessons:renderAL,adminPlatformEarnings:renderPE,teacherHome:renderTH,teacherCourses:renderMC,teacherLessons:renderML,teacherEarnings:renderE,teacherWithdrawals:renderWT,studentHome:renderSH,studentWallet:renderW,studentPurchases:renderP,chatList:renderCL,chatRoom:renderCM,profile:renderProf,notifications:renderN};
+  const map={adminHome:renderAH,adminUsers:renderU,adminTopups:renderT,adminWithdrawals:renderWA,adminSubjects:renderSubs,adminCourses:renderAC,adminLessons:renderAL,adminPlatformEarnings:renderPE,teacherHome:renderTH,teacherCourses:renderMC,teacherLessons:renderML,teacherEarnings:renderE,teacherWithdrawals:renderWT,studentHome:renderSH,studentWallet:renderW,studentWithdrawal:renderStdWd,studentPurchases:renderP,chatList:renderCL,chatRoom:renderCM,profile:renderProf,notifications:renderN};
   if(map[name])map[name]();
 }
 
@@ -615,8 +624,8 @@ function openBal(id){
     const a=parseInt($('#balAmt').value,10);
     if(!a||a<=0){toast('مبلغ خطأ','error');return}
     await updateDoc(doc(db,'users',id),{balance:(u.balance||0)+a});
-    await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:'إضافة رصيد',date:serverTimestamp()});
-    await addN(id,'💰 رصيد جديد',`أُضيف ${fm(a)} ل.س`,'success');
+    await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:'إضافة رصيد من الإدارة',date:serverTimestamp()});
+    await addN(id,'💰 رصيد جديد',`أُضيف ${fm(a)} ل.س إلى محفظتك`,'success');
     closeM();toast('تمت الإضافة','success');
   };
 }
@@ -630,9 +639,11 @@ function renderT(){
     const el=document.createElement('div');el.className='card';
     el.innerHTML=`
       <div style="display:flex;justify-content:space-between;margin-bottom:12px"><div><div style="font-size:15px;font-weight:800">${esc(u?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${fdt(r.date)}</div></div><span class="badge b${r.status==='pending'?'pnd':r.status==='approved'?'act':'in'}">${r.status==='pending'?'قيد المراجعة':r.status==='approved'?'مقبول':'مرفوض'}</span></div>
+      ${r.reference?`<div style="background:#e0e7ff;border-radius:8px;padding:8px;margin-bottom:10px;text-align:center;font-size:12px;font-weight:800;color:#3730a3;letter-spacing:1px">📌 مرجع: ${esc(r.reference)}</div>`:''}
       <div style="background:var(--bg-2);border-radius:10px;padding:12px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px"><span>المبلغ</span><strong>${fm(r.amount)} ل.س</strong></div>
-        <div style="display:flex;justify-content:space-between;font-size:13.5px"><span>رقم العملية</span><strong>${esc(r.receipt)}</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px"><span>رقم العملية</span><strong>${esc(r.receipt)}</strong></div>
+        ${r.wallet?`<div style="display:flex;justify-content:space-between;font-size:13.5px"><span>محفظة الطالب</span><strong>${esc(r.wallet)}</strong></div>`:''}
       </div>
       ${r.status==='pending'?`<div style="display:flex;gap:8px"><button class="btn bs bsm" style="flex:1" data-a="ap" data-id="${r.id}">✓ قبول</button><button class="btn bd bsm" style="flex:1" data-a="rj" data-id="${r.id}">✗ رفض</button></div>`:''}`;
     el.querySelectorAll('[data-a]').forEach(b=>b.onclick=async()=>{
@@ -641,12 +652,12 @@ function renderT(){
         const u2=st.users.find(x=>x.id===rq.userId);
         await updateDoc(doc(db,'topups',rq.id),{status:'approved'});
         await updateDoc(doc(db,'users',rq.userId),{balance:(u2.balance||0)+rq.amount});
-        await addDoc(collection(db,'transactions'),{userId:rq.userId,type:'topup',amount:rq.amount,description:'شحن مقبول',date:serverTimestamp()});
-        await addN(rq.userId,'💰 تم القبول',`أُضيف ${fm(rq.amount)} ل.س`,'success');
+        await addDoc(collection(db,'transactions'),{userId:rq.userId,type:'topup',amount:rq.amount,description:'شحن مقبول - '+rq.reference,date:serverTimestamp()});
+        await addN(rq.userId,'💰 تم قبول الشحن',`أُضيف ${fm(rq.amount)} ل.س إلى محفظتك`,'success');
         toast('تم القبول','success');
       } else {
         await updateDoc(doc(db,'topups',rq.id),{status:'rejected'});
-        await addN(rq.userId,'❌ رفض','تواصل مع الإدارة','danger');
+        await addN(rq.userId,'❌ رفض طلب الشحن','تواصل مع الإدارة — سيُسترد المبلغ خلال 24 ساعة','danger');
         toast('تم الرفض','warning');
       }
     });
@@ -655,28 +666,40 @@ function renderT(){
 }
 
 function renderWA(){
-  const l=$('#wlist');const arr=[...st.withdrawals].sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  const l=$('#wlist');
+  const arr=[...st.withdrawals].sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
   if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">💸</div><div class="et">لا توجد طلبات</div></div>';return}
   l.innerHTML='';
   arr.forEach(w=>{
-    const t=st.users.find(x=>x.id===w.teacherId);
+    const u=st.users.find(x=>x.id===(w.teacherId||w.userId));
+    const isTeacher=w.role==='teacher'||!w.userId;
     const el=document.createElement('div');el.className='card';
     el.innerHTML=`
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px"><div><div style="font-size:15px;font-weight:800">${esc(t?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${fdt(w.date)}</div></div><span class="badge b${w.status==='pending'?'pnd':w.status==='approved'?'act':'in'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم الدفع':'مرفوض'}</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+        <div><div style="font-size:15px;font-weight:800">${esc(u?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${isTeacher?'👨‍🏫 معلم':'👨‍🎓 طالب'} · ${fdt(w.date)}</div></div>
+        <span class="badge b${w.status==='pending'?'pnd':w.status==='approved'?'act':'in'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم الدفع':'مرفوض'}</span>
+      </div>
       <div style="background:var(--bg-2);border-radius:10px;padding:12px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>المبلغ</span><strong>${fm(w.amount)} ل.س</strong></div>
-        <div style="display:flex;justify-content:space-between"><span>${esc(w.method)}</span><strong>${esc(w.account)}</strong></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>طريقة الاستلام</span><strong>${esc(w.method)}</strong></div>
+        <div style="display:flex;justify-content:space-between"><span>رقم المحفظة</span><strong>${esc(w.account)}</strong></div>
       </div>
       ${w.status==='pending'?`<div style="display:flex;gap:8px"><button class="btn bs bsm" style="flex:1" data-a="ap" data-id="${w.id}">✓ تم الدفع</button><button class="btn bd bsm" style="flex:1" data-a="rj" data-id="${w.id}">✗ رفض</button></div>`:''}`;
     el.querySelectorAll('[data-a]').forEach(b=>b.onclick=async()=>{
       const rq=st.withdrawals.find(x=>x.id===b.dataset.id);
+      const targetUser=rq.teacherId||rq.userId;
       if(b.dataset.a==='ap'){
         await updateDoc(doc(db,'withdrawals',rq.id),{status:'approved',paidAt:serverTimestamp()});
-        await addN(rq.teacherId,'✅ تم تحويل أرباحك',`${fm(rq.amount)} ل.س`,'success');
+        if(rq.userId&&!rq.teacherId){
+          const usr=st.users.find(x=>x.id===rq.userId);
+          await updateDoc(doc(db,'users',rq.userId),{balance:(usr.balance||0)-rq.amount});
+          await addDoc(collection(db,'transactions'),{userId:rq.userId,type:'withdrawal',amount:rq.amount,description:'سحب رصيد مقبول',date:serverTimestamp()});
+        }
+        await addN(targetUser,'✅ تم تحويل مبلغك',`${fm(rq.amount)} ل.س — ${rq.method}`,'success');
         toast('تم الدفع','success');
       } else {
         await updateDoc(doc(db,'withdrawals',rq.id),{status:'rejected'});
-        await addN(rq.teacherId,'❌ رفض','تواصل مع الإدارة','danger');
+        await addN(targetUser,'❌ تم رفض طلبك','تواصل مع الإدارة','danger');
         toast('تم الرفض','warning');
       }
     });
@@ -928,16 +951,16 @@ function openWdM(){
   openM('💸 طلب سحب',`
     <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="display:flex;justify-content:space-between"><span>المتاح:</span><strong style="color:var(--success)">${fm(b.available)} ل.س</strong></div></div>
     <div class="fg"><label class="fl">المبلغ</label><input type="number" class="fi" id="wdA" min="1000" max="${b.available}"></div>
-    <div class="fg"><label class="fl">طريقة الاستلام</label><select class="fs" id="wdM"><option value="">اختر...</option><option>شام كاش</option><option>الهرم</option><option>سيرياتيل كاش</option><option>MTN كاش</option><option>تحويل بنكي</option></select></div>
+    <div class="fg"><label class="fl">طريقة الاستلام</label><select class="fs" id="wdM2"><option value="">اختر...</option><option>شام كاش</option><option>الهرم</option><option>سيرياتيل كاش</option><option>MTN كاش</option><option>تحويل بنكي</option></select></div>
     <div class="fg"><label class="fl">رقم المحفظة</label><input class="fi" id="wdAc"></div>
     <div class="fg"><label class="fl">ملاحظة</label><textarea class="ft" id="wdN"></textarea></div>
     <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bg-g" id="wdOk">📤 إرسال</button></div>`);
   $('#wdOk').onclick=async()=>{
-    const a=parseInt($('#wdA').value,10),m=$('#wdM').value,ac=$('#wdAc').value.trim();
+    const a=parseInt($('#wdA').value,10),m=$('#wdM2').value,ac=$('#wdAc').value.trim();
     if(!a||a<1000){toast('المبلغ خطأ','error');return}
     if(a>b.available){toast('المبلغ أكبر','error');return}
     if(!m||!ac){toast('أكمل البيانات','error');return}
-    await addDoc(collection(db,'withdrawals'),{teacherId:st.me.id,amount:a,method:m,account:ac,note:$('#wdN').value.trim(),status:'pending',date:serverTimestamp()});
+    await addDoc(collection(db,'withdrawals'),{teacherId:st.me.id,role:'teacher',amount:a,method:m,account:ac,note:$('#wdN').value.trim(),status:'pending',date:serverTimestamp()});
     closeM();toast('تم الإرسال ✓','success');
   };
 }
@@ -1005,7 +1028,7 @@ function openCourse(id){
   if(!ls.length){const e=document.createElement('div');e.innerHTML='<div class="empty"><div class="ei">🎬</div><div class="et">لا توجد دروس</div></div>';con.appendChild(e);return}
   ls.forEach((l,i)=>{
     const isF=l.price===0,ow=isF||mp.some(p=>p.lessonId===l.id);
-    const el=document.createElement('div');el.className='li'+(ow?'':' ');
+    const el=document.createElement('div');el.className='li';
     el.innerHTML=`<div class="lth ${isF?'f':ow?'p':'l'}">${ow?(isF?'🆓':'✓'):(i+1)}</div><div class="lin"><div class="lt">${esc(l.title)}</div><div class="lm">${esc(l.description||'')}</div></div>${ow?'<div class="lp p">مفتوح</div>':(isF?'<div class="lp f">مجاني</div>':`<div class="lp">${fm(l.price)} ل.س</div>`)}`;
     el.onclick=()=>openLesson(l.id);
     con.appendChild(el);
@@ -1047,21 +1070,94 @@ function renderW(){
   const arr=st.transactions.filter(t=>t.userId===st.me.id).sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
   const l=$('#stxs');
   if(!arr.length){l.innerHTML='<div class="empty" style="padding:20px"><div class="ex">لا توجد معاملات</div></div>';return}
-  l.innerHTML=arr.map(t=>{const c=t.type==='topup';return`<div style="display:flex;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px;align-items:center"><div style="width:40px;height:40px;border-radius:10px;background:${c?'linear-gradient(135deg,#10b981,#059669)':'linear-gradient(135deg,#ef4444,#dc2626)'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${c?'⬇️':'🛒'}</div><div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description)}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div><div style="font-size:15px;font-weight:900;color:${c?'var(--success)':'var(--danger)'}">${c?'+':'-'}${fm(t.amount)}</div></div>`}).join('');
+  l.innerHTML=arr.map(t=>{
+    const c=t.type==='topup';
+    const wd=t.type==='withdrawal';
+    const bg=c?'linear-gradient(135deg,#10b981,#059669)':wd?'linear-gradient(135deg,#3b82f6,#2563eb)':'linear-gradient(135deg,#ef4444,#dc2626)';
+    const ic=c?'⬇️':wd?'⬆️':'🛒';
+    return `<div style="display:flex;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px;align-items:center"><div style="width:40px;height:40px;border-radius:10px;background:${bg};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${ic}</div><div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description)}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div><div style="font-size:15px;font-weight:900;color:${c?'var(--success)':wd?'var(--danger)':'var(--danger)'}">${c?'+':'-'}${fm(t.amount)}</div></div>`;
+  }).join('');
+}
+
+function renderStdWd(){
+  const me=st.me;
+  const myReqs=st.withdrawals.filter(w=>w.userId===me.id).sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  const balance=me.balance||0;
+  $('#stdWdContent').innerHTML=`
+    <div class="card" style="background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;text-align:center;padding:24px">
+      <div style="font-size:13px;opacity:.9;font-weight:700">رصيدي المتاح للسحب</div>
+      <div style="font-size:42px;font-weight:900;margin:8px 0">${fm(balance)}</div>
+      <div style="font-size:14px;opacity:.9">ليرة سورية</div>
+    </div>
+    <div class="card">
+      <div class="ct">سجل الطلبات</div>
+      ${myReqs.length?myReqs.map(w=>`<div style="padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${fm(w.amount)} ل.س</strong><span class="badge b${w.status==='pending'?'pnd':w.status==='approved'?'act':'in'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم':'مرفوض'}</span></div>
+        <div style="font-size:12px;color:var(--text-3)">${fdt(w.date)} · ${esc(w.method)} · ${esc(w.account)}</div>
+      </div>`).join(''):'<div class="empty" style="padding:20px"><div class="ex">لا توجد طلبات</div></div>'}
+    </div>
+    <div class="card" style="background:#fffbeb;border-color:#fde68a">
+      <div style="font-size:13px;line-height:1.8;color:#78350f;font-weight:600">
+        💡 <strong>ملاحظة:</strong> الحد الأدنى للسحب 1000 ل.س. عند قبول الطلب، سيُخصم المبلغ من رصيدك ويُحوَّل إلى محفظتك.
+      </div>
+    </div>`;
+}
+
+function openStdWdModal(){
+  const balance=st.me.balance||0;
+  if(balance<1000){toast('الحد الأدنى 1000 ل.س','error');return}
+  openM('💸 طلب سحب رصيد',`
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="display:flex;justify-content:space-between"><span>المتاح:</span><strong style="color:var(--success)">${fm(balance)} ل.س</strong></div></div>
+    <div class="fg"><label class="fl">المبلغ</label><input type="number" class="fi" id="swA" min="1000" max="${balance}"></div>
+    <div class="fg"><label class="fl">طريقة الاستلام</label>
+      <select class="fs" id="swM">
+        <option value="">اختر...</option>
+        <option>شام كاش</option>
+        <option>الهرم</option>
+        <option>سيرياتيل كاش</option>
+        <option>MTN كاش</option>
+        <option>تحويل بنكي</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">رقم المحفظة</label><input class="fi" id="swAc" placeholder="09xx xxx xxx"></div>
+    <div class="fg"><label class="fl">ملاحظة</label><textarea class="ft" id="swN"></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bs" id="swOk">📤 إرسال</button></div>`);
+  $('#swOk').onclick=async()=>{
+    const a=parseInt($('#swA').value,10);
+    const m=$('#swM').value;
+    const ac=$('#swAc').value.trim();
+    if(!a||a<1000){toast('المبلغ 1000 ل.س على الأقل','error');return}
+    if(a>balance){toast('المبلغ أكبر من المتاح','error');return}
+    if(!m||!ac){toast('أكمل البيانات','error');return}
+    await addDoc(collection(db,'withdrawals'),{userId:st.me.id,role:'student',amount:a,method:m,account:ac,note:$('#swN').value.trim(),status:'pending',date:serverTimestamp()});
+    closeM();toast('تم الإرسال ✓','success');renderStdWd();
+  };
 }
 
 function openTopup(){
-  openM('💳 طلب شحن',`
-    <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;padding:14px;border:1px solid #f59e0b;margin-bottom:16px;font-size:13px;color:#78350f;line-height:1.8">حوّل إلى: <strong>${SHAM}</strong></div>
-    <div class="fg"><label class="fl">المبلغ</label><input type="number" class="fi" id="tA" min="100"></div>
-    <div class="fg"><label class="fl">رقم العملية</label><input class="fi" id="tR"></div>
-    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bp" id="tOk">📤 إرسال</button></div>`);
-  $('#tOk').onclick=async()=>{
-    const a=parseInt($('#tA').value,10),r=$('#tR').value.trim();
-    if(!a||a<100){toast('مبلغ خطأ','error');return}
-    if(!r){toast('أدخل رقم','error');return}
-    await addDoc(collection(db,'topups'),{userId:st.me.id,amount:a,receipt:r,status:'pending',date:serverTimestamp()});
-    closeM();toast('تم ✓','success');
+  const ref='NB'+Date.now().toString(36).toUpperCase();
+  openM('💳 طلب شحن عبر الشام كاش',`
+    <div class="ref-box">
+      <strong>📋 خطوات الشحن:</strong><br>
+      1. حوّل المبلغ إلى رقم الشام كاش:<br>
+      <strong style="font-size:16px;letter-spacing:2px">${SHAM}</strong><br>
+      2. اكتب رقم المرجع التالي في ملاحظة التحويل:<br>
+      <span class="ref-num">${ref}</span><br>
+      3. ارجع لهذه الصفحة وأدخل البيانات
+    </div>
+    <div class="fg"><label class="fl">رقم المرجع (تلقائي)</label><input class="fi" value="${ref}" readonly style="background:#e0e7ff;font-weight:800;letter-spacing:1px"></div>
+    <div class="fg"><label class="fl">المبلغ المحوّل (ل.س)</label><input type="number" class="fi" id="tuA" min="100" placeholder="5000"></div>
+    <div class="fg"><label class="fl">رقم العملية من الشام كاش</label><input class="fi" id="tuR" placeholder="12345678"></div>
+    <div class="fg"><label class="fl">رقم محفظتك (للاسترداد عند الرفض)</label><input class="fi" id="tuW" placeholder="09xx xxx xxx"></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bp" id="tuOk">📤 إرسال الطلب</button></div>`);
+  $('#tuOk').onclick=async()=>{
+    const a=parseInt($('#tuA').value,10);
+    const r=$('#tuR').value.trim();
+    const w=$('#tuW').value.trim();
+    if(!a||a<100){toast('مبلغ غير صحيح','error');return}
+    if(!r){toast('أدخل رقم العملية','error');return}
+    await addDoc(collection(db,'topups'),{userId:st.me.id,amount:a,receipt:r,wallet:w,reference:ref,status:'pending',date:serverTimestamp()});
+    closeM();toast('تم الإرسال ✓ — احتفظ برقم المرجع','success');
   };
 }
 
@@ -1216,6 +1312,8 @@ function bind(){
   $('#addMyCourseBtn').onclick=()=>{if(!st.me.active){toast('غير مفعّل','error');return}openCourseM()};
   $('#addMyLessonBtn').onclick=()=>{if(!st.me.active){toast('غير مفعّل','error');return}const mc=st.courses.filter(c=>c.teacherId===st.me.id);if(!mc.length){toast('أضف دورة','error');return}openLessonM()};
   $('#reqTopBtn').onclick=openTopup;
+  $('#goStdWd').onclick=()=>go('studentWithdrawal');
+  $('#reqStdWdBtn').onclick=openStdWdModal;
   $('#bk2s').onclick=()=>go('studentHome');
   $('#bk2sub').onclick=()=>openSub(st.curSubject);
   $('#bk2course').onclick=()=>openCourse(st.curCourse);
@@ -1232,7 +1330,10 @@ function bind(){
   $('#chatInput').addEventListener('keypress',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}});
 }
 
-document.addEventListener('DOMContentLoaded',()=>{bind();applyTheme();st.theme=localStorage.getItem('nb_theme')||'light';applyTheme();setTimeout(hideLoad,3000)});
+document.addEventListener('DOMContentLoaded',()=>{
+  st.theme=localStorage.getItem('nb_theme')||'light';
+  bind();applyTheme();setTimeout(hideLoad,3000);
+});
 </script>
 </body>
 </html>
