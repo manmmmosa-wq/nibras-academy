@@ -52,19 +52,95 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .loading-bar::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--gold-4),transparent);animation:shimmer 1.5s infinite}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
 
-/* ==================== AUTH ==================== */
-.auth-screen{min-height:100vh;padding:24px 16px;background:linear-gradient(160deg,#064e3b 0%,#047857 40%,#059669 80%,#0d9488 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.auth-screen::before{content:'';position:absolute;top:-50%;right:-30%;width:80%;height:150%;background:radial-gradient(circle,rgba(251,191,36,.15),transparent 60%);pointer-events:none}
-.auth-screen::after{content:'';position:absolute;bottom:-30%;left:-20%;width:70%;height:120%;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 60%);pointer-events:none}
+/* ==================== AUTH — SPLIT LAYOUT ==================== */
+.auth-screen{min-height:100vh;background:linear-gradient(135deg,#022c22 0%,#064e3b 40%,#047857 80%,#0d9488 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.auth-screen::before{content:'';position:absolute;top:-40%;right:-20%;width:70%;height:150%;background:radial-gradient(circle,rgba(251,191,36,.14),transparent 60%);pointer-events:none}
+.auth-screen::after{content:'';position:absolute;bottom:-40%;left:-20%;width:70%;height:140%;background:radial-gradient(circle,rgba(16,185,129,.15),transparent 60%);pointer-events:none}
 .auth-pattern{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath fill='white' d='M40 20 L50 30 L40 40 L30 30 Z M40 40 L50 50 L40 60 L30 50 Z'/%3E%3C/svg%3E");pointer-events:none}
-.auth-card{background:rgba(255,255,255,.98);backdrop-filter:blur(20px);border-radius:28px;padding:36px 28px 32px;max-width:480px;width:100%;box-shadow:0 30px 60px -15px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.1);position:relative;z-index:1;animation:cardIn .6s cubic-bezier(.4,0,.2,1);max-height:96vh;overflow-y:auto}
-[data-theme="dark"] .auth-card{background:rgba(28,25,23,.98)}
-@keyframes cardIn{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
-.auth-logo-wrap{display:flex;justify-content:center;margin-bottom:18px}
-.auth-logo-wrap svg{width:88px;height:88px;filter:drop-shadow(0 12px 24px rgba(6,78,59,.3))}
-.auth-title{font-family:var(--font-title);font-size:26px;font-weight:900;text-align:center;color:var(--emerald);letter-spacing:-.8px;margin-bottom:6px}
+
+.auth-wrapper{
+  display:grid;
+  grid-template-columns:1fr 1.05fr;
+  max-width:1180px;
+  width:100%;
+  border-radius:32px;
+  overflow:hidden;
+  box-shadow:0 50px 100px -30px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);
+  background:var(--surface);
+  position:relative;
+  z-index:1;
+  animation:authIn .7s cubic-bezier(.4,0,.2,1);
+  max-height:96vh;
+}
+@keyframes authIn{from{transform:translateY(24px) scale(.97);opacity:0}to{transform:none;opacity:1}}
+
+/* ===== Right panel: Info ===== */
+.auth-info{
+  background:linear-gradient(150deg,var(--emerald) 0%,#0369a1 0%,var(--emerald) 0%,var(--emerald-2) 55%,var(--emerald-3) 100%);
+  color:#fff;
+  padding:52px 44px 44px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:640px;
+}
+.auth-info::before{content:'';position:absolute;top:-30%;left:-30%;width:80%;height:80%;background:radial-gradient(circle,rgba(251,191,36,.22),transparent 60%);pointer-events:none}
+.auth-info::after{content:'ن';position:absolute;bottom:-80px;left:-20px;font-family:'Amiri',serif;font-size:340px;font-weight:900;color:rgba(255,255,255,.035);line-height:1;pointer-events:none;user-select:none}
+.auth-info-inner{position:relative;z-index:1}
+
+.auth-info-logo{width:78px;height:78px;margin-bottom:22px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.35));animation:logoFloat 4s ease-in-out infinite}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+.auth-info-brand{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  padding:6px 14px;border-radius:999px;
+  font-size:11.5px;font-weight:700;letter-spacing:.3px;margin-bottom:18px;
+  backdrop-filter:blur(10px);
+}
+.auth-info-brand::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold-4);box-shadow:0 0 10px var(--gold-4);animation:pulseDot 2s infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+.auth-info h1{
+  font-family:var(--font-title);
+  font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:10px;
+}
+.auth-info h1 span{color:var(--gold-4)}
+.auth-info-tagline{font-size:14.5px;line-height:1.85;color:rgba(255,255,255,.88);font-weight:500;margin-bottom:32px;max-width:460px}
+
+.auth-features{display:flex;flex-direction:column;gap:16px;margin-bottom:34px}
+.auth-feature{display:flex;gap:14px;align-items:flex-start;padding:12px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;transition:all .3s;backdrop-filter:blur(6px)}
+.auth-feature:hover{background:rgba(255,255,255,.11);transform:translateX(-4px);border-color:rgba(251,191,36,.3)}
+.af-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(251,191,36,.28),rgba(251,191,36,.08));border:1px solid rgba(251,191,36,.35);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.af-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:2px;letter-spacing:-.2px}
+.af-desc{font-size:12px;color:rgba(255,255,255,.72);line-height:1.6;font-weight:500}
+
+.auth-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-top:24px;border-top:1px solid rgba(255,255,255,.14)}
+.auth-stat{text-align:center;padding:10px 6px}
+.auth-stat strong{display:block;font-family:var(--font-title);font-size:24px;font-weight:900;color:var(--gold-4);letter-spacing:-.8px;line-height:1.1}
+.auth-stat span{display:block;font-size:11px;color:rgba(255,255,255,.72);font-weight:700;margin-top:5px;letter-spacing:.2px}
+
+.auth-badge-row{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.auth-badge{font-size:10.5px;font-weight:800;padding:5px 11px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.92);letter-spacing:.2px}
+
+/* ===== Left panel: Auth card ===== */
+.auth-card{
+  background:var(--surface);
+  padding:44px 40px;
+  overflow-y:auto;
+  max-height:96vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.auth-card-head{display:flex;justify-content:center;margin-bottom:20px}
+.auth-card-head svg{width:74px;height:74px;filter:drop-shadow(0 10px 20px rgba(6,78,59,.22))}
+.auth-title{font-family:var(--font-title);font-size:25px;font-weight:900;text-align:center;color:var(--emerald);letter-spacing:-.7px;margin-bottom:6px}
 [data-theme="dark"] .auth-title{color:var(--emerald-3)}
-.auth-subtitle{text-align:center;font-size:13.5px;color:var(--text-3);font-weight:500;margin-bottom:26px}
+.auth-subtitle{text-align:center;font-size:13px;color:var(--text-3);font-weight:500;margin-bottom:24px}
+
 .auth-tabs{display:flex;gap:6px;background:var(--bg-2);border-radius:14px;padding:5px;margin-bottom:24px}
 .auth-tab{flex:1;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:700;color:var(--text-3);transition:all .25s;display:flex;align-items:center;justify-content:center;gap:6px}
 .auth-tab.active{background:var(--surface);color:var(--emerald);box-shadow:var(--shadow);transform:scale(1.02)}
@@ -241,7 +317,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .section-title{font-family:var(--font-title);font-size:16px;font-weight:900;margin:24px 0 12px;display:flex;align-items:center;gap:10px;letter-spacing:-.3px}
 .section-title::before{content:'';width:4px;height:20px;background:linear-gradient(180deg,var(--emerald-3),var(--gold-3));border-radius:2px}
 .video-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:16px;overflow:hidden;background:#000;margin-bottom:14px;box-shadow:var(--shadow-md)}
-.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-wrap iframe,.video-wrap #ytPlayer{position:absolute;inset:0;width:100%;height:100%;border:0}
 .locked-box{background:linear-gradient(135deg,#1c1917,#0c0a09);border-radius:18px;padding:44px 24px;text-align:center;color:#fff;margin-bottom:14px;position:relative;overflow:hidden}
 .locked-box::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0 10px,rgba(255,255,255,.04) 10px 20px)}
 .locked-icon{font-size:64px;margin-bottom:14px;position:relative;z-index:1}
@@ -277,7 +353,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .conv-time{font-size:11px;color:var(--text-4);font-weight:700}
 .conv-badge{display:inline-block;background:var(--danger);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:5px}
 
-/* ==================== CARD CODES (كروت الشحن) ==================== */
+/* ==================== CARD CODES ==================== */
 .code-card{background:linear-gradient(135deg,var(--gold-3),var(--gold-2));color:#fff;border-radius:14px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden;box-shadow:0 8px 20px -4px rgba(217,119,6,.35)}
 .code-card.used{background:linear-gradient(135deg,#57534e,#44403c);opacity:.7}
 .code-card.disabled{background:linear-gradient(135deg,#7f1d1d,#991b1b)}
@@ -301,10 +377,97 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .redeem-input::placeholder{color:#a8a29e;letter-spacing:2px;font-size:15px}
 .redeem-btn{width:100%;padding:15px;margin-top:12px;background:#fff;color:var(--emerald);border-radius:12px;font-size:15px;font-weight:900;box-shadow:0 6px 20px rgba(0,0,0,.2)}
 
+/* ==================== STARS ==================== */
+.stars-row{display:flex;gap:6px;justify-content:center;margin:12px 0;direction:ltr}
+.star-btn{font-size:34px;line-height:1;color:var(--border);transition:all .15s;cursor:pointer;background:none;border:none;padding:0}
+.star-btn.on{color:var(--gold-3);text-shadow:0 4px 12px rgba(245,158,11,.4);transform:scale(1.08)}
+.star-btn:hover{transform:scale(1.15)}
+.rating-summary{display:flex;align-items:center;gap:8px;padding:10px 14px;background:linear-gradient(135deg,var(--gold-5),var(--gold-4));border-radius:12px;font-weight:800;color:#78350f}
+.rating-summary .num{font-family:var(--font-title);font-size:22px;font-weight:900}
+.rating-summary .small{font-size:12px;opacity:.85}
+.rating-item{padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px}
+.rating-item .rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.rating-item .rname{font-weight:800;font-size:13.5px}
+.rating-item .rstars{color:var(--gold-3);font-size:14px;letter-spacing:1px}
+.rating-item .rtext{font-size:13px;color:var(--text-2);line-height:1.7}
+
+/* ==================== VIDEO PROGRESS ==================== */
+.video-progress-strip{margin-top:8px;margin-bottom:14px}
+.video-progress-strip .progress{margin:6px 0}
+.watched-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:11.5px;font-weight:800;color:var(--text-2)}
+.watched-pill.done{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
+[data-theme="dark"] .watched-pill.done{background:#064e3b;color:#6ee7b7}
+
+/* ==================== NOTES ==================== */
+.note-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative}
+.note-card::before{content:'';position:absolute;top:0;bottom:0;right:0;width:4px;background:linear-gradient(180deg,var(--gold-3),var(--gold-2));border-radius:0 4px 4px 0}
+.note-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.note-title{font-size:13px;font-weight:800;color:var(--emerald);flex:1;display:flex;align-items:center;gap:6px}
+.note-time{font-size:11px;color:var(--text-4);font-weight:700}
+.note-body{font-size:13.5px;line-height:1.8;color:var(--text-2);white-space:pre-wrap;word-wrap:break-word}
+.note-actions{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.note-actions button{padding:5px 12px;border-radius:8px;background:var(--bg-2);border:1px solid var(--border);font-size:11.5px;font-weight:800;color:var(--text-3)}
+.note-actions button:hover{background:var(--border)}
+
+/* ==================== STREAK ==================== */
+.streak-banner{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border-radius:var(--radius);padding:16px 18px;margin-bottom:14px;display:flex;align-items:center;gap:14px;box-shadow:0 10px 24px -8px rgba(234,88,12,.5);position:relative;overflow:hidden}
+.streak-banner::before{content:'';position:absolute;top:-50%;right:-20%;width:70%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%)}
+.streak-flame{font-size:42px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.25));animation:pulseFire 1.5s ease-in-out infinite}
+@keyframes pulseFire{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.streak-info{flex:1;position:relative;z-index:1}
+.streak-num{font-family:var(--font-title);font-size:30px;font-weight:900;line-height:1;letter-spacing:-1px}
+.streak-lbl{font-size:12.5px;opacity:.92;font-weight:700;margin-top:4px}
+.streak-best{font-size:11px;opacity:.85;font-weight:600;margin-top:2px}
+
+/* ==================== ACHIEVEMENTS ==================== */
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ach-tile{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 8px;text-align:center;position:relative;transition:all .2s}
+.ach-tile.locked{opacity:.4;filter:grayscale(.9)}
+.ach-tile:not(.locked){box-shadow:var(--shadow-sm)}
+.ach-icon{font-size:34px;line-height:1;margin-bottom:6px}
+.ach-name{font-size:11px;font-weight:800;line-height:1.3}
+.ach-desc{font-size:10px;color:var(--text-3);margin-top:3px}
+
+/* ==================== CERTIFICATE (بدون طباعة) ==================== */
+.certificate{background:#fff;color:#1c1917;padding:44px 32px;border:10px double var(--gold-3);border-radius:20px;text-align:center;position:relative;max-width:760px;margin:0 auto;box-shadow:0 20px 50px -12px rgba(0,0,0,.25);overflow:hidden}
+.certificate::before{content:'';position:absolute;inset:14px;border:2px solid var(--emerald-3);border-radius:12px;pointer-events:none}
+.certificate::after{content:'ن';position:absolute;top:-40px;right:-30px;font-family:serif;font-size:280px;font-weight:900;color:rgba(6,78,59,.04);pointer-events:none;line-height:1}
+.cert-inner{position:relative;z-index:1}
+.cert-logo{font-size:60px;margin-bottom:6px}
+.cert-org{font-family:var(--font-title);font-size:15px;font-weight:800;color:var(--emerald);letter-spacing:.5px;margin-bottom:4px}
+.cert-title{font-family:'Amiri',serif;font-size:36px;font-weight:700;color:var(--gold-2);margin:16px 0 4px;letter-spacing:-.5px}
+.cert-subtitle{font-size:13px;color:#57534e;margin-bottom:26px;font-weight:600}
+.cert-preamble{font-size:15px;color:#44403c;line-height:2;margin-bottom:8px}
+.cert-name{font-family:'Amiri',serif;font-size:42px;font-weight:700;color:var(--emerald);display:inline-block;padding:6px 32px 10px;border-bottom:2px dashed var(--gold-3);margin:14px 0 18px;line-height:1.3}
+.cert-course{font-size:16px;line-height:2;color:#44403c;margin:8px 0 20px}
+.cert-course strong{color:var(--gold-2);font-size:19px}
+.cert-meta{display:flex;justify-content:space-between;margin-top:40px;font-size:12.5px;color:#57534e;padding-top:16px;border-top:1px solid #e7e5e4;gap:12px;flex-wrap:wrap}
+.cert-meta div{text-align:center;flex:1;min-width:100px}
+.cert-meta strong{display:block;color:#1c1917;font-size:13.5px;margin-bottom:2px}
+.cert-code{font-family:monospace;font-size:11px;color:#a8a29e;margin-top:20px;direction:ltr;letter-spacing:1px}
+.cert-seal{position:absolute;bottom:24px;left:24px;width:86px;height:86px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fbbf24,#b45309);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Amiri',serif;font-size:30px;font-weight:700;box-shadow:0 8px 24px -4px rgba(180,83,9,.5);border:3px solid #fef3c7;transform:rotate(-12deg)}
+.cert-actions{display:flex;gap:10px;margin-top:16px;max-width:760px;margin-left:auto;margin-right:auto}
+
 /* ==================== RESPONSIVE ==================== */
+@media(max-width:900px){
+  .auth-wrapper{grid-template-columns:1fr;max-height:none;border-radius:24px}
+  .auth-info{min-height:auto;padding:32px 24px 26px;border-radius:0 0 0 0}
+  .auth-info h1{font-size:24px}
+  .auth-info-tagline{font-size:13px;margin-bottom:20px}
+  .auth-features{display:none}
+  .auth-stats{padding-top:18px;margin-top:6px}
+  .auth-stat strong{font-size:19px}
+  .auth-badge-row{display:none}
+  .auth-info-logo{width:54px;height:54px;margin-bottom:14px}
+  .auth-card{padding:30px 22px;max-height:none}
+}
 @media(max-width:380px){
   .action-grid,.stats-grid,.form-row{grid-template-columns:1fr}
   .step-label{font-size:9.5px}
+  .ach-grid{grid-template-columns:repeat(2,1fr)}
+  .cert-name{font-size:32px}
+  .cert-title{font-size:28px}
+  .auth-stats{grid-template-columns:repeat(3,1fr)}
 }
 @media(min-width:768px){
   .action-grid{grid-template-columns:repeat(3,1fr)}
@@ -317,12 +480,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-logo">
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="loadGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#fbbf24"/>
-          <stop offset="1" stop-color="#d97706"/>
-        </linearGradient>
-      </defs>
+      <defs><linearGradient id="loadGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs>
       <path d="M50 10 L85 25 L85 65 Q85 85 50 92 Q15 85 15 65 L15 25 Z" fill="url(#loadGrad)"/>
       <text x="50" y="66" font-size="44" text-anchor="middle" fill="#064e3b" font-family="serif" font-weight="bold">ن</text>
     </svg>
@@ -331,136 +489,206 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
   <div class="loading-bar"></div>
 </div>
 
-<!-- ==================== AUTH ==================== -->
+<!-- ==================== AUTH — SPLIT LAYOUT ==================== -->
 <div class="auth-screen" id="authScreen" style="display:none">
   <div class="auth-pattern"></div>
-  <div class="auth-card">
-    <div class="auth-logo-wrap">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="authGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#fbbf24"/>
-            <stop offset="1" stop-color="#b45309"/>
-          </linearGradient>
-          <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#064e3b"/>
-            <stop offset="1" stop-color="#10b981"/>
-          </linearGradient>
-        </defs>
-        <path d="M50 6 L88 22 L88 60 Q88 88 50 96 Q12 88 12 60 L12 22 Z" fill="url(#shieldGrad)"/>
-        <path d="M50 10 L84 24 L84 60 Q84 84 50 92 Q16 84 16 60 L16 24 Z" fill="none" stroke="url(#authGrad)" stroke-width="2"/>
-        <text x="50" y="62" font-size="40" text-anchor="middle" fill="url(#authGrad)" font-family="serif" font-weight="bold">ن</text>
-      </svg>
-    </div>
-    <div class="auth-title">أكاديمية النبراس</div>
-    <div class="auth-subtitle">منصة تعليمية متكاملة — للتعليم عن بعد</div>
+  <div class="auth-wrapper">
 
-    <div class="auth-tabs">
-      <button class="auth-tab active" data-tab="login">🔐 دخول</button>
-      <button class="auth-tab" data-tab="register">✨ حساب جديد</button>
-    </div>
-
-    <div id="loginPane">
-      <div class="form-group">
-        <label class="form-label">👤 اسم المستخدم</label>
-        <input class="form-input" id="loginUser" placeholder="اكتب اسم المستخدم" autocomplete="username">
-      </div>
-      <div class="form-group">
-        <label class="form-label">🔑 كلمة المرور</label>
-        <div class="pw-wrap">
-          <input type="password" class="form-input" id="loginPass" placeholder="اكتب كلمة المرور" autocomplete="current-password">
-          <span class="pw-toggle" onclick="togglePw('loginPass',this)">👁</span>
+    <!-- ===== Right panel: Academy Info ===== -->
+    <aside class="auth-info">
+      <div class="auth-info-inner">
+        <div class="auth-info-logo">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient>
+              <linearGradient id="panelShield" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#065f46"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+            </defs>
+            <path d="M50 6 L88 22 L88 60 Q88 88 50 96 Q12 88 12 60 L12 22 Z" fill="url(#panelShield)"/>
+            <path d="M50 10 L84 24 L84 60 Q84 84 50 92 Q16 84 16 60 L16 24 Z" fill="none" stroke="url(#panelGrad)" stroke-width="2"/>
+            <text x="50" y="62" font-size="40" text-anchor="middle" fill="url(#panelGrad)" font-family="serif" font-weight="bold">ن</text>
+          </svg>
         </div>
-      </div>
-      <button class="btn btn-primary" id="loginBtn" style="margin-top:8px"><span>دخول إلى المنصة</span><span>←</span></button>
-      <div style="background:var(--surface-2);border:1px solid var(--gold-5);border-radius:14px;padding:14px;margin-top:18px;font-size:12.5px;color:var(--text-2);line-height:1.8">
-        <strong style="color:var(--gold-2)">💡 أول استخدام؟</strong><br>
-        اضغط <strong>"حساب جديد"</strong> وأنشئ حساب المدير الأول.
-      </div>
-    </div>
 
-    <div id="registerPane" style="display:none">
-      <div class="stepper" id="stepper">
-        <div class="step active" data-step="1"><div class="step-line"></div><div class="step-circle">1</div><div class="step-label">الأساسي</div></div>
-        <div class="step" data-step="2"><div class="step-line"></div><div class="step-circle">2</div><div class="step-label">النوع</div></div>
-        <div class="step" data-step="3"><div class="step-line"></div><div class="step-circle">3</div><div class="step-label">التفاصيل</div></div>
-        <div class="step" data-step="4"><div class="step-line"></div><div class="step-circle">4</div><div class="step-label">التأكيد</div></div>
-      </div>
+        <div class="auth-info-brand">منصة تعليمية سورية معتمدة</div>
 
-      <div class="reg-step" data-step="1">
-        <div class="form-group"><label class="form-label">📝 الاسم الكامل <span class="req">*</span></label><input class="form-input" id="regName" placeholder="مثال: أحمد محمد"></div>
-        <div class="form-group"><label class="form-label">👤 اسم المستخدم <span class="req">*</span></label><input class="form-input" id="regUser" placeholder="ahmed2024" dir="ltr" style="text-align:left"></div>
-        <div class="form-group"><label class="form-label">🔑 كلمة المرور <span class="req">*</span></label>
-          <div class="pw-wrap"><input type="password" class="form-input" id="regPass" placeholder="6+ أحرف"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div>
-          <div class="pw-strength" id="pwStrength"><span></span><span></span><span></span><span></span></div>
-        </div>
-        <div class="form-group"><label class="form-label">🔒 تأكيد كلمة المرور <span class="req">*</span></label>
-          <div class="pw-wrap"><input type="password" class="form-input" id="regPass2" placeholder="••••••••"><span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span></div>
-        </div>
-      </div>
+        <h1>أكاديمية <span>النبراس</span><br>للتعليم عن بعد</h1>
 
-      <div class="reg-step" data-step="2" style="display:none">
-        <div class="form-group">
-          <label class="form-label">🎯 نوع الحساب <span class="req">*</span></label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-            <label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--emerald-3);border-radius:14px;padding:18px 12px;text-align:center;background:var(--surface)">
-              <input type="radio" name="role" value="student" checked style="display:none">
-              <div style="font-size:32px;margin-bottom:6px">👨‍🎓</div>
-              <div style="font-size:14px;font-weight:800">طالب</div>
-              <div style="font-size:11px;color:var(--text-3);margin-top:4px">للتعلم</div>
-            </label>
-            <label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border);border-radius:14px;padding:18px 12px;text-align:center;background:var(--surface)">
-              <input type="radio" name="role" value="teacher" style="display:none">
-              <div style="font-size:32px;margin-bottom:6px">👨‍🏫</div>
-              <div style="font-size:14px;font-weight:800">معلم</div>
-              <div style="font-size:11px;color:var(--text-3);margin-top:4px">لإنشاء دورات</div>
-            </label>
+        <p class="auth-info-tagline">
+          منصّة تعليمية متكاملة تجمع نخبة من المعلمين والطلاب في بيئة واحدة،
+          مع دورات مصوّرة عالية الجودة، وتتبّع دقيق لتقدّمك، وشهادات إتمام موثّقة.
+        </p>
+
+        <div class="auth-features">
+          <div class="auth-feature">
+            <div class="af-icon">📚</div>
+            <div>
+              <div class="af-title">دورات شاملة ومنظمة</div>
+              <div class="af-desc">محتوى تعليمي مقسّم حسب الصف والمادة مع تتبّع كامل للتقدّم</div>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <div class="af-icon">🎓</div>
+            <div>
+              <div class="af-title">شهادات إتمام موثّقة</div>
+              <div class="af-desc">احصل على شهادة رسمية عند إكمال 100% من أي دورة</div>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <div class="af-icon">💰</div>
+            <div>
+              <div class="af-title">محفظة وكروت شحن</div>
+              <div class="af-desc">اشترِ دروسك بسهولة عبر كروت شحن متوفرة من شؤون الطلاب</div>
+            </div>
+          </div>
+          <div class="auth-feature">
+            <div class="af-icon">💬</div>
+            <div>
+              <div class="af-title">تواصل مباشر مع المعلمين</div>
+              <div class="af-desc">دردشة فورية لكل دورة — اسأل واحصل على إجابة سريعة</div>
+            </div>
           </div>
         </div>
+
+        <div class="auth-stats">
+          <div class="auth-stat"><strong>+٥٠٠</strong><span>طالب مسجّل</span></div>
+          <div class="auth-stat"><strong>+٥٠</strong><span>دورة نشطة</span></div>
+          <div class="auth-stat"><strong>+٢٠</strong><span>معلم خبير</span></div>
+        </div>
+
+        <div class="auth-badge-row">
+          <span class="auth-badge">🔒 بيانات آمنة</span>
+          <span class="auth-badge">📱 يعمل على الجوال</span>
+          <span class="auth-badge">⚡ أداء سريع</span>
+          <span class="auth-badge">🌐 عربي بالكامل</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== Left panel: Auth card ===== -->
+    <main class="auth-card">
+      <div class="auth-card-head">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="authGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient>
+            <linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#064e3b"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+          </defs>
+          <path d="M50 6 L88 22 L88 60 Q88 88 50 96 Q12 88 12 60 L12 22 Z" fill="url(#shieldGrad)"/>
+          <path d="M50 10 L84 24 L84 60 Q84 84 50 92 Q16 84 16 60 L16 24 Z" fill="none" stroke="url(#authGrad)" stroke-width="2"/>
+          <text x="50" y="62" font-size="40" text-anchor="middle" fill="url(#authGrad)" font-family="serif" font-weight="bold">ن</text>
+        </svg>
+      </div>
+      <div class="auth-title">أهلًا بك في النبراس</div>
+      <div class="auth-subtitle">سجّل دخولك أو أنشئ حسابًا جديدًا للبدء</div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">🔐 دخول</button>
+        <button class="auth-tab" data-tab="register">✨ حساب جديد</button>
       </div>
 
-      <div class="reg-step" data-step="3" style="display:none">
-        <div class="form-group"><label class="form-label">📱 رقم الهاتف <span class="req">*</span></label><input type="tel" class="form-input" id="regPhone" placeholder="09xxxxxxxx" dir="ltr" style="text-align:left"></div>
-        <div class="form-group"><label class="form-label">📍 المحافظة</label>
-          <select class="form-select" id="regCity">
-            <option value="">— اختر —</option>
-            <option>دمشق</option><option>ريف دمشق</option><option>حلب</option><option>حمص</option><option>حماة</option>
-            <option>اللاذقية</option><option>طرطوس</option><option>إدلب</option><option>دير الزور</option><option>الرقة</option>
-            <option>الحسكة</option><option>درعا</option><option>السويداء</option><option>القنيطرة</option><option>خارج سوريا</option>
-          </select>
+      <div id="loginPane">
+        <div class="form-group">
+          <label class="form-label">👤 اسم المستخدم</label>
+          <input class="form-input" id="loginUser" placeholder="اكتب اسم المستخدم" autocomplete="username">
         </div>
-        <div class="form-group" id="studentGradeGroup"><label class="form-label">🎓 الصف الدراسي <span class="req">*</span></label>
-          <select class="form-select" id="regGrade"><option value="9">الصف التاسع</option><option value="12sci">بكالوريا علمي</option><option value="12lit">بكالوريا أدبي</option></select>
+        <div class="form-group">
+          <label class="form-label">🔑 كلمة المرور</label>
+          <div class="pw-wrap">
+            <input type="password" class="form-input" id="loginPass" placeholder="اكتب كلمة المرور" autocomplete="current-password">
+            <span class="pw-toggle" onclick="togglePw('loginPass',this)">👁</span>
+          </div>
         </div>
-        <div class="form-group" id="teacherSpecialtyGroup" style="display:none"><label class="form-label">📚 التخصص <span class="req">*</span></label>
-          <select class="form-select" id="regSpecialty">
-            <option value="">— اختر —</option>
-            <option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option>
-            <option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>اللغة الفرنسية</option>
-            <option>التاريخ</option><option>الجغرافيا</option><option>الفلسفة</option><option>علم النفس</option>
-          </select>
+        <button class="btn btn-primary" id="loginBtn" style="margin-top:8px">
+          <span>دخول إلى المنصة</span><span>←</span>
+        </button>
+        <div style="background:var(--surface-2);border:1px solid var(--gold-5);border-radius:14px;padding:14px;margin-top:18px;font-size:12.5px;color:var(--text-2);line-height:1.8">
+          <strong style="color:var(--gold-2)">💡 أول استخدام؟</strong><br>
+          اضغط <strong>"حساب جديد"</strong> وأنشئ حساب المدير الأول.
         </div>
-        <div class="form-group" id="teacherExpGroup" style="display:none"><label class="form-label">🏆 سنوات الخبرة</label><input type="number" class="form-input" id="regExperience" placeholder="5" min="0" max="50"></div>
-        <div class="form-group" id="teacherBioGroup" style="display:none"><label class="form-label">✍️ نبذة عنك</label><textarea class="form-textarea" id="regBio" placeholder="اكتب نبذة مختصرة..."></textarea></div>
       </div>
 
-      <div class="reg-step" data-step="4" style="display:none">
-        <div class="card" style="background:linear-gradient(135deg,var(--surface-2),var(--bg-2));border-color:var(--gold-5)">
-          <div class="card-title" style="color:var(--gold-2)">📋 مراجعة البيانات</div>
-          <div id="reviewData" style="font-size:13.5px;line-height:2.2"></div>
+      <div id="registerPane" style="display:none">
+        <div class="stepper" id="stepper">
+          <div class="step active" data-step="1"><div class="step-line"></div><div class="step-circle">1</div><div class="step-label">الأساسي</div></div>
+          <div class="step" data-step="2"><div class="step-line"></div><div class="step-circle">2</div><div class="step-label">النوع</div></div>
+          <div class="step" data-step="3"><div class="step-line"></div><div class="step-circle">3</div><div class="step-label">التفاصيل</div></div>
+          <div class="step" data-step="4"><div class="step-line"></div><div class="step-circle">4</div><div class="step-label">التأكيد</div></div>
         </div>
-        <label style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--surface-2);border:1px solid var(--gold-5);border-radius:14px;cursor:pointer;font-size:13px;color:var(--text-2);line-height:1.7;margin-top:14px">
-          <input type="checkbox" id="regTerms" style="width:20px;height:20px;margin-top:2px;accent-color:var(--emerald-3);flex-shrink:0">
-          <span>أوافق على <strong>الشروط والأحكام</strong> وسياسة الخصوصية.</span>
-        </label>
-      </div>
 
-      <div style="display:flex;gap:10px;margin-top:24px">
-        <button class="btn btn-ghost" id="prevStepBtn" style="display:none;flex:1">→ السابق</button>
-        <button class="btn btn-primary" id="nextStepBtn" style="flex:1">التالي ←</button>
-        <button class="btn btn-primary" id="registerBtn" style="display:none;flex:1">✨ إنشاء الحساب</button>
+        <div class="reg-step" data-step="1">
+          <div class="form-group"><label class="form-label">📝 الاسم الكامل <span class="req">*</span></label><input class="form-input" id="regName" placeholder="مثال: أحمد محمد"></div>
+          <div class="form-group"><label class="form-label">👤 اسم المستخدم <span class="req">*</span></label><input class="form-input" id="regUser" placeholder="ahmed2024" dir="ltr" style="text-align:left"></div>
+          <div class="form-group"><label class="form-label">🔑 كلمة المرور <span class="req">*</span></label>
+            <div class="pw-wrap"><input type="password" class="form-input" id="regPass" placeholder="6+ أحرف"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div>
+            <div class="pw-strength" id="pwStrength"><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="form-group"><label class="form-label">🔒 تأكيد كلمة المرور <span class="req">*</span></label>
+            <div class="pw-wrap"><input type="password" class="form-input" id="regPass2" placeholder="••••••••"><span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span></div>
+          </div>
+        </div>
+
+        <div class="reg-step" data-step="2" style="display:none">
+          <div class="form-group">
+            <label class="form-label">🎯 نوع الحساب <span class="req">*</span></label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+              <label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--emerald-3);border-radius:14px;padding:18px 12px;text-align:center;background:var(--surface)">
+                <input type="radio" name="role" value="student" checked style="display:none">
+                <div style="font-size:32px;margin-bottom:6px">👨‍🎓</div>
+                <div style="font-size:14px;font-weight:800">طالب</div>
+                <div style="font-size:11px;color:var(--text-3);margin-top:4px">للتعلم</div>
+              </label>
+              <label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border);border-radius:14px;padding:18px 12px;text-align:center;background:var(--surface)">
+                <input type="radio" name="role" value="teacher" style="display:none">
+                <div style="font-size:32px;margin-bottom:6px">👨‍🏫</div>
+                <div style="font-size:14px;font-weight:800">معلم</div>
+                <div style="font-size:11px;color:var(--text-3);margin-top:4px">لإنشاء دورات</div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="reg-step" data-step="3" style="display:none">
+          <div class="form-group"><label class="form-label">📱 رقم الهاتف <span class="req">*</span></label><input type="tel" class="form-input" id="regPhone" placeholder="09xxxxxxxx" dir="ltr" style="text-align:left"></div>
+          <div class="form-group"><label class="form-label">📍 المحافظة</label>
+            <select class="form-select" id="regCity">
+              <option value="">— اختر —</option>
+              <option>دمشق</option><option>ريف دمشق</option><option>حلب</option><option>حمص</option><option>حماة</option>
+              <option>اللاذقية</option><option>طرطوس</option><option>إدلب</option><option>دير الزور</option><option>الرقة</option>
+              <option>الحسكة</option><option>درعا</option><option>السويداء</option><option>القنيطرة</option><option>خارج سوريا</option>
+            </select>
+          </div>
+          <div class="form-group" id="studentGradeGroup"><label class="form-label">🎓 الصف الدراسي <span class="req">*</span></label>
+            <select class="form-select" id="regGrade"><option value="9">الصف التاسع</option><option value="12sci">بكالوريا علمي</option><option value="12lit">بكالوريا أدبي</option></select>
+          </div>
+          <div class="form-group" id="teacherSpecialtyGroup" style="display:none"><label class="form-label">📚 التخصص <span class="req">*</span></label>
+            <select class="form-select" id="regSpecialty">
+              <option value="">— اختر —</option>
+              <option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option>
+              <option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>اللغة الفرنسية</option>
+              <option>التاريخ</option><option>الجغرافيا</option><option>الفلسفة</option><option>علم النفس</option>
+            </select>
+          </div>
+          <div class="form-group" id="teacherExpGroup" style="display:none"><label class="form-label">🏆 سنوات الخبرة</label><input type="number" class="form-input" id="regExperience" placeholder="5" min="0" max="50"></div>
+          <div class="form-group" id="teacherBioGroup" style="display:none"><label class="form-label">✍️ نبذة عنك</label><textarea class="form-textarea" id="regBio" placeholder="اكتب نبذة مختصرة..."></textarea></div>
+        </div>
+
+        <div class="reg-step" data-step="4" style="display:none">
+          <div class="card" style="background:linear-gradient(135deg,var(--surface-2),var(--bg-2));border-color:var(--gold-5)">
+            <div class="card-title" style="color:var(--gold-2)">📋 مراجعة البيانات</div>
+            <div id="reviewData" style="font-size:13.5px;line-height:2.2"></div>
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--surface-2);border:1px solid var(--gold-5);border-radius:14px;cursor:pointer;font-size:13px;color:var(--text-2);line-height:1.7;margin-top:14px">
+            <input type="checkbox" id="regTerms" style="width:20px;height:20px;margin-top:2px;accent-color:var(--emerald-3);flex-shrink:0">
+            <span>أوافق على <strong>الشروط والأحكام</strong> وسياسة الخصوصية.</span>
+          </label>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:24px">
+          <button class="btn btn-ghost" id="prevStepBtn" style="display:none;flex:1">→ السابق</button>
+          <button class="btn btn-primary" id="nextStepBtn" style="flex:1">التالي ←</button>
+          <button class="btn btn-primary" id="registerBtn" style="display:none;flex:1">✨ إنشاء الحساب</button>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </div>
 
@@ -529,14 +757,22 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
     <!-- STUDENT HOME -->
     <section class="page" id="page-studentHome">
       <div class="hero"><div class="hero-inner"><div class="hero-label">مرحبًا بك 👋</div><div class="hero-title" id="studentWelcome">—</div><div class="hero-sub" id="studentGradeLabel">—</div></div></div>
+      <div id="streakBox"></div>
       <div class="stats-grid" id="studentStats"></div>
+      <div class="section-title">روابط سريعة</div>
+      <div class="action-grid" style="margin-bottom:6px">
+        <button class="action-tile" data-goto="studentNotes" style="--tc:#d97706"><div class="action-icon">📝</div><div class="action-tile-title">ملاحظاتي</div><div class="action-tile-desc" id="notesCountDesc">0 ملاحظة</div></button>
+        <button class="action-tile" data-goto="studentCertificates" style="--tc:#7c3aed"><div class="action-icon">🎓</div><div class="action-tile-title">شهاداتي</div><div class="action-tile-desc" id="certsCountDesc">0 شهادة</div></button>
+        <button class="action-tile" data-goto="studentAchievements" style="--tc:#059669"><div class="action-icon">🏆</div><div class="action-tile-title">إنجازاتي</div><div class="action-tile-desc" id="achCountDesc">0 إنجاز</div></button>
+        <button class="action-tile" data-goto="studentWallet" style="--tc:#0284c7"><div class="action-icon">💰</div><div class="action-tile-title">محفظتي</div><div class="action-tile-desc">الرصيد والكروت</div></button>
+      </div>
       <div class="section-title">المواد الدراسية</div>
       <div class="action-grid" id="studentSubjects"></div>
       <div class="section-title" id="activeCoursesTitle" style="display:none">دوراتي الحالية</div>
       <div id="studentActiveCourses"></div>
     </section>
 
-    <!-- ADMIN USERS -->
+    <!-- ADMIN PAGES -->
     <section class="page" id="page-adminUsers">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">👥 المستخدمون</h2><div style="width:40px"></div></div>
       <div class="search-box"><input id="userSearch" placeholder="ابحث بالاسم أو اسم المستخدم..."></div>
@@ -550,7 +786,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="usersList"></div>
     </section>
 
-    <!-- ADMIN CARDS (كروت الشحن) -->
     <section class="page" id="page-adminCards">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🎟️ كروت الشحن</h2><button class="btn btn-gold btn-sm" id="createCardsBtn">+ إنشاء</button></div>
       <div class="stats-grid" id="cardsStats"></div>
@@ -564,37 +799,31 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="cardsList"></div>
     </section>
 
-    <!-- ADMIN WITHDRAWALS -->
     <section class="page" id="page-adminWithdrawals">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💸 طلبات السحب</h2><div style="width:40px"></div></div>
       <div id="withdrawalsAdminList"></div>
     </section>
 
-    <!-- ADMIN SUBJECTS -->
     <section class="page" id="page-adminSubjects">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📖 المواد</h2><button class="btn btn-primary btn-sm" id="addSubjectBtn">+ إضافة</button></div>
       <div id="subjectsList"></div>
     </section>
 
-    <!-- ADMIN COURSES -->
     <section class="page" id="page-adminCourses">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📚 الدورات</h2><button class="btn btn-primary btn-sm" id="addCourseBtn">+ إضافة</button></div>
       <div id="coursesList"></div>
     </section>
 
-    <!-- ADMIN LESSONS -->
     <section class="page" id="page-adminLessons">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🎬 الدروس</h2><button class="btn btn-primary btn-sm" id="addLessonBtn">+ إضافة</button></div>
       <div id="lessonsList"></div>
     </section>
 
-    <!-- ADMIN PLATFORM EARNINGS -->
     <section class="page" id="page-adminPlatformEarnings">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💰 عمولات المنصة</h2><div style="width:40px"></div></div>
       <div id="platformEarningsContent"></div>
     </section>
 
-    <!-- ADMIN TRANSACTIONS -->
     <section class="page" id="page-adminTransactions">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📊 السجل المالي</h2><div style="width:40px"></div></div>
       <div id="transactionsList"></div>
@@ -621,7 +850,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="withdrawalsTeacherContent"></div>
     </section>
 
-    <!-- STUDENT SUBJECT -->
+    <!-- STUDENT PAGES -->
     <section class="page" id="page-studentSubject">
       <div class="page-header"><button class="back-btn" id="backToStudentHome">←</button><h2 class="page-title" id="subjectTitle">المادة</h2><div style="width:40px"></div></div>
       <div id="subjectCourses"></div>
@@ -640,14 +869,11 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
     <!-- STUDENT WALLET -->
     <section class="page" id="page-studentWallet">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💰 محفظتي</h2><div style="width:40px"></div></div>
-      
       <div class="card" style="background:linear-gradient(135deg,var(--gold-2),var(--gold-3));color:#fff;border:none;text-align:center;padding:28px">
         <div style="font-size:13px;opacity:.9;font-weight:700">رصيدي الحالي</div>
         <div style="font-family:var(--font-title);font-size:48px;font-weight:900;margin:10px 0;letter-spacing:-2px" id="walletBalance">0</div>
         <div style="font-size:14px;opacity:.9;font-weight:600">ليرة سورية</div>
       </div>
-
-      <!-- كرت الشحن -->
       <div class="redeem-box" style="margin-bottom:14px">
         <div class="redeem-box-inner">
           <div class="redeem-icon">🎟️</div>
@@ -657,35 +883,20 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
           <button class="redeem-btn" id="redeemBtn">✓ تفعيل الكرت</button>
         </div>
       </div>
-
-      <!-- واتساب شؤون الطلاب -->
       <div class="card" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;padding:22px">
         <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">
           <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">💬</div>
-          <div style="flex:1">
-            <div style="font-family:var(--font-title);font-size:17px;font-weight:900">شؤون الطلاب</div>
-            <div style="font-size:12.5px;opacity:.9;margin-top:2px">تواصل مباشر للشحن والاستفسار</div>
-          </div>
+          <div style="flex:1"><div style="font-family:var(--font-title);font-size:17px;font-weight:900">شؤون الطلاب</div><div style="font-size:12.5px;opacity:.9;margin-top:2px">تواصل مباشر للشحن والاستفسار</div></div>
         </div>
-        <p style="font-size:13px;line-height:1.8;opacity:.95;margin-bottom:16px">
-          للحصول على كرت شحن، تواصل مع قسم شؤون الطلاب عبر واتساب.
-        </p>
-        <a href="https://wa.me/qr/HVZAC4QJMWI6I1" target="_blank" rel="noopener" class="btn" style="background:#fff;color:#128C7E;text-decoration:none;font-weight:900;box-shadow:0 6px 20px rgba(0,0,0,.2)">
-          <span style="font-size:20px">📲</span>
-          <span>فتح واتساب</span>
-        </a>
+        <p style="font-size:13px;line-height:1.8;opacity:.95;margin-bottom:16px">للحصول على كرت شحن، تواصل مع قسم شؤون الطلاب عبر واتساب.</p>
+        <a href="https://wa.me/qr/HVZAC4QJMWI6I1" target="_blank" rel="noopener" class="btn" style="background:#fff;color:#128C7E;text-decoration:none;font-weight:900;box-shadow:0 6px 20px rgba(0,0,0,.2)"><span style="font-size:20px">📲</span><span>فتح واتساب</span></a>
       </div>
-
       <div class="card">
         <div class="card-title">💸 سحب الرصيد</div>
         <p style="font-size:13px;color:var(--text-3);line-height:1.7;margin-bottom:12px">يمكنك سحب رصيدك (الحد الأدنى 1000 ل.س).</p>
         <button class="btn btn-info" id="goStudentWithdrawal">سحب رصيدي</button>
       </div>
-
-      <div class="card">
-        <div class="card-title">📋 سجل المعاملات</div>
-        <div id="studentTransactions"></div>
-      </div>
+      <div class="card"><div class="card-title">📋 سجل المعاملات</div><div id="studentTransactions"></div></div>
     </section>
 
     <section class="page" id="page-studentWithdrawal">
@@ -696,6 +907,32 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
     <section class="page" id="page-studentPurchases">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🎬 دروسي</h2><div style="width:40px"></div></div>
       <div id="purchasesList"></div>
+    </section>
+
+    <!-- STUDENT NOTES -->
+    <section class="page" id="page-studentNotes">
+      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📝 ملاحظاتي</h2><div style="width:40px"></div></div>
+      <div id="notesListContent"></div>
+    </section>
+
+    <!-- STUDENT CERTIFICATES -->
+    <section class="page" id="page-studentCertificates">
+      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🎓 شهاداتي</h2><div style="width:40px"></div></div>
+      <div id="certsContent"></div>
+    </section>
+
+    <section class="page" id="page-studentCertificateView">
+      <div class="page-header"><button class="back-btn" id="backToCerts">←</button><h2 class="page-title">🎓 الشهادة</h2><div style="width:40px"></div></div>
+      <div id="certViewContent"></div>
+      <div class="cert-actions">
+        <button class="btn btn-ghost" id="backToCerts2">← رجوع لقائمة الشهادات</button>
+      </div>
+    </section>
+
+    <!-- STUDENT ACHIEVEMENTS -->
+    <section class="page" id="page-studentAchievements">
+      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🏆 إنجازاتي</h2><div style="width:40px"></div></div>
+      <div id="achContent"></div>
     </section>
 
     <!-- PROFILE -->
@@ -716,7 +953,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="conversationsList"></div>
     </section>
 
-    <!-- CHAT ROOM -->
     <section class="page" id="page-chatRoom">
       <div class="page-header"><button class="back-btn" id="backToChats">←</button><h2 class="page-title" id="chatPartnerName">محادثة</h2><div style="width:40px"></div></div>
       <div class="chat-container">
@@ -766,13 +1002,15 @@ const auth = getAuth(app);
 const GRADES = {'9':'الصف التاسع','12sci':'بكالوريا علمي','12lit':'بكالوريا أدبي'};
 const ROLES = {admin:'مدير',teacher:'معلم',student:'طالب'};
 const EMAIL_SUF = '@nibras.local';
-const WHATSAPP_URL = 'https://wa.me/qr/HVZAC4QJMWI6I1';
+const COMM = 0.30;
 
 const st = {
   me:null, users:[], subjects:[], courses:[], lessons:[], purchases:[], transactions:[],
   withdrawals:[], chats:[], messages:[], notifs:[], cards:[],
+  progress:[], notes:[], ratings:[], certificates:[],
   theme:'light', userFilter:'all', cardFilter:'all', regStep:1, regRole:'student',
-  curChat:null, curCourse:null, curSubject:null, curLesson:null, unsubs:[]
+  curChat:null, curCourse:null, curSubject:null, curLesson:null, curCert:null,
+  unsubs:[], ytPlayer:null, ytTimer:null
 };
 
 const $ = s => document.querySelector(s);
@@ -783,6 +1021,8 @@ const fd = ts => {if(!ts)return'—';const d=ts.toDate?ts.toDate():new Date(ts);
 const fdt = ts => {if(!ts)return'—';const d=ts.toDate?ts.toDate():new Date(ts);return new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(d)};
 const ft = ts => {if(!ts)return'';const d=ts.toDate?ts.toDate():new Date(ts);return new Intl.DateTimeFormat('ar-EG',{hour:'2-digit',minute:'2-digit'}).format(d)};
 const ini = n => {const p=String(n||'').trim().split(/\s+/);return((p[0]||'')[0]||'')+((p[1]||'')[0]||'')};
+const todayStr = () => new Date().toISOString().slice(0,10);
+const fmtTime = s => {s=Math.max(0,Math.floor(s||0));const m=Math.floor(s/60),ss=s%60;return m+':'+String(ss).padStart(2,'0')};
 
 function toast(msg, type=''){
   const t = $('#toast');
@@ -792,10 +1032,7 @@ function toast(msg, type=''){
   t._t = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-function hideLoading(){
-  const s = $('#loadingScreen');
-  if(s){ s.classList.add('hide'); setTimeout(() => s.remove(), 700); }
-}
+function hideLoading(){ const s = $('#loadingScreen'); if(s){ s.classList.add('hide'); setTimeout(() => s.remove(), 700); } }
 
 window.togglePw = function(id, el){
   const inp = document.getElementById(id);
@@ -803,30 +1040,187 @@ window.togglePw = function(id, el){
   else { inp.type = 'password'; el.textContent = '👁'; }
 };
 
-/* ==================== CARD CODE GENERATION ==================== */
+/* ==================== CARD CODE ==================== */
 function generateCardCode(){
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const seg = () => Array.from({length:4},() => chars[Math.floor(Math.random()*chars.length)]).join('');
   return `${seg()}-${seg()}-${seg()}-${seg()}`;
 }
-
 function formatCardInput(input){
   let v = input.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
   if(v.length > 16) v = v.slice(0,16);
-  const parts = v.match(/.{1,4}/g) || [];
-  input.value = parts.join('-');
+  input.value = (v.match(/.{1,4}/g) || []).join('-');
 }
 
-/* ==================== REGISTRATION STEPPER ==================== */
+/* ==================== YOUTUBE API ==================== */
+window._ytReady = false;
+window.onYouTubeIframeAPIReady = function(){ window._ytReady = true; };
+(function loadYT(){
+  if(document.getElementById('yt-api-script')) return;
+  const s = document.createElement('script');
+  s.id = 'yt-api-script';
+  s.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(s);
+})();
+
+function destroyYt(){
+  if(st.ytTimer){ clearInterval(st.ytTimer); st.ytTimer = null; }
+  try { st.ytPlayer && st.ytPlayer.destroy && st.ytPlayer.destroy(); } catch(e){}
+  st.ytPlayer = null;
+}
+
+function createYtPlayer(videoId, startAt, onTick, onEnded){
+  const container = document.getElementById('ytPlayer');
+  if(!container) return;
+  if(!window._ytReady){
+    let tries = 0;
+    const wait = setInterval(() => {
+      if(window._ytReady || tries++ > 30){
+        clearInterval(wait);
+        if(window._ytReady) _reallyCreate(videoId, startAt, onTick, onEnded);
+      }
+    }, 200);
+    return;
+  }
+  _reallyCreate(videoId, startAt, onTick, onEnded);
+}
+
+function _reallyCreate(videoId, startAt, onTick, onEnded){
+  try { st.ytPlayer && st.ytPlayer.destroy && st.ytPlayer.destroy(); } catch(e){}
+  st.ytPlayer = new YT.Player('ytPlayer', {
+    videoId,
+    playerVars:{ rel:0, modestbranding:1, playsinline:1 },
+    events:{
+      onReady: e => {
+        if(startAt > 3 && startAt < (e.target.getDuration()||1e9) - 3){
+          try { e.target.seekTo(startAt, true); } catch(_){}
+        }
+        try { e.target.playVideo(); } catch(_){}
+        if(st.ytTimer) clearInterval(st.ytTimer);
+        st.ytTimer = setInterval(() => {
+          if(!st.ytPlayer || !st.ytPlayer.getCurrentTime) return;
+          try{
+            const t = st.ytPlayer.getCurrentTime();
+            const d = st.ytPlayer.getDuration();
+            if(d > 0) onTick(t, d);
+          }catch(_){}
+        }, 5000);
+      },
+      onStateChange: e => {
+        if(e.data === 0){
+          try { onEnded(st.ytPlayer.getDuration()); } catch(_){}
+        }
+      }
+    }
+  });
+}
+
+/* ==================== STREAK ==================== */
+async function updateStreak(){
+  if(!st.me || st.me.role !== 'student') return;
+  const today = todayStr();
+  const last = st.me.lastActiveDate;
+  if(last === today) return;
+  const yest = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+  let streak = st.me.streak || 0;
+  let longest = st.me.longestStreak || 0;
+  if(last === yest) streak += 1;
+  else streak = 1;
+  if(streak > longest) longest = streak;
+  try{
+    await updateDoc(doc(db,'users',st.me.id), { lastActiveDate: today, streak, longestStreak: longest });
+    const milestones = [3,7,14,30,60,100];
+    if(milestones.includes(streak)){
+      await addN(st.me.id, `🔥 سلسلة ${streak} أيام!`, `حافظت على الدخول ${streak} أيام متتالية. استمر!`, 'success');
+    }
+  }catch(e){ console.error(e); }
+}
+
+/* ==================== VIDEO PROGRESS ==================== */
+async function saveProgress(lessonId, courseId, position, duration){
+  if(!st.me) return;
+  const completed = duration > 0 && position >= duration - 5;
+  const existing = st.progress.find(p => p.userId === st.me.id && p.lessonId === lessonId);
+  const data = {
+    userId: st.me.id, lessonId, courseId,
+    position: Math.floor(position),
+    duration: Math.floor(duration),
+    completed: completed || existing?.completed || false,
+    updatedAt: serverTimestamp()
+  };
+  try{
+    if(existing) await updateDoc(doc(db,'progress',existing.id), data);
+    else await addDoc(collection(db,'progress'), data);
+    if(completed && !existing?.completed) await checkCertificate(courseId);
+  }catch(e){ console.error(e); }
+}
+
+async function markCompleted(lessonId, courseId, duration){
+  if(!st.me) return;
+  const existing = st.progress.find(p => p.userId === st.me.id && p.lessonId === lessonId);
+  const data = {
+    userId: st.me.id, lessonId, courseId,
+    position: Math.floor(duration||0),
+    duration: Math.floor(duration||0),
+    completed: true,
+    updatedAt: serverTimestamp()
+  };
+  try{
+    if(existing){
+      if(!existing.completed) await updateDoc(doc(db,'progress',existing.id), data);
+    } else {
+      await addDoc(collection(db,'progress'), data);
+    }
+    if(!existing?.completed) await checkCertificate(courseId);
+  }catch(e){ console.error(e); }
+}
+
+/* ==================== CERTIFICATE ==================== */
+function genCertCode(){
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  return 'NBR-' + Array.from({length:8},() => chars[Math.floor(Math.random()*chars.length)]).join('');
+}
+
+async function checkCertificate(courseId){
+  if(!st.me || st.me.role !== 'student') return;
+  const courseLessons = st.lessons.filter(l => l.courseId === courseId);
+  if(!courseLessons.length) return;
+  const mp = st.purchases.filter(p => p.userId === st.me.id).map(p => p.lessonId);
+  const myProg = st.progress.filter(p => p.userId === st.me.id && p.courseId === courseId);
+  const allDone = courseLessons.every(l => {
+    const isFree = l.price === 0;
+    const owned = isFree || mp.includes(l.id);
+    const prog = myProg.find(p => p.lessonId === l.id);
+    return owned && prog?.completed;
+  });
+  if(!allDone) return;
+  const existing = st.certificates.find(c => c.userId === st.me.id && c.courseId === courseId);
+  if(existing) return;
+  const course = st.courses.find(c => c.id === courseId);
+  if(!course) return;
+  const code = genCertCode();
+  try{
+    await addDoc(collection(db,'certificates'), {
+      userId: st.me.id,
+      userName: st.me.name,
+      courseId,
+      courseTitle: course.title,
+      code,
+      issuedAt: serverTimestamp()
+    });
+    await addN(st.me.id, '🎓 مبروك! حصلت على شهادة', `أكملت دورة "${course.title}" — شهادتك جاهزة في صفحة شهاداتي.`, 'success');
+    toast('🎓 مبروك! تم إصدار شهادتك','success');
+  }catch(e){ console.error(e); }
+}
+
+/* ==================== REGISTRATION ==================== */
 function updateStepper(){
   $$('.step').forEach(s => {
     const n = parseInt(s.dataset.step);
     s.classList.toggle('active', n === st.regStep);
     s.classList.toggle('done', n < st.regStep);
   });
-  $$('.reg-step').forEach(s => {
-    s.style.display = parseInt(s.dataset.step) === st.regStep ? 'block' : 'none';
-  });
+  $$('.reg-step').forEach(s => { s.style.display = parseInt(s.dataset.step) === st.regStep ? 'block' : 'none'; });
   $('#prevStepBtn').style.display = st.regStep > 1 ? 'flex' : 'none';
   $('#nextStepBtn').style.display = st.regStep < 4 ? 'flex' : 'none';
   $('#registerBtn').style.display = st.regStep === 4 ? 'flex' : 'none';
@@ -865,15 +1259,9 @@ function buildReview(){
     'المحافظة': $('#regCity').value || '—'
   };
   if(role === 'student') data['الصف'] = GRADES[$('#regGrade').value];
-  else {
-    data['التخصص'] = $('#regSpecialty').value || '—';
-    data['الخبرة'] = ($('#regExperience').value || '0') + ' سنوات';
-  }
+  else { data['التخصص'] = $('#regSpecialty').value || '—'; data['الخبرة'] = ($('#regExperience').value || '0') + ' سنوات'; }
   $('#reviewData').innerHTML = Object.entries(data).map(([k,v]) =>
-    `<div style="display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--border)">
-      <span style="color:var(--text-3);font-weight:600">${esc(k)}</span>
-      <strong style="text-align:left">${esc(v)}</strong>
-    </div>`
+    `<div style="display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="color:var(--text-3);font-weight:600">${esc(k)}</span><strong style="text-align:left">${esc(v)}</strong></div>`
   ).join('');
 }
 
@@ -884,14 +1272,8 @@ async function doLogin(){
   if(!u || !p){ toast('أكمل البيانات','error'); return; }
   $('#loginBtn').disabled = true;
   $('#loginBtn').innerHTML = '<span>⏳ جارٍ الدخول...</span>';
-  try{
-    await signInWithEmailAndPassword(auth, u + EMAIL_SUF, p);
-  }catch(e){
-    console.error(e);
-    toast('بيانات دخول غير صحيحة','error');
-    $('#loginBtn').disabled = false;
-    $('#loginBtn').innerHTML = '<span>دخول إلى المنصة</span><span>←</span>';
-  }
+  try{ await signInWithEmailAndPassword(auth, u + EMAIL_SUF, p); }
+  catch(e){ console.error(e); toast('بيانات دخول غير صحيحة','error'); $('#loginBtn').disabled = false; $('#loginBtn').innerHTML = '<span>دخول إلى المنصة</span><span>←</span>'; }
 }
 
 async function doRegister(){
@@ -900,34 +1282,22 @@ async function doRegister(){
   const password = $('#regPass').value;
   const phone = $('#regPhone').value.trim();
   const city = $('#regCity').value;
-  const terms = $('#regTerms').checked;
-
-  if(!terms){ toast('يجب الموافقة على الشروط','error'); return; }
-
+  if(!$('#regTerms').checked){ toast('يجب الموافقة على الشروط','error'); return; }
   let first = false;
-  try{
-    const s = await getDocs(query(collection(db,'users'), limit(1)));
-    first = s.empty;
-  }catch(e){ first = true; }
-
+  try{ const s = await getDocs(query(collection(db,'users'), limit(1))); first = s.empty; }catch(e){ first = true; }
   const finalRole = first ? 'admin' : st.regRole;
-
   $('#registerBtn').disabled = true;
   $('#registerBtn').innerHTML = '<span>⏳ جارٍ الإنشاء...</span>';
-
   try{
     const cred = await createUserWithEmailAndPassword(auth, username + EMAIL_SUF, password);
     const userData = {
-      uid: cred.user.uid, name, username,
-      role: finalRole,
-      phone, city,
-      balance: 0,
-      active: finalRole === 'student' || finalRole === 'admin',
+      uid: cred.user.uid, name, username, role: finalRole, phone, city,
+      balance: 0, active: finalRole === 'student' || finalRole === 'admin',
+      streak: 0, longestStreak: 0, lastActiveDate: todayStr(),
       createdAt: serverTimestamp()
     };
-    if(finalRole === 'student'){
-      userData.grade = $('#regGrade').value;
-    } else if(finalRole === 'teacher'){
+    if(finalRole === 'student'){ userData.grade = $('#regGrade').value; }
+    else if(finalRole === 'teacher'){
       userData.specialty = $('#regSpecialty').value;
       userData.experience = parseInt($('#regExperience').value, 10) || 0;
       userData.bio = $('#regBio').value.trim();
@@ -948,6 +1318,7 @@ async function doRegister(){
 
 async function logout(){
   if(!confirm('تسجيل الخروج؟')) return;
+  destroyYt();
   st.unsubs.forEach(u => u());
   st.unsubs = [];
   await signOut(auth);
@@ -966,10 +1337,8 @@ onAuthStateChanged(auth, async user => {
       const r = st.me.role;
       if(r === 'admin') go('adminHome');
       else if(r === 'teacher') go('teacherHome');
-      else go('studentHome');
-    } else {
-      await signOut(auth);
-    }
+      else { go('studentHome'); setTimeout(updateStreak, 800); }
+    } else { await signOut(auth); }
   } else {
     st.me = null;
     $('#authScreen').style.display = 'flex';
@@ -981,8 +1350,8 @@ onAuthStateChanged(auth, async user => {
 function listenAll(){
   st.unsubs.forEach(u => u());
   st.unsubs = [];
-  const cols = ['users','subjects','courses','lessons','purchases','transactions','withdrawals','notifications','chats','messages','cards'];
-  const keys = ['users','subjects','courses','lessons','purchases','transactions','withdrawals','notifs','chats','messages','cards'];
+  const cols = ['users','subjects','courses','lessons','purchases','transactions','withdrawals','notifications','chats','messages','cards','progress','notes','ratings','certificates'];
+  const keys = ['users','subjects','courses','lessons','purchases','transactions','withdrawals','notifs','chats','messages','cards','progress','notes','ratings','certificates'];
   cols.forEach((c, i) => {
     st.unsubs.push(onSnapshot(collection(db, c), snap => {
       st[keys[i]] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1004,6 +1373,7 @@ function refreshCurrent(){
 }
 
 function go(name, silent){
+  if(name !== 'studentWatch') destroyYt();
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-'+name));
   $$('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
   if(!silent) window.scrollTo({top:0, behavior:'smooth'});
@@ -1017,6 +1387,8 @@ function go(name, silent){
     teacherWithdrawals:renderWithdrawalsTeacher,
     studentHome:renderStudentHome, studentWallet:renderWallet,
     studentWithdrawal:renderStudentWd, studentPurchases:renderPurchases,
+    studentNotes:renderNotes, studentCertificates:renderCertificates,
+    studentAchievements:renderAchievements,
     chatList:renderChatList, chatRoom:renderChatMessages,
     profile:renderProfile, notifications:renderNotifications
   };
@@ -1043,16 +1415,11 @@ function renderNav(){
   else items = [
     {id:'studentHome',i:'🏠',l:'الرئيسية'},
     {id:'studentPurchases',i:'🎬',l:'دروسي'},
+    {id:'studentNotes',i:'📝',l:'ملاحظاتي'},
     {id:'studentWallet',i:'💰',l:'محفظتي'},
-    {id:'chatList',i:'💬',l:'الرسائل'},
     {id:'profile',i:'👤',l:'ملفي'}
   ];
-  $('#bottomNav').innerHTML = items.map(it => `
-    <button class="nav-item" data-nav="${it.id}">
-      <span class="nav-icon">${it.i}</span>
-      <span>${it.l}</span>
-    </button>
-  `).join('');
+  $('#bottomNav').innerHTML = items.map(it => `<button class="nav-item" data-nav="${it.id}"><span class="nav-icon">${it.i}</span><span>${it.l}</span></button>`).join('');
   $$('.nav-item').forEach(b => b.onclick = () => go(b.dataset.nav));
 }
 
@@ -1063,7 +1430,6 @@ function updateHeader(){
 }
 
 /* ==================== COMMISSION ==================== */
-const COMM = 0.30;
 function split(p){ const pl = Math.round(p*COMM); return { price:p, platform:pl, teacher:p-pl }; }
 function getTE(tid){
   const lids = st.lessons.filter(l => l.teacherId === tid).map(l => l.id);
@@ -1093,7 +1459,6 @@ function renderAdminHome(){
   const pw = st.withdrawals.filter(x => x.status === 'pending').length;
   const pd = getPE();
   const availableCards = st.cards.filter(c => c.status === 'available').length;
-
   $('#adminWelcome').textContent = st.me.name;
   $('#adminStats').innerHTML = `
     <div class="stat-card" style="--sc:#0284c7"><div class="stat-icon">👨‍🎓</div><div class="stat-value">${ss}</div><div class="stat-label">طالب</div></div>
@@ -1101,12 +1466,11 @@ function renderAdminHome(){
     <div class="stat-card" style="--sc:#059669"><div class="stat-icon">💰</div><div class="stat-value">${fm(pd.platformTotal)}</div><div class="stat-label">عمولات المنصة</div></div>
     <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">🎟️</div><div class="stat-value">${availableCards}</div><div class="stat-label">كروت متاحة</div></div>
   `;
-
   const pu = $('#pendingUsersBadge'); if(pend>0){pu.textContent=pend;pu.style.display='block'}else pu.style.display='none';
   const pwb = $('#pendingWithdrawalsBadge'); if(pw>0){pwb.textContent=pw;pwb.style.display='block'}else pwb.style.display='none';
 }
 
-/* ==================== CARDS (كروت الشحن) ==================== */
+/* ==================== CARDS ==================== */
 function renderCards(){
   const stats = {
     available: st.cards.filter(c => c.status === 'available').length,
@@ -1120,72 +1484,36 @@ function renderCards(){
     <div class="stat-card" style="--sc:#dc2626"><div class="stat-icon">🔴</div><div class="stat-value">${stats.disabled}</div><div class="stat-label">معطّلة</div></div>
     <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">💰</div><div class="stat-value">${fm(stats.totalValue)}</div><div class="stat-label">إجمالي المستخدم</div></div>
   `;
-
   const q = ($('#cardSearch')?.value || '').trim().toUpperCase();
   const f = st.cardFilter;
   let arr = st.cards;
   if(f !== 'all') arr = arr.filter(c => c.status === f);
   if(q) arr = arr.filter(c => c.code.includes(q));
   arr.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
-
   const l = $('#cardsList');
-  if(!arr.length){
-    l.innerHTML = '<div class="empty"><div class="empty-icon">🎟️</div><div class="empty-title">لا توجد كروت</div><div class="empty-text">اضغط "+ إنشاء" لإنشاء كروت شحن جديدة</div></div>';
-    return;
-  }
+  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">🎟️</div><div class="empty-title">لا توجد كروت</div></div>'; return; }
   l.innerHTML = '';
   arr.forEach(card => {
     const u = card.usedBy ? st.users.find(x => x.id === card.usedBy) : null;
     const el = document.createElement('div');
     el.className = 'code-card ' + (card.status === 'used' ? 'used' : card.status === 'disabled' ? 'disabled' : '');
     el.innerHTML = `
-      <div class="code-header">
-        <div>
-          <div class="code-amount">${fm(card.amount)} ل.س</div>
-          <div class="code-label">${card.status === 'available' ? '🟢 متاح' : card.status === 'used' ? '⚫ مستخدم' : '🔴 معطّل'}</div>
-        </div>
-      </div>
+      <div class="code-header"><div><div class="code-amount">${fm(card.amount)} ل.س</div><div class="code-label">${card.status === 'available' ? '🟢 متاح' : card.status === 'used' ? '⚫ مستخدم' : '🔴 معطّل'}</div></div></div>
       <div class="code-value">${esc(card.code)}</div>
       <div class="code-meta">
         <span>📅 ${fd(card.createdAt)}</span>
         ${u ? `<span>👤 ${esc(u.name)}</span>` : ''}
         ${card.usedAt ? `<span>✓ ${fd(card.usedAt)}</span>` : ''}
       </div>
-      ${card.status === 'available' ? `
-        <div class="code-actions">
-          <button data-a="copy" data-code="${esc(card.code)}">📋 نسخ</button>
-          <button data-a="disable" data-id="${card.id}">⛔ تعطيل</button>
-          <button data-a="delete" data-id="${card.id}">🗑 حذف</button>
-        </div>
-      ` : card.status === 'disabled' ? `
-        <div class="code-actions">
-          <button data-a="enable" data-id="${card.id}">✅ تفعيل</button>
-          <button data-a="delete" data-id="${card.id}">🗑 حذف</button>
-        </div>
-      ` : `
-        <div class="code-actions">
-          <button data-a="delete" data-id="${card.id}">🗑 حذف</button>
-        </div>
-      `}
+      ${card.status === 'available' ? `<div class="code-actions"><button data-a="copy" data-code="${esc(card.code)}">📋 نسخ</button><button data-a="disable" data-id="${card.id}">⛔ تعطيل</button><button data-a="delete" data-id="${card.id}">🗑 حذف</button></div>` : card.status === 'disabled' ? `<div class="code-actions"><button data-a="enable" data-id="${card.id}">✅ تفعيل</button><button data-a="delete" data-id="${card.id}">🗑 حذف</button></div>` : `<div class="code-actions"><button data-a="delete" data-id="${card.id}">🗑 حذف</button></div>`}
     `;
     el.querySelectorAll('[data-a]').forEach(b => b.onclick = async e => {
       e.stopPropagation();
       const a = b.dataset.a;
-      if(a === 'copy'){
-        navigator.clipboard.writeText(b.dataset.code);
-        toast('تم نسخ الكود ✓','success');
-      } else if(a === 'disable'){
-        if(!confirm('تعطيل هذا الكرت؟')) return;
-        await updateDoc(doc(db,'cards',b.dataset.id),{status:'disabled'});
-        toast('تم التعطيل','warning');
-      } else if(a === 'enable'){
-        await updateDoc(doc(db,'cards',b.dataset.id),{status:'available'});
-        toast('تم التفعيل ✓','success');
-      } else if(a === 'delete'){
-        if(!confirm('حذف الكرت نهائيًا؟')) return;
-        await deleteDoc(doc(db,'cards',b.dataset.id));
-        toast('تم الحذف');
-      }
+      if(a === 'copy'){ navigator.clipboard.writeText(b.dataset.code); toast('تم نسخ الكود ✓','success'); }
+      else if(a === 'disable'){ if(!confirm('تعطيل هذا الكرت؟')) return; await updateDoc(doc(db,'cards',b.dataset.id),{status:'disabled'}); toast('تم التعطيل','warning'); }
+      else if(a === 'enable'){ await updateDoc(doc(db,'cards',b.dataset.id),{status:'available'}); toast('تم التفعيل ✓','success'); }
+      else if(a === 'delete'){ if(!confirm('حذف الكرت نهائيًا؟')) return; await deleteDoc(doc(db,'cards',b.dataset.id)); toast('تم الحذف'); }
     });
     l.appendChild(el);
   });
@@ -1193,120 +1521,55 @@ function renderCards(){
 
 function openCreateCardsModal(){
   openM('🎟️ إنشاء كروت شحن', `
-    <div class="card" style="background:var(--surface-2);border-color:var(--gold-5);margin-bottom:16px">
-      <div style="font-size:13px;line-height:1.8;color:var(--text-2)">
-        💡 سيتم توليد كود فريد لكل كرت تلقائيًا. يمكنك طباعتها أو نسخها وإرسالها للطلاب.
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">💰 قيمة الكرت (ل.س)</label>
-      <input type="number" class="form-input" id="cardAmt" placeholder="5000" min="100" value="5000">
-    </div>
-    <div class="form-group">
-      <label class="form-label">🔢 عدد الكروت</label>
-      <input type="number" class="form-input" id="cardQty" placeholder="10" min="1" max="100" value="10">
-      <div style="font-size:11.5px;color:var(--text-3);margin-top:6px">الحد الأقصى: 100 كرت في المرة</div>
-    </div>
+    <div class="card" style="background:var(--surface-2);border-color:var(--gold-5);margin-bottom:16px"><div style="font-size:13px;line-height:1.8;color:var(--text-2)">💡 سيتم توليد كود فريد لكل كرت تلقائيًا.</div></div>
+    <div class="form-group"><label class="form-label">💰 قيمة الكرت (ل.س)</label><input type="number" class="form-input" id="cardAmt" value="5000" min="100"></div>
+    <div class="form-group"><label class="form-label">🔢 عدد الكروت</label><input type="number" class="form-input" id="cardQty" value="10" min="1" max="100"></div>
     <div class="card" style="background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;border:none;padding:16px;text-align:center">
       <div style="font-size:12.5px;opacity:.9">إجمالي قيمة الكروت</div>
       <div style="font-family:var(--font-title);font-size:28px;font-weight:900;margin-top:6px" id="cardsTotal">50,000 ل.س</div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-gold" id="createCardsOk">🎟️ إنشاء</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-gold" id="createCardsOk">🎟️ إنشاء</button></div>
   `);
-  
   const updateTotal = () => {
     const amt = parseInt($('#cardAmt').value, 10) || 0;
     const qty = parseInt($('#cardQty').value, 10) || 0;
     $('#cardsTotal').textContent = fm(amt * qty) + ' ل.س';
   };
-  $('#cardAmt').oninput = updateTotal;
-  $('#cardQty').oninput = updateTotal;
-  updateTotal();
-  
+  $('#cardAmt').oninput = updateTotal; $('#cardQty').oninput = updateTotal; updateTotal();
   $('#createCardsOk').onclick = async () => {
-    const amt = parseInt($('#cardAmt').value, 10);
-    const qty = parseInt($('#cardQty').value, 10);
-    if(!amt || amt < 100){ toast('أدخل قيمة صحيحة (100 ل.س على الأقل)','error'); return; }
+    const amt = parseInt($('#cardAmt').value, 10), qty = parseInt($('#cardQty').value, 10);
+    if(!amt || amt < 100){ toast('أدخل قيمة صحيحة','error'); return; }
     if(!qty || qty < 1 || qty > 100){ toast('أدخل عددًا (1-100)','error'); return; }
-    
-    const btn = $('#createCardsOk');
-    btn.disabled = true;
-    btn.textContent = '⏳ جارٍ الإنشاء...';
-    
+    const btn = $('#createCardsOk'); btn.disabled = true; btn.textContent = '⏳ جارٍ الإنشاء...';
     try{
-      const existingCodes = new Set(st.cards.map(c => c.code));
-      let created = 0;
+      const existing = new Set(st.cards.map(c => c.code));
       for(let i = 0; i < qty; i++){
-        let code;
-        do { code = generateCardCode(); } while(existingCodes.has(code));
-        existingCodes.add(code);
-        await addDoc(collection(db, 'cards'), {
-          code,
-          amount: amt,
-          status: 'available',
-          createdBy: st.me.id,
-          createdAt: serverTimestamp()
-        });
-        created++;
+        let code; do { code = generateCardCode(); } while(existing.has(code));
+        existing.add(code);
+        await addDoc(collection(db, 'cards'), { code, amount: amt, status:'available', createdBy: st.me.id, createdAt: serverTimestamp() });
       }
-      closeM();
-      toast(`تم إنشاء ${created} كرت ✓`,'success');
-    }catch(e){
-      console.error(e);
-      toast('حدث خطأ','error');
-      btn.disabled = false;
-      btn.textContent = '🎟️ إنشاء';
-    }
+      closeM(); toast(`تم إنشاء ${qty} كرت ✓`,'success');
+    }catch(e){ console.error(e); toast('حدث خطأ','error'); btn.disabled = false; btn.textContent = '🎟️ إنشاء'; }
   };
 }
 
-/* ==================== REDEEM CARD (للطالب) ==================== */
 async function redeemCard(){
   const input = $('#redeemCode');
   const code = input.value.trim().toUpperCase();
-  if(!code || code.length < 16){ toast('أدخل كودًا صحيحًا (16 حرفًا)','error'); return; }
-  
+  if(!code || code.length < 16){ toast('أدخل كودًا صحيحًا','error'); return; }
   const card = st.cards.find(c => c.code === code);
   if(!card){ toast('❌ الكود غير موجود','error'); return; }
   if(card.status === 'used'){ toast('⚠️ الكود مستخدم مسبقًا','warning'); return; }
   if(card.status === 'disabled'){ toast('⛔ الكود معطّل','error'); return; }
-  
-  $('#redeemBtn').disabled = true;
-  $('#redeemBtn').textContent = '⏳ جارٍ التفعيل...';
-  
+  $('#redeemBtn').disabled = true; $('#redeemBtn').textContent = '⏳ جارٍ التفعيل...';
   try{
-    await updateDoc(doc(db, 'cards', card.id), {
-      status: 'used',
-      usedBy: st.me.id,
-      usedAt: serverTimestamp()
-    });
+    await updateDoc(doc(db, 'cards', card.id), { status:'used', usedBy: st.me.id, usedAt: serverTimestamp() });
     await updateDoc(doc(db, 'users', st.me.id), { balance: (st.me.balance || 0) + card.amount });
-    await addDoc(collection(db, 'transactions'), {
-      userId: st.me.id,
-      type: 'card_redeem',
-      amount: card.amount,
-      description: 'تفعيل كرت شحن: ' + card.code.slice(0, 9) + '...',
-      date: serverTimestamp()
-    });
+    await addDoc(collection(db, 'transactions'), { userId: st.me.id, type:'card_redeem', amount: card.amount, description:'تفعيل كرت شحن: ' + card.code.slice(0, 9) + '...', date: serverTimestamp() });
     await addN(st.me.id, '🎟️ تم تفعيل الكرت', `تمت إضافة ${fm(card.amount)} ل.س إلى محفظتك`, 'success');
-    
-    input.value = '';
-    toast(`✓ تمت إضافة ${fm(card.amount)} ل.س`,'success');
-    
-    // تأثير احتفالي
-    setTimeout(() => {
-      renderWallet();
-    }, 500);
-  }catch(e){
-    console.error(e);
-    toast('حدث خطأ — حاول مجددًا','error');
-  }
-  
-  $('#redeemBtn').disabled = false;
-  $('#redeemBtn').textContent = '✓ تفعيل الكرت';
+    input.value = ''; toast(`✓ تمت إضافة ${fm(card.amount)} ل.س`,'success');
+  }catch(e){ console.error(e); toast('حدث خطأ','error'); }
+  $('#redeemBtn').disabled = false; $('#redeemBtn').textContent = '✓ تفعيل الكرت';
 }
 
 /* ==================== ADMIN USERS ==================== */
@@ -1319,11 +1582,9 @@ function renderUsers(){
   if(f === 'teacher') arr = arr.filter(u => u.role === 'teacher');
   if(f === 'pending') arr = arr.filter(u => u.role === 'teacher' && !u.active);
   if(f === 'inactive') arr = arr.filter(u => !u.active && u.role !== 'admin');
-
   const l = $('#usersList');
   if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">لا يوجد مستخدمون</div></div>'; return; }
   l.innerHTML = '';
-  
   arr.sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(u => {
     const el = document.createElement('div');
     el.className = 'card';
@@ -1344,54 +1605,30 @@ function renderUsers(){
             ${u.specialty ? `<span>📚 ${esc(u.specialty)}</span>` : ''}
             ${u.phone ? `<span>📱 ${esc(u.phone)}</span>` : ''}
           </div>
-          ${u.role === 'student' ? `
-            <div style="margin-top:8px;padding:8px 12px;background:linear-gradient(135deg,var(--gold-5),var(--gold-4));border-radius:10px;display:inline-block">
-              <span style="font-size:11.5px;color:#78350f;font-weight:700">💰 الرصيد: </span>
-              <strong style="font-size:14px;color:#78350f">${fm(u.balance)} ل.س</strong>
-            </div>
-          ` : ''}
+          ${u.role === 'student' ? `<div style="margin-top:8px;padding:8px 12px;background:linear-gradient(135deg,var(--gold-5),var(--gold-4));border-radius:10px;display:inline-block"><span style="font-size:11.5px;color:#78350f;font-weight:700">💰 الرصيد: </span><strong style="font-size:14px;color:#78350f">${fm(u.balance)} ل.س</strong></div>` : ''}
         </div>
       </div>
-      
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding-top:14px;border-top:1px solid var(--border)">
-        ${u.role === 'teacher' && !u.active ? `<button class="btn btn-success btn-sm" data-a="activate" data-id="${u.id}">✓ تفعيل الحساب</button>` : ''}
-        ${u.role === 'teacher' && u.active ? `<button class="btn btn-warning btn-sm" data-a="deactivate" data-id="${u.id}">⏸ إيقاف مؤقت</button>` : ''}
-        ${u.role === 'student' && u.active ? `<button class="btn btn-warning btn-sm" data-a="suspend" data-id="${u.id}">⏸ إيقاف الطالب</button>` : ''}
-        ${u.role === 'student' && !u.active ? `<button class="btn btn-success btn-sm" data-a="unsuspend" data-id="${u.id}">✓ إعادة تفعيل</button>` : ''}
-        ${u.role === 'student' ? `<button class="btn btn-info btn-sm" data-a="addBal" data-id="${u.id}">💰 إضافة رصيد</button>` : ''}
-        ${u.role === 'student' && (u.balance || 0) > 0 ? `<button class="btn btn-danger btn-sm" data-a="wdBal" data-id="${u.id}">💸 سحب رصيد</button>` : ''}
-        ${u.role === 'student' && (u.balance || 0) > 0 ? `<button class="btn btn-ghost btn-sm" data-a="resetBal" data-id="${u.id}">🔄 تصفير الرصيد</button>` : ''}
-        ${u.role !== 'admin' ? `<button class="btn btn-ghost btn-sm" data-a="notif" data-id="${u.id}">🔔 إرسال إشعار</button>` : ''}
-        ${u.role !== 'admin' ? `<button class="btn btn-ghost btn-sm" data-a="pass" data-id="${u.id}">🔑 كلمة المرور</button>` : ''}
+        ${u.role === 'teacher' && !u.active ? `<button class="btn btn-success btn-sm" data-a="activate" data-id="${u.id}">✓ تفعيل</button>` : ''}
+        ${u.role === 'teacher' && u.active ? `<button class="btn btn-warning btn-sm" data-a="deactivate" data-id="${u.id}">⏸ إيقاف</button>` : ''}
+        ${u.role === 'student' && u.active ? `<button class="btn btn-warning btn-sm" data-a="suspend" data-id="${u.id}">⏸ إيقاف</button>` : ''}
+        ${u.role === 'student' && !u.active ? `<button class="btn btn-success btn-sm" data-a="unsuspend" data-id="${u.id}">✓ تفعيل</button>` : ''}
+        ${u.role === 'student' ? `<button class="btn btn-info btn-sm" data-a="addBal" data-id="${u.id}">💰 رصيد</button>` : ''}
+        ${u.role === 'student' && (u.balance || 0) > 0 ? `<button class="btn btn-danger btn-sm" data-a="wdBal" data-id="${u.id}">💸 سحب</button>` : ''}
+        ${u.role === 'student' && (u.balance || 0) > 0 ? `<button class="btn btn-ghost btn-sm" data-a="resetBal" data-id="${u.id}">🔄 تصفير</button>` : ''}
+        ${u.role !== 'admin' ? `<button class="btn btn-ghost btn-sm" data-a="notif" data-id="${u.id}">🔔 إشعار</button>` : ''}
+        ${u.role !== 'admin' ? `<button class="btn btn-ghost btn-sm" data-a="pass" data-id="${u.id}">🔑 كلمة السر</button>` : ''}
         ${u.role !== 'admin' ? `<button class="btn btn-danger btn-sm" data-a="delete" data-id="${u.id}">🗑 حذف</button>` : ''}
       </div>
     `;
-    
     el.querySelectorAll('[data-a]').forEach(b => b.onclick = async e => {
       e.stopPropagation();
       const a = b.dataset.a, id = b.dataset.id;
       const usr = st.users.find(x => x.id === id);
-      
-      if(a === 'activate'){
-        await updateDoc(doc(db,'users',id),{active:true});
-        await addN(id,'✅ تم تفعيل حسابك','حسابك كمعلّم مفعّل. يمكنك الآن إضافة الدورات والدروس.','success');
-        toast('تم التفعيل ✓','success');
-      }
-      else if(a === 'deactivate'){
-        if(!confirm(`إيقاف حساب ${usr.name} مؤقتًا؟`)) return;
-        await updateDoc(doc(db,'users',id),{active:false});
-        await addN(id,'⏸ تم إيقاف حسابك','تم إيقاف حسابك من قبل الإدارة. تواصل معنا للاستفسار.','warning');
-        toast('تم الإيقاف','warning');
-      }
-      else if(a === 'suspend'){
-        if(!confirm(`إيقاف الطالب ${usr.name}؟\nلن يستطيع تسجيل الدخول.`)) return;
-        await updateDoc(doc(db,'users',id),{active:false});
-        toast('تم إيقاف الطالب','warning');
-      }
-      else if(a === 'unsuspend'){
-        await updateDoc(doc(db,'users',id),{active:true});
-        toast('تم إعادة التفعيل','success');
-      }
+      if(a === 'activate'){ await updateDoc(doc(db,'users',id),{active:true}); await addN(id,'✅ تم تفعيل حسابك','حسابك كمعلّم مفعّل.','success'); toast('تم التفعيل ✓','success'); }
+      else if(a === 'deactivate'){ if(!confirm(`إيقاف ${usr.name}؟`)) return; await updateDoc(doc(db,'users',id),{active:false}); await addN(id,'⏸ تم إيقاف حسابك','تم إيقاف حسابك من الإدارة.','warning'); toast('تم الإيقاف','warning'); }
+      else if(a === 'suspend'){ if(!confirm(`إيقاف الطالب ${usr.name}؟`)) return; await updateDoc(doc(db,'users',id),{active:false}); toast('تم الإيقاف','warning'); }
+      else if(a === 'unsuspend'){ await updateDoc(doc(db,'users',id),{active:true}); toast('تم التفعيل','success'); }
       else if(a === 'addBal') openBal(id);
       else if(a === 'wdBal') openWithdrawFromUser(id);
       else if(a === 'resetBal') await resetUserBalance(id);
@@ -1399,7 +1636,6 @@ function renderUsers(){
       else if(a === 'pass') openChangePassword(id);
       else if(a === 'delete') await deleteUser(id);
     });
-    
     l.appendChild(el);
   });
 }
@@ -1408,15 +1644,10 @@ function openBal(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
   openM('💰 إضافة رصيد لـ ' + esc(u.name), `
-    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>الرصيد الحالي:</span><strong style="color:var(--emerald-3)">${fm(u.balance)} ل.س</strong></div>
-    </div>
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>الرصيد الحالي:</span><strong style="color:var(--emerald-3)">${fm(u.balance)} ل.س</strong></div></div>
     <div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="balAmt" placeholder="5000" min="1"></div>
     <div class="form-group"><label class="form-label">السبب (اختياري)</label><input class="form-input" id="balNote" placeholder="مثال: شحن يدوي"></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-success" id="balOk">+ إضافة</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-success" id="balOk">+ إضافة</button></div>
   `);
   $('#balOk').onclick = async () => {
     const a = parseInt($('#balAmt').value, 10);
@@ -1432,22 +1663,17 @@ function openBal(id){
 function openWithdrawFromUser(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
-  if((u.balance || 0) <= 0){ toast('لا يوجد رصيد للسحب','error'); return; }
+  if((u.balance || 0) <= 0){ toast('لا يوجد رصيد','error'); return; }
   openM('💸 سحب رصيد من ' + esc(u.name), `
-    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>الرصيد الحالي:</span><strong style="color:var(--emerald-3)">${fm(u.balance)} ل.س</strong></div>
-    </div>
-    <div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="wdFromAmt" min="1" max="${u.balance}" placeholder="أدخل المبلغ"></div>
-    <div class="form-group"><label class="form-label">السبب</label><textarea class="form-textarea" id="wdFromNote" placeholder="مثال: تصحيح رصيد، استرداد..."></textarea></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-danger" id="wdFromOk">💸 سحب</button>
-    </div>
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="display:flex;justify-content:space-between"><span>الرصيد:</span><strong style="color:var(--emerald-3)">${fm(u.balance)} ل.س</strong></div></div>
+    <div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="wdFromAmt" min="1" max="${u.balance}"></div>
+    <div class="form-group"><label class="form-label">السبب</label><textarea class="form-textarea" id="wdFromNote"></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-danger" id="wdFromOk">💸 سحب</button></div>
   `);
   $('#wdFromOk').onclick = async () => {
     const a = parseInt($('#wdFromAmt').value, 10);
     if(!a || a <= 0){ toast('مبلغ خطأ','error'); return; }
-    if(a > u.balance){ toast('المبلغ أكبر من الرصيد','error'); return; }
+    if(a > u.balance){ toast('المبلغ أكبر','error'); return; }
     const note = $('#wdFromNote').value.trim() || 'سحب من الإدارة';
     await updateDoc(doc(db,'users',u.id),{balance: (u.balance || 0) - a});
     await addDoc(collection(db,'transactions'),{userId:u.id, type:'admin_withdraw', amount:a, description: note, date: serverTimestamp()});
@@ -1459,12 +1685,12 @@ function openWithdrawFromUser(id){
 async function resetUserBalance(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
-  if(!confirm(`تصفير رصيد ${u.name}؟\nالرصيد الحالي: ${fm(u.balance)} ل.س`)) return;
+  if(!confirm(`تصفير رصيد ${u.name}؟\nالرصيد: ${fm(u.balance)} ل.س`)) return;
   const text = prompt('اكتب "تصفير" للتأكيد:');
   if(text !== 'تصفير'){ toast('تم الإلغاء'); return; }
   await updateDoc(doc(db,'users',id),{balance: 0});
-  await addDoc(collection(db,'transactions'),{userId:id, type:'admin_reset', amount: u.balance || 0, description: 'تصفير الرصيد من الإدارة', date: serverTimestamp()});
-  await addN(id, '⚠️ تم تصفير رصيدك', 'تم تصفير رصيد محفظتك من قبل الإدارة', 'warning');
+  await addDoc(collection(db,'transactions'),{userId:id, type:'admin_reset', amount: u.balance || 0, description: 'تصفير الرصيد', date: serverTimestamp()});
+  await addN(id, '⚠️ تم تصفير رصيدك', 'تم تصفير رصيد محفظتك', 'warning');
   toast('تم التصفير ✓','success');
 }
 
@@ -1472,20 +1698,8 @@ function openChangePassword(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
   openM('🔑 كلمة مرور ' + esc(u.name), `
-    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>المستخدم:</span><strong>${esc(u.name)}</strong></div>
-      <div style="display:flex;justify-content:space-between"><span>اسم المستخدم:</span><strong>@${esc(u.username)}</strong></div>
-    </div>
-    <div class="card" style="background:var(--surface-2);border-color:var(--gold-5);margin-bottom:16px">
-      <div style="font-size:12.5px;line-height:1.9;color:var(--text-2)">
-        ⚠️ <strong style="color:var(--gold-2)">لأسباب أمنية</strong>، لا يمكن تغيير كلمة مرور Firebase Auth من الواجهة مباشرةً.
-        <br><br>
-        <strong>الحل:</strong> افتح <strong>Firebase Console</strong> → اختر المستخدم → <strong>Reset password</strong> أو احذفه وأعد إنشاءه.
-      </div>
-    </div>
-    <a href="https://console.firebase.google.com/project/nibras-c5243/authentication/users" target="_blank" class="btn btn-info" style="text-decoration:none">
-      🔗 فتح Firebase Console
-    </a>
+    <div class="card" style="background:var(--surface-2);border-color:var(--gold-5);margin-bottom:16px"><div style="font-size:12.5px;line-height:1.9;color:var(--text-2)">⚠️ لأسباب أمنية، غيّر كلمة المرور من Firebase Console.</div></div>
+    <a href="https://console.firebase.google.com/project/nibras-c5243/authentication/users" target="_blank" class="btn btn-info" style="text-decoration:none">🔗 فتح Firebase Console</a>
   `);
 }
 
@@ -1493,25 +1707,13 @@ function openSendNotification(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
   openM('🔔 إشعار لـ ' + esc(u.name), `
-    <div class="form-group">
-      <label class="form-label">نوع الإشعار</label>
-      <select class="form-select" id="nType">
-        <option value="info">ℹ️ معلومات</option>
-        <option value="success">✅ نجاح</option>
-        <option value="warning">⚠️ تحذير</option>
-        <option value="danger">❌ مهم</option>
-      </select>
-    </div>
-    <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="nTitle" placeholder="مثال: تحديث مهم"></div>
-    <div class="form-group"><label class="form-label">النص</label><textarea class="form-textarea" id="nBody" placeholder="اكتب محتوى الإشعار..."></textarea></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-primary" id="nOk">📤 إرسال</button>
-    </div>
+    <div class="form-group"><label class="form-label">النوع</label><select class="form-select" id="nType"><option value="info">ℹ️ معلومات</option><option value="success">✅ نجاح</option><option value="warning">⚠️ تحذير</option><option value="danger">❌ مهم</option></select></div>
+    <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="nTitle" placeholder="عنوان الإشعار"></div>
+    <div class="form-group"><label class="form-label">النص</label><textarea class="form-textarea" id="nBody"></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="nOk">📤 إرسال</button></div>
   `);
   $('#nOk').onclick = async () => {
-    const t = $('#nTitle').value.trim();
-    const b = $('#nBody').value.trim();
+    const t = $('#nTitle').value.trim(), b = $('#nBody').value.trim();
     if(!t || !b){ toast('أكمل البيانات','error'); return; }
     await addN(id, t, b, $('#nType').value);
     closeM(); toast('تم الإرسال ✓','success');
@@ -1522,18 +1724,18 @@ async function deleteUser(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
   if(u.role === 'admin'){ toast('لا يمكن حذف المدير','error'); return; }
-  if(!confirm(`⚠️ حذف ${u.name} نهائيًا؟\nلا يمكن التراجع.`)) return;
-  const confirmText = prompt('اكتب كلمة "حذف" للتأكيد:');
-  if(confirmText !== 'حذف'){ toast('تم الإلغاء'); return; }
+  if(!confirm(`⚠️ حذف ${u.name} نهائيًا؟`)) return;
+  const c = prompt('اكتب "حذف" للتأكيد:');
+  if(c !== 'حذف'){ toast('تم الإلغاء'); return; }
   await deleteDoc(doc(db,'users',id));
   if(u.role === 'teacher'){
     const mc = st.courses.filter(c => c.teacherId === id);
-    for(const c of mc) await deleteDoc(doc(db,'courses',c.id));
+    for(const cc of mc) await deleteDoc(doc(db,'courses',cc.id));
   }
   toast('تم الحذف','success');
 }
 
-/* ==================== ADMIN WITHDRAWALS ==================== */
+/* ==================== WITHDRAWALS ==================== */
 function renderWithdrawalsAdmin(){
   const l = $('#withdrawalsAdminList');
   const arr = [...st.withdrawals].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
@@ -1546,27 +1748,19 @@ function renderWithdrawalsAdmin(){
     el.className = 'card';
     el.innerHTML = `
       <div style="display:flex;justify-content:space-between;margin-bottom:12px">
-        <div>
-          <div style="font-size:15px;font-weight:800">${esc(u?.name||'—')}</div>
-          <div style="font-size:12px;color:var(--text-3)">${isTeacher?'👨‍🏫 معلم':'👨‍🎓 طالب'} · ${fdt(w.date)}</div>
-        </div>
-        <span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم الدفع':'مرفوض'}</span>
+        <div><div style="font-size:15px;font-weight:800">${esc(u?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${isTeacher?'👨‍🏫 معلم':'👨‍🎓 طالب'} · ${fdt(w.date)}</div></div>
+        <span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم':'مرفوض'}</span>
       </div>
       <div style="background:var(--bg-2);border-radius:10px;padding:12px;margin-bottom:12px">
         <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>المبلغ</span><strong>${fm(w.amount)} ل.س</strong></div>
         <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>الطريقة</span><strong>${esc(w.method)}</strong></div>
         <div style="display:flex;justify-content:space-between"><span>الحساب</span><strong>${esc(w.account)}</strong></div>
       </div>
-      ${w.status === 'pending' ? `
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-success btn-sm" style="flex:1" data-a="ap" data-id="${w.id}">✓ تم الدفع</button>
-          <button class="btn btn-danger btn-sm" style="flex:1" data-a="rj" data-id="${w.id}">✗ رفض</button>
-        </div>
-      ` : ''}
+      ${w.status === 'pending' ? `<div style="display:flex;gap:8px"><button class="btn btn-success btn-sm" style="flex:1" data-a="ap" data-id="${w.id}">✓ دفع</button><button class="btn btn-danger btn-sm" style="flex:1" data-a="rj" data-id="${w.id}">✗ رفض</button></div>` : ''}
     `;
     el.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
       const rq = st.withdrawals.find(x => x.id === b.dataset.id);
-      const targetUser = rq.teacherId || rq.userId;
+      const target = rq.teacherId || rq.userId;
       if(b.dataset.a === 'ap'){
         await updateDoc(doc(db,'withdrawals',rq.id),{status:'approved',paidAt:serverTimestamp()});
         if(rq.userId && !rq.teacherId){
@@ -1574,11 +1768,11 @@ function renderWithdrawalsAdmin(){
           await updateDoc(doc(db,'users',rq.userId),{balance:(usr.balance||0)-rq.amount});
           await addDoc(collection(db,'transactions'),{userId:rq.userId,type:'withdrawal',amount:rq.amount,description:'سحب رصيد مقبول',date:serverTimestamp()});
         }
-        await addN(targetUser,'✅ تم تحويل مبلغك',`${fm(rq.amount)} ل.س — ${rq.method}`,'success');
+        await addN(target,'✅ تم تحويل مبلغك',`${fm(rq.amount)} ل.س — ${rq.method}`,'success');
         toast('تم الدفع','success');
       } else {
         await updateDoc(doc(db,'withdrawals',rq.id),{status:'rejected'});
-        await addN(targetUser,'❌ تم رفض طلبك','تواصل مع الإدارة','danger');
+        await addN(target,'❌ تم رفض طلبك','تواصل مع الإدارة','danger');
         toast('تم الرفض','warning');
       }
     });
@@ -1596,10 +1790,7 @@ function renderSubjects(){
     el.className = 'list-item no-click';
     el.innerHTML = `
       <div class="list-thumb">${s.icon||'📖'}</div>
-      <div class="list-info">
-        <div class="list-title">${esc(s.name)}</div>
-        <div class="list-meta">${(s.grades||[]).map(g => GRADES[g]).join(' · ')}</div>
-      </div>
+      <div class="list-info"><div class="list-title">${esc(s.name)}</div><div class="list-meta">${(s.grades||[]).map(g => GRADES[g]).join(' · ')}</div></div>
       <button class="btn btn-danger btn-sm" data-d="${s.id}">🗑</button>
     `;
     el.querySelector('[data-d]').onclick = async e => { e.stopPropagation(); if(!confirm('حذف المادة؟'))return; await deleteDoc(doc(db,'subjects',s.id)); toast('تم الحذف'); };
@@ -1609,18 +1800,14 @@ function renderSubjects(){
 
 function openSubM(){
   openM('📖 مادة جديدة', `
-    <div class="form-group"><label class="form-label">اسم المادة</label><input class="form-input" id="sN" placeholder="مثال: الرياضيات"></div>
+    <div class="form-group"><label class="form-label">اسم المادة</label><input class="form-input" id="sN" placeholder="الرياضيات"></div>
     <div class="form-group"><label class="form-label">الأيقونة</label><input class="form-input" id="sI" placeholder="📐" maxlength="4"></div>
-    <div class="form-group">
-      <label class="form-label">الصفوف</label>
+    <div class="form-group"><label class="form-label">الصفوف</label>
       <div style="display:grid;gap:8px">
         ${Object.entries(GRADES).map(([k,v]) => `<label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;cursor:pointer"><input type="checkbox" data-g="${k}" style="width:18px;height:18px;accent-color:var(--emerald-3)"><span style="font-size:14px;font-weight:600">${v}</span></label>`).join('')}
       </div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-primary" id="sOk">حفظ</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="sOk">حفظ</button></div>
   `);
   $('#sOk').onclick = async () => {
     const n = $('#sN').value.trim();
@@ -1647,11 +1834,7 @@ function renderAdminCourses(){
       <div class="list-thumb">${s?.icon||'📚'}</div>
       <div class="list-info">
         <div class="list-title">${esc(c.title)}</div>
-        <div class="list-meta">
-          <span>${esc(s?.name||'')}</span>
-          <span>${GRADES[c.grade]||''}</span>
-          <span>🎬 ${cnt}</span>
-        </div>
+        <div class="list-meta"><span>${esc(s?.name||'')}</span><span>${GRADES[c.grade]||''}</span><span>🎬 ${cnt}</span></div>
         ${t ? `<div style="font-size:11.5px;color:var(--text-3);margin-top:4px">👨‍🏫 ${esc(t.name)}</div>` : ''}
       </div>
       <button class="btn btn-danger btn-sm" data-d="${c.id}">🗑</button>
@@ -1672,10 +1855,7 @@ function openCourseM(c){
     <div class="form-group"><label class="form-label">الصف</label><select class="form-select" id="cG">${Object.entries(GRADES).map(([k,v]) => `<option value="${k}" ${c.grade===k?'selected':''}>${v}</option>`).join('')}</select></div>
     ${st.me.role === 'admin' ? `<div class="form-group"><label class="form-label">المعلم</label><select class="form-select" id="cTe"><option value="">—</option>${ts.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>` : ''}
     <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description)}</textarea></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-primary" id="cOk">حفظ</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="cOk">حفظ</button></div>
   `);
   $('#cOk').onclick = async () => {
     const t = $('#cT').value.trim();
@@ -1698,13 +1878,7 @@ function renderAdminLessons(){
     el.className = 'list-item no-click';
     el.innerHTML = `
       <div class="list-thumb ${x.price === 0 ? 'free' : ''}">${x.price === 0 ? '🆓' : '💰'}</div>
-      <div class="list-info">
-        <div class="list-title">${esc(x.title)}</div>
-        <div class="list-meta">
-          <span>${esc(c?.title||'')}</span>
-          <span>${x.price === 0 ? 'مجاني' : fm(x.price)+' ل.س'}</span>
-        </div>
-      </div>
+      <div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta"><span>${esc(c?.title||'')}</span><span>${x.price === 0 ? 'مجاني' : fm(x.price)+' ل.س'}</span></div></div>
       <button class="btn btn-danger btn-sm" data-d="${x.id}">🗑</button>
     `;
     el.querySelector('[data-d]').onclick = async e => { e.stopPropagation(); if(!confirm('حذف الدرس؟'))return; await deleteDoc(doc(db,'lessons',x.id)); toast('تم'); };
@@ -1733,10 +1907,7 @@ function openLessonM(l){
     <div class="form-group"><label class="form-label">رابط يوتيوب</label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" placeholder="https://youtube.com/watch?v=..." dir="ltr" style="text-align:left"></div>
     <div class="form-group"><label class="form-label">السعر (0 = مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price}" min="0"></div>
     <div class="form-group"><label class="form-label">وصف مختصر</label><textarea class="form-textarea" id="lD">${esc(l.description)}</textarea></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-primary" id="lOk">حفظ</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="lOk">حفظ</button></div>
   `);
   $('#lOk').onclick = async () => {
     const t = $('#lT').value.trim(), y = $('#lY').value.trim();
@@ -1759,7 +1930,7 @@ function renderPlatformEarnings(){
   $('#platformEarningsContent').innerHTML = `
     <div class="card" style="background:linear-gradient(135deg,var(--gold-2),var(--gold-3));color:#fff;border:none;text-align:center;padding:26px">
       <div style="font-size:13px;opacity:.9;font-weight:700">عمولات المنصة (30%)</div>
-      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0;letter-spacing:-1px">${fm(d.platformTotal)}</div>
+      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0">${fm(d.platformTotal)}</div>
       <div style="font-size:14px;opacity:.9">ليرة سورية</div>
     </div>
     <div class="stats-grid">
@@ -1770,10 +1941,7 @@ function renderPlatformEarnings(){
       <div class="card-title">تفاصيل المعلمين</div>
       ${stats.length ? stats.map(t => `
         <div style="padding:14px;background:var(--bg-2);border-radius:12px;margin-bottom:10px">
-          <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-            <div><div style="font-weight:800">${esc(t.teacher.name)}</div><div style="font-size:11.5px;color:var(--text-3)">${t.salesCount} عملية</div></div>
-            <div style="text-align:left"><div style="font-size:11px;color:var(--gold-2);font-weight:800">عمولة</div><div style="font-size:16px;font-weight:900;color:var(--gold-2)">${fm(t.platformTotal)}</div></div>
-          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:10px"><div><div style="font-weight:800">${esc(t.teacher.name)}</div><div style="font-size:11.5px;color:var(--text-3)">${t.salesCount} عملية</div></div><div style="text-align:left"><div style="font-size:11px;color:var(--gold-2);font-weight:800">عمولة</div><div style="font-size:16px;font-weight:900;color:var(--gold-2)">${fm(t.platformTotal)}</div></div></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11.5px">
             <div style="background:var(--surface);padding:8px;border-radius:8px;text-align:center"><div style="color:var(--text-3)">المبيعات</div><div style="font-weight:900">${fm(t.totalSales)}</div></div>
             <div style="background:#d1fae5;padding:8px;border-radius:8px;text-align:center"><div style="color:#065f46">حصة المعلم</div><div style="font-weight:900;color:#065f46">${fm(t.teacherTotal)}</div></div>
@@ -1784,33 +1952,21 @@ function renderPlatformEarnings(){
   `;
 }
 
-/* ==================== ADMIN TRANSACTIONS ==================== */
+/* ==================== TRANSACTIONS ==================== */
 function renderTransactions(){
   const l = $('#transactionsList');
   const arr = [...st.transactions].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
   if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">📊</div><div class="empty-title">لا توجد معاملات</div></div>'; return; }
   const typeMap = {
-    topup: { icon:'⬇️', color:'#059669', label:'إيداع' },
-    card_redeem: { icon:'🎟️', color:'#d97706', label:'كرت شحن' },
-    purchase: { icon:'🛒', color:'#dc2626', label:'شراء' },
-    withdrawal: { icon:'⬆️', color:'#0284c7', label:'سحب' },
-    admin_withdraw: { icon:'💸', color:'#d97706', label:'سحب إداري' },
-    admin_reset: { icon:'🔄', color:'#7c3aed', label:'تصفير' }
+    topup: { icon:'⬇️', color:'#059669' }, card_redeem: { icon:'🎟️', color:'#d97706' },
+    purchase: { icon:'🛒', color:'#dc2626' }, withdrawal: { icon:'⬆️', color:'#0284c7' },
+    admin_withdraw: { icon:'💸', color:'#d97706' }, admin_reset: { icon:'🔄', color:'#7c3aed' }
   };
   l.innerHTML = arr.slice(0, 200).map(t => {
     const u = st.users.find(x => x.id === t.userId);
-    const tm = typeMap[t.type] || { icon:'•', color:'#57534e', label:t.type };
+    const tm = typeMap[t.type] || { icon:'•', color:'#57534e' };
     const isCredit = ['topup','card_redeem'].includes(t.type);
-    return `
-      <div class="list-item no-click" style="padding:12px">
-        <div class="list-thumb" style="width:40px;height:40px;font-size:18px;background:${tm.color}">${tm.icon}</div>
-        <div class="list-info">
-          <div class="list-title" style="font-size:13px">${esc(u?.name||'—')}</div>
-          <div class="list-meta" style="font-size:11px">${esc(t.description||tm.label)} · ${fdt(t.date)}</div>
-        </div>
-        <div style="font-size:15px;font-weight:900;color:${isCredit?'var(--emerald-3)':'var(--danger)'}">${isCredit?'+':'-'}${fm(t.amount)}</div>
-      </div>
-    `;
+    return `<div class="list-item no-click" style="padding:12px"><div class="list-thumb" style="width:40px;height:40px;font-size:18px;background:${tm.color}">${tm.icon}</div><div class="list-info"><div class="list-title" style="font-size:13px">${esc(u?.name||'—')}</div><div class="list-meta" style="font-size:11px">${esc(t.description||'')} · ${fdt(t.date)}</div></div><div style="font-size:15px;font-weight:900;color:${isCredit?'var(--emerald-3)':'var(--danger)'}">${isCredit?'+':'-'}${fm(t.amount)}</div></div>`;
   }).join('');
 }
 
@@ -1843,10 +1999,7 @@ function renderMyCourses(){
     el.className = 'list-item no-click';
     el.innerHTML = `
       <div class="list-thumb">${s?.icon||'📚'}</div>
-      <div class="list-info">
-        <div class="list-title">${esc(c.title)}</div>
-        <div class="list-meta"><span>🎓 ${GRADES[c.grade]||''}</span><span>🎬 ${cnt}</span></div>
-      </div>
+      <div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta"><span>🎓 ${GRADES[c.grade]||''}</span><span>🎬 ${cnt}</span></div></div>
       <button class="btn btn-primary btn-sm" data-al="${c.id}">+ درس</button>
     `;
     el.querySelector('[data-al]').onclick = e => { e.stopPropagation(); if(!st.me.active){ toast('حسابك غير مفعّل','error'); return; } openLessonM(null); };
@@ -1866,10 +2019,7 @@ function renderMyLessons(){
     el.className = 'list-item no-click';
     el.innerHTML = `
       <div class="list-thumb ${x.price === 0 ? 'free' : ''}">${x.price === 0 ? '🆓' : '💰'}</div>
-      <div class="list-info">
-        <div class="list-title">${esc(x.title)}</div>
-        <div class="list-meta"><span>${esc(c?.title||'')}</span><span>🛒 ${sales}</span></div>
-      </div>
+      <div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta"><span>${esc(c?.title||'')}</span><span>🛒 ${sales}</span></div></div>
       <button class="btn btn-danger btn-sm" data-d="${x.id}">🗑</button>
     `;
     el.querySelector('[data-d]').onclick = async e => { e.stopPropagation(); if(!confirm('حذف؟'))return; await deleteDoc(doc(db,'lessons',x.id)); toast('تم'); };
@@ -1882,7 +2032,7 @@ function renderEarnings(){
   $('#earningsContent').innerHTML = `
     <div class="card" style="background:linear-gradient(135deg,var(--emerald-3),var(--emerald-4));color:#fff;border:none;text-align:center;padding:26px">
       <div style="font-size:13px;opacity:.9;font-weight:700">صافي أرباحك (70%)</div>
-      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0;letter-spacing:-1px">${fm(d.teacherTotal)}</div>
+      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0">${fm(d.teacherTotal)}</div>
       <div style="font-size:14px;opacity:.9">ليرة سورية</div>
       <div style="background:rgba(255,255,255,.18);border-radius:12px;padding:12px;margin-top:16px;font-size:12.5px;font-weight:700">من ${d.salesCount} عملية · متاح: ${fm(b.available)} ل.س</div>
     </div>
@@ -1898,15 +2048,7 @@ function renderEarnings(){
         const l = st.lessons.find(x => x.id === s.lessonId);
         const b2 = st.users.find(x => x.id === s.userId);
         const sp = split(s.price);
-        return `
-          <div style="padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px">
-              <div><div style="font-size:13px;font-weight:800">${esc(l?.title||'')}</div><div style="font-size:11px;color:var(--text-3)">${esc(b2?.name||'')} · ${fdt(s.createdAt)}</div></div>
-              <div style="font-size:15px;font-weight:900;color:var(--emerald-3)">+${fm(sp.teacher)}</div>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:10.5px;padding-top:6px;border-top:1px dashed var(--border);color:var(--text-3)"><span>${fm(s.price)}</span><span style="color:#991b1b">عمولة: ${fm(sp.platform)}</span></div>
-          </div>
-        `;
+        return `<div style="padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><div style="font-size:13px;font-weight:800">${esc(l?.title||'')}</div><div style="font-size:11px;color:var(--text-3)">${esc(b2?.name||'')} · ${fdt(s.createdAt)}</div></div><div style="font-size:15px;font-weight:900;color:var(--emerald-3)">+${fm(sp.teacher)}</div></div><div style="display:flex;justify-content:space-between;font-size:10.5px;padding-top:6px;border-top:1px dashed var(--border);color:var(--text-3)"><span>${fm(s.price)}</span><span style="color:#991b1b">عمولة: ${fm(sp.platform)}</span></div></div>`;
       }).join('') : '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد مبيعات</div></div>'}
     </div>
   `;
@@ -1918,7 +2060,7 @@ function renderWithdrawalsTeacher(){
   $('#withdrawalsTeacherContent').innerHTML = `
     <div class="card" style="background:linear-gradient(135deg,var(--emerald-3),var(--emerald-4));color:#fff;border:none;text-align:center;padding:26px">
       <div style="font-size:13px;opacity:.9;font-weight:700">الرصيد المتاح للسحب</div>
-      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0;letter-spacing:-1px">${fm(b.available)}</div>
+      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0">${fm(b.available)}</div>
       <div style="font-size:14px;opacity:.9">ليرة سورية</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
         <div style="background:rgba(255,255,255,.18);border-radius:12px;padding:12px"><div style="font-size:11px">إجمالي</div><div style="font-size:16px;font-weight:900;margin-top:2px">${fm(b.total)}</div></div>
@@ -1927,12 +2069,7 @@ function renderWithdrawalsTeacher(){
     </div>
     <div class="card">
       <div class="card-title">سجل الطلبات</div>
-      ${rq.length ? rq.map(w => `
-        <div style="padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px">
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${fm(w.amount)} ل.س</strong><span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'مدفوع':'مرفوض'}</span></div>
-          <div style="font-size:12px;color:var(--text-3)">${fdt(w.date)} · ${esc(w.method)}</div>
-        </div>
-      `).join('') : '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد طلبات</div></div>'}
+      ${rq.length ? rq.map(w => `<div style="padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${fm(w.amount)} ل.س</strong><span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'مدفوع':'مرفوض'}</span></div><div style="font-size:12px;color:var(--text-3)">${fdt(w.date)} · ${esc(w.method)}</div></div>`).join('') : '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد طلبات</div></div>'}
     </div>
   `;
 }
@@ -1946,10 +2083,7 @@ function openWdM(){
     <div class="form-group"><label class="form-label">طريقة الاستلام</label><select class="form-select" id="wdM2"><option value="">اختر...</option><option>شام كاش</option><option>الهرم</option><option>سيرياتيل كاش</option><option>MTN كاش</option><option>تحويل بنكي</option></select></div>
     <div class="form-group"><label class="form-label">رقم المحفظة</label><input class="form-input" id="wdAc" dir="ltr" style="text-align:left"></div>
     <div class="form-group"><label class="form-label">ملاحظة</label><textarea class="form-textarea" id="wdN"></textarea></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-gold" id="wdOk">📤 إرسال</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-gold" id="wdOk">📤 إرسال</button></div>
   `);
   $('#wdOk').onclick = async () => {
     const a = parseInt($('#wdA').value, 10), m = $('#wdM2').value, ac = $('#wdAc').value.trim();
@@ -1961,17 +2095,40 @@ function openWdM(){
   };
 }
 
-/* ==================== STUDENT ==================== */
+/* ==================== STUDENT HOME ==================== */
 function renderStudentHome(){
   const me = st.me;
   const mp = st.purchases.filter(p => p.userId === me.id);
   const ms = st.subjects.filter(s => (s.grades||[]).includes(me.grade));
   $('#studentWelcome').textContent = 'أهلًا ' + me.name;
   $('#studentGradeLabel').textContent = '🎓 ' + (GRADES[me.grade] || '');
+
+  const streak = me.streak || 0;
+  const longest = me.longestStreak || 0;
+  $('#streakBox').innerHTML = `
+    <div class="streak-banner">
+      <div class="streak-flame">🔥</div>
+      <div class="streak-info">
+        <div class="streak-num">${streak} ${streak === 1 ? 'يوم' : 'أيام'}</div>
+        <div class="streak-lbl">سلسلة الدخول المتتالي</div>
+        <div class="streak-best">أطول سلسلة: ${longest} أيام</div>
+      </div>
+    </div>
+  `;
+
   $('#studentStats').innerHTML = `
     <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">💰</div><div class="stat-value">${fm(me.balance)}</div><div class="stat-label">رصيدي</div></div>
     <div class="stat-card" style="--sc:#059669"><div class="stat-icon">🎬</div><div class="stat-value">${mp.length}</div><div class="stat-label">دروس مشتراة</div></div>
   `;
+
+  const myNotes = st.notes.filter(n => n.userId === me.id).length;
+  const myCerts = st.certificates.filter(c => c.userId === me.id).length;
+  const myAch = computeAchievements().filter(a => a.done).length;
+  const setT = (id, txt) => { const e = $(id); if(e) e.textContent = txt; };
+  setT('#notesCountDesc', myNotes + ' ملاحظة');
+  setT('#certsCountDesc', myCerts + ' شهادة');
+  setT('#achCountDesc', myAch + ' إنجاز');
+
   const se = $('#studentSubjects');
   if(!ms.length){ se.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-text">لا توجد مواد لصفك</div></div>'; }
   else {
@@ -1986,17 +2143,15 @@ function renderStudentHome(){
     at.style.display = 'flex'; ae.innerHTML = '';
     ac.forEach(c => {
       const s = st.subjects.find(x => x.id === c.subjectId);
-      const al = st.lessons.filter(l => l.courseId === c.id);
-      const ow = al.filter(l => l.price === 0 || mp.some(p => p.lessonId === l.id)).length;
-      const pc = al.length ? Math.round((ow/al.length)*100) : 0;
+      const prog = computeCourseProgress(c.id);
       const el = document.createElement('div');
       el.className = 'list-item';
       el.innerHTML = `
         <div class="list-thumb">${s?.icon||'📚'}</div>
         <div class="list-info">
           <div class="list-title">${esc(c.title)}</div>
-          <div class="progress"><div class="progress-bar" style="width:${pc}%"></div></div>
-          <div class="progress-text"><span>${ow}/${al.length} درس</span><span>${pc}%</span></div>
+          <div class="progress"><div class="progress-bar" style="width:${prog.percent}%"></div></div>
+          <div class="progress-text"><span>${prog.done}/${prog.total} درس</span><span>${prog.percent}%</span></div>
         </div>
       `;
       el.onclick = () => openCourse(c.id);
@@ -2005,6 +2160,20 @@ function renderStudentHome(){
   } else { at.style.display = 'none'; ae.innerHTML = ''; }
 }
 
+function computeCourseProgress(courseId){
+  const mp = st.purchases.filter(p => p.userId === st.me.id).map(p => p.lessonId);
+  const al = st.lessons.filter(l => l.courseId === courseId);
+  const myProg = st.progress.filter(p => p.userId === st.me.id && p.courseId === courseId);
+  let done = 0;
+  al.forEach(l => {
+    const owned = l.price === 0 || mp.includes(l.id);
+    const pg = myProg.find(p => p.lessonId === l.id);
+    if(owned && pg?.completed) done++;
+  });
+  return { done, total: al.length, percent: al.length ? Math.round((done/al.length)*100) : 0 };
+}
+
+/* ==================== SUBJECT / COURSE ==================== */
 function openSub(id){
   const s = st.subjects.find(x => x.id === id);
   if(!s) return;
@@ -2018,6 +2187,7 @@ function openSub(id){
   cs.forEach(c => {
     const t = st.users.find(u => u.id === c.teacherId);
     const ls = st.lessons.filter(x => x.courseId === c.id);
+    const prog = computeCourseProgress(c.id);
     const el = document.createElement('div');
     el.className = 'list-item';
     el.innerHTML = `
@@ -2025,6 +2195,7 @@ function openSub(id){
       <div class="list-info">
         <div class="list-title">${esc(c.title)}</div>
         <div class="list-meta"><span>👨‍🏫 ${esc(t?.name||'')}</span><span>🎬 ${ls.length}</span></div>
+        ${prog.total ? `<div class="progress" style="margin-top:6px"><div class="progress-bar" style="width:${prog.percent}%"></div></div>` : ''}
       </div>
       <div style="color:var(--text-3);font-size:20px">›</div>
     `;
@@ -2056,6 +2227,30 @@ function openCourse(id){
     <p style="font-size:14px;line-height:1.8;opacity:.92;margin-top:12px">${esc(c.description)}</p>
   `;
   con.appendChild(h);
+
+  const prog = computeCourseProgress(id);
+  const cRatings = st.ratings.filter(r => r.courseId === id);
+  const avgR = cRatings.length ? (cRatings.reduce((s,r) => s+r.rating, 0)/cRatings.length).toFixed(1) : '0.0';
+  const stats = document.createElement('div');
+  stats.className = 'stats-grid';
+  stats.innerHTML = `
+    <div class="stat-card" style="--sc:#059669"><div class="stat-icon">📊</div><div class="stat-value">${prog.percent}%</div><div class="stat-label">تقدمك (${prog.done}/${prog.total})</div></div>
+    <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">⭐</div><div class="stat-value">${avgR}</div><div class="stat-label">${cRatings.length} تقييم</div></div>
+  `;
+  con.appendChild(stats);
+
+  if(prog.total > 0 && prog.percent === 100){
+    const cert = st.certificates.find(x => x.userId === st.me.id && x.courseId === id);
+    if(cert){
+      const cb = document.createElement('button');
+      cb.className = 'btn btn-gold';
+      cb.style.marginBottom = '14px';
+      cb.innerHTML = '🎓 عرض شهادتك';
+      cb.onclick = () => openCertificateView(cert.id);
+      con.appendChild(cb);
+    }
+  }
+
   if(!ls.length){
     const e = document.createElement('div');
     e.innerHTML = '<div class="empty"><div class="empty-icon">🎬</div><div class="empty-title">لا توجد دروس</div></div>';
@@ -2064,21 +2259,30 @@ function openCourse(id){
   }
   ls.forEach((l, i) => {
     const isF = l.price === 0, ow = isF || mp.some(p => p.lessonId === l.id);
+    const pg = st.progress.find(p => p.userId === st.me.id && p.lessonId === l.id);
+    const pct = ow && pg && pg.duration > 0 ? Math.min(100, Math.round((pg.position/pg.duration)*100)) : 0;
+    const lRatings = st.ratings.filter(r => r.lessonId === l.id);
+    const lAvg = lRatings.length ? (lRatings.reduce((s,r) => s+r.rating, 0)/lRatings.length).toFixed(1) : '0.0';
     const el = document.createElement('div');
     el.className = 'list-item' + (ow ? '' : ' locked');
     el.innerHTML = `
-      <div class="list-thumb ${isF ? 'free' : ow ? 'purchased' : 'locked'}">${ow ? (isF ? '🆓' : '✓') : (i+1)}</div>
+      <div class="list-thumb ${isF ? 'free' : ow ? 'purchased' : 'locked'}">${ow ? (pg?.completed ? '✓' : (isF ? '🆓' : '▶')) : (i+1)}</div>
       <div class="list-info">
-        <div class="list-title">${esc(l.title)}</div>
-        <div class="list-meta">${esc(l.description||'')}</div>
+        <div class="list-title">${esc(l.title)} ${pg?.completed ? '<span class="badge badge-active">مكتمل</span>' : ''}</div>
+        <div class="list-meta">
+          <span>${esc(l.description||'')}</span>
+          ${lRatings.length ? `<span style="color:var(--gold-2)">⭐ ${lAvg}</span>` : ''}
+        </div>
+        ${ow && pct > 0 && pct < 100 ? `<div class="progress" style="margin-top:6px"><div class="progress-bar" style="width:${pct}%"></div></div><div class="progress-text"><span>${fmtTime(pg.position)} / ${fmtTime(pg.duration)}</span><span>${pct}%</span></div>` : ''}
       </div>
-      ${ow ? '<div class="list-price purchased">مفتوح</div>' : (isF ? '<div class="list-price free">مجاني</div>' : `<div class="list-price">${fm(l.price)} ل.س</div>`)}
+      ${ow ? (pg?.completed ? '<div class="list-price purchased">✓</div>' : '<div class="list-price free">' + pct + '%</div>') : (isF ? '<div class="list-price free">مجاني</div>' : `<div class="list-price">${fm(l.price)} ل.س</div>`)}
     `;
     el.onclick = () => openLesson(l.id);
     con.appendChild(el);
   });
 }
 
+/* ==================== LESSON WATCH ==================== */
 function openLesson(id){
   const l = st.lessons.find(x => x.id === id);
   if(!l) return;
@@ -2088,12 +2292,140 @@ function openLesson(id){
   const isF = l.price === 0;
   const ow = isF || st.purchases.some(p => p.userId === st.me.id && p.lessonId === l.id);
   const c = $('#lessonContent');
+
   if(ow){
+    const pg = st.progress.find(p => p.userId === st.me.id && p.lessonId === id);
+    const startAt = pg?.position || 0;
+    const myNote = st.notes.find(n => n.userId === st.me.id && n.lessonId === id);
+    const myRating = st.ratings.find(r => r.userId === st.me.id && r.lessonId === id);
+    const lRatings = st.ratings.filter(r => r.lessonId === id);
+    const lAvg = lRatings.length ? (lRatings.reduce((s,r) => s+r.rating, 0)/lRatings.length).toFixed(1) : '0.0';
+
     c.innerHTML = `
-      <div class="video-wrap"><iframe src="https://www.youtube.com/embed/${l.youtubeId}?rel=0" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe></div>
-      <div class="card"><div style="font-size:15px;font-weight:800;margin-bottom:8px">${esc(l.title)}</div><p style="font-size:14px;color:var(--text-2);line-height:1.8;margin:0">${esc(l.description||'')}</p></div>
+      <div class="video-wrap" style="position:relative">
+        <div id="ytPlayer" style="position:absolute;inset:0;width:100%;height:100%"></div>
+      </div>
+      <div class="video-progress-strip">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <span class="watched-pill" id="watchedPill">📺 ${fmtTime(startAt)} / ...</span>
+          <span class="watched-pill ${pg?.completed ? 'done' : ''}" id="donePill">${pg?.completed ? '✓ مكتمل' : '⏳ قيد المشاهدة'}</span>
+        </div>
+        <div class="progress"><div class="progress-bar" id="vpBar" style="width:0%"></div></div>
+        <div class="progress-text"><span id="vpText">0%</span><span>${l.price === 0 ? 'مجاني' : fm(l.price) + ' ل.س'}</span></div>
+      </div>
+      <div class="card">
+        <div style="font-size:15px;font-weight:800;margin-bottom:8px">${esc(l.title)}</div>
+        <p style="font-size:14px;color:var(--text-2);line-height:1.8;margin:0">${esc(l.description||'')}</p>
+        ${lRatings.length ? `<div class="rating-summary" style="margin-top:12px"><span style="font-size:20px">⭐</span><span class="num">${lAvg}</span><span class="small">من ${lRatings.length} تقييم</span></div>` : ''}
+      </div>
+
+      <div class="card">
+        <div class="card-title">📝 ملاحظاتي على هذا الدرس</div>
+        <div class="form-group" style="margin-bottom:10px">
+          <textarea class="form-textarea" id="noteInput" placeholder="اكتب ملاحظاتك هنا...">${esc(myNote?.text||'')}</textarea>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary btn-sm" style="flex:1" id="saveNoteBtn">💾 ${myNote ? 'تحديث' : 'حفظ'} الملاحظة</button>
+          ${myNote ? `<button class="btn btn-danger btn-sm" id="delNoteBtn">🗑</button>` : ''}
+        </div>
+      </div>
+
+      <div class="card" id="ratingCard">
+        <div class="card-title">⭐ قيّم هذا الدرس</div>
+        <div class="stars-row" id="starsRow">
+          ${[1,2,3,4,5].map(n => `<button class="star-btn ${myRating && myRating.rating >= n ? 'on' : ''}" data-v="${n}">★</button>`).join('')}
+        </div>
+        <div class="form-group" style="margin-top:8px">
+          <textarea class="form-textarea" id="rateComment" placeholder="تعليق (اختياري)">${esc(myRating?.comment||'')}</textarea>
+        </div>
+        <button class="btn btn-gold btn-sm" id="submitRating" style="width:100%">${myRating ? '🔄 تحديث التقييم' : '✓ إرسال التقييم'}</button>
+        ${lRatings.length ? `
+          <div style="margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)">
+            <div style="font-size:12px;font-weight:800;color:var(--text-3);margin-bottom:8px">آراء الطلاب (${lRatings.length})</div>
+            ${lRatings.slice(0,5).map(r => {
+              const u = st.users.find(x => x.id === r.userId);
+              return `<div class="rating-item"><div class="rhead"><span class="rname">${esc(u?.name||'طالب')}</span><span class="rstars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div>${r.comment ? `<div class="rtext">${esc(r.comment)}</div>` : ''}</div>`;
+            }).join('')}
+          </div>
+        ` : ''}
+      </div>
+
       <div class="card" style="background:#d1fae5;border-color:#6ee7b7"><div style="font-size:13.5px;font-weight:700;color:#065f46">✓ الدرس مفتوح لك${isF?' (مجاني)':''}</div></div>
     `;
+
+    let selectedRating = myRating?.rating || 0;
+    $$('#starsRow .star-btn').forEach(b => {
+      b.onclick = () => {
+        selectedRating = parseInt(b.dataset.v, 10);
+        $$('#starsRow .star-btn').forEach(x => x.classList.toggle('on', parseInt(x.dataset.v) <= selectedRating));
+      };
+    });
+
+    $('#submitRating').onclick = async () => {
+      if(!selectedRating){ toast('اختر عدد النجوم','error'); return; }
+      const comment = $('#rateComment').value.trim();
+      try{
+        if(myRating){
+          await updateDoc(doc(db,'ratings',myRating.id), { rating: selectedRating, comment, updatedAt: serverTimestamp() });
+        } else {
+          await addDoc(collection(db,'ratings'), {
+            userId: st.me.id, userName: st.me.name,
+            lessonId: id, courseId: l.courseId,
+            rating: selectedRating, comment,
+            createdAt: serverTimestamp()
+          });
+          if(selectedRating >= 4 && l.teacherId){
+            await addN(l.teacherId, '⭐ تقييم جديد', `${st.me.name} قيّم درس "${l.title}" بـ ${selectedRating} نجوم`, 'success');
+          }
+        }
+        toast('تم حفظ تقييمك ✓','success');
+      }catch(e){ console.error(e); toast('تعذّر الحفظ','error'); }
+    };
+
+    $('#saveNoteBtn').onclick = async () => {
+      const text = $('#noteInput').value.trim();
+      if(!text){ toast('اكتب ملاحظتك','error'); return; }
+      try{
+        if(myNote){
+          await updateDoc(doc(db,'notes',myNote.id), { text, updatedAt: serverTimestamp() });
+        } else {
+          await addDoc(collection(db,'notes'), {
+            userId: st.me.id, lessonId: id, courseId: l.courseId,
+            lessonTitle: l.title, text,
+            createdAt: serverTimestamp()
+          });
+        }
+        toast('تم حفظ الملاحظة ✓','success');
+      }catch(e){ console.error(e); toast('تعذّر الحفظ','error'); }
+    };
+    if($('#delNoteBtn')){
+      $('#delNoteBtn').onclick = async () => {
+        if(!confirm('حذف الملاحظة؟')) return;
+        await deleteDoc(doc(db,'notes',myNote.id));
+        toast('تم الحذف'); openLesson(id);
+      };
+    }
+
+    const pill = $('#watchedPill');
+    const bar = $('#vpBar');
+    const txt = $('#vpText');
+    const donePill = $('#donePill');
+    let lastSave = 0;
+
+    createYtPlayer(l.youtubeId, startAt,
+      (t, d) => {
+        pill.textContent = `📺 ${fmtTime(t)} / ${fmtTime(d)}`;
+        const pct = Math.min(100, Math.round((t/d)*100));
+        bar.style.width = pct + '%';
+        txt.textContent = pct + '%';
+        if(t - lastSave >= 5 || (d > 0 && t >= d - 5)){
+          lastSave = t;
+          saveProgress(id, l.courseId, t, d);
+          if(d > 0 && t >= d - 5) donePill.textContent = '✓ مكتمل';
+        }
+      },
+      (d) => { markCompleted(id, l.courseId, d); donePill.textContent = '✓ مكتمل'; toast('🎉 أكملت الدرس!','success'); }
+    );
   } else {
     c.innerHTML = `
       <div class="locked-box">
@@ -2119,10 +2451,7 @@ function openBuy(lesson){
       <div style="display:flex;justify-content:space-between;font-size:13px"><span>رصيدك:</span><strong>${fm(st.me.balance)} ل.س</strong></div>
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:6px"><span>بعد الشراء:</span><strong>${fm(st.me.balance - lesson.price)} ل.س</strong></div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-success" id="buyOk">✓ تأكيد</button>
-    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-success" id="buyOk">✓ تأكيد</button></div>
   `);
   $('#buyOk').onclick = async () => {
     if(st.me.balance < lesson.price){ toast('رصيدك غير كافٍ','error'); return; }
@@ -2135,29 +2464,21 @@ function openBuy(lesson){
   };
 }
 
+/* ==================== WALLET ==================== */
 function renderWallet(){
   $('#walletBalance').textContent = fm(st.me.balance);
   const arr = st.transactions.filter(t => t.userId === st.me.id).sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
   const l = $('#studentTransactions');
   if(!arr.length){ l.innerHTML = '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد معاملات</div></div>'; return; }
   const typeMap = {
-    topup: { icon:'⬇️', color:'var(--emerald-4)', label:'إيداع' },
-    card_redeem: { icon:'🎟️', color:'var(--gold-3)', label:'كرت شحن' },
-    purchase: { icon:'🛒', color:'#dc2626', label:'شراء' },
-    withdrawal: { icon:'⬆️', color:'#0284c7', label:'سحب' },
-    admin_withdraw: { icon:'💸', color:'#d97706', label:'سحب إداري' },
-    admin_reset: { icon:'🔄', color:'#7c3aed', label:'تصفير' }
+    topup: { icon:'⬇️', color:'var(--emerald-4)' }, card_redeem: { icon:'🎟️', color:'var(--gold-3)' },
+    purchase: { icon:'🛒', color:'#dc2626' }, withdrawal: { icon:'⬆️', color:'#0284c7' },
+    admin_withdraw: { icon:'💸', color:'#d97706' }, admin_reset: { icon:'🔄', color:'#7c3aed' }
   };
   l.innerHTML = arr.map(t => {
-    const tm = typeMap[t.type] || { icon:'•', color:'#57534e', label:t.type };
+    const tm = typeMap[t.type] || { icon:'•', color:'#57534e' };
     const isCredit = ['topup','card_redeem'].includes(t.type);
-    return `
-      <div style="display:flex;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px;align-items:center">
-        <div style="width:40px;height:40px;border-radius:10px;background:${tm.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${tm.icon}</div>
-        <div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description||tm.label)}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div>
-        <div style="font-size:15px;font-weight:900;color:${isCredit?'var(--emerald-3)':'var(--danger)'}">${isCredit?'+':'-'}${fm(t.amount)}</div>
-      </div>
-    `;
+    return `<div style="display:flex;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px;align-items:center"><div style="width:40px;height:40px;border-radius:10px;background:${tm.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${tm.icon}</div><div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description||'')}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div><div style="font-size:15px;font-weight:900;color:${isCredit?'var(--emerald-3)':'var(--danger)'}">${isCredit?'+':'-'}${fm(t.amount)}</div></div>`;
   }).join('');
 }
 
@@ -2168,22 +2489,15 @@ function renderStudentWd(){
   $('#studentWdContent').innerHTML = `
     <div class="card" style="background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border:none;text-align:center;padding:26px">
       <div style="font-size:13px;opacity:.9;font-weight:700">رصيدي المتاح للسحب</div>
-      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0;letter-spacing:-1px">${fm(balance)}</div>
+      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0">${fm(balance)}</div>
       <div style="font-size:14px;opacity:.9">ليرة سورية</div>
     </div>
     <div class="card">
       <div class="card-title">سجل الطلبات</div>
-      ${myReqs.length ? myReqs.map(w => `
-        <div style="padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px">
-          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${fm(w.amount)} ل.س</strong><span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم':'مرفوض'}</span></div>
-          <div style="font-size:12px;color:var(--text-3)">${fdt(w.date)} · ${esc(w.method)} · ${esc(w.account)}</div>
-        </div>
-      `).join('') : '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد طلبات</div></div>'}
+      ${myReqs.length ? myReqs.map(w => `<div style="padding:12px;background:var(--bg-2);border-radius:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${fm(w.amount)} ل.س</strong><span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم':'مرفوض'}</span></div><div style="font-size:12px;color:var(--text-3)">${fdt(w.date)} · ${esc(w.method)} · ${esc(w.account)}</div></div>`).join('') : '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد طلبات</div></div>'}
     </div>
     <div class="card" style="background:var(--surface-2);border-color:var(--gold-5)">
-      <div style="font-size:13px;line-height:1.8;color:var(--text-2);font-weight:600">
-        💡 <strong style="color:var(--gold-2)">ملاحظة:</strong> الحد الأدنى 1000 ل.س. عند قبول الطلب، سيُخصم المبلغ من رصيدك ويُحوَّل إلى محفظتك خلال 24-48 ساعة.
-      </div>
+      <div style="font-size:13px;line-height:1.8;color:var(--text-2);font-weight:600">💡 الحد الأدنى 1000 ل.س. عند قبول الطلب، يُحوَّل خلال 24-48 ساعة.</div>
     </div>
   `;
 }
@@ -2194,29 +2508,15 @@ function openStudentWdModal(){
   openM('💸 طلب سحب رصيد', `
     <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="display:flex;justify-content:space-between"><span>المتاح:</span><strong style="color:var(--emerald-3)">${fm(balance)} ل.س</strong></div></div>
     <div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="swA" min="1000" max="${balance}"></div>
-    <div class="form-group"><label class="form-label">طريقة الاستلام</label>
-      <select class="form-select" id="swM">
-        <option value="">اختر...</option>
-        <option>شام كاش</option>
-        <option>الهرم</option>
-        <option>سيرياتيل كاش</option>
-        <option>MTN كاش</option>
-        <option>تحويل بنكي</option>
-      </select>
-    </div>
-    <div class="form-group"><label class="form-label">رقم المحفظة</label><input class="form-input" id="swAc" placeholder="09xx xxx xxx" dir="ltr" style="text-align:left"></div>
-    <div class="form-group"><label class="form-label">ملاحظة (اختياري)</label><textarea class="form-textarea" id="swN"></textarea></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-success" id="swOk">📤 إرسال</button>
-    </div>
+    <div class="form-group"><label class="form-label">طريقة الاستلام</label><select class="form-select" id="swM"><option value="">اختر...</option><option>شام كاش</option><option>الهرم</option><option>سيرياتيل كاش</option><option>MTN كاش</option><option>تحويل بنكي</option></select></div>
+    <div class="form-group"><label class="form-label">رقم المحفظة</label><input class="form-input" id="swAc" dir="ltr" style="text-align:left"></div>
+    <div class="form-group"><label class="form-label">ملاحظة</label><textarea class="form-textarea" id="swN"></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-success" id="swOk">📤 إرسال</button></div>
   `);
   $('#swOk').onclick = async () => {
-    const a = parseInt($('#swA').value, 10);
-    const m = $('#swM').value;
-    const ac = $('#swAc').value.trim();
-    if(!a || a < 1000){ toast('المبلغ 1000 ل.س على الأقل','error'); return; }
-    if(a > balance){ toast('المبلغ أكبر من المتاح','error'); return; }
+    const a = parseInt($('#swA').value, 10), m = $('#swM').value, ac = $('#swAc').value.trim();
+    if(!a || a < 1000){ toast('الحد 1000 ل.س','error'); return; }
+    if(a > balance){ toast('أكبر من المتاح','error'); return; }
     if(!m || !ac){ toast('أكمل البيانات','error'); return; }
     await addDoc(collection(db,'withdrawals'),{userId:st.me.id,role:'student',amount:a,method:m,account:ac,note:$('#swN').value.trim(),status:'pending',date:serverTimestamp()});
     closeM(); toast('تم الإرسال ✓','success'); renderStudentWd();
@@ -2226,24 +2526,165 @@ function openStudentWdModal(){
 function renderPurchases(){
   const arr = st.purchases.filter(p => p.userId === st.me.id).sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
   const l = $('#purchasesList');
-  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">🎬</div><div class="empty-title">لا توجد دروس مشتراة</div><div class="empty-text">تصفح المواد واشترِ دروسًا</div></div>'; return; }
+  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">🎬</div><div class="empty-title">لا توجد دروس مشتراة</div></div>'; return; }
   l.innerHTML = '';
   arr.forEach(p => {
     const x = st.lessons.find(y => y.id === p.lessonId);
     if(!x) return;
     const c = st.courses.find(y => y.id === x.courseId);
+    const pg = st.progress.find(pp => pp.userId === st.me.id && pp.lessonId === x.id);
+    const pct = pg && pg.duration > 0 ? Math.min(100, Math.round((pg.position/pg.duration)*100)) : 0;
     const el = document.createElement('div');
     el.className = 'list-item';
     el.innerHTML = `
-      <div class="list-thumb purchased">✓</div>
+      <div class="list-thumb purchased">${pg?.completed ? '✓' : '▶'}</div>
       <div class="list-info">
         <div class="list-title">${esc(x.title)}</div>
         <div class="list-meta"><span>${esc(c?.title||'')}</span><span>${fd(p.createdAt)}</span></div>
+        ${pct > 0 && pct < 100 ? `<div class="progress" style="margin-top:6px"><div class="progress-bar" style="width:${pct}%"></div></div>` : ''}
       </div>
     `;
     el.onclick = () => openLesson(x.id);
     l.appendChild(el);
   });
+}
+
+/* ==================== NOTES PAGE ==================== */
+function renderNotes(){
+  const arr = st.notes.filter(n => n.userId === st.me.id).sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  const l = $('#notesListContent');
+  if(!arr.length){
+    l.innerHTML = '<div class="empty"><div class="empty-icon">📝</div><div class="empty-title">لا توجد ملاحظات</div><div class="empty-text">افتح أي درس وأضف ملاحظاتك</div></div>';
+    return;
+  }
+  l.innerHTML = '';
+  arr.forEach(n => {
+    const lesson = st.lessons.find(x => x.id === n.lessonId);
+    const course = st.courses.find(x => x.id === n.courseId);
+    const el = document.createElement('div');
+    el.className = 'note-card';
+    el.innerHTML = `
+      <div class="note-head">
+        <div class="note-title">📖 ${esc(lesson?.title || n.lessonTitle || 'درس')}</div>
+        <div class="note-time">${fdt(n.updatedAt || n.createdAt)}</div>
+      </div>
+      <div class="note-body">${esc(n.text)}</div>
+      <div style="font-size:11px;color:var(--text-4);margin-top:6px">${course ? '📚 ' + esc(course.title) : ''}</div>
+      <div class="note-actions">
+        <button data-a="open">فتح الدرس</button>
+        <button data-a="del">حذف</button>
+      </div>
+    `;
+    el.querySelector('[data-a="open"]').onclick = () => openLesson(n.lessonId);
+    el.querySelector('[data-a="del"]').onclick = async () => {
+      if(!confirm('حذف هذه الملاحظة؟')) return;
+      await deleteDoc(doc(db,'notes',n.id));
+      toast('تم الحذف');
+    };
+    l.appendChild(el);
+  });
+}
+
+/* ==================== CERTIFICATES ==================== */
+function renderCertificates(){
+  const arr = st.certificates.filter(c => c.userId === st.me.id).sort((a,b) => (b.issuedAt?.seconds||0)-(a.issuedAt?.seconds||0));
+  const l = $('#certsContent');
+  if(!arr.length){
+    l.innerHTML = '<div class="empty"><div class="empty-icon">🎓</div><div class="empty-title">لا توجد شهادات بعد</div><div class="empty-text">أكمل 100% من أي دورة لتحصل على شهادة إتمام</div></div>';
+    return;
+  }
+  l.innerHTML = '';
+  arr.forEach(cert => {
+    const course = st.courses.find(c => c.id === cert.courseId);
+    const el = document.createElement('div');
+    el.className = 'list-item';
+    el.innerHTML = `
+      <div class="list-thumb gold">🎓</div>
+      <div class="list-info">
+        <div class="list-title">${esc(cert.courseTitle || course?.title || 'شهادة')}</div>
+        <div class="list-meta"><span>📅 ${fd(cert.issuedAt)}</span><span style="font-family:monospace;direction:ltr">${esc(cert.code)}</span></div>
+      </div>
+      <div style="color:var(--text-3);font-size:20px">›</div>
+    `;
+    el.onclick = () => openCertificateView(cert.id);
+    l.appendChild(el);
+  });
+}
+
+function openCertificateView(certId){
+  const cert = st.certificates.find(c => c.id === certId);
+  if(!cert) return;
+  st.curCert = certId;
+  go('studentCertificateView');
+  const course = st.courses.find(c => c.id === cert.courseId);
+  const teacher = course ? st.users.find(u => u.id === course.teacherId) : null;
+  $('#certViewContent').innerHTML = `
+    <div class="certificate">
+      <div class="cert-inner">
+        <div class="cert-logo">🎓</div>
+        <div class="cert-org">أكاديمية النبراس</div>
+        <div class="cert-title">شهادة إتمام</div>
+        <div class="cert-subtitle">Certificate of Completion</div>
+        <div class="cert-preamble">تشهد أكاديمية النبراس بأن</div>
+        <div class="cert-name">${esc(cert.userName)}</div>
+        <div class="cert-course">قد أتمّ بنجاح دورة<br><strong>${esc(cert.courseTitle)}</strong></div>
+        ${teacher ? `<div style="font-size:13px;color:#57534e;margin-top:4px">بإشراف الأستاذ: ${esc(teacher.name)}</div>` : ''}
+        <div class="cert-meta">
+          <div><strong>${fd(cert.issuedAt)}</strong>تاريخ الإصدار</div>
+          <div><strong>100%</strong>نسبة الإتمام</div>
+          <div><strong>الإدارة</strong>أكاديمية النبراس</div>
+        </div>
+        <div class="cert-code">CERTIFICATE ID: ${esc(cert.code)}</div>
+      </div>
+      <div class="cert-seal">ن</div>
+    </div>
+  `;
+}
+
+/* ==================== ACHIEVEMENTS ==================== */
+function computeAchievements(){
+  const me = st.me;
+  const myPurchases = st.purchases.filter(p => p.userId === me.id);
+  const myProgress = st.progress.filter(p => p.userId === me.id && p.completed);
+  const myCerts = st.certificates.filter(c => c.userId === me.id);
+  const myNotes = st.notes.filter(n => n.userId === me.id);
+  const myRatings = st.ratings.filter(r => r.userId === me.id);
+  const streak = me.streak || 0;
+  return [
+    { key:'first_lesson', icon:'🎯', name:'البداية الموفقة', desc:'أكمل أول درس', done: myProgress.length >= 1 },
+    { key:'ten_lessons', icon:'📚', name:'مثابر', desc:'أكمل 10 دروس', done: myProgress.length >= 10 },
+    { key:'fifty_lessons', icon:'🏅', name:'خبير', desc:'أكمل 50 درسًا', done: myProgress.length >= 50 },
+    { key:'first_cert', icon:'🎓', name:'متخرج', desc:'احصل على شهادة', done: myCerts.length >= 1 },
+    { key:'three_certs', icon:'👑', name:'متميز', desc:'3 شهادات', done: myCerts.length >= 3 },
+    { key:'notes_5', icon:'📝', name:'مدوّن', desc:'5 ملاحظات', done: myNotes.length >= 5 },
+    { key:'rate_5', icon:'⭐', name:'ناقد', desc:'قيّم 5 دروس', done: myRatings.length >= 5 },
+    { key:'streak_7', icon:'🔥', name:'ملتزم', desc:'سلسلة 7 أيام', done: streak >= 7 },
+    { key:'streak_30', icon:'💎', name:'أسطورة', desc:'سلسلة 30 يومًا', done: streak >= 30 },
+    { key:'buy_5', icon:'🛒', name:'داعم', desc:'5 عمليات شراء', done: myPurchases.length >= 5 },
+    { key:'first_purchase', icon:'💰', name:'أول شراء', desc:'اشترِ درسك الأول', done: myPurchases.length >= 1 },
+    { key:'rich', icon:'🌟', name:'مستثمر', desc:'أنفق 10,000 ل.س', done: myPurchases.reduce((s,p) => s+(p.price||0), 0) >= 10000 }
+  ];
+}
+
+function renderAchievements(){
+  const arr = computeAchievements();
+  const doneCount = arr.filter(a => a.done).length;
+  $('#achContent').innerHTML = `
+    <div class="card" style="background:linear-gradient(135deg,var(--emerald),var(--emerald-3));color:#fff;border:none;text-align:center;padding:24px">
+      <div style="font-size:13px;opacity:.9;font-weight:700">إنجازاتك</div>
+      <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:6px 0">${doneCount} / ${arr.length}</div>
+      <div style="font-size:14px;opacity:.9">🎉 استمر لفتح المزيد</div>
+    </div>
+    <div class="ach-grid">
+      ${arr.map(a => `
+        <div class="ach-tile ${a.done ? '' : 'locked'}">
+          <div class="ach-icon">${a.done ? a.icon : '🔒'}</div>
+          <div class="ach-name">${esc(a.name)}</div>
+          <div class="ach-desc">${esc(a.desc)}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 /* ==================== CHAT ==================== */
@@ -2285,9 +2726,7 @@ function renderChatList(){
   }
   if(ct.length){
     h += '<div class="section-title">ابدأ محادثة</div>';
-    ct.forEach(c => {
-      h += `<div class="conv-item" data-ct="${c.id}"><div class="conv-avatar">${ini(c.name)||'👤'}</div><div class="conv-info"><div class="conv-name">${esc(c.name)}</div><div class="conv-last">${ROLES[c.role]}${c.specialty?' · '+esc(c.specialty):''}</div></div><div class="conv-meta"><span style="color:var(--text-4)">›</span></div></div>`;
-    });
+    ct.forEach(c => { h += `<div class="conv-item" data-ct="${c.id}"><div class="conv-avatar">${ini(c.name)||'👤'}</div><div class="conv-info"><div class="conv-name">${esc(c.name)}</div><div class="conv-last">${ROLES[c.role]}${c.specialty?' · '+esc(c.specialty):''}</div></div><div class="conv-meta"><span style="color:var(--text-4)">›</span></div></div>`; });
   }
   if(!h) h = '<div class="empty"><div class="empty-icon">💬</div><div class="empty-title">لا توجد محادثات</div></div>';
   l.innerHTML = h;
@@ -2313,7 +2752,7 @@ function renderChatMessages(){
   if(!ch) return;
   const msgs = st.messages.filter(m => m.chatId === ch.id).sort((a,b) => (a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
   const c = $('#chatMessages');
-  if(!msgs.length){ c.innerHTML = '<div class="chat-empty">لا توجد رسائل بعد<br>اكتب رسالتك الأولى</div>'; return; }
+  if(!msgs.length){ c.innerHTML = '<div class="chat-empty">لا توجد رسائل بعد</div>'; return; }
   c.innerHTML = msgs.map(m => `<div class="chat-msg ${m.senderId===st.me.id?'me':'other'}"><div>${esc(m.text)}</div><div class="chat-msg-time">${ft(m.createdAt)}</div></div>`).join('');
   c.scrollTop = c.scrollHeight;
 }
@@ -2337,30 +2776,34 @@ function renderNotifications(){
   if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">🔔</div><div class="empty-title">لا توجد إشعارات</div></div>'; return; }
   const ic = {success:'✓',warning:'⚠️',danger:'❌',info:'ℹ️'};
   const bg = {success:'linear-gradient(135deg,var(--emerald-3),var(--emerald-4))',warning:'linear-gradient(135deg,var(--gold-2),var(--gold-3))',danger:'linear-gradient(135deg,#dc2626,#b91c1c)',info:'linear-gradient(135deg,#0284c7,#0369a1)'};
-  l.innerHTML = arr.map(n => `
-    <div class="card" style="margin-bottom:10px">
-      <div style="display:flex;gap:12px">
-        <div style="width:44px;height:44px;border-radius:12px;background:${bg[n.type]||bg.info};color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${ic[n.type]||'ℹ️'}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:14px;font-weight:800">${esc(n.title)}</div>
-          <div style="font-size:12.5px;color:var(--text-2);margin-top:4px;line-height:1.7">${esc(n.body)}</div>
-          <div style="font-size:11px;color:var(--text-3);margin-top:6px;font-weight:600">${fdt(n.date)}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  l.innerHTML = arr.map(n => `<div class="card" style="margin-bottom:10px"><div style="display:flex;gap:12px"><div style="width:44px;height:44px;border-radius:12px;background:${bg[n.type]||bg.info};color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${ic[n.type]||'ℹ️'}</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800">${esc(n.title)}</div><div style="font-size:12.5px;color:var(--text-2);margin-top:4px;line-height:1.7">${esc(n.body)}</div><div style="font-size:11px;color:var(--text-3);margin-top:6px;font-weight:600">${fdt(n.date)}</div></div></div></div>`).join('');
 }
 
 /* ==================== PROFILE ==================== */
 function renderProfile(){
   const u = st.me;
+  const myNotes = st.notes.filter(n => n.userId === u.id).length;
+  const myCerts = st.certificates.filter(c => c.userId === u.id).length;
+  const myAch = computeAchievements().filter(a => a.done).length;
+  const showStudentStats = u.role === 'student';
   $('#profileContent').innerHTML = `
     <div class="card" style="text-align:center;padding:28px">
       <div style="width:96px;height:96px;background:linear-gradient(135deg,var(--emerald),var(--emerald-3));border-radius:26px;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:36px;font-weight:900;margin:0 auto 16px;box-shadow:0 12px 32px -8px rgba(6,78,59,.4)">${ini(u.name)||'👤'}</div>
-      <div style="font-family:var(--font-title);font-size:22px;font-weight:900;letter-spacing:-.5px">${esc(u.name)}</div>
+      <div style="font-family:var(--font-title);font-size:22px;font-weight:900">${esc(u.name)}</div>
       <div style="font-size:14px;color:var(--text-3);margin-top:6px">${ROLES[u.role]}${u.grade?' · '+GRADES[u.grade]:''}${u.specialty?' · '+esc(u.specialty):''}</div>
       ${u.role === 'teacher' && !u.active ? '<div class="badge badge-pending" style="margin-top:12px">⏳ بانتظار التفعيل</div>' : ''}
+      ${showStudentStats && (u.streak || 0) > 0 ? `<div style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border-radius:999px;font-weight:800;font-size:13px"><span style="font-size:20px">🔥</span> سلسلة ${u.streak} أيام</div>` : ''}
     </div>
+
+    ${showStudentStats ? `
+      <div class="stats-grid" style="margin-bottom:14px">
+        <button class="stat-card" style="--sc:#d97706;text-align:right;cursor:pointer" onclick="window.__go_notes()"><div class="stat-icon">📝</div><div class="stat-value">${myNotes}</div><div class="stat-label">ملاحظة</div></button>
+        <button class="stat-card" style="--sc:#7c3aed;text-align:right;cursor:pointer" onclick="window.__go_certs()"><div class="stat-icon">🎓</div><div class="stat-value">${myCerts}</div><div class="stat-label">شهادة</div></button>
+        <button class="stat-card" style="--sc:#059669;text-align:right;cursor:pointer" onclick="window.__go_ach()"><div class="stat-icon">🏆</div><div class="stat-value">${myAch}</div><div class="stat-label">إنجاز</div></button>
+        <button class="stat-card" style="--sc:#f97316;text-align:right;cursor:pointer"><div class="stat-icon">🔥</div><div class="stat-value">${u.streak||0}</div><div class="stat-label">سلسلة</div></button>
+      </div>
+    ` : ''}
+
     <div class="card">
       <div class="card-title">✏️ تعديل البيانات</div>
       <div class="form-group"><label class="form-label">الاسم الكامل</label><input class="form-input" id="pName" value="${esc(u.name)}"></div>
@@ -2369,6 +2812,9 @@ function renderProfile(){
     </div>
     <button class="btn btn-danger" id="logoutFromProfile" style="margin-top:8px">🚪 تسجيل الخروج</button>
   `;
+  window.__go_notes = () => go('studentNotes');
+  window.__go_certs = () => go('studentCertificates');
+  window.__go_ach = () => go('studentAchievements');
   $('#saveProfile').onclick = async () => {
     const n = $('#pName').value.trim();
     if(!n){ toast('أدخل الاسم','error'); return; }
@@ -2408,7 +2854,6 @@ function bind(){
     else if(v.length >= 6) s.classList.add('medium');
     else if(v.length > 0) s.classList.add('weak');
   });
-
   $$('.role-option').forEach(el => el.onclick = () => {
     $$('.role-option').forEach(x => x.style.borderColor = 'var(--border)');
     el.style.borderColor = 'var(--emerald-3)';
@@ -2421,11 +2866,9 @@ function bind(){
   });
   const rOpt = $('.role-option[data-role="student"]');
   if(rOpt) rOpt.style.borderColor = 'var(--emerald-3)';
-
   $('#nextStepBtn').onclick = () => { if(!validateStep()) return; if(st.regStep < 4){ st.regStep++; updateStepper(); } };
   $('#prevStepBtn').onclick = () => { if(st.regStep > 1){ st.regStep--; updateStepper(); } };
   $('#registerBtn').onclick = doRegister;
-
   $('#logoutBtn').onclick = logout;
   $('#themeBtn').onclick = () => { st.theme = st.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('nb_theme', st.theme); applyTheme(); };
   $('#brandBtn').onclick = () => go('profile');
@@ -2453,47 +2896,40 @@ function bind(){
     renderUsers();
   });
   $('#userSearch').oninput = () => renderUsers();
-
   $$('#cardFilterChips .filter-chip').forEach(c => c.onclick = () => {
     $$('#cardFilterChips .filter-chip').forEach(x => x.classList.toggle('active', x === c));
     st.cardFilter = c.dataset.filter;
     renderCards();
   });
   $('#cardSearch').oninput = () => renderCards();
-
   $('#createCardsBtn').onclick = () => openCreateCardsModal();
   $('#addSubjectBtn').onclick = () => openSubM();
   $('#addCourseBtn').onclick = () => openCourseM();
   $('#addLessonBtn').onclick = () => { if(!st.courses.length){ toast('أضف دورة أولاً','error'); return; } openLessonM(); };
   $('#addMyCourseBtn').onclick = () => { if(!st.me.active){ toast('حسابك غير مفعّل','error'); return; } openCourseM(); };
   $('#addMyLessonBtn').onclick = () => { if(!st.me.active){ toast('حسابك غير مفعّل','error'); return; } const mc = st.courses.filter(c => c.teacherId === st.me.id); if(!mc.length){ toast('أضف دورة أولاً','error'); return; } openLessonM(); };
-
   $('#redeemCode').addEventListener('input', e => formatCardInput(e.target));
   $('#redeemBtn').onclick = redeemCard;
   $('#redeemCode').addEventListener('keypress', e => { if(e.key === 'Enter') redeemCard(); });
-
   $('#goStudentWithdrawal').onclick = () => go('studentWithdrawal');
   $('#requestStudentWdBtn').onclick = openStudentWdModal;
   $('#backToStudentHome').onclick = () => go('studentHome');
   $('#backToSubject').onclick = () => openSub(st.curSubject);
   $('#backToCourse').onclick = () => openCourse(st.curCourse);
   $('#requestWithdrawalBtn').onclick = openWdM;
-
   $('#askTeacherBtn').onclick = async () => {
     const l = st.lessons.find(x => x.id === st.curLesson);
     if(!l || !l.teacherId){ toast('لا يوجد معلم','error'); return; }
     const ch = await getOrCreateChat(st.me.id, l.teacherId);
     openChat(ch.id);
-    setTimeout(() => {
-      const i = $('#chatInput');
-      if(i && !i.value) i.value = 'بخصوص درس: ' + l.title + '\n';
-      i?.focus();
-    }, 200);
+    setTimeout(() => { const i = $('#chatInput'); if(i && !i.value) i.value = 'بخصوص درس: ' + l.title + '\n'; i?.focus(); }, 200);
   };
-
   $('#backToChats').onclick = () => go('chatList');
   $('#chatSend').onclick = sendMsg;
   $('#chatInput').addEventListener('keypress', e => { if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMsg(); } });
+
+  $('#backToCerts').onclick = () => go('studentCertificates');
+  $('#backToCerts2').onclick = () => go('studentCertificates');
 }
 
 /* ==================== INIT ==================== */
