@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f3460">
+<title>أكاديمية النبراس للتعليم عن بعد</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#0f3460;--brand-2:#1e5fa8;--gold:#f59e0b;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--info:#3b82f6;--bg:#f8fafc;--bg-2:#f1f5f9;--surface:#fff;--text:#0f172a;--text-2:#334155;--text-3:#64748b;--text-4:#94a3b8;--border:#e2e8f0;--radius:14px;--shadow:0 1px 3px rgba(0,0,0,.08);--font:'Tajawal',sans-serif;--safe-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;padding-bottom:calc(72px + var(--safe-bottom));-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:inherit}
+input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+.loading{position:fixed;inset:0;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:9999;color:#fff;transition:opacity .5s}
+.loading.hide{opacity:0;visibility:hidden}
+.spin{width:60px;height:60px;border-radius:50%;border:4px solid rgba(255,255,255,.2);border-top-color:var(--gold);animation:s 1s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#0f3460,#1e5fa8 50%,#f59e0b 150%)}
+.auth-card{background:#fff;border-radius:24px;padding:36px 28px;max-width:460px;width:100%;box-shadow:0 25px 50px rgba(0,0,0,.4);max-height:95vh;overflow-y:auto}
+.auth-logo{width:80px;height:80px;margin:0 auto 14px;background:linear-gradient(135deg,#0f3460,#1e5fa8);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;color:#fff;font-weight:900;box-shadow:0 12px 30px rgba(15,52,96,.4)}
+.auth-name{font-size:22px;font-weight:900;text-align:center;margin-bottom:4px}
+.auth-tag{font-size:13px;color:var(--text-3);text-align:center;font-weight:600;margin-bottom:22px}
+.tabs{display:flex;gap:4px;background:var(--bg-2);border-radius:12px;padding:4px;margin-bottom:22px}
+.tab{flex:1;padding:11px;border-radius:9px;font-size:14px;font-weight:700;color:var(--text-3);transition:all .2s}
+.tab.active{background:#fff;color:var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.fg{margin-bottom:16px}
+.fl{display:block;font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:7px}
+.fi,.fs,.ft{width:100%;padding:13px 15px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-size:15px;outline:none;transition:all .2s}
+.fi:focus,.fs:focus,.ft:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(15,52,96,.1)}
+.ft{min-height:80px;resize:vertical}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:12px;font-size:15px;font-weight:700;transition:all .15s;width:100%}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;pointer-events:none}
+.bp{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 4px 12px rgba(15,52,96,.25)}
+.bg-g{background:linear-gradient(135deg,var(--gold),#d97706);color:#fff}
+.bs{background:linear-gradient(135deg,var(--success),#059669);color:#fff}
+.bd{background:linear-gradient(135deg,var(--danger),#dc2626);color:#fff}
+.bw{background:linear-gradient(135deg,var(--warning),#d97706);color:#fff}
+.bi{background:linear-gradient(135deg,var(--info),#2563eb);color:#fff}
+.bgh{background:var(--bg-2);color:var(--text)}
+.bsm{padding:9px 14px;font-size:13px;width:auto}
+.bar{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;padding:14px 18px;box-shadow:0 4px 20px rgba(15,52,96,.3)}
+.barr{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1;cursor:pointer}
+.blogo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(245,158,11,.4),rgba(245,158,11,.15));border:1.5px solid rgba(245,158,11,.5);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;flex-shrink:0}
+.binfo{min-width:0}
+.bname{font-size:14px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uname{font-size:11.5px;opacity:.85;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bacts{display:flex;gap:7px}
+.ibtn{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px;color:#fff;position:relative}
+.ibtn:active{transform:scale(.92)}
+.ibtn .b{position:absolute;top:-4px;left:-4px;background:var(--danger);color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:999px;min-width:18px;text-align:center;border:2px solid var(--brand)}
+main{padding:20px 16px;max-width:720px;margin:0 auto}
+.pg{display:none;animation:f .3s}
+.pg.active{display:block}
+@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
+.pt{font-size:20px;font-weight:900;flex:1;letter-spacing:-.3px}
+.bk{width:40px;height:40px;border-radius:12px;background:#fff;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.bk:active{transform:scale(.94)}
+.card{background:#fff;border-radius:var(--radius);padding:18px;border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:14px}
+.ct{font-size:12.5px;font-weight:800;color:var(--text-3);letter-spacing:.5px;margin-bottom:14px;text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+.st{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.st::before{content:'';position:absolute;top:0;right:0;bottom:0;width:4px;background:var(--sc,var(--brand))}
+.si{width:40px;height:40px;border-radius:10px;background:color-mix(in srgb,var(--sc,var(--brand)) 12%,transparent);color:var(--sc,var(--brand));display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+.sv{font-size:22px;font-weight:900;line-height:1.1}
+.sl{font-size:12px;color:var(--text-3);font-weight:600;margin-top:4px}
+.ag{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.at{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:9px;position:relative;box-shadow:var(--shadow)}
+.at:active{transform:scale(.97)}
+.ai{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--tc,var(--brand)),color-mix(in srgb,var(--tc,var(--brand)) 65%,#fff));color:#fff;display:flex;align-items:center;justify-content:center;font-size:23px;box-shadow:0 8px 20px color-mix(in srgb,var(--tc,var(--brand)) 35%,transparent)}
+.atit{font-size:14px;font-weight:800}
+.ads{font-size:11.5px;color:var(--text-3);font-weight:500}
+.ab{position:absolute;top:10px;left:10px;background:var(--danger);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;min-width:20px;text-align:center}
+.li{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);cursor:pointer}
+.li:active{transform:scale(.99)}
+.li.nc{cursor:default}
+.lth{width:50px;height:50px;border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;position:relative}
+.lth.f{background:linear-gradient(135deg,var(--success),#059669)}
+.lth.l{background:linear-gradient(135deg,#6b7280,#4b5563)}
+.lth.p{background:linear-gradient(135deg,var(--info),#2563eb)}
+.lth.g{background:linear-gradient(135deg,var(--gold),#d97706)}
+.lin{flex:1;min-width:0}
+.lt{font-size:14.5px;font-weight:800;margin-bottom:3px;line-height:1.4;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.lm{font-size:12px;color:var(--text-3);font-weight:600;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lp{padding:5px 11px;border-radius:999px;font-size:11.5px;font-weight:800;background:var(--brand);color:#fff;flex-shrink:0}
+.lp.f{background:var(--success)}
+.lp.p{background:var(--info)}
+.hero{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-radius:var(--radius);padding:22px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(circle,rgba(245,158,11,.25),transparent 60%)}
+.hin{position:relative;z-index:1}
+.hl{font-size:12.5px;opacity:.9;font-weight:700}
+.ht{font-size:22px;font-weight:900;margin-top:6px;letter-spacing:-.4px}
+.hs{font-size:13.5px;opacity:.9;margin-top:4px;font-weight:600}
+.sbox{position:relative;margin-bottom:16px}
+.sbox input{width:100%;padding:13px 16px 13px 46px;border-radius:12px;border:1.5px solid var(--border);background:#fff;font-size:14.5px;outline:none}
+.sbox::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--border);color:var(--text-3)}
+.chip.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:800}
+.ba{background:#fee2e2;color:#991b1b}
+.bt{background:#ede9fe;color:#5b21b6}
+.bst{background:#dbeafe;color:#1e40af}
+.bact{background:#d1fae5;color:#065f46}
+.bpnd{background:#fef3c7;color:#92400e}
+.bin{background:#fee2e2;color:#991b1b}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:6px 4px calc(6px + var(--safe-bottom));z-index:50;max-width:720px;margin:0 auto;display:flex;justify-content:space-around;box-shadow:0 -4px 20px rgba(0,0,0,.06)}
+.nv{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:10px;color:var(--text-3);font-size:10.5px;font-weight:700;position:relative;max-width:80px}
+.nvi{font-size:22px;line-height:1;transition:transform .25s}
+.nv.active{color:var(--brand)}
+.nv.active .nvi{transform:translateY(-2px) scale(1.08)}
+.modal{position:fixed;inset:0;z-index:9999;background:rgba(15,23,42,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px rgba(0,0,0,.35)}
+.mh{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;border-radius:20px 20px 0 0;z-index:1}
+.mt{font-size:17px;font-weight:900}
+.mc{width:36px;height:36px;border-radius:10px;background:var(--bg-2);color:var(--text-2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.mb{padding:22px}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(150px);background:var(--text);color:#fff;padding:14px 24px;border-radius:14px;font-size:14px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:10000;transition:all .35s;opacity:0;max-width:calc(100% - 40px);text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+.toast.warning{background:var(--warning)}
+.empty{text-align:center;padding:50px 20px;color:var(--text-3)}
+.ei{font-size:64px;margin-bottom:16px;opacity:.35}
+.et{font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px}
+.ex{font-size:13.5px;line-height:1.7}
+.chat{display:flex;flex-direction:column;height:calc(100vh - 200px);background:#fff;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.cm{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg-2)}
+.cmsg{max-width:80%;padding:10px 14px;border-radius:16px;font-size:14.5px;line-height:1.6;word-wrap:break-word}
+.cmsg.me{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-left-radius:4px}
+.cmsg.other{background:#fff;color:var(--text);align-self:flex-start;border-bottom-right-radius:4px;border:1px solid var(--border)}
+.ctm{font-size:10.5px;opacity:.7;margin-top:4px;font-weight:500}
+.cir{display:flex;gap:8px;padding:12px;background:#fff;border-top:1px solid var(--border);align-items:center}
+.ci{flex:1;padding:11px 16px;border-radius:22px;border:1.5px solid var(--border);background:var(--bg-2);outline:none;font-size:14.5px}
+.cs{width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.conv{display:flex;align-items:center;gap:12px;padding:14px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;cursor:pointer;box-shadow:var(--shadow)}
+.conv.unread{border-right:4px solid var(--brand)}
+.cav{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
+.cin{flex:1;min-width:0}
+.cn{font-size:14.5px;font-weight:800}
+.cl{font-size:12.5px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+.cmt{text-align:left;flex-shrink:0}
+.ct2{font-size:11px;color:var(--text-4);font-weight:600}
+.cb{display:inline-block;background:var(--danger);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:5px}
+.vw{position:relative;padding-bottom:56.25%;height:0;border-radius:14px;overflow:hidden;background:#000;margin-bottom:14px}
+.vw iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lkb{background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:14px;padding:40px 24px;text-align:center;color:#fff;margin-bottom:14px}
+.li2{font-size:56px;margin-bottom:14px}
+.lkb h3{font-size:18px;font-weight:800;margin-bottom:10px}
+.lkb p{font-size:14px;opacity:.85;line-height:1.8;margin-bottom:20px}
+.prog{height:8px;background:var(--bg-2);border-radius:4px;overflow:hidden;margin:8px 0 6px}
+.pgb{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:4px;transition:width .6s}
+.pt2{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-3);font-weight:600}
+.sect{font-size:15.5px;font-weight:900;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
+.sect::before{content:'';width:4px;height:18px;background:linear-gradient(180deg,var(--brand),var(--gold));border-radius:2px}
+@media(max-width:360px){.ag,.stats,.fr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="loading" id="loadScreen">
+  <div class="spin"></div>
+  <div style="font-size:16px;font-weight:700">جاري التحميل...</div>
+</div>
+
+<div class="auth" id="authScreen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">ن</div>
+    <div class="auth-name">أكاديمية النبراس</div>
+    <div class="auth-tag">للتعليم عن بعد</div>
+    <div class="tabs">
+      <button class="tab active" data-tab="login">تسجيل دخول</button>
+      <button class="tab" data-tab="reg">حساب جديد</button>
+    </div>
+    <div id="loginPane">
+      <div class="fg"><label class="fl">اسم المستخدم</label><input class="fi" id="lu" placeholder="admin"></div>
+      <div class="fg"><label class="fl">كلمة المرور</label><input type="password" class="fi" id="lp" placeholder="••••••••"></div>
+      <button class="btn bp" id="lbtn">🔐 تسجيل الدخول</button>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px;margin-top:16px;font-size:12.5px;color:#78350f;line-height:1.8">
+        <strong>⚠️ أول استخدام؟</strong><br>اضغط "حساب جديد" وأنشئ حساب المدير.
+      </div>
+    </div>
+    <div id="regPane" style="display:none">
+      <div class="fg"><label class="fl">الاسم الكامل</label><input class="fi" id="rn" placeholder="اسمك"></div>
+      <div class="fr">
+        <div class="fg"><label class="fl">اسم المستخدم</label><input class="fi" id="ru" placeholder="admin"></div>
+        <div class="fg"><label class="fl">كلمة المرور</label><input type="password" class="fi" id="rp" placeholder="6+"></div>
+      </div>
+      <div class="fg"><label class="fl">نوع الحساب</label>
+        <select class="fs" id="rr">
+          <option value="student">👨‍🎓 طالب</option>
+          <option value="teacher">👨‍🏫 معلم</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl">رقم الهاتف</label><input class="fi" id="rph" placeholder="09xx"></div>
+      <div class="fg" id="sf"><label class="fl">الصف</label>
+        <select class="fs" id="rg">
+          <option value="9">الصف التاسع</option>
+          <option value="12sci">بكالوريا علمي</option>
+          <option value="12lit">بكالوريا أدبي</option>
+        </select>
+      </div>
+      <div class="fg" id="tf" style="display:none"><label class="fl">التخصص</label>
+        <select class="fs" id="rsp">
+          <option value="">اختر...</option>
+          <option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option>
+          <option>الأحياء</option><option>اللغة العربية</option><option>الإنجليزية</option>
+        </select>
+      </div>
+      <button class="btn bp" id="rbtn">✨ إنشاء الحساب</button>
+    </div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <header class="bar">
+    <div class="barr">
+      <div class="brand" id="brandBtn">
+        <div class="blogo">ن</div>
+        <div class="binfo">
+          <div class="bname">أكاديمية النبراس</div>
+          <div class="uname" id="ulbl">—</div>
+        </div>
+      </div>
+      <div class="bacts">
+        <button class="ibtn" id="chatBtn">💬<span class="b" id="cbdg" style="display:none">0</span></button>
+        <button class="ibtn" id="notifBtn">🔔<span class="b" id="nbdg" style="display:none">0</span></button>
+        <button class="ibtn" id="themeBtn">🌙</button>
+        <button class="ibtn" id="logoutBtn">🚪</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ADMIN HOME -->
+    <section class="pg active" id="pg-adminHome">
+      <div class="hero"><div class="hin"><div class="hl">لوحة تحكم المدير</div><div class="ht">أهلًا بك 👋</div><div class="hs" id="awel">—</div></div></div>
+      <div class="stats" id="astats"></div>
+      <div class="sect">الإدارة</div>
+      <div class="ag">
+        <button class="at" data-goto="adminUsers" style="--tc:#3b82f6"><div class="ai">👥</div><div class="atit">المستخدمون</div><div class="ads">إدارة الحسابات</div><span class="ab" id="pub" style="display:none">0</span></button>
+        <button class="at" data-goto="adminTopups" style="--tc:#f59e0b"><div class="ai">💳</div><div class="atit">طلبات الشحن</div><div class="ads">الشام كاش</div><span class="ab" id="ptb" style="display:none">0</span></button>
+        <button class="at" data-goto="adminWithdrawals" style="--tc:#10b981"><div class="ai">💸</div><div class="atit">سحب الأرباح</div><div class="ads">طلبات المعلمين</div><span class="ab" id="pwb" style="display:none">0</span></button>
+        <button class="at" data-goto="adminSubjects" style="--tc:#ec4899"><div class="ai">📖</div><div class="atit">المواد</div><div class="ads">إدارة المواد</div></button>
+        <button class="at" data-goto="adminCourses" style="--tc:#0f3460"><div class="ai">📚</div><div class="atit">الدورات</div><div class="ads">إدارة الدورات</div></button>
+        <button class="at" data-goto="adminLessons" style="--tc:#06b6d4"><div class="ai">🎬</div><div class="atit">الدروس</div><div class="ads">إدارة الدروس</div></button>
+        <button class="at" data-goto="adminPlatformEarnings" style="--tc:#f59e0b"><div class="ai">💰</div><div class="atit">عمولات المنصة</div><div class="ads">30% من المبيعات</div></button>
+        <button class="at" data-goto="chatList" style="--tc:#8b5cf6"><div class="ai">💬</div><div class="atit">الرسائل</div><div class="ads">الدردشات</div></button>
+      </div>
+    </section>
+
+    <!-- TEACHER HOME -->
+    <section class="pg" id="pg-teacherHome">
+      <div class="card" id="tp" style="display:none;background:#fffbeb;border-color:#fde68a">
+        <div style="display:flex;gap:12px"><div style="font-size:32px">⏳</div><div><div style="font-size:15px;font-weight:800;color:#92400e">حسابك قيد المراجعة</div><div style="font-size:13px;color:#78350f;line-height:1.7">سيتم تفعيل حسابك من الإدارة قريبًا.</div></div></div>
+      </div>
+      <div class="hero"><div class="hin"><div class="hl">لوحة المعلم</div><div class="ht" id="twel">—</div><div class="hs" id="tsub">—</div></div></div>
+      <div class="stats" id="tstats"></div>
+      <div class="sect">إدارة</div>
+      <div class="ag">
+        <button class="at" data-goto="teacherCourses" style="--tc:#0f3460"><div class="ai">📚</div><div class="atit">دوراتي</div><div class="ads">إنشاء وإدارة</div></button>
+        <button class="at" data-goto="teacherLessons" style="--tc:#06b6d4"><div class="ai">🎬</div><div class="atit">دروسي</div><div class="ads">إضافة دروس</div></button>
+        <button class="at" data-goto="teacherEarnings" style="--tc:#10b981"><div class="ai">💰</div><div class="atit">أرباحي</div><div class="ads">التفاصيل</div></button>
+        <button class="at" data-goto="teacherWithdrawals" style="--tc:#f59e0b"><div class="ai">💸</div><div class="atit">سحب أرباحي</div><div class="ads">طلب سحب</div></button>
+        <button class="at" data-goto="chatList" style="--tc:#8b5cf6"><div class="ai">💬</div><div class="atit">الرسائل</div><div class="ads">دردشة</div></button>
+        <button class="at" data-goto="profile" style="--tc:#64748b"><div class="ai">👤</div><div class="atit">ملفي</div><div class="ads">إعدادات</div></button>
+      </div>
+    </section>
+
+    <!-- STUDENT HOME -->
+    <section class="pg" id="pg-studentHome">
+      <div class="hero"><div class="hin"><div class="hl">مرحبًا بك 👋</div><div class="ht" id="swel">—</div><div class="hs" id="sgr">—</div></div></div>
+      <div class="stats" id="sstats"></div>
+      <div class="sect">المواد الدراسية</div>
+      <div class="ag" id="ssubs"></div>
+      <div class="sect" id="actt" style="display:none">دوراتي</div>
+      <div id="sact"></div>
+    </section>
+
+    <!-- ADMIN USERS -->
+    <section class="pg" id="pg-adminUsers">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">المستخدمون</h2><div style="width:40px"></div></div>
+      <div class="sbox"><input id="usearch" placeholder="ابحث..."></div>
+      <div class="chips" id="ufilter">
+        <button class="chip active" data-filter="all">الكل</button>
+        <button class="chip" data-filter="student">الطلاب</button>
+        <button class="chip" data-filter="teacher">المعلمون</button>
+        <button class="chip" data-filter="pending">بانتظار</button>
+      </div>
+      <div id="ulist"></div>
+    </section>
+
+    <section class="pg" id="pg-adminTopups">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">طلبات الشحن</h2><div style="width:40px"></div></div>
+      <div id="tlist"></div>
+    </section>
+
+    <section class="pg" id="pg-adminWithdrawals">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">طلبات السحب</h2><div style="width:40px"></div></div>
+      <div id="wlist"></div>
+    </section>
+
+    <section class="pg" id="pg-adminSubjects">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">المواد</h2><button class="btn bp bsm" id="addSubBtn">+ إضافة</button></div>
+      <div id="subList"></div>
+    </section>
+
+    <section class="pg" id="pg-adminCourses">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">الدورات</h2><button class="btn bp bsm" id="addCourseBtn">+ إضافة</button></div>
+      <div id="courseList"></div>
+    </section>
+
+    <section class="pg" id="pg-adminLessons">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">الدروس</h2><button class="btn bp bsm" id="addLessonBtn">+ إضافة</button></div>
+      <div id="lessonList"></div>
+    </section>
+
+    <section class="pg" id="pg-adminPlatformEarnings">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">عمولات المنصة</h2><div style="width:40px"></div></div>
+      <div id="platEarn"></div>
+    </section>
+
+    <section class="pg" id="pg-teacherCourses">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">دوراتي</h2><button class="btn bp bsm" id="addMyCourseBtn">+ إضافة</button></div>
+      <div id="myCourseList"></div>
+    </section>
+
+    <section class="pg" id="pg-teacherLessons">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">دروسي</h2><button class="btn bp bsm" id="addMyLessonBtn">+ إضافة</button></div>
+      <div id="myLessonList"></div>
+    </section>
+
+    <section class="pg" id="pg-teacherEarnings">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">أرباحي</h2><div style="width:40px"></div></div>
+      <div id="earnContent"></div>
+    </section>
+
+    <section class="pg" id="pg-teacherWithdrawals">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">سحب الأرباح</h2><button class="btn bg-g bsm" id="reqWdBtn">💸 طلب جديد</button></div>
+      <div id="wdContent"></div>
+    </section>
+
+    <section class="pg" id="pg-studentSubject">
+      <div class="ph"><button class="bk" id="bk2s">←</button><h2 class="pt" id="subTitle">المادة</h2><div style="width:40px"></div></div>
+      <div id="subCourses"></div>
+    </section>
+
+    <section class="pg" id="pg-studentCourse">
+      <div class="ph"><button class="bk" id="bk2sub">←</button><h2 class="pt" id="courseTitle">الدورة</h2><div style="width:40px"></div></div>
+      <div id="courseDet"></div>
+    </section>
+
+    <section class="pg" id="pg-studentWatch">
+      <div class="ph"><button class="bk" id="bk2course">←</button><h2 class="pt" id="lessonTitle">الدرس</h2><button class="btn bi bsm" id="askBtn">💬 اسأل</button></div>
+      <div id="lessonContent"></div>
+    </section>
+
+    <section class="pg" id="pg-studentWallet">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">محفظتي</h2><div style="width:40px"></div></div>
+      <div class="card" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;text-align:center;padding:26px">
+        <div style="font-size:13px;opacity:.9;font-weight:700">رصيدي الحالي</div>
+        <div style="font-size:46px;font-weight:900;margin:8px 0" id="wbal">0</div>
+        <div style="font-size:14px;opacity:.9;font-weight:600">ليرة سورية</div>
+      </div>
+      <div class="card">
+        <div class="ct">💳 شحن عبر الشام كاش</div>
+        <p style="font-size:13.5px;color:var(--text-2);line-height:1.8;margin-bottom:14px">حوّل المبلغ إلى رقم الشام كاش:</p>
+        <div style="background:var(--bg-2);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px">
+          <div style="font-size:12px;color:var(--text-3);font-weight:600">رقم الشام كاش</div>
+          <div style="font-size:22px;font-weight:900;color:var(--brand);margin-top:4px">0912 345 678</div>
+        </div>
+        <button class="btn bp" id="reqTopBtn">📤 طلب شحن</button>
+      </div>
+      <div class="card"><div class="ct">📋 سجل المعاملات</div><div id="stxs"></div></div>
+    </section>
+
+    <section class="pg" id="pg-studentPurchases">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">دروسي</h2><div style="width:40px"></div></div>
+      <div id="purchList"></div>
+    </section>
+
+    <section class="pg" id="pg-profile">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">ملفي</h2><div style="width:40px"></div></div>
+      <div id="profContent"></div>
+    </section>
+
+    <section class="pg" id="pg-notifications">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">الإشعارات</h2><button class="btn bgh bsm" id="clrNotif">مسح</button></div>
+      <div id="notifList"></div>
+    </section>
+
+    <section class="pg" id="pg-chatList">
+      <div class="ph"><button class="bk" data-back>←</button><h2 class="pt">الرسائل</h2><div style="width:40px"></div></div>
+      <div id="convList"></div>
+    </section>
+
+    <section class="pg" id="pg-chatRoom">
+      <div class="ph"><button class="bk" id="bk2chats">←</button><h2 class="pt" id="chatName">محادثة</h2><div style="width:40px"></div></div>
+      <div class="chat">
+        <div class="cm" id="chatMsgs"></div>
+        <div class="cir">
+          <input class="ci" id="chatInput" placeholder="اكتب رسالتك...">
+          <button class="cs" id="chatSend">➤</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bnav" id="bnav"></nav>
+</div>
+
+<div class="modal" id="modal">
+  <div class="mbox">
+    <div class="mh"><h3 class="mt" id="mTitle">—</h3><button class="mc" id="mClose">✕</button></div>
+    <div class="mb" id="mBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA0svXYd-p2p9SmIKRV4c5KzdN6O3a33RU",
+  authDomain: "nibras-c5243.firebaseapp.com",
+  projectId: "nibras-c5243",
+  storageBucket: "nibras-c5243.firebasestorage.app",
+  messagingSenderId: "576307992316",
+  appId: "1:576307992316:web:ef31c7b613e3db3cca2979"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const GRADES={'9':'الصف التاسع','12sci':'بكالوريا علمي','12lit':'بكالوريا أدبي'};
+const ROLES={admin:'مدير',teacher:'معلم',student:'طالب'};
+const SHAM='0912 345 678';
+const EMAIL_SUF='@nibras.local';
+
+const st={me:null,users:[],subjects:[],courses:[],lessons:[],purchases:[],transactions:[],topups:[],withdrawals:[],chats:[],messages:[],notifs:[],theme:'light',userFilter:'all',curChat:null,curCourse:null,curSubject:null,curLesson:null,unsubs:[]};
+
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fm=n=>Number(n||0).toLocaleString('ar-EG');
+const fd=ts=>{if(!ts)return'—';const d=ts.toDate?ts.toDate():new Date(ts);return new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'short',year:'numeric'}).format(d)};
+const fdt=ts=>{if(!ts)return'—';const d=ts.toDate?ts.toDate():new Date(ts);return new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(d)};
+const ft=ts=>{if(!ts)return'';const d=ts.toDate?ts.toDate():new Date(ts);return new Intl.DateTimeFormat('ar-EG',{hour:'2-digit',minute:'2-digit'}).format(d)};
+const ini=n=>{const p=String(n||'').trim().split(/\s+/);return((p[0]||'')[0]||'')+((p[1]||'')[0]||'')};
+
+function toast(m,t){const el=$('#toast');el.textContent=m;el.className='toast show'+(t?' '+t:'');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000)}
+function hideLoad(){const s=$('#loadScreen');if(s){s.classList.add('hide');setTimeout(()=>s.remove(),500)}}
+
+async function doLogin(){const u=$('#lu').value.trim().toLowerCase();const p=$('#lp').value;if(!u||!p){toast('أدخل البيانات','error');return}$('#lbtn').disabled=true;$('#lbtn').textContent='⏳...';try{await signInWithEmailAndPassword(auth,u+EMAIL_SUF,p)}catch(e){toast('بيانات خاطئة','error');$('#lbtn').disabled=false;$('#lbtn').textContent='🔐 تسجيل الدخول'}}
+
+async function doRegister(){
+  const n=$('#rn').value.trim(),u=$('#ru').value.trim().toLowerCase(),p=$('#rp').value,r=$('#rr').value,ph=$('#rph').value.trim();
+  if(!n||!u||!p){toast('أكمل البيانات','error');return}
+  if(u.length<3){toast('اسم المستخدم قصير','error');return}
+  if(!/^[a-z0-9_]+$/.test(u)){toast('بالإنجليزية فقط','error');return}
+  if(p.length<6){toast('كلمة المرور قصيرة','error');return}
+  let first=false;
+  try{const s=await getDocs(query(collection(db,'users'),limit(1)));first=s.empty}catch(e){first=true}
+  const fr=first?'admin':r;
+  $('#rbtn').disabled=true;$('#rbtn').textContent='⏳...';
+  try{
+    const c=await createUserWithEmailAndPassword(auth,u+EMAIL_SUF,p);
+    const data={uid:c.user.uid,name:n,username:u,role:fr,phone:ph,balance:0,active:fr==='student'||fr==='admin',createdAt:serverTimestamp()};
+    if(fr==='student')data.grade=$('#rg').value;
+    else if(fr==='teacher')data.specialty=$('#rsp').value;
+    await setDoc(doc(db,'users',c.user.uid),data);
+    if(first)toast('تم إنشاء حساب المدير ✓','success');
+  }catch(e){
+    toast(e.code==='auth/email-already-in-use'?'الاسم محجوز':'خطأ','error');
+    $('#rbtn').disabled=false;$('#rbtn').textContent='✨ إنشاء الحساب';
+  }
+}
+
+async function logout(){if(!confirm('خروج؟'))return;st.unsubs.forEach(u=>u());st.unsubs=[];await signOut(auth);location.reload()}
+
+onAuthStateChanged(auth,async user=>{
+  hideLoad();
+  if(user){
+    const d=await getDoc(doc(db,'users',user.uid));
+    if(d.exists()){
+      st.me={id:user.uid,...d.data()};
+      $('#authScreen').style.display='none';
+      $('#app').style.display='block';
+      applyTheme();updateHeader();renderNav();listenAll();
+      const r=st.me.role;
+      if(r==='admin')go('adminHome');
+      else if(r==='teacher')go('teacherHome');
+      else go('studentHome');
+    } else await signOut(auth);
+  } else {
+    st.me=null;
+    $('#authScreen').style.display='flex';
+    $('#app').style.display='none';
+  }
+});
+
+function listenAll(){
+  st.unsubs.forEach(u=>u());st.unsubs=[];
+  const cols=['users','subjects','courses','lessons','purchases','transactions','topups','withdrawals','notifications','chats','messages'];
+  const keys=['users','subjects','courses','lessons','purchases','transactions','topups','withdrawals','notifs','chats','messages'];
+  cols.forEach((c,i)=>{
+    st.unsubs.push(onSnapshot(collection(db,c),snap=>{
+      st[keys[i]]=snap.docs.map(d=>({id:d.id,...d.data()}));
+      if(c==='users'){const me=st.users.find(u=>u.id===st.me?.id);if(me){st.me=me;updateHeader()}}
+      if(c==='notifications')updateNB();
+      if(c==='chats'||c==='messages')updateCB();
+      refresh();
+    }));
+  });
+}
+
+function refresh(){const a=document.querySelector('.pg.active');if(!a)return;const n=a.id.replace('pg-','');go(n,true)}
+
+function go(name,silent){
+  $$('.pg').forEach(p=>p.classList.toggle('active',p.id==='pg-'+name));
+  $$('.nv').forEach(b=>b.classList.toggle('active',b.dataset.nav===name));
+  if(!silent)window.scrollTo({top:0,behavior:'smooth'});
+  const map={adminHome:renderAH,adminUsers:renderU,adminTopups:renderT,adminWithdrawals:renderWA,adminSubjects:renderSubs,adminCourses:renderAC,adminLessons:renderAL,adminPlatformEarnings:renderPE,teacherHome:renderTH,teacherCourses:renderMC,teacherLessons:renderML,teacherEarnings:renderE,teacherWithdrawals:renderWT,studentHome:renderSH,studentWallet:renderW,studentPurchases:renderP,chatList:renderCL,chatRoom:renderCM,profile:renderProf,notifications:renderN};
+  if(map[name])map[name]();
+}
+
+function renderNav(){
+  const r=st.me.role;let items=[];
+  if(r==='admin')items=[{id:'adminHome',i:'🏠',l:'الرئيسية'},{id:'adminUsers',i:'👥',l:'المستخدمون'},{id:'adminWithdrawals',i:'💸',l:'السحب'},{id:'chatList',i:'💬',l:'الرسائل'},{id:'profile',i:'👤',l:'ملفي'}];
+  else if(r==='teacher')items=[{id:'teacherHome',i:'🏠',l:'الرئيسية'},{id:'teacherCourses',i:'📚',l:'دوراتي'},{id:'teacherEarnings',i:'💰',l:'أرباحي'},{id:'chatList',i:'💬',l:'الرسائل'},{id:'profile',i:'👤',l:'ملفي'}];
+  else items=[{id:'studentHome',i:'🏠',l:'الرئيسية'},{id:'studentPurchases',i:'🎬',l:'دروسي'},{id:'studentWallet',i:'💰',l:'محفظتي'},{id:'chatList',i:'💬',l:'الرسائل'},{id:'profile',i:'👤',l:'ملفي'}];
+  $('#bnav').innerHTML=items.map(x=>`<button class="nv" data-nav="${x.id}"><span class="nvi">${x.i}</span><span>${x.l}</span></button>`).join('');
+  $$('.nv').forEach(b=>b.onclick=()=>go(b.dataset.nav));
+}
+
+function updateHeader(){const u=st.me;if(!u)return;$('#ulbl').textContent=u.name+' · '+ROLES[u.role]}
+
+function calcSplit(p){const pl=Math.round(p*.3);return{price:p,platform:pl,teacher:p-pl}}
+function getTE(tid){const lids=st.lessons.filter(l=>l.teacherId===tid).map(l=>l.id);const sales=st.purchases.filter(p=>lids.includes(p.lessonId));const ts=sales.reduce((s,p)=>s+(p.price||0),0);const pl=Math.round(ts*.3);return{salesCount:sales.length,totalSales:ts,platformTotal:pl,teacherTotal:ts-pl,sales}}
+function getTB(tid){const{teacherTotal}=getTE(tid);const wd=st.withdrawals.filter(w=>w.teacherId===tid&&w.status==='approved').reduce((s,w)=>s+w.amount,0);const pd=st.withdrawals.filter(w=>w.teacherId===tid&&w.status==='pending').reduce((s,w)=>s+w.amount,0);return{total:teacherTotal,withdrawn:wd,pending:pd,available:teacherTotal-wd-pd}}
+function getPE(){const ts=st.purchases.reduce((s,p)=>s+(p.price||0),0);const pl=Math.round(ts*.3);return{totalSales:ts,platformTotal:pl,teachersTotal:ts-pl,salesCount:st.purchases.length}}
+
+function renderAH(){
+  const ss=st.users.filter(u=>u.role==='student').length;
+  const tt=st.users.filter(u=>u.role==='teacher').length;
+  const at=st.users.filter(u=>u.role==='teacher'&&u.active).length;
+  const pend=tt-at;
+  const pt=st.topups.filter(x=>x.status==='pending').length;
+  const pw=st.withdrawals.filter(x=>x.status==='pending').length;
+  const pd=getPE();
+  $('#awel').textContent=st.me.name;
+  $('#astats').innerHTML=`
+    <div class="st" style="--sc:#3b82f6"><div class="si">👨‍🎓</div><div class="sv">${ss}</div><div class="sl">طالب</div></div>
+    <div class="st" style="--sc:#8b5cf6"><div class="si">👨‍🏫</div><div class="sv">${at}/${tt}</div><div class="sl">معلم مفعّل</div></div>
+    <div class="st" style="--sc:#10b981"><div class="si">💰</div><div class="sv">${fm(pd.platformTotal)}</div><div class="sl">عمولات المنصة</div></div>
+    <div class="st" style="--sc:#f59e0b"><div class="si">🛒</div><div class="sv">${fm(pd.totalSales)}</div><div class="sl">المبيعات</div></div>`;
+  const pu=$('#pub');if(pend>0){pu.textContent=pend;pu.style.display='block'}else pu.style.display='none';
+  const ptb=$('#ptb');if(pt>0){ptb.textContent=pt;ptb.style.display='block'}else ptb.style.display='none';
+  const pwb=$('#pwb');if(pw>0){pwb.textContent=pw;pwb.style.display='block'}else pwb.style.display='none';
+}
+
+function renderU(){
+  const q=($('#usearch')?.value||'').trim().toLowerCase();
+  const f=st.userFilter;let arr=st.users;
+  if(q)arr=arr.filter(u=>u.name.toLowerCase().includes(q)||u.username.toLowerCase().includes(q));
+  if(f==='student')arr=arr.filter(u=>u.role==='student');
+  if(f==='teacher')arr=arr.filter(u=>u.role==='teacher');
+  if(f==='pending')arr=arr.filter(u=>u.role==='teacher'&&!u.active);
+  const l=$('#ulist');
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">👥</div><div class="et">لا يوجد مستخدمون</div></div>';return}
+  l.innerHTML='';
+  arr.forEach(u=>{
+    const el=document.createElement('div');
+    el.className='li nc';
+    el.innerHTML=`
+      <div class="lth">${ini(u.name)||'👤'}</div>
+      <div class="lin">
+        <div class="lt">${esc(u.name)} <span class="badge b${u.role==='admin'?'a':u.role==='teacher'?'t':'st'}">${ROLES[u.role]}</span></div>
+        <div class="lm"><span>@${esc(u.username)}</span>${u.grade?'<span>'+GRADES[u.grade]+'</span>':''}${u.role==='student'?'<span>💰 '+fm(u.balance)+'</span>':''}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-direction:column">
+        ${u.role==='teacher'&&!u.active?`<button class="btn bs bsm" data-a="act" data-id="${u.id}">✓ تفعيل</button>`:''}
+        ${u.role==='teacher'&&u.active?`<button class="btn bw bsm" data-a="dea" data-id="${u.id}">إيقاف</button>`:''}
+        ${u.role==='student'?`<button class="btn bi bsm" data-a="bal" data-id="${u.id}">💰 رصيد</button>`:''}
+      </div>`;
+    el.querySelectorAll('[data-a]').forEach(b=>b.onclick=async e=>{
+      e.stopPropagation();
+      const a=b.dataset.a,id=b.dataset.id;
+      if(a==='act'){await updateDoc(doc(db,'users',id),{active:true});await addN(id,'✅ تم تفعيل حسابك','حسابك كمعلّم مفعّل.','success');toast('تم التفعيل','success')}
+      else if(a==='dea'){await updateDoc(doc(db,'users',id),{active:false});toast('تم الإيقاف','warning')}
+      else if(a==='bal')openBal(id);
+    });
+    l.appendChild(el);
+  });
+}
+
+function openBal(id){
+  const u=st.users.find(x=>x.id===id);if(!u)return;
+  openM('💰 إضافة رصيد',`
+    <div class="fg"><label class="fl">الطالب</label><input class="fi" value="${esc(u.name)}" readonly></div>
+    <div class="fg"><label class="fl">الرصيد الحالي</label><input class="fi" value="${fm(u.balance)} ل.س" readonly></div>
+    <div class="fg"><label class="fl">المبلغ</label><input type="number" class="fi" id="balAmt" placeholder="5000"></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bs" id="balOk">+ إضافة</button></div>`);
+  $('#balOk').onclick=async()=>{
+    const a=parseInt($('#balAmt').value,10);
+    if(!a||a<=0){toast('مبلغ خطأ','error');return}
+    await updateDoc(doc(db,'users',id),{balance:(u.balance||0)+a});
+    await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:'إضافة رصيد',date:serverTimestamp()});
+    await addN(id,'💰 رصيد جديد',`أُضيف ${fm(a)} ل.س`,'success');
+    closeM();toast('تمت الإضافة','success');
+  };
+}
+
+function renderT(){
+  const l=$('#tlist');const arr=[...st.topups].sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">💳</div><div class="et">لا توجد طلبات</div></div>';return}
+  l.innerHTML='';
+  arr.forEach(r=>{
+    const u=st.users.find(x=>x.id===r.userId);
+    const el=document.createElement('div');el.className='card';
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px"><div><div style="font-size:15px;font-weight:800">${esc(u?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${fdt(r.date)}</div></div><span class="badge b${r.status==='pending'?'pnd':r.status==='approved'?'act':'in'}">${r.status==='pending'?'قيد المراجعة':r.status==='approved'?'مقبول':'مرفوض'}</span></div>
+      <div style="background:var(--bg-2);border-radius:10px;padding:12px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px"><span>المبلغ</span><strong>${fm(r.amount)} ل.س</strong></div>
+        <div style="display:flex;justify-content:space-between;font-size:13.5px"><span>رقم العملية</span><strong>${esc(r.receipt)}</strong></div>
+      </div>
+      ${r.status==='pending'?`<div style="display:flex;gap:8px"><button class="btn bs bsm" style="flex:1" data-a="ap" data-id="${r.id}">✓ قبول</button><button class="btn bd bsm" style="flex:1" data-a="rj" data-id="${r.id}">✗ رفض</button></div>`:''}`;
+    el.querySelectorAll('[data-a]').forEach(b=>b.onclick=async()=>{
+      const rq=st.topups.find(x=>x.id===b.dataset.id);
+      if(b.dataset.a==='ap'){
+        const u2=st.users.find(x=>x.id===rq.userId);
+        await updateDoc(doc(db,'topups',rq.id),{status:'approved'});
+        await updateDoc(doc(db,'users',rq.userId),{balance:(u2.balance||0)+rq.amount});
+        await addDoc(collection(db,'transactions'),{userId:rq.userId,type:'topup',amount:rq.amount,description:'شحن مقبول',date:serverTimestamp()});
+        await addN(rq.userId,'💰 تم القبول',`أُضيف ${fm(rq.amount)} ل.س`,'success');
+        toast('تم القبول','success');
+      } else {
+        await updateDoc(doc(db,'topups',rq.id),{status:'rejected'});
+        await addN(rq.userId,'❌ رفض','تواصل مع الإدارة','danger');
+        toast('تم الرفض','warning');
+      }
+    });
+    l.appendChild(el);
+  });
+}
+
+function renderWA(){
+  const l=$('#wlist');const arr=[...st.withdrawals].sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">💸</div><div class="et">لا توجد طلبات</div></div>';return}
+  l.innerHTML='';
+  arr.forEach(w=>{
+    const t=st.users.find(x=>x.id===w.teacherId);
+    const el=document.createElement('div');el.className='card';
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px"><div><div style="font-size:15px;font-weight:800">${esc(t?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${fdt(w.date)}</div></div><span class="badge b${w.status==='pending'?'pnd':w.status==='approved'?'act':'in'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'تم الدفع':'مرفوض'}</span></div>
+      <div style="background:var(--bg-2);border-radius:10px;padding:12px;margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>المبلغ</span><strong>${fm(w.amount)} ل.س</strong></div>
+        <div style="display:flex;justify-content:space-between"><span>${esc(w.method)}</span><strong>${esc(w.account)}</strong></div>
+      </div>
+      ${w.status==='pending'?`<div style="display:flex;gap:8px"><button class="btn bs bsm" style="flex:1" data-a="ap" data-id="${w.id}">✓ تم الدفع</button><button class="btn bd bsm" style="flex:1" data-a="rj" data-id="${w.id}">✗ رفض</button></div>`:''}`;
+    el.querySelectorAll('[data-a]').forEach(b=>b.onclick=async()=>{
+      const rq=st.withdrawals.find(x=>x.id===b.dataset.id);
+      if(b.dataset.a==='ap'){
+        await updateDoc(doc(db,'withdrawals',rq.id),{status:'approved',paidAt:serverTimestamp()});
+        await addN(rq.teacherId,'✅ تم تحويل أرباحك',`${fm(rq.amount)} ل.س`,'success');
+        toast('تم الدفع','success');
+      } else {
+        await updateDoc(doc(db,'withdrawals',rq.id),{status:'rejected'});
+        await addN(rq.teacherId,'❌ رفض','تواصل مع الإدارة','danger');
+        toast('تم الرفض','warning');
+      }
+    });
+    l.appendChild(el);
+  });
+}
+
+function renderSubs(){
+  const l=$('#subList');
+  if(!st.subjects.length){l.innerHTML='<div class="empty"><div class="ei">📖</div><div class="et">لا توجد مواد</div></div>';return}
+  l.innerHTML='';
+  st.subjects.forEach(s=>{
+    const el=document.createElement('div');el.className='li nc';
+    el.innerHTML=`<div class="lth">${s.icon||'📖'}</div><div class="lin"><div class="lt">${esc(s.name)}</div><div class="lm">${(s.grades||[]).map(g=>GRADES[g]).join(' · ')}</div></div><button class="btn bd bsm" data-d="${s.id}">🗑</button>`;
+    el.querySelector('[data-d]').onclick=async e=>{e.stopPropagation();if(!confirm('حذف؟'))return;await deleteDoc(doc(db,'subjects',s.id));toast('تم الحذف')};
+    l.appendChild(el);
+  });
+}
+
+function openSubM(){
+  openM('📖 مادة جديدة',`
+    <div class="fg"><label class="fl">الاسم</label><input class="fi" id="sN"></div>
+    <div class="fg"><label class="fl">الأيقونة</label><input class="fi" id="sI" placeholder="📐" maxlength="4"></div>
+    <div class="fg"><label class="fl">الصفوف</label>
+      <div style="display:grid;gap:8px">
+        ${Object.entries(GRADES).map(([k,v])=>`<label style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px"><input type="checkbox" data-g="${k}" style="width:18px;height:18px"><span>${v}</span></label>`).join('')}
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bp" id="sOk">حفظ</button></div>`);
+  $('#sOk').onclick=async()=>{
+    const n=$('#sN').value.trim();if(!n){toast('أدخل الاسم','error');return}
+    const g=$$('#mBody [data-g]:checked').map(c=>c.dataset.g);
+    if(!g.length){toast('اختر صفًا','error');return}
+    await addDoc(collection(db,'subjects'),{name:n,icon:$('#sI').value.trim()||'📖',grades:g,createdAt:serverTimestamp()});
+    closeM();toast('تم ✓','success');
+  };
+}
+
+function renderAC(){
+  const l=$('#courseList');
+  if(!st.courses.length){l.innerHTML='<div class="empty"><div class="ei">📚</div><div class="et">لا توجد دورات</div></div>';return}
+  l.innerHTML='';
+  [...st.courses].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(c=>{
+    const s=st.subjects.find(x=>x.id===c.subjectId);
+    const t=st.users.find(x=>x.id===c.teacherId);
+    const cnt=st.lessons.filter(x=>x.courseId===c.id).length;
+    const el=document.createElement('div');el.className='li nc';
+    el.innerHTML=`<div class="lth">${s?.icon||'📚'}</div><div class="lin"><div class="lt">${esc(c.title)}</div><div class="lm"><span>${esc(s?.name||'')}</span><span>${GRADES[c.grade]||''}</span><span>🎬 ${cnt}</span></div>${t?`<div style="font-size:11.5px;color:var(--text-3);margin-top:4px">👨‍🏫 ${esc(t.name)}</div>`:''}</div><button class="btn bd bsm" data-d="${c.id}">🗑</button>`;
+    el.querySelector('[data-d]').onclick=async e=>{e.stopPropagation();if(!confirm('حذف؟'))return;await deleteDoc(doc(db,'courses',c.id));toast('تم')};
+    l.appendChild(el);
+  });
+}
+
+function openCourseM(c){
+  const isNew=!c;
+  if(!st.subjects.length){toast('أضف مادة أولاً','error');return}
+  c=c||{id:'',title:'',subjectId:st.subjects[0].id,grade:'9',teacherId:st.me.role==='teacher'?st.me.id:'',description:''};
+  const ts=st.users.filter(u=>u.role==='teacher'&&u.active);
+  openM(isNew?'📚 دورة جديدة':'✏️ تعديل',`
+    <div class="fg"><label class="fl">العنوان</label><input class="fi" id="cT" value="${esc(c.title)}"></div>
+    <div class="fg"><label class="fl">المادة</label><select class="fs" id="cS">${st.subjects.map(s=>`<option value="${s.id}" ${c.subjectId===s.id?'selected':''}>${s.icon} ${esc(s.name)}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">الصف</label><select class="fs" id="cG">${Object.entries(GRADES).map(([k,v])=>`<option value="${k}" ${c.grade===k?'selected':''}>${v}</option>`).join('')}</select></div>
+    ${st.me.role==='admin'?`<div class="fg"><label class="fl">المعلم</label><select class="fs" id="cTe"><option value="">—</option>${ts.map(t=>`<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>`:''}
+    <div class="fg"><label class="fl">الوصف</label><textarea class="ft" id="cD">${esc(c.description)}</textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bp" id="cOk">حفظ</button></div>`);
+  $('#cOk').onclick=async()=>{
+    const t=$('#cT').value.trim();if(!t){toast('أدخل العنوان','error');return}
+    const d={title:t,subjectId:$('#cS').value,grade:$('#cG').value,description:$('#cD').value.trim(),teacherId:st.me.role==='admin'?($('#cTe')?.value||''):st.me.id};
+    if(isNew){d.createdAt=serverTimestamp();await addDoc(collection(db,'courses'),d)}
+    else await updateDoc(doc(db,'courses',c.id),d);
+    closeM();toast('تم ✓','success');
+  };
+}
+
+function renderAL(){
+  const l=$('#lessonList');
+  if(!st.lessons.length){l.innerHTML='<div class="empty"><div class="ei">🎬</div><div class="et">لا توجد دروس</div></div>';return}
+  l.innerHTML='';
+  [...st.lessons].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x=>{
+    const c=st.courses.find(y=>y.id===x.courseId);
+    const el=document.createElement('div');el.className='li nc';
+    el.innerHTML=`<div class="lth ${x.price===0?'f':''}">${x.price===0?'🆓':'💰'}</div><div class="lin"><div class="lt">${esc(x.title)}</div><div class="lm"><span>${esc(c?.title||'')}</span><span>${x.price===0?'مجاني':fm(x.price)+' ل.س'}</span></div></div><button class="btn bd bsm" data-d="${x.id}">🗑</button>`;
+    el.querySelector('[data-d]').onclick=async e=>{e.stopPropagation();if(!confirm('حذف؟'))return;await deleteDoc(doc(db,'lessons',x.id));toast('تم')};
+    l.appendChild(el);
+  });
+}
+
+function extractYT(i){if(!i)return'';if(/^[a-zA-Z0-9_-]{11}$/.test(i))return i;const p=[/(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,/(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,/(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,/(?:youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/];for(const r of p){const m=i.match(r);if(m)return m[1]}return''}
+
+function openLessonM(l){
+  const isNew=!l;
+  if(!st.courses.length){toast('أضف دورة','error');return}
+  l=l||{id:'',courseId:'',title:'',youtubeId:'',price:0,description:''};
+  const av=st.me.role==='teacher'?st.courses.filter(c=>c.teacherId===st.me.id):st.courses;
+  if(!av.length){toast('ليس لديك دورات','error');return}
+  if(!l.courseId)l.courseId=av[0].id;
+  openM(isNew?'🎬 درس جديد':'✏️ تعديل',`
+    <div class="fg"><label class="fl">الدورة</label><select class="fs" id="lC">${av.map(c=>`<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${esc(c.title)}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">العنوان</label><input class="fi" id="lT" value="${esc(l.title)}"></div>
+    <div class="fg"><label class="fl">رابط يوتيوب</label><input class="fi" id="lY" value="${esc(l.youtubeId)}" dir="ltr"></div>
+    <div class="fg"><label class="fl">السعر (0 = مجاني)</label><input type="number" class="fi" id="lP" value="${l.price}"></div>
+    <div class="fg"><label class="fl">الوصف</label><textarea class="ft" id="lD">${esc(l.description)}</textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bp" id="lOk">حفظ</button></div>`);
+  $('#lOk').onclick=async()=>{
+    const t=$('#lT').value.trim(),y=$('#lY').value.trim();
+    if(!t||!y){toast('أكمل البيانات','error');return}
+    const yt=extractYT(y);if(!yt){toast('رابط خطأ','error');return}
+    const co=st.courses.find(c=>c.id===$('#lC').value);
+    const d={title:t,courseId:$('#lC').value,youtubeId:yt,price:parseInt($('#lP').value,10)||0,description:$('#lD').value.trim(),teacherId:co?.teacherId||''};
+    if(isNew){d.createdAt=serverTimestamp();await addDoc(collection(db,'lessons'),d)}
+    else await updateDoc(doc(db,'lessons',l.id),d);
+    closeM();toast('تم ✓','success');
+  };
+}
+
+function renderPE(){
+  const d=getPE();
+  const te=st.users.filter(u=>u.role==='teacher');
+  const stats=te.map(t=>{const e=getTE(t.id);return{teacher:t,...e}}).filter(x=>x.salesCount>0).sort((a,b)=>b.platformTotal-a.platformTotal);
+  $('#platEarn').innerHTML=`
+    <div class="card" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;text-align:center;padding:24px">
+      <div style="font-size:13px;opacity:.9;font-weight:700">عمولات المنصة (30%)</div>
+      <div style="font-size:44px;font-weight:900;margin:8px 0">${fm(d.platformTotal)}</div>
+      <div style="font-size:14px;opacity:.9">ليرة سورية</div>
+    </div>
+    <div class="stats">
+      <div class="st" style="--sc:#3b82f6"><div class="si">🛒</div><div class="sv">${fm(d.totalSales)}</div><div class="sl">المبيعات</div></div>
+      <div class="st" style="--sc:#10b981"><div class="si">👨‍🏫</div><div class="sv">${fm(d.teachersTotal)}</div><div class="sl">حصة المعلمين</div></div>
+    </div>
+    <div class="card">
+      <div class="ct">التوزيع</div>
+      <div style="height:32px;border-radius:10px;overflow:hidden;display:flex;margin:12px 0 8px">
+        <div style="width:70%;background:linear-gradient(90deg,#10b981,#059669);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">70% للمعلم</div>
+        <div style="width:30%;background:linear-gradient(90deg,#d97706,#f59e0b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">30%</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">تفاصيل المعلمين</div>
+      ${stats.length?stats.map(t=>`
+        <div style="padding:14px;background:var(--bg-2);border-radius:12px;margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+            <div><div style="font-weight:800">${esc(t.teacher.name)}</div><div style="font-size:11.5px;color:var(--text-3)">${t.salesCount} عملية</div></div>
+            <div style="text-align:left"><div style="font-size:11px;color:#d97706;font-weight:800">عمولة</div><div style="font-size:16px;font-weight:900;color:#d97706">${fm(t.platformTotal)}</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11.5px">
+            <div style="background:#fff;padding:8px;border-radius:8px;text-align:center"><div style="color:var(--text-3)">المبيعات</div><div style="font-weight:900">${fm(t.totalSales)}</div></div>
+            <div style="background:#d1fae5;padding:8px;border-radius:8px;text-align:center"><div style="color:#065f46">حصة المعلم</div><div style="font-weight:900;color:#065f46">${fm(t.teacherTotal)}</div></div>
+          </div>
+        </div>`).join(''):'<div class="empty" style="padding:20px"><div class="ex">لا توجد مبيعات</div></div>'}
+    </div>`;
+}
+
+function renderTH(){
+  const me=st.me;
+  const mc=st.courses.filter(c=>c.teacherId===me.id);
+  const ml=st.lessons.filter(l=>l.teacherId===me.id);
+  const e=getTE(me.id),b=getTB(me.id);
+  $('#tp').style.display=me.active?'none':'block';
+  $('#twel').textContent=me.name;
+  $('#tsub').textContent=me.specialty?'أستاذ '+me.specialty:'معلم';
+  $('#tstats').innerHTML=`
+    <div class="st" style="--sc:#0f3460"><div class="si">📚</div><div class="sv">${mc.length}</div><div class="sl">دورة</div></div>
+    <div class="st" style="--sc:#06b6d4"><div class="si">🎬</div><div class="sv">${ml.length}</div><div class="sl">درس</div></div>
+    <div class="st" style="--sc:#10b981"><div class="si">💰</div><div class="sv">${fm(b.available)}</div><div class="sl">رصيد متاح</div></div>
+    <div class="st" style="--sc:#f59e0b"><div class="si">🛒</div><div class="sv">${e.salesCount}</div><div class="sl">مبيعات</div></div>`;
+}
+
+function renderMC(){
+  const l=$('#myCourseList');const arr=st.courses.filter(c=>c.teacherId===st.me.id);
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">📚</div><div class="et">لا توجد دورات</div></div>';return}
+  l.innerHTML='';
+  arr.forEach(c=>{
+    const s=st.subjects.find(x=>x.id===c.subjectId);
+    const cnt=st.lessons.filter(x=>x.courseId===c.id).length;
+    const el=document.createElement('div');el.className='li nc';
+    el.innerHTML=`<div class="lth">${s?.icon||'📚'}</div><div class="lin"><div class="lt">${esc(c.title)}</div><div class="lm"><span>🎓 ${GRADES[c.grade]||''}</span><span>🎬 ${cnt}</span></div></div><button class="btn bp bsm" data-al="${c.id}">+ درس</button>`;
+    el.querySelector('[data-al]').onclick=e=>{e.stopPropagation();if(!st.me.active){toast('حسابك غير مفعّل','error');return}openLessonM(null)};
+    l.appendChild(el);
+  });
+}
+
+function renderML(){
+  const l=$('#myLessonList');const arr=st.lessons.filter(x=>x.teacherId===st.me.id);
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">🎬</div><div class="et">لا توجد دروس</div></div>';return}
+  l.innerHTML='';
+  [...arr].sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x=>{
+    const c=st.courses.find(y=>y.id===x.courseId);
+    const sales=st.purchases.filter(p=>p.lessonId===x.id).length;
+    const el=document.createElement('div');el.className='li nc';
+    el.innerHTML=`<div class="lth ${x.price===0?'f':''}">${x.price===0?'🆓':'💰'}</div><div class="lin"><div class="lt">${esc(x.title)}</div><div class="lm"><span>${esc(c?.title||'')}</span><span>🛒 ${sales}</span></div></div><button class="btn bd bsm" data-d="${x.id}">🗑</button>`;
+    el.querySelector('[data-d]').onclick=async e=>{e.stopPropagation();if(!confirm('حذف؟'))return;await deleteDoc(doc(db,'lessons',x.id));toast('تم')};
+    l.appendChild(el);
+  });
+}
+
+function renderE(){
+  const me=st.me,d=getTE(me.id),b=getTB(me.id);
+  $('#earnContent').innerHTML=`
+    <div class="card" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;text-align:center;padding:24px">
+      <div style="font-size:13px;opacity:.9;font-weight:700">صافي أرباحك (70%)</div>
+      <div style="font-size:44px;font-weight:900;margin:8px 0">${fm(d.teacherTotal)}</div>
+      <div style="font-size:14px;opacity:.9">ليرة سورية</div>
+      <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:12px;margin-top:14px;font-size:12.5px;font-weight:700">من ${d.salesCount} عملية · متاح: ${fm(b.available)} ل.س</div>
+    </div>
+    <div class="card">
+      <div class="ct">تفصيل</div>
+      <div style="display:flex;justify-content:space-between;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:10px"><span>إجمالي المبيعات</span><strong>${fm(d.totalSales)} ل.س</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:12px;background:#fee2e2;border-radius:10px;margin-bottom:10px"><span style="color:#991b1b">عمولة الأكاديمية (30%)</span><strong style="color:#991b1b">-${fm(d.platformTotal)} ل.س</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:14px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:10px;border:2px solid #10b981"><strong style="color:#065f46">صافي (70%)</strong><strong style="color:#065f46;font-size:18px">${fm(d.teacherTotal)} ل.س</strong></div>
+    </div>
+    <div class="card">
+      <div class="ct">سجل المبيعات</div>
+      ${d.sales.length?d.sales.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).map(s=>{
+        const l=st.lessons.find(x=>x.id===s.lessonId);
+        const b2=st.users.find(x=>x.id===s.userId);
+        const sp=calcSplit(s.price);
+        return `<div style="padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><div style="font-size:13px;font-weight:800">${esc(l?.title||'')}</div><div style="font-size:11px;color:var(--text-3)">${esc(b2?.name||'')} · ${fdt(s.createdAt)}</div></div><div style="font-size:15px;font-weight:900;color:var(--success)">+${fm(sp.teacher)}</div></div>
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;padding-top:6px;border-top:1px dashed var(--border);color:var(--text-3)"><span>${fm(s.price)}</span><span style="color:#991b1b">عمولة: ${fm(sp.platform)}</span></div>
+        </div>`;
+      }).join(''):'<div class="empty" style="padding:20px"><div class="ex">لا توجد مبيعات</div></div>'}
+    </div>`;
+}
+
+function renderWT(){
+  const me=st.me,b=getTB(me.id);
+  const rq=st.withdrawals.filter(w=>w.teacherId===me.id).sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  $('#wdContent').innerHTML=`
+    <div class="card" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;text-align:center;padding:24px">
+      <div style="font-size:13px;opacity:.9;font-weight:700">الرصيد المتاح للسحب</div>
+      <div style="font-size:42px;font-weight:900;margin:8px 0">${fm(b.available)}</div>
+      <div style="font-size:14px;opacity:.9">ليرة سورية</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
+        <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px"><div style="font-size:11px">إجمالي</div><div style="font-size:15px;font-weight:900">${fm(b.total)}</div></div>
+        <div style="background:rgba(255,255,255,.15);border-radius:10px;padding:10px"><div style="font-size:11px">تم سحبه</div><div style="font-size:15px;font-weight:900">${fm(b.withdrawn)}</div></div>
+      </div>
+    </div>
+    <div class="card"><div class="ct">سجل الطلبات</div>
+      ${rq.length?rq.map(w=>`<div style="padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong>${fm(w.amount)} ل.س</strong><span class="badge b${w.status==='pending'?'pnd':w.status==='approved'?'act':'in'}">${w.status==='pending'?'مراجعة':w.status==='approved'?'مدفوع':'مرفوض'}</span></div>
+        <div style="font-size:12px;color:var(--text-3)">${fdt(w.date)} · ${esc(w.method)}</div>
+      </div>`).join(''):'<div class="empty" style="padding:20px"><div class="ex">لا توجد طلبات</div></div>'}
+    </div>`;
+}
+
+function openWdM(){
+  const b=getTB(st.me.id);
+  if(b.available<1000){toast('الحد الأدنى 1000 ل.س','error');return}
+  openM('💸 طلب سحب',`
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="display:flex;justify-content:space-between"><span>المتاح:</span><strong style="color:var(--success)">${fm(b.available)} ل.س</strong></div></div>
+    <div class="fg"><label class="fl">المبلغ</label><input type="number" class="fi" id="wdA" min="1000" max="${b.available}"></div>
+    <div class="fg"><label class="fl">طريقة الاستلام</label><select class="fs" id="wdM"><option value="">اختر...</option><option>شام كاش</option><option>الهرم</option><option>سيرياتيل كاش</option><option>MTN كاش</option><option>تحويل بنكي</option></select></div>
+    <div class="fg"><label class="fl">رقم المحفظة</label><input class="fi" id="wdAc"></div>
+    <div class="fg"><label class="fl">ملاحظة</label><textarea class="ft" id="wdN"></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bg-g" id="wdOk">📤 إرسال</button></div>`);
+  $('#wdOk').onclick=async()=>{
+    const a=parseInt($('#wdA').value,10),m=$('#wdM').value,ac=$('#wdAc').value.trim();
+    if(!a||a<1000){toast('المبلغ خطأ','error');return}
+    if(a>b.available){toast('المبلغ أكبر','error');return}
+    if(!m||!ac){toast('أكمل البيانات','error');return}
+    await addDoc(collection(db,'withdrawals'),{teacherId:st.me.id,amount:a,method:m,account:ac,note:$('#wdN').value.trim(),status:'pending',date:serverTimestamp()});
+    closeM();toast('تم الإرسال ✓','success');
+  };
+}
+
+function renderSH(){
+  const me=st.me,mp=st.purchases.filter(p=>p.userId===me.id),ms=st.subjects.filter(s=>(s.grades||[]).includes(me.grade));
+  $('#swel').textContent='أهلًا '+me.name;
+  $('#sgr').textContent='🎓 '+(GRADES[me.grade]||'');
+  $('#sstats').innerHTML=`
+    <div class="st" style="--sc:#f59e0b"><div class="si">💰</div><div class="sv">${fm(me.balance)}</div><div class="sl">رصيدي</div></div>
+    <div class="st" style="--sc:#10b981"><div class="si">🎬</div><div class="sv">${mp.length}</div><div class="sl">دروس مشتراة</div></div>`;
+  const se=$('#ssubs');
+  if(!ms.length){se.innerHTML='<div class="empty" style="grid-column:1/-1"><div class="ex">لا توجد مواد</div></div>'}
+  else{
+    se.innerHTML=ms.map(s=>`<button class="at" data-sub="${s.id}" style="--tc:#0f3460"><div class="ai">${s.icon}</div><div class="atit">${esc(s.name)}</div><div class="ads">${st.courses.filter(c=>c.subjectId===s.id&&c.grade===me.grade).length} دورة</div></button>`).join('');
+    se.querySelectorAll('[data-sub]').forEach(b=>b.onclick=()=>openSub(b.dataset.sub));
+  }
+  const ai=new Set();mp.forEach(p=>{const l=st.lessons.find(x=>x.id===p.lessonId);if(l)ai.add(l.courseId)});
+  const ac=st.courses.filter(c=>ai.has(c.id));
+  const at=$('#actt'),ae=$('#sact');
+  if(ac.length){
+    at.style.display='flex';ae.innerHTML='';
+    ac.forEach(c=>{
+      const s=st.subjects.find(x=>x.id===c.subjectId);
+      const al=st.lessons.filter(l=>l.courseId===c.id);
+      const ow=al.filter(l=>l.price===0||mp.some(p=>p.lessonId===l.id)).length;
+      const pc=al.length?Math.round((ow/al.length)*100):0;
+      const el=document.createElement('div');el.className='li';
+      el.innerHTML=`<div class="lth">${s?.icon||'📚'}</div><div class="lin"><div class="lt">${esc(c.title)}</div><div class="prog"><div class="pgb" style="width:${pc}%"></div></div><div class="pt2"><span>${ow}/${al.length}</span><span>${pc}%</span></div></div>`;
+      el.onclick=()=>openCourse(c.id);
+      ae.appendChild(el);
+    });
+  } else {at.style.display='none';ae.innerHTML=''}
+}
+
+function openSub(id){
+  const s=st.subjects.find(x=>x.id===id);if(!s)return;
+  st.curSubject=id;$('#subTitle').textContent=s.icon+' '+s.name;go('studentSubject');
+  const cs=st.courses.filter(c=>c.subjectId===id&&c.grade===st.me.grade);
+  const l=$('#subCourses');
+  if(!cs.length){l.innerHTML='<div class="empty"><div class="ei">📚</div><div class="et">لا توجد دورات</div></div>';return}
+  l.innerHTML='';
+  cs.forEach(c=>{
+    const t=st.users.find(u=>u.id===c.teacherId);
+    const ls=st.lessons.filter(x=>x.courseId===c.id);
+    const el=document.createElement('div');el.className='li';
+    el.innerHTML=`<div class="lth">${s.icon}</div><div class="lin"><div class="lt">${esc(c.title)}</div><div class="lm"><span>👨‍🏫 ${esc(t?.name||'')}</span><span>🎬 ${ls.length}</span></div></div><div style="color:var(--text-3);font-size:20px">›</div>`;
+    el.onclick=()=>openCourse(c.id);
+    l.appendChild(el);
+  });
+}
+
+function openCourse(id){
+  const c=st.courses.find(x=>x.id===id);if(!c)return;
+  st.curCourse=id;$('#courseTitle').textContent=c.title;go('studentCourse');
+  const t=st.users.find(u=>u.id===c.teacherId);
+  const s=st.subjects.find(x=>x.id===c.subjectId);
+  const mp=st.purchases.filter(p=>p.userId===st.me.id);
+  const ls=st.lessons.filter(x=>x.courseId===id).sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
+  const con=$('#courseDet');con.innerHTML='';
+  const h=document.createElement('div');h.className='card';
+  h.style.cssText='background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border:none';
+  h.innerHTML=`<div style="display:flex;gap:14px;align-items:center"><div style="width:60px;height:60px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:32px">${s?.icon||'📚'}</div><div><div style="font-size:19px;font-weight:900">${esc(c.title)}</div><div style="font-size:13px;opacity:.9;margin-top:4px">👨‍🏫 ${esc(t?.name||'')}</div></div></div><p style="font-size:14px;line-height:1.8;opacity:.92;margin-top:12px">${esc(c.description)}</p>`;
+  con.appendChild(h);
+  if(!ls.length){const e=document.createElement('div');e.innerHTML='<div class="empty"><div class="ei">🎬</div><div class="et">لا توجد دروس</div></div>';con.appendChild(e);return}
+  ls.forEach((l,i)=>{
+    const isF=l.price===0,ow=isF||mp.some(p=>p.lessonId===l.id);
+    const el=document.createElement('div');el.className='li'+(ow?'':' ');
+    el.innerHTML=`<div class="lth ${isF?'f':ow?'p':'l'}">${ow?(isF?'🆓':'✓'):(i+1)}</div><div class="lin"><div class="lt">${esc(l.title)}</div><div class="lm">${esc(l.description||'')}</div></div>${ow?'<div class="lp p">مفتوح</div>':(isF?'<div class="lp f">مجاني</div>':`<div class="lp">${fm(l.price)} ل.س</div>`)}`;
+    el.onclick=()=>openLesson(l.id);
+    con.appendChild(el);
+  });
+}
+
+function openLesson(id){
+  const l=st.lessons.find(x=>x.id===id);if(!l)return;
+  st.curLesson=id;$('#lessonTitle').textContent=l.title;go('studentWatch');
+  const isF=l.price===0,ow=isF||st.purchases.some(p=>p.userId===st.me.id&&p.lessonId===l.id);
+  const c=$('#lessonContent');
+  if(ow){
+    c.innerHTML=`<div class="vw"><iframe src="https://www.youtube.com/embed/${l.youtubeId}?rel=0" allowfullscreen></iframe></div><div class="card"><div style="font-size:15px;font-weight:800;margin-bottom:8px">${esc(l.title)}</div><p style="font-size:14px;color:var(--text-2);line-height:1.8;margin:0">${esc(l.description||'')}</p></div><div class="card" style="background:#d1fae5;border-color:#6ee7b7"><div style="font-size:13.5px;font-weight:700;color:#065f46">✓ الدرس مفتوح لك${isF?' (مجاني)':''}</div></div>`;
+  } else {
+    c.innerHTML=`<div class="lkb"><div class="li2">🔒</div><h3>الدرس مدفوع</h3><p>اشترِ بـ <strong style="color:#fbbf24">${fm(l.price)} ل.س</strong><br>رصيدك: <strong style="color:#fbbf24">${fm(st.me.balance)} ل.س</strong></p>${st.me.balance>=l.price?'<button class="btn bg-g" id="buyBtn">🛒 اشترِ</button>':'<button class="btn bg-g" id="wallBtn">💰 شحن</button>'}</div><div class="card"><div style="font-size:15px;font-weight:800;margin-bottom:8px">${esc(l.title)}</div><p style="font-size:14px;color:var(--text-2);line-height:1.8;margin:0">${esc(l.description||'')}</p></div>`;
+    $('#buyBtn')?.addEventListener('click',()=>openBuy(l));
+    $('#wallBtn')?.addEventListener('click',()=>go('studentWallet'));
+  }
+}
+
+function openBuy(lesson){
+  openM('🛒 تأكيد الشراء',`
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px"><div style="font-size:15px;font-weight:800">${esc(lesson.title)}</div></div>
+    <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;padding:16px;border:1px solid #f59e0b"><div style="display:flex;justify-content:space-between;font-size:17px;font-weight:900;color:#78350f"><span>الإجمالي:</span><strong>${fm(lesson.price)} ل.س</strong></div></div>
+    <div style="background:var(--bg-2);border-radius:12px;padding:12px;margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>رصيدك:</span><strong>${fm(st.me.balance)} ل.س</strong></div></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bs" id="buyOk">✓ تأكيد</button></div>`);
+  $('#buyOk').onclick=async()=>{
+    if(st.me.balance<lesson.price){toast('رصيدك غير كافٍ','error');return}
+    await updateDoc(doc(db,'users',st.me.id),{balance:st.me.balance-lesson.price});
+    await addDoc(collection(db,'purchases'),{userId:st.me.id,lessonId:lesson.id,price:lesson.price,createdAt:serverTimestamp()});
+    await addDoc(collection(db,'transactions'),{userId:st.me.id,type:'purchase',amount:lesson.price,description:'شراء: '+lesson.title,date:serverTimestamp()});
+    await addN(st.me.id,'✓ تم الشراء','تم شراء: '+lesson.title,'success');
+    closeM();toast('تم ✓','success');setTimeout(()=>openLesson(lesson.id),300);
+  };
+}
+
+function renderW(){
+  $('#wbal').textContent=fm(st.me.balance);
+  const arr=st.transactions.filter(t=>t.userId===st.me.id).sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  const l=$('#stxs');
+  if(!arr.length){l.innerHTML='<div class="empty" style="padding:20px"><div class="ex">لا توجد معاملات</div></div>';return}
+  l.innerHTML=arr.map(t=>{const c=t.type==='topup';return`<div style="display:flex;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px;align-items:center"><div style="width:40px;height:40px;border-radius:10px;background:${c?'linear-gradient(135deg,#10b981,#059669)':'linear-gradient(135deg,#ef4444,#dc2626)'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${c?'⬇️':'🛒'}</div><div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description)}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div><div style="font-size:15px;font-weight:900;color:${c?'var(--success)':'var(--danger)'}">${c?'+':'-'}${fm(t.amount)}</div></div>`}).join('');
+}
+
+function openTopup(){
+  openM('💳 طلب شحن',`
+    <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;padding:14px;border:1px solid #f59e0b;margin-bottom:16px;font-size:13px;color:#78350f;line-height:1.8">حوّل إلى: <strong>${SHAM}</strong></div>
+    <div class="fg"><label class="fl">المبلغ</label><input type="number" class="fi" id="tA" min="100"></div>
+    <div class="fg"><label class="fl">رقم العملية</label><input class="fi" id="tR"></div>
+    <div style="display:flex;gap:10px;margin-top:20px"><button class="btn bgh" onclick="closeM()">إلغاء</button><button class="btn bp" id="tOk">📤 إرسال</button></div>`);
+  $('#tOk').onclick=async()=>{
+    const a=parseInt($('#tA').value,10),r=$('#tR').value.trim();
+    if(!a||a<100){toast('مبلغ خطأ','error');return}
+    if(!r){toast('أدخل رقم','error');return}
+    await addDoc(collection(db,'topups'),{userId:st.me.id,amount:a,receipt:r,status:'pending',date:serverTimestamp()});
+    closeM();toast('تم ✓','success');
+  };
+}
+
+function renderP(){
+  const arr=st.purchases.filter(p=>p.userId===st.me.id).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  const l=$('#purchList');
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">🎬</div><div class="et">لا توجد دروس</div></div>';return}
+  l.innerHTML='';
+  arr.forEach(p=>{
+    const x=st.lessons.find(y=>y.id===p.lessonId);if(!x)return;
+    const c=st.courses.find(y=>y.id===x.courseId);
+    const el=document.createElement('div');el.className='li';
+    el.innerHTML=`<div class="lth p">✓</div><div class="lin"><div class="lt">${esc(x.title)}</div><div class="lm"><span>${esc(c?.title||'')}</span><span>${fd(p.createdAt)}</span></div></div>`;
+    el.onclick=()=>openLesson(x.id);
+    l.appendChild(el);
+  });
+}
+
+function renderCL(){
+  const me=st.me,mc=st.chats.filter(c=>c.user1===me.id||c.user2===me.id);
+  const l=$('#convList');let ct=[];
+  if(me.role==='admin')ct=st.users.filter(u=>u.id!==me.id);
+  else if(me.role==='teacher'){
+    const ml=st.lessons.filter(l=>l.teacherId===me.id).map(l=>l.id);
+    const si=new Set();st.purchases.filter(p=>ml.includes(p.lessonId)).forEach(p=>si.add(p.userId));
+    ct=Array.from(si).map(id=>st.users.find(u=>u.id===id)).filter(Boolean);
+  } else {
+    const mp=st.purchases.filter(p=>p.userId===me.id).map(p=>p.lessonId);
+    const ti=new Set();st.lessons.filter(l=>mp.includes(l.id)).forEach(l=>ti.add(l.teacherId));
+    ct=Array.from(ti).map(id=>st.users.find(u=>u.id===id)).filter(Boolean);
+  }
+  let h='';
+  if(mc.length){
+    h+='<div class="sect" style="margin-top:0">المحادثات</div>';
+    mc.forEach(ch=>{
+      const pid=ch.user1===me.id?ch.user2:ch.user1;
+      const p=st.users.find(u=>u.id===pid);if(!p)return;
+      const msgs=st.messages.filter(m=>m.chatId===ch.id).sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
+      const lm=msgs[msgs.length-1];
+      const un=msgs.filter(m=>m.senderId!==me.id&&!m.read).length;
+      h+=`<div class="conv ${un?'unread':''}" data-c="${ch.id}"><div class="cav">${ini(p.name)||'👤'}</div><div class="cin"><div class="cn">${esc(p.name)}</div><div class="cl">${lm?esc(lm.text.slice(0,40)):'لا رسائل'}</div></div><div class="cmt"><div class="ct2">${lm?ft(lm.createdAt):''}</div>${un?`<div class="cb">${un}</div>`:''}</div></div>`;
+    });
+  }
+  if(ct.length){
+    h+='<div class="sect">ابدأ محادثة</div>';
+    ct.forEach(c=>{h+=`<div class="conv" data-ct="${c.id}"><div class="cav">${ini(c.name)||'👤'}</div><div class="cin"><div class="cn">${esc(c.name)}</div><div class="cl">${ROLES[c.role]}${c.specialty?' · '+esc(c.specialty):''}</div></div><div class="cmt"><span style="color:var(--text-4)">›</span></div></div>`});
+  }
+  if(!h)h='<div class="empty"><div class="ei">💬</div><div class="et">لا توجد محادثات</div></div>';
+  l.innerHTML=h;
+  l.querySelectorAll('[data-c]').forEach(el=>el.onclick=()=>openChat(el.dataset.c));
+  l.querySelectorAll('[data-ct]').forEach(el=>el.onclick=async()=>{const ch=await getOrCreateChat(me.id,el.dataset.ct);openChat(ch.id)});
+}
+
+function getChatBetween(u1,u2){return st.chats.find(c=>(c.user1===u1&&c.user2===u2)||(c.user1===u2&&c.user2===u1))}
+async function getOrCreateChat(u1,u2){let c=getChatBetween(u1,u2);if(!c){const r=await addDoc(collection(db,'chats'),{user1:u1,user2:u2,createdAt:serverTimestamp()});c={id:r.id,user1:u1,user2:u2}}return c}
+
+function getUC(){let n=0;st.chats.forEach(ch=>{if(ch.user1===st.me.id||ch.user2===st.me.id){n+=st.messages.filter(m=>m.chatId===ch.id&&m.senderId!==st.me.id&&!m.read).length}});return n}
+function updateCB(){const n=getUC(),b=$('#cbdg');if(n>0){b.textContent=n;b.style.display='block'}else b.style.display='none'}
+function updateNB(){const n=st.notifs.filter(x=>x.userId===st.me?.id&&!x.read).length,b=$('#nbdg');if(n>0){b.textContent=n;b.style.display='block'}else b.style.display='none'}
+
+async function openChat(cid){
+  const ch=st.chats.find(c=>c.id===cid);if(!ch)return;
+  st.curChat=cid;
+  const pid=ch.user1===st.me.id?ch.user2:ch.user1;
+  const p=st.users.find(u=>u.id===pid);if(!p)return;
+  $('#chatName').textContent=p.name;go('chatRoom');
+  const un=st.messages.filter(m=>m.chatId===cid&&m.senderId!==st.me.id&&!m.read);
+  for(const m of un)await updateDoc(doc(db,'messages',m.id),{read:true});
+}
+
+function renderCM(){
+  const ch=st.chats.find(c=>c.id===st.curChat);if(!ch)return;
+  const msgs=st.messages.filter(m=>m.chatId===ch.id).sort((a,b)=>(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
+  const c=$('#chatMsgs');
+  if(!msgs.length){c.innerHTML='<div class="empty" style="padding:40px"><div class="ex">لا رسائل بعد</div></div>';return}
+  c.innerHTML=msgs.map(m=>`<div class="cmsg ${m.senderId===st.me.id?'me':'other'}"><div>${esc(m.text)}</div><div class="ctm">${ft(m.createdAt)}</div></div>`).join('');
+  c.scrollTop=c.scrollHeight;
+}
+
+async function sendMsg(){
+  const i=$('#chatInput'),t=i.value.trim();
+  if(!t||!st.curChat)return;
+  i.value='';
+  await addDoc(collection(db,'messages'),{chatId:st.curChat,senderId:st.me.id,text:t,read:false,createdAt:serverTimestamp()});
+}
+
+async function addN(uid,title,body,type){
+  await addDoc(collection(db,'notifications'),{userId:uid,title,body,type:type||'info',read:false,date:serverTimestamp()});
+}
+
+function renderN(){
+  const arr=st.notifs.filter(n=>n.userId===st.me.id).sort((a,b)=>(b.date?.seconds||0)-(a.date?.seconds||0));
+  arr.forEach(async n=>{if(!n.read)await updateDoc(doc(db,'notifications',n.id),{read:true})});
+  const l=$('#notifList');
+  if(!arr.length){l.innerHTML='<div class="empty"><div class="ei">🔔</div><div class="et">لا إشعارات</div></div>';return}
+  const ic={success:'✓',warning:'⚠️',danger:'❌',info:'ℹ️'};
+  const bg={success:'linear-gradient(135deg,#10b981,#059669)',warning:'linear-gradient(135deg,#f59e0b,#d97706)',danger:'linear-gradient(135deg,#ef4444,#dc2626)',info:'linear-gradient(135deg,#3b82f6,#2563eb)'};
+  l.innerHTML=arr.map(n=>`<div class="card" style="margin-bottom:10px"><div style="display:flex;gap:12px"><div style="width:40px;height:40px;border-radius:10px;background:${bg[n.type]||bg.info};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${ic[n.type]||'ℹ️'}</div><div style="flex:1"><div style="font-size:14px;font-weight:800">${esc(n.title)}</div><div style="font-size:12.5px;color:var(--text-2);margin-top:4px;line-height:1.6">${esc(n.body)}</div><div style="font-size:11px;color:var(--text-3);margin-top:6px">${fdt(n.date)}</div></div></div></div>`).join('');
+}
+
+function renderProf(){
+  const u=st.me;
+  $('#profContent').innerHTML=`
+    <div class="card" style="text-align:center;padding:24px">
+      <div style="width:88px;height:88px;background:linear-gradient(135deg,var(--brand),var(--brand-2));border-radius:22px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;margin:0 auto 14px">${ini(u.name)||'👤'}</div>
+      <div style="font-size:22px;font-weight:900">${esc(u.name)}</div>
+      <div style="font-size:14px;color:var(--text-3);margin-top:4px">${ROLES[u.role]}${u.grade?' · '+GRADES[u.grade]:''}${u.specialty?' · '+esc(u.specialty):''}</div>
+      ${u.role==='teacher'&&!u.active?'<div class="badge bpnd" style="margin-top:10px">⏳ بانتظار التفعيل</div>':''}
+    </div>
+    <div class="card">
+      <div class="ct">تعديل</div>
+      <div class="fg"><label class="fl">الاسم</label><input class="fi" id="pn" value="${esc(u.name)}"></div>
+      <div class="fg"><label class="fl">الهاتف</label><input class="fi" id="pp" value="${esc(u.phone||'')}"></div>
+      <button class="btn bp" id="pOk" style="margin-top:8px">💾 حفظ</button>
+    </div>
+    <button class="btn bd" id="logoutP" style="margin-top:8px">🚪 تسجيل الخروج</button>`;
+  $('#pOk').onclick=async()=>{const n=$('#pn').value.trim();if(!n){toast('أدخل الاسم','error');return}await updateDoc(doc(db,'users',st.me.id),{name:n,phone:$('#pp').value.trim()});toast('تم ✓','success')};
+  $('#logoutP').onclick=logout;
+}
+
+function openM(t,h){$('#mTitle').textContent=t;$('#mBody').innerHTML=h;$('#modal').classList.add('open')}
+window.closeM=()=>$('#modal').classList.remove('open');
+
+function applyTheme(){document.documentElement.setAttribute('data-theme',st.theme);const b=$('#themeBtn');if(b)b.textContent=st.theme==='dark'?'☀️':'🌙'}
+
+function bind(){
+  $$('.tab').forEach(t=>t.onclick=()=>{
+    $$('.tab').forEach(x=>x.classList.toggle('active',x===t));
+    const tab=t.dataset.tab;
+    $('#loginPane').style.display=tab==='login'?'block':'none';
+    $('#regPane').style.display=tab==='reg'?'block':'none';
+  });
+  $('#lbtn').onclick=doLogin;
+  $('#rbtn').onclick=doRegister;
+  $('#rr').onchange=e=>{const s=e.target.value==='student';$('#sf').style.display=s?'block':'none';$('#tf').style.display=s?'none':'block'};
+  $('#lp').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin()});
+  $('#logoutBtn').onclick=logout;
+  $('#themeBtn').onclick=()=>{st.theme=st.theme==='dark'?'light':'dark';localStorage.setItem('nb_theme',st.theme);applyTheme()};
+  $('#brandBtn').onclick=()=>go('profile');
+  $('#chatBtn').onclick=()=>go('chatList');
+  $('#notifBtn').onclick=()=>go('notifications');
+  $('#clrNotif').onclick=async()=>{const a=st.notifs.filter(n=>n.userId===st.me.id);for(const n of a)await deleteDoc(doc(db,'notifications',n.id));toast('تم')};
+  $('#mClose').onclick=()=>$('#modal').classList.remove('open');
+  $('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.remove('open')};
+  $$('[data-goto]').forEach(el=>el.onclick=()=>go(el.dataset.goto));
+  $$('[data-back]').forEach(el=>el.onclick=()=>{const r=st.me.role;if(r==='admin')go('adminHome');else if(r==='teacher')go('teacherHome');else go('studentHome')});
+  $$('#ufilter .chip').forEach(c=>c.onclick=()=>{$$('#ufilter .chip').forEach(x=>x.classList.toggle('active',x===c));st.userFilter=c.dataset.filter;renderU()});
+  $('#usearch').oninput=()=>renderU();
+  $('#addSubBtn').onclick=()=>openSubM();
+  $('#addCourseBtn').onclick=()=>openCourseM();
+  $('#addLessonBtn').onclick=()=>{if(!st.courses.length){toast('أضف دورة','error');return}openLessonM()};
+  $('#addMyCourseBtn').onclick=()=>{if(!st.me.active){toast('غير مفعّل','error');return}openCourseM()};
+  $('#addMyLessonBtn').onclick=()=>{if(!st.me.active){toast('غير مفعّل','error');return}const mc=st.courses.filter(c=>c.teacherId===st.me.id);if(!mc.length){toast('أضف دورة','error');return}openLessonM()};
+  $('#reqTopBtn').onclick=openTopup;
+  $('#bk2s').onclick=()=>go('studentHome');
+  $('#bk2sub').onclick=()=>openSub(st.curSubject);
+  $('#bk2course').onclick=()=>openCourse(st.curCourse);
+  $('#reqWdBtn').onclick=openWdM;
+  $('#askBtn').onclick=async()=>{
+    const l=st.lessons.find(x=>x.id===st.curLesson);
+    if(!l||!l.teacherId){toast('لا معلم','error');return}
+    const ch=await getOrCreateChat(st.me.id,l.teacherId);
+    openChat(ch.id);
+    setTimeout(()=>{const i=$('#chatInput');if(i&&!i.value)i.value='بخصوص درس: '+l.title+'\n';i?.focus()},200);
+  };
+  $('#bk2chats').onclick=()=>go('chatList');
+  $('#chatSend').onclick=sendMsg;
+  $('#chatInput').addEventListener('keypress',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}});
+}
+
+document.addEventListener('DOMContentLoaded',()=>{bind();applyTheme();st.theme=localStorage.getItem('nb_theme')||'light';applyTheme();setTimeout(hideLoad,3000)});
+</script>
+</body>
+</html>
