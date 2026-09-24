@@ -24,7 +24,6 @@
   --shadow-lg:0 20px 25px -5px rgba(12,10,9,.1),0 8px 10px -6px rgba(12,10,9,.05);
   --shadow-xl:0 25px 50px -12px rgba(12,10,9,.25);
   --font:'Tajawal','Cairo',-apple-system,sans-serif;
-  --font-ar:'Amiri','Tajawal',serif;
   --font-title:'Cairo','Tajawal',sans-serif;
   --safe-bottom:env(safe-area-inset-bottom,0px);
   --safe-top:env(safe-area-inset-top,0px);
@@ -33,8 +32,6 @@
   --bg:#0c0a09;--bg-2:#1c1917;--surface:#1c1917;--surface-2:#292524;
   --text:#fafaf9;--text-2:#e7e5e4;--text-3:#a8a29e;--text-4:#78716c;
   --border:#292524;--border-2:#44403c;
-  --emerald:#10b981;--emerald-2:#34d399;--emerald-3:#6ee7b7;
-  --gold-3:#fbbf24;--gold-4:#fcd34d;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{overflow-x:hidden}
@@ -69,9 +66,8 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 [data-theme="dark"] .auth-title{color:var(--emerald-3)}
 .auth-subtitle{text-align:center;font-size:13.5px;color:var(--text-3);font-weight:500;margin-bottom:26px}
 .auth-tabs{display:flex;gap:6px;background:var(--bg-2);border-radius:14px;padding:5px;margin-bottom:24px}
-.auth-tab{flex:1;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:700;color:var(--text-3);transition:all .25s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;gap:6px}
+.auth-tab{flex:1;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:700;color:var(--text-3);transition:all .25s;display:flex;align-items:center;justify-content:center;gap:6px}
 .auth-tab.active{background:var(--surface);color:var(--emerald);box-shadow:var(--shadow);transform:scale(1.02)}
-[data-theme="dark"] .auth-tab.active{color:var(--emerald-3)}
 
 /* ==================== FORMS ==================== */
 .form-group{margin-bottom:16px}
@@ -81,12 +77,9 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .form-input,.form-select,.form-textarea{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:13px;background:var(--bg-2);font-size:15px;font-weight:500;outline:none;transition:all .2s;color:var(--text)}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--emerald-4);background:var(--surface);box-shadow:0 0 0 4px rgba(16,185,129,.12)}
 .form-input::placeholder{color:var(--text-4)}
-.form-textarea{min-height:90px;resize:vertical;line-height:1.7;font-family:var(--font)}
+.form-textarea{min-height:90px;resize:vertical;line-height:1.7}
 .form-select{cursor:pointer;font-weight:600;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2357534e' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 16px center;padding-left:44px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-hint{font-size:11.5px;color:var(--text-3);margin-top:6px;font-weight:500}
-
-/* Password field */
 .pw-wrap{position:relative}
 .pw-toggle{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--text-3);padding:4px;cursor:pointer;user-select:none}
 .pw-wrap .form-input{padding-left:44px}
@@ -97,17 +90,16 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 .pw-strength.strong span:nth-child(-n+4){background:var(--success)}
 
 /* ==================== BUTTONS ==================== */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:13px;font-size:15px;font-weight:700;transition:all .2s cubic-bezier(.4,0,.2,1);width:100%;position:relative;overflow:hidden}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:13px;font-size:15px;font-weight:700;transition:all .2s;width:100%;position:relative;overflow:hidden;text-decoration:none}
 .btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.55;pointer-events:none}
 .btn-primary{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;box-shadow:0 8px 20px -4px rgba(6,78,59,.4)}
-.btn-primary:hover{box-shadow:0 12px 24px -4px rgba(6,78,59,.5)}
 .btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold-3));color:#fff;box-shadow:0 8px 20px -4px rgba(217,119,6,.4)}
 .btn-success{background:linear-gradient(135deg,var(--emerald-3),var(--emerald-4));color:#fff;box-shadow:0 8px 20px -4px rgba(16,185,129,.35)}
 .btn-danger{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;box-shadow:0 8px 20px -4px rgba(220,38,38,.35)}
 .btn-warning{background:linear-gradient(135deg,#d97706,#b45309);color:#fff}
 .btn-info{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff}
-.btn-purple{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff}
+.btn-whatsapp{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;box-shadow:0 8px 20px -4px rgba(37,211,102,.4)}
 .btn-ghost{background:var(--bg-2);color:var(--text);border:1.5px solid var(--border)}
 .btn-sm{padding:9px 16px;font-size:13px;width:auto;border-radius:10px}
 
@@ -141,7 +133,7 @@ input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 
 /* ==================== CONTENT ==================== */
 main{padding:20px 16px;max-width:720px;margin:0 auto}
-.page{display:none;animation:fadeSlide .35s cubic-bezier(.4,0,.2,1)}
+.page{display:none;animation:fadeSlide .35s}
 .page.active{display:block}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
@@ -157,7 +149,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 /* ==================== HERO ==================== */
 .hero{background:linear-gradient(135deg,var(--emerald) 0%,var(--emerald-2) 55%,var(--emerald-3) 100%);color:#fff;border-radius:var(--radius-lg);padding:26px 22px;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 12px 32px -8px rgba(6,78,59,.4)}
 .hero::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(circle,rgba(251,191,36,.28),transparent 60%);pointer-events:none}
-.hero::after{content:'';position:absolute;bottom:-30%;left:-10%;width:60%;height:120%;background:radial-gradient(circle,rgba(255,255,255,.1),transparent 60%);pointer-events:none}
 .hero-inner{position:relative;z-index:1}
 .hero-label{font-size:12.5px;opacity:.9;font-weight:700;letter-spacing:.4px}
 .hero-title{font-family:var(--font-title);font-size:24px;font-weight:900;margin-top:8px;letter-spacing:-.5px}
@@ -174,7 +165,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 
 /* ==================== ACTION GRID ==================== */
 .action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.action-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:all .25s cubic-bezier(.4,0,.2,1)}
+.action-tile{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);transition:all .25s}
 .action-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--tc,var(--emerald-3))}
 .action-tile:active{transform:scale(.97)}
 .action-icon{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,var(--tc,var(--emerald-3)),color-mix(in srgb,var(--tc,var(--emerald-3)) 65%,#fff));color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 8px 20px -4px color-mix(in srgb,var(--tc,var(--emerald-3)) 45%,transparent)}
@@ -198,7 +189,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .list-price{padding:5px 12px;border-radius:999px;font-size:11.5px;font-weight:800;background:var(--emerald-2);color:#fff;flex-shrink:0}
 .list-price.free{background:var(--emerald-4)}
 .list-price.purchased{background:var(--info)}
-.list-price.gold{background:linear-gradient(135deg,var(--gold-2),var(--gold-3))}
 
 /* ==================== BADGES ==================== */
 .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.2px}
@@ -208,17 +198,13 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .badge-active{background:#d1fae5;color:#065f46}
 .badge-pending{background:#fef3c7;color:#92400e}
 .badge-inactive{background:#fee2e2;color:#991b1b}
-.badge-gold{background:linear-gradient(135deg,var(--gold-5),var(--gold-4));color:#78350f}
 [data-theme="dark"] .badge-active{background:#064e3b;color:#6ee7b7}
 [data-theme="dark"] .badge-pending{background:#78350f;color:#fde68a}
-[data-theme="dark"] .badge-admin{background:#7f1d1d;color:#fecaca}
-[data-theme="dark"] .badge-teacher{background:#4c1d95;color:#ddd6fe}
-[data-theme="dark"] .badge-student{background:#1e40af;color:#dbeafe}
 
 /* ==================== BOTTOM NAV ==================== */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(24px) saturate(180%);border-top:1px solid var(--border);padding:8px 4px calc(8px + var(--safe-bottom));z-index:50;max-width:720px;margin:0 auto;display:flex;justify-content:space-around;box-shadow:0 -8px 24px -8px rgba(0,0,0,.08)}
 .nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:12px;color:var(--text-3);font-size:10.5px;font-weight:700;position:relative;max-width:80px;transition:color .2s}
-.nav-icon{font-size:22px;line-height:1;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.nav-icon{font-size:22px;line-height:1;transition:transform .3s}
 .nav-item.active{color:var(--emerald-3)}
 .nav-item.active .nav-icon{transform:translateY(-3px) scale(1.1)}
 .nav-item.active::before{content:'';position:absolute;top:-2px;width:28px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--emerald-3),var(--emerald-5));box-shadow:0 0 12px var(--emerald-4)}
@@ -250,7 +236,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 
 /* ==================== MISC ==================== */
 .progress{height:8px;background:var(--bg-2);border-radius:4px;overflow:hidden;margin:10px 0 6px}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--emerald-3),var(--emerald-5));border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--emerald-3),var(--emerald-5));border-radius:4px;transition:width .6s}
 .progress-text{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-3);font-weight:700}
 .section-title{font-family:var(--font-title);font-size:16px;font-weight:900;margin:24px 0 12px;display:flex;align-items:center;gap:10px;letter-spacing:-.3px}
 .section-title::before{content:'';width:4px;height:20px;background:linear-gradient(180deg,var(--emerald-3),var(--gold-3));border-radius:2px}
@@ -264,36 +250,56 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 .locked-box .btn{max-width:280px;margin:0 auto;position:relative;z-index:1}
 .search-box{position:relative;margin-bottom:16px}
 .search-box input{width:100%;padding:14px 46px 14px 16px;border-radius:13px;border:1.5px solid var(--border);background:var(--surface);font-size:14.5px;outline:none;transition:all .2s;box-shadow:var(--shadow-sm)}
-.search-box input:focus{border-color:var(--emerald-4);box-shadow:0 0 0 4px rgba(16,185,129,.1)}
 .search-box::before{content:'🔍';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5;pointer-events:none}
 .filter-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;scrollbar-width:none}
 .filter-chips::-webkit-scrollbar{display:none}
 .filter-chip{flex-shrink:0;padding:9px 18px;border-radius:999px;font-size:13px;font-weight:700;background:var(--surface);border:1.5px solid var(--border);color:var(--text-3);transition:all .2s;box-shadow:var(--shadow-sm)}
-.filter-chip.active{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;border-color:transparent;box-shadow:0 6px 16px -4px rgba(6,78,59,.35)}
+.filter-chip.active{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;border-color:transparent}
 
 /* ==================== CHAT ==================== */
 .chat-container{display:flex;flex-direction:column;height:calc(100vh - 210px);background:var(--surface);border-radius:18px;border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow-md)}
 .chat-messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--bg-2)}
-.chat-msg{max-width:80%;padding:12px 16px;border-radius:18px;font-size:14.5px;line-height:1.6;word-wrap:break-word;box-shadow:var(--shadow-sm);position:relative}
+.chat-msg{max-width:80%;padding:12px 16px;border-radius:18px;font-size:14.5px;line-height:1.6;word-wrap:break-word;box-shadow:var(--shadow-sm)}
 .chat-msg.me{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;align-self:flex-end;border-bottom-left-radius:6px}
 .chat-msg.other{background:var(--surface);color:var(--text);align-self:flex-start;border-bottom-right-radius:6px;border:1px solid var(--border)}
 .chat-msg-time{font-size:10.5px;opacity:.65;margin-top:4px;font-weight:600}
 .chat-input-row{display:flex;gap:8px;padding:12px;background:var(--surface);border-top:1px solid var(--border);align-items:center}
-.chat-input{flex:1;padding:12px 18px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg-2);outline:none;font-size:14.5px;transition:all .2s;color:var(--text)}
-.chat-input:focus{border-color:var(--emerald-4);background:var(--surface);box-shadow:0 0 0 4px rgba(16,185,129,.1)}
-.chat-send{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 6px 16px -4px rgba(6,78,59,.4);transition:all .15s}
-.chat-send:active{transform:scale(.92)}
+.chat-input{flex:1;padding:12px 18px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg-2);outline:none;font-size:14.5px;color:var(--text)}
+.chat-send{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 6px 16px -4px rgba(6,78,59,.4)}
 .chat-empty{text-align:center;padding:40px 20px;color:var(--text-3);font-size:13.5px}
 .conv-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow-sm)}
-.conv-item:hover{border-color:var(--emerald-4)}
 .conv-item.unread{border-right:4px solid var(--emerald-3);background:linear-gradient(90deg,var(--surface),rgba(16,185,129,.04))}
-.conv-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),var(--emerald-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0;box-shadow:0 6px 16px -4px rgba(6,78,59,.3)}
+.conv-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--emerald),var(--emerald-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
 .conv-info{flex:1;min-width:0}
 .conv-name{font-size:14.5px;font-weight:800}
 .conv-last{font-size:12.5px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:3px}
 .conv-meta{text-align:left;flex-shrink:0}
 .conv-time{font-size:11px;color:var(--text-4);font-weight:700}
 .conv-badge{display:inline-block;background:var(--danger);color:#fff;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;margin-top:5px}
+
+/* ==================== CARD CODES (كروت الشحن) ==================== */
+.code-card{background:linear-gradient(135deg,var(--gold-3),var(--gold-2));color:#fff;border-radius:14px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden;box-shadow:0 8px 20px -4px rgba(217,119,6,.35)}
+.code-card.used{background:linear-gradient(135deg,#57534e,#44403c);opacity:.7}
+.code-card.disabled{background:linear-gradient(135deg,#7f1d1d,#991b1b)}
+.code-card::before{content:'';position:absolute;top:-50%;left:-20%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 60%);pointer-events:none}
+.code-card .code-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;position:relative;z-index:1}
+.code-card .code-amount{font-family:var(--font-title);font-size:22px;font-weight:900;letter-spacing:-.5px}
+.code-card .code-label{font-size:11.5px;opacity:.85;font-weight:700;margin-top:2px}
+.code-card .code-value{font-family:monospace;font-size:20px;font-weight:900;letter-spacing:3px;background:rgba(255,255,255,.2);padding:10px 14px;border-radius:10px;text-align:center;position:relative;z-index:1;border:1.5px dashed rgba(255,255,255,.4);margin-bottom:10px;word-break:break-all;direction:ltr}
+.code-card .code-meta{display:flex;justify-content:space-between;font-size:11px;opacity:.85;font-weight:600;position:relative;z-index:1;flex-wrap:wrap;gap:6px}
+.code-card .code-actions{display:flex;gap:6px;margin-top:10px;position:relative;z-index:1}
+.code-card .code-actions button{flex:1;padding:8px;border-radius:8px;background:rgba(255,255,255,.25);color:#fff;font-size:12px;font-weight:800;border:1px solid rgba(255,255,255,.3)}
+.code-card .code-actions button:hover{background:rgba(255,255,255,.35)}
+
+.redeem-box{background:linear-gradient(135deg,var(--emerald),var(--emerald-3));color:#fff;border-radius:var(--radius-lg);padding:24px;text-align:center;position:relative;overflow:hidden;box-shadow:0 12px 32px -8px rgba(6,78,59,.4)}
+.redeem-box::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(circle,rgba(251,191,36,.25),transparent 60%)}
+.redeem-box-inner{position:relative;z-index:1}
+.redeem-icon{font-size:56px;margin-bottom:10px}
+.redeem-title{font-family:var(--font-title);font-size:20px;font-weight:900;margin-bottom:6px}
+.redeem-sub{font-size:13px;opacity:.9;margin-bottom:18px;line-height:1.7}
+.redeem-input{width:100%;padding:16px;border-radius:12px;border:none;background:rgba(255,255,255,.95);color:var(--emerald);font-family:monospace;font-size:20px;font-weight:900;letter-spacing:3px;text-align:center;outline:none;text-transform:uppercase;direction:ltr}
+.redeem-input::placeholder{color:#a8a29e;letter-spacing:2px;font-size:15px}
+.redeem-btn{width:100%;padding:15px;margin-top:12px;background:#fff;color:var(--emerald);border-radius:12px;font-size:15px;font-weight:900;box-shadow:0 6px 20px rgba(0,0,0,.2)}
 
 /* ==================== RESPONSIVE ==================== */
 @media(max-width:380px){
@@ -344,7 +350,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
         <path d="M50 6 L88 22 L88 60 Q88 88 50 96 Q12 88 12 60 L12 22 Z" fill="url(#shieldGrad)"/>
         <path d="M50 10 L84 24 L84 60 Q84 84 50 92 Q16 84 16 60 L16 24 Z" fill="none" stroke="url(#authGrad)" stroke-width="2"/>
         <text x="50" y="62" font-size="40" text-anchor="middle" fill="url(#authGrad)" font-family="serif" font-weight="bold">ن</text>
-        <path d="M28 78 Q28 72 32 68 Q36 64 50 64 Q64 64 68 68 Q72 72 72 78 Z" fill="url(#authGrad)" opacity="0.85"/>
       </svg>
     </div>
     <div class="auth-title">أكاديمية النبراس</div>
@@ -355,7 +360,6 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <button class="auth-tab" data-tab="register">✨ حساب جديد</button>
     </div>
 
-    <!-- LOGIN -->
     <div id="loginPane">
       <div class="form-group">
         <label class="form-label">👤 اسم المستخدم</label>
@@ -368,137 +372,78 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
           <span class="pw-toggle" onclick="togglePw('loginPass',this)">👁</span>
         </div>
       </div>
-      <button class="btn btn-primary" id="loginBtn" style="margin-top:8px">
-        <span>دخول إلى المنصة</span>
-        <span>←</span>
-      </button>
+      <button class="btn btn-primary" id="loginBtn" style="margin-top:8px"><span>دخول إلى المنصة</span><span>←</span></button>
       <div style="background:var(--surface-2);border:1px solid var(--gold-5);border-radius:14px;padding:14px;margin-top:18px;font-size:12.5px;color:var(--text-2);line-height:1.8">
         <strong style="color:var(--gold-2)">💡 أول استخدام؟</strong><br>
         اضغط <strong>"حساب جديد"</strong> وأنشئ حساب المدير الأول.
       </div>
     </div>
 
-    <!-- REGISTER — MULTI-STEP -->
     <div id="registerPane" style="display:none">
       <div class="stepper" id="stepper">
-        <div class="step active" data-step="1">
-          <div class="step-line"></div>
-          <div class="step-circle">1</div>
-          <div class="step-label">الأساسي</div>
-        </div>
-        <div class="step" data-step="2">
-          <div class="step-line"></div>
-          <div class="step-circle">2</div>
-          <div class="step-label">النوع</div>
-        </div>
-        <div class="step" data-step="3">
-          <div class="step-line"></div>
-          <div class="step-circle">3</div>
-          <div class="step-label">التفاصيل</div>
-        </div>
-        <div class="step" data-step="4">
-          <div class="step-line"></div>
-          <div class="step-circle">4</div>
-          <div class="step-label">التأكيد</div>
-        </div>
+        <div class="step active" data-step="1"><div class="step-line"></div><div class="step-circle">1</div><div class="step-label">الأساسي</div></div>
+        <div class="step" data-step="2"><div class="step-line"></div><div class="step-circle">2</div><div class="step-label">النوع</div></div>
+        <div class="step" data-step="3"><div class="step-line"></div><div class="step-circle">3</div><div class="step-label">التفاصيل</div></div>
+        <div class="step" data-step="4"><div class="step-line"></div><div class="step-circle">4</div><div class="step-label">التأكيد</div></div>
       </div>
 
-      <!-- Step 1: Basic -->
       <div class="reg-step" data-step="1">
-        <div class="form-group">
-          <label class="form-label">📝 الاسم الكامل <span class="req">*</span></label>
-          <input class="form-input" id="regName" placeholder="مثال: أحمد محمد الأحمد">
+        <div class="form-group"><label class="form-label">📝 الاسم الكامل <span class="req">*</span></label><input class="form-input" id="regName" placeholder="مثال: أحمد محمد"></div>
+        <div class="form-group"><label class="form-label">👤 اسم المستخدم <span class="req">*</span></label><input class="form-input" id="regUser" placeholder="ahmed2024" dir="ltr" style="text-align:left"></div>
+        <div class="form-group"><label class="form-label">🔑 كلمة المرور <span class="req">*</span></label>
+          <div class="pw-wrap"><input type="password" class="form-input" id="regPass" placeholder="6+ أحرف"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div>
+          <div class="pw-strength" id="pwStrength"><span></span><span></span><span></span><span></span></div>
         </div>
-        <div class="form-group">
-          <label class="form-label">👤 اسم المستخدم <span class="req">*</span> <span class="hint">بالإنجليزية والأرقام</span></label>
-          <input class="form-input" id="regUser" placeholder="مثال: ahmed2024" autocomplete="username" dir="ltr" style="text-align:left">
-        </div>
-        <div class="form-group">
-          <label class="form-label">🔑 كلمة المرور <span class="req">*</span> <span class="hint">6+ أحرف</span></label>
-          <div class="pw-wrap">
-            <input type="password" class="form-input" id="regPass" placeholder="••••••••" autocomplete="new-password">
-            <span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span>
-          </div>
-          <div class="pw-strength" id="pwStrength">
-            <span></span><span></span><span></span><span></span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">🔒 تأكيد كلمة المرور <span class="req">*</span></label>
-          <div class="pw-wrap">
-            <input type="password" class="form-input" id="regPass2" placeholder="••••••••" autocomplete="new-password">
-            <span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span>
-          </div>
+        <div class="form-group"><label class="form-label">🔒 تأكيد كلمة المرور <span class="req">*</span></label>
+          <div class="pw-wrap"><input type="password" class="form-input" id="regPass2" placeholder="••••••••"><span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span></div>
         </div>
       </div>
 
-      <!-- Step 2: Role -->
       <div class="reg-step" data-step="2" style="display:none">
         <div class="form-group">
           <label class="form-label">🎯 نوع الحساب <span class="req">*</span></label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-            <label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--border);border-radius:14px;padding:18px 12px;text-align:center;transition:all .2s;background:var(--surface)">
+            <label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--emerald-3);border-radius:14px;padding:18px 12px;text-align:center;background:var(--surface)">
               <input type="radio" name="role" value="student" checked style="display:none">
               <div style="font-size:32px;margin-bottom:6px">👨‍🎓</div>
               <div style="font-size:14px;font-weight:800">طالب</div>
-              <div style="font-size:11px;color:var(--text-3);margin-top:4px">للتعلم والاشتراك</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:4px">للتعلم</div>
             </label>
-            <label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border);border-radius:14px;padding:18px 12px;text-align:center;transition:all .2s;background:var(--surface)">
+            <label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border);border-radius:14px;padding:18px 12px;text-align:center;background:var(--surface)">
               <input type="radio" name="role" value="teacher" style="display:none">
               <div style="font-size:32px;margin-bottom:6px">👨‍🏫</div>
               <div style="font-size:14px;font-weight:800">معلم</div>
-              <div style="font-size:11px;color:var(--text-3);margin-top:4px">لإنشاء الدورات</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:4px">لإنشاء دورات</div>
             </label>
           </div>
         </div>
       </div>
 
-      <!-- Step 3: Details -->
       <div class="reg-step" data-step="3" style="display:none">
-        <div class="form-group">
-          <label class="form-label">📱 رقم الهاتف <span class="req">*</span></label>
-          <input type="tel" class="form-input" id="regPhone" placeholder="09xxxxxxxx" dir="ltr" style="text-align:left">
-        </div>
-        <div class="form-group">
-          <label class="form-label">📍 المحافظة</label>
+        <div class="form-group"><label class="form-label">📱 رقم الهاتف <span class="req">*</span></label><input type="tel" class="form-input" id="regPhone" placeholder="09xxxxxxxx" dir="ltr" style="text-align:left"></div>
+        <div class="form-group"><label class="form-label">📍 المحافظة</label>
           <select class="form-select" id="regCity">
-            <option value="">— اختر المحافظة —</option>
-            <option>دمشق</option><option>ريف دمشق</option><option>حلب</option>
-            <option>حمص</option><option>حماة</option><option>اللاذقية</option>
-            <option>طرطوس</option><option>إدلب</option><option>دير الزور</option>
-            <option>الرقة</option><option>الحسكة</option><option>درعا</option>
-            <option>السويداء</option><option>القنيطرة</option><option>خارج سوريا</option>
+            <option value="">— اختر —</option>
+            <option>دمشق</option><option>ريف دمشق</option><option>حلب</option><option>حمص</option><option>حماة</option>
+            <option>اللاذقية</option><option>طرطوس</option><option>إدلب</option><option>دير الزور</option><option>الرقة</option>
+            <option>الحسكة</option><option>درعا</option><option>السويداء</option><option>القنيطرة</option><option>خارج سوريا</option>
           </select>
         </div>
-        <div class="form-group" id="studentGradeGroup">
-          <label class="form-label">🎓 الصف الدراسي <span class="req">*</span></label>
-          <select class="form-select" id="regGrade">
-            <option value="9">الصف التاسع</option>
-            <option value="12sci">بكالوريا علمي</option>
-            <option value="12lit">بكالوريا أدبي</option>
-          </select>
+        <div class="form-group" id="studentGradeGroup"><label class="form-label">🎓 الصف الدراسي <span class="req">*</span></label>
+          <select class="form-select" id="regGrade"><option value="9">الصف التاسع</option><option value="12sci">بكالوريا علمي</option><option value="12lit">بكالوريا أدبي</option></select>
         </div>
-        <div class="form-group" id="teacherSpecialtyGroup" style="display:none">
-          <label class="form-label">📚 التخصص <span class="req">*</span></label>
+        <div class="form-group" id="teacherSpecialtyGroup" style="display:none"><label class="form-label">📚 التخصص <span class="req">*</span></label>
           <select class="form-select" id="regSpecialty">
-            <option value="">— اختر التخصص —</option>
-            <option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option>
-            <option>الأحياء</option><option>اللغة العربية</option><option>اللغة الإنجليزية</option>
-            <option>اللغة الفرنسية</option><option>التاريخ</option><option>الجغرافيا</option>
-            <option>الفلسفة</option><option>علم النفس</option>
+            <option value="">— اختر —</option>
+            <option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option>
+            <option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>اللغة الفرنسية</option>
+            <option>التاريخ</option><option>الجغرافيا</option><option>الفلسفة</option><option>علم النفس</option>
           </select>
         </div>
-        <div class="form-group" id="teacherExpGroup" style="display:none">
-          <label class="form-label">🏆 سنوات الخبرة</label>
-          <input type="number" class="form-input" id="regExperience" placeholder="مثال: 5" min="0" max="50">
-        </div>
-        <div class="form-group" id="teacherBioGroup" style="display:none">
-          <label class="form-label">✍️ نبذة عنك</label>
-          <textarea class="form-textarea" id="regBio" placeholder="اكتب نبذة مختصرة عن خبراتك التعليمية..."></textarea>
-        </div>
+        <div class="form-group" id="teacherExpGroup" style="display:none"><label class="form-label">🏆 سنوات الخبرة</label><input type="number" class="form-input" id="regExperience" placeholder="5" min="0" max="50"></div>
+        <div class="form-group" id="teacherBioGroup" style="display:none"><label class="form-label">✍️ نبذة عنك</label><textarea class="form-textarea" id="regBio" placeholder="اكتب نبذة مختصرة..."></textarea></div>
       </div>
 
-      <!-- Step 4: Confirm -->
       <div class="reg-step" data-step="4" style="display:none">
         <div class="card" style="background:linear-gradient(135deg,var(--surface-2),var(--bg-2));border-color:var(--gold-5)">
           <div class="card-title" style="color:var(--gold-2)">📋 مراجعة البيانات</div>
@@ -506,11 +451,10 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
         </div>
         <label style="display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--surface-2);border:1px solid var(--gold-5);border-radius:14px;cursor:pointer;font-size:13px;color:var(--text-2);line-height:1.7;margin-top:14px">
           <input type="checkbox" id="regTerms" style="width:20px;height:20px;margin-top:2px;accent-color:var(--emerald-3);flex-shrink:0">
-          <span>أوافق على <strong>الشروط والأحكام</strong> وسياسة الخصوصية لأكاديمية النبراس.</span>
+          <span>أوافق على <strong>الشروط والأحكام</strong> وسياسة الخصوصية.</span>
         </label>
       </div>
 
-      <!-- Navigation -->
       <div style="display:flex;gap:10px;margin-top:24px">
         <button class="btn btn-ghost" id="prevStepBtn" style="display:none;flex:1">→ السابق</button>
         <button class="btn btn-primary" id="nextStepBtn" style="flex:1">التالي ←</button>
@@ -527,12 +471,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div class="app-brand" id="brandBtn">
         <div class="app-logo">
           <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="miniGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#fbbf24"/>
-                <stop offset="1" stop-color="#b45309"/>
-              </linearGradient>
-            </defs>
+            <defs><linearGradient id="miniGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs>
             <text x="50" y="68" font-size="52" text-anchor="middle" fill="url(#miniGrad)" font-family="serif" font-weight="bold">ن</text>
           </svg>
         </div>
@@ -553,45 +492,28 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
   <main>
     <!-- ADMIN HOME -->
     <section class="page active" id="page-adminHome">
-      <div class="hero">
-        <div class="hero-inner">
-          <div class="hero-label">لوحة تحكم المدير</div>
-          <div class="hero-title">أهلًا بك 👋</div>
-          <div class="hero-sub" id="adminWelcome">—</div>
-        </div>
-      </div>
+      <div class="hero"><div class="hero-inner"><div class="hero-label">لوحة تحكم المدير</div><div class="hero-title">أهلًا بك 👋</div><div class="hero-sub" id="adminWelcome">—</div></div></div>
       <div class="stats-grid" id="adminStats"></div>
       <div class="section-title">إدارة المنصة</div>
       <div class="action-grid">
-        <button class="action-tile" data-goto="adminUsers" style="--tc:#0284c7"><div class="action-icon">👥</div><div class="action-tile-title">المستخدمون</div><div class="action-tile-desc">إدارة الحسابات</div><span class="action-badge" id="pendingUsersBadge" style="display:none">0</span></button>
-        <button class="action-tile" data-goto="adminTopups" style="--tc:#d97706"><div class="action-icon">💳</div><div class="action-tile-title">طلبات الشحن</div><div class="action-tile-desc">الشام كاش</div><span class="action-badge" id="pendingTopupsBadge" style="display:none">0</span></button>
-        <button class="action-tile" data-goto="adminWithdrawals" style="--tc:#059669"><div class="action-icon">💸</div><div class="action-tile-title">سحب الأرصدة</div><div class="action-tile-desc">طلبات الطلاب والمعلمين</div><span class="action-badge" id="pendingWithdrawalsBadge" style="display:none">0</span></button>
+        <button class="action-tile" data-goto="adminUsers" style="--tc:#0284c7"><div class="action-icon">👥</div><div class="action-tile-title">المستخدمون</div><div class="action-tile-desc">إدارة كاملة</div><span class="action-badge" id="pendingUsersBadge" style="display:none">0</span></button>
+        <button class="action-tile" data-goto="adminCards" style="--tc:#d97706"><div class="action-icon">🎟️</div><div class="action-tile-title">كروت الشحن</div><div class="action-tile-desc">إنشاء وإدارة</div></button>
+        <button class="action-tile" data-goto="adminWithdrawals" style="--tc:#059669"><div class="action-icon">💸</div><div class="action-tile-title">طلبات السحب</div><div class="action-tile-desc">الطلاب والمعلمون</div><span class="action-badge" id="pendingWithdrawalsBadge" style="display:none">0</span></button>
         <button class="action-tile" data-goto="adminSubjects" style="--tc:#db2777"><div class="action-icon">📖</div><div class="action-tile-title">المواد</div><div class="action-tile-desc">إدارة المواد</div></button>
         <button class="action-tile" data-goto="adminCourses" style="--tc:#064e3b"><div class="action-icon">📚</div><div class="action-tile-title">الدورات</div><div class="action-tile-desc">إدارة الدورات</div></button>
         <button class="action-tile" data-goto="adminLessons" style="--tc:#0891b2"><div class="action-icon">🎬</div><div class="action-tile-title">الدروس</div><div class="action-tile-desc">إدارة الدروس</div></button>
         <button class="action-tile" data-goto="adminPlatformEarnings" style="--tc:#b45309"><div class="action-icon">💰</div><div class="action-tile-title">عمولات المنصة</div><div class="action-tile-desc">30% من المبيعات</div></button>
-        <button class="action-tile" data-goto="chatList" style="--tc:#7c3aed"><div class="action-icon">💬</div><div class="action-tile-title">الرسائل</div><div class="action-tile-desc">الدردشات</div></button>
+        <button class="action-tile" data-goto="adminTransactions" style="--tc:#7c3aed"><div class="action-icon">📊</div><div class="action-tile-title">السجل المالي</div><div class="action-tile-desc">كل المعاملات</div></button>
+        <button class="action-tile" data-goto="chatList" style="--tc:#0d9488"><div class="action-icon">💬</div><div class="action-tile-title">الرسائل</div><div class="action-tile-desc">الدردشات</div></button>
       </div>
     </section>
 
     <!-- TEACHER HOME -->
     <section class="page" id="page-teacherHome">
       <div class="card" id="teacherPending" style="display:none;background:var(--surface-2);border-color:var(--gold-5)">
-        <div style="display:flex;gap:12px">
-          <div style="font-size:34px">⏳</div>
-          <div>
-            <div style="font-size:15px;font-weight:800;color:var(--gold-2);margin-bottom:4px">حسابك قيد المراجعة</div>
-            <div style="font-size:13px;color:var(--text-3);line-height:1.7">سيتم تفعيل حسابك من الإدارة قريبًا. بعدها ستتمكن من إضافة الدورات والدروس.</div>
-          </div>
-        </div>
+        <div style="display:flex;gap:12px"><div style="font-size:34px">⏳</div><div><div style="font-size:15px;font-weight:800;color:var(--gold-2);margin-bottom:4px">حسابك قيد المراجعة</div><div style="font-size:13px;color:var(--text-3);line-height:1.7">سيتم تفعيل حسابك من الإدارة قريبًا.</div></div></div>
       </div>
-      <div class="hero">
-        <div class="hero-inner">
-          <div class="hero-label">لوحة المعلم</div>
-          <div class="hero-title" id="teacherWelcome">—</div>
-          <div class="hero-sub" id="teacherSubtitle">—</div>
-        </div>
-      </div>
+      <div class="hero"><div class="hero-inner"><div class="hero-label">لوحة المعلم</div><div class="hero-title" id="teacherWelcome">—</div><div class="hero-sub" id="teacherSubtitle">—</div></div></div>
       <div class="stats-grid" id="teacherStats"></div>
       <div class="section-title">إدارة</div>
       <div class="action-grid">
@@ -606,13 +528,7 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
 
     <!-- STUDENT HOME -->
     <section class="page" id="page-studentHome">
-      <div class="hero">
-        <div class="hero-inner">
-          <div class="hero-label">مرحبًا بك 👋</div>
-          <div class="hero-title" id="studentWelcome">—</div>
-          <div class="hero-sub" id="studentGradeLabel">—</div>
-        </div>
-      </div>
+      <div class="hero"><div class="hero-inner"><div class="hero-label">مرحبًا بك 👋</div><div class="hero-title" id="studentWelcome">—</div><div class="hero-sub" id="studentGradeLabel">—</div></div></div>
       <div class="stats-grid" id="studentStats"></div>
       <div class="section-title">المواد الدراسية</div>
       <div class="action-grid" id="studentSubjects"></div>
@@ -620,47 +536,68 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="studentActiveCourses"></div>
     </section>
 
-    <!-- ADMIN PAGES -->
+    <!-- ADMIN USERS -->
     <section class="page" id="page-adminUsers">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">👥 المستخدمون</h2><div style="width:40px"></div></div>
       <div class="search-box"><input id="userSearch" placeholder="ابحث بالاسم أو اسم المستخدم..."></div>
       <div class="filter-chips" id="userFilterChips">
         <button class="filter-chip active" data-filter="all">الكل</button>
-        <button class="filter-chip" data-filter="student">الطلاب</button>
-        <button class="filter-chip" data-filter="teacher">المعلمون</button>
-        <button class="filter-chip" data-filter="pending">بانتظار التفعيل</button>
+        <button class="filter-chip" data-filter="student">👨‍🎓 الطلاب</button>
+        <button class="filter-chip" data-filter="teacher">👨‍🏫 المعلمون</button>
+        <button class="filter-chip" data-filter="pending">⏳ بانتظار</button>
+        <button class="filter-chip" data-filter="inactive">⛔ الموقوفون</button>
       </div>
       <div id="usersList"></div>
     </section>
 
-    <section class="page" id="page-adminTopups">
-      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💳 طلبات الشحن</h2><div style="width:40px"></div></div>
-      <div id="topupsList"></div>
+    <!-- ADMIN CARDS (كروت الشحن) -->
+    <section class="page" id="page-adminCards">
+      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🎟️ كروت الشحن</h2><button class="btn btn-gold btn-sm" id="createCardsBtn">+ إنشاء</button></div>
+      <div class="stats-grid" id="cardsStats"></div>
+      <div class="filter-chips" id="cardFilterChips">
+        <button class="filter-chip active" data-filter="all">الكل</button>
+        <button class="filter-chip" data-filter="available">🟢 متاح</button>
+        <button class="filter-chip" data-filter="used">⚫ مستخدم</button>
+        <button class="filter-chip" data-filter="disabled">🔴 معطّل</button>
+      </div>
+      <div class="search-box"><input id="cardSearch" placeholder="ابحث برقم الكرت..."></div>
+      <div id="cardsList"></div>
     </section>
 
+    <!-- ADMIN WITHDRAWALS -->
     <section class="page" id="page-adminWithdrawals">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💸 طلبات السحب</h2><div style="width:40px"></div></div>
       <div id="withdrawalsAdminList"></div>
     </section>
 
+    <!-- ADMIN SUBJECTS -->
     <section class="page" id="page-adminSubjects">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📖 المواد</h2><button class="btn btn-primary btn-sm" id="addSubjectBtn">+ إضافة</button></div>
       <div id="subjectsList"></div>
     </section>
 
+    <!-- ADMIN COURSES -->
     <section class="page" id="page-adminCourses">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📚 الدورات</h2><button class="btn btn-primary btn-sm" id="addCourseBtn">+ إضافة</button></div>
       <div id="coursesList"></div>
     </section>
 
+    <!-- ADMIN LESSONS -->
     <section class="page" id="page-adminLessons">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">🎬 الدروس</h2><button class="btn btn-primary btn-sm" id="addLessonBtn">+ إضافة</button></div>
       <div id="lessonsList"></div>
     </section>
 
+    <!-- ADMIN PLATFORM EARNINGS -->
     <section class="page" id="page-adminPlatformEarnings">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💰 عمولات المنصة</h2><div style="width:40px"></div></div>
       <div id="platformEarningsContent"></div>
+    </section>
+
+    <!-- ADMIN TRANSACTIONS -->
+    <section class="page" id="page-adminTransactions">
+      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">📊 السجل المالي</h2><div style="width:40px"></div></div>
+      <div id="transactionsList"></div>
     </section>
 
     <!-- TEACHER PAGES -->
@@ -680,11 +617,11 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
     </section>
 
     <section class="page" id="page-teacherWithdrawals">
-      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💸 سحب الأرباح</h2><button class="btn btn-gold btn-sm" id="requestWithdrawalBtn">💸 طلب جديد</button></div>
+      <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💸 سحب الأرباح</h2><button class="btn btn-gold btn-sm" id="requestWithdrawalBtn">💸 طلب</button></div>
       <div id="withdrawalsTeacherContent"></div>
     </section>
 
-    <!-- STUDENT PAGES -->
+    <!-- STUDENT SUBJECT -->
     <section class="page" id="page-studentSubject">
       <div class="page-header"><button class="back-btn" id="backToStudentHome">←</button><h2 class="page-title" id="subjectTitle">المادة</h2><div style="width:40px"></div></div>
       <div id="subjectCourses"></div>
@@ -700,27 +637,51 @@ main{padding:20px 16px;max-width:720px;margin:0 auto}
       <div id="lessonContent"></div>
     </section>
 
+    <!-- STUDENT WALLET -->
     <section class="page" id="page-studentWallet">
       <div class="page-header"><button class="back-btn" data-back>←</button><h2 class="page-title">💰 محفظتي</h2><div style="width:40px"></div></div>
+      
       <div class="card" style="background:linear-gradient(135deg,var(--gold-2),var(--gold-3));color:#fff;border:none;text-align:center;padding:28px">
         <div style="font-size:13px;opacity:.9;font-weight:700">رصيدي الحالي</div>
         <div style="font-family:var(--font-title);font-size:48px;font-weight:900;margin:10px 0;letter-spacing:-2px" id="walletBalance">0</div>
         <div style="font-size:14px;opacity:.9;font-weight:600">ليرة سورية</div>
       </div>
-      <div class="card">
-        <div class="card-title">💳 شحن عبر الشام كاش</div>
-        <p style="font-size:13.5px;color:var(--text-2);line-height:1.8;margin-bottom:14px">حوّل المبلغ إلى رقم الشام كاش ثم ارفع طلب شحن:</p>
-        <div style="background:var(--bg-2);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;border:1.5px dashed var(--gold-4)">
-          <div style="font-size:12px;color:var(--text-3);font-weight:600">رقم الشام كاش</div>
-          <div style="font-family:var(--font-title);font-size:24px;font-weight:900;color:var(--emerald-2);margin-top:6px;letter-spacing:2px">0912 345 678</div>
+
+      <!-- كرت الشحن -->
+      <div class="redeem-box" style="margin-bottom:14px">
+        <div class="redeem-box-inner">
+          <div class="redeem-icon">🎟️</div>
+          <div class="redeem-title">استخدم كرت الشحن</div>
+          <div class="redeem-sub">أدخل الكود المكوّن من 16 حرفًا لإضافة الرصيد فورًا</div>
+          <input class="redeem-input" id="redeemCode" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off">
+          <button class="redeem-btn" id="redeemBtn">✓ تفعيل الكرت</button>
         </div>
-        <button class="btn btn-primary" id="requestTopupBtn">📤 طلب شحن جديد</button>
       </div>
+
+      <!-- واتساب شؤون الطلاب -->
+      <div class="card" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;padding:22px">
+        <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">
+          <div style="width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">💬</div>
+          <div style="flex:1">
+            <div style="font-family:var(--font-title);font-size:17px;font-weight:900">شؤون الطلاب</div>
+            <div style="font-size:12.5px;opacity:.9;margin-top:2px">تواصل مباشر للشحن والاستفسار</div>
+          </div>
+        </div>
+        <p style="font-size:13px;line-height:1.8;opacity:.95;margin-bottom:16px">
+          للحصول على كرت شحن، تواصل مع قسم شؤون الطلاب عبر واتساب.
+        </p>
+        <a href="https://wa.me/qr/HVZAC4QJMWI6I1" target="_blank" rel="noopener" class="btn" style="background:#fff;color:#128C7E;text-decoration:none;font-weight:900;box-shadow:0 6px 20px rgba(0,0,0,.2)">
+          <span style="font-size:20px">📲</span>
+          <span>فتح واتساب</span>
+        </a>
+      </div>
+
       <div class="card">
         <div class="card-title">💸 سحب الرصيد</div>
         <p style="font-size:13px;color:var(--text-3);line-height:1.7;margin-bottom:12px">يمكنك سحب رصيدك (الحد الأدنى 1000 ل.س).</p>
         <button class="btn btn-info" id="goStudentWithdrawal">سحب رصيدي</button>
       </div>
+
       <div class="card">
         <div class="card-title">📋 سجل المعاملات</div>
         <div id="studentTransactions"></div>
@@ -804,13 +765,13 @@ const auth = getAuth(app);
 
 const GRADES = {'9':'الصف التاسع','12sci':'بكالوريا علمي','12lit':'بكالوريا أدبي'};
 const ROLES = {admin:'مدير',teacher:'معلم',student:'طالب'};
-const SHAM = '0912 345 678';
 const EMAIL_SUF = '@nibras.local';
+const WHATSAPP_URL = 'https://wa.me/qr/HVZAC4QJMWI6I1';
 
 const st = {
   me:null, users:[], subjects:[], courses:[], lessons:[], purchases:[], transactions:[],
-  topups:[], withdrawals:[], chats:[], messages:[], notifs:[],
-  theme:'light', userFilter:'all', regStep:1, regRole:'student',
+  withdrawals:[], chats:[], messages:[], notifs:[], cards:[],
+  theme:'light', userFilter:'all', cardFilter:'all', regStep:1, regRole:'student',
   curChat:null, curCourse:null, curSubject:null, curLesson:null, unsubs:[]
 };
 
@@ -841,6 +802,20 @@ window.togglePw = function(id, el){
   if(inp.type === 'password'){ inp.type = 'text'; el.textContent = '🙈'; }
   else { inp.type = 'password'; el.textContent = '👁'; }
 };
+
+/* ==================== CARD CODE GENERATION ==================== */
+function generateCardCode(){
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const seg = () => Array.from({length:4},() => chars[Math.floor(Math.random()*chars.length)]).join('');
+  return `${seg()}-${seg()}-${seg()}-${seg()}`;
+}
+
+function formatCardInput(input){
+  let v = input.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(v.length > 16) v = v.slice(0,16);
+  const parts = v.match(/.{1,4}/g) || [];
+  input.value = parts.join('-');
+}
 
 /* ==================== REGISTRATION STEPPER ==================== */
 function updateStepper(){
@@ -1006,8 +981,8 @@ onAuthStateChanged(auth, async user => {
 function listenAll(){
   st.unsubs.forEach(u => u());
   st.unsubs = [];
-  const cols = ['users','subjects','courses','lessons','purchases','transactions','topups','withdrawals','notifications','chats','messages'];
-  const keys = ['users','subjects','courses','lessons','purchases','transactions','topups','withdrawals','notifs','chats','messages'];
+  const cols = ['users','subjects','courses','lessons','purchases','transactions','withdrawals','notifications','chats','messages','cards'];
+  const keys = ['users','subjects','courses','lessons','purchases','transactions','withdrawals','notifs','chats','messages','cards'];
   cols.forEach((c, i) => {
     st.unsubs.push(onSnapshot(collection(db, c), snap => {
       st[keys[i]] = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -1033,10 +1008,10 @@ function go(name, silent){
   $$('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
   if(!silent) window.scrollTo({top:0, behavior:'smooth'});
   const map = {
-    adminHome:renderAdminHome, adminUsers:renderUsers, adminTopups:renderTopups,
+    adminHome:renderAdminHome, adminUsers:renderUsers, adminCards:renderCards,
     adminWithdrawals:renderWithdrawalsAdmin, adminSubjects:renderSubjects,
     adminCourses:renderAdminCourses, adminLessons:renderAdminLessons,
-    adminPlatformEarnings:renderPlatformEarnings,
+    adminPlatformEarnings:renderPlatformEarnings, adminTransactions:renderTransactions,
     teacherHome:renderTeacherHome, teacherCourses:renderMyCourses,
     teacherLessons:renderMyLessons, teacherEarnings:renderEarnings,
     teacherWithdrawals:renderWithdrawalsTeacher,
@@ -1054,7 +1029,7 @@ function renderNav(){
   if(r === 'admin') items = [
     {id:'adminHome',i:'🏠',l:'الرئيسية'},
     {id:'adminUsers',i:'👥',l:'المستخدمون'},
-    {id:'adminWithdrawals',i:'💸',l:'السحب'},
+    {id:'adminCards',i:'🎟️',l:'الكروت'},
     {id:'chatList',i:'💬',l:'الرسائل'},
     {id:'profile',i:'👤',l:'ملفي'}
   ];
@@ -1115,21 +1090,223 @@ function renderAdminHome(){
   const tt = st.users.filter(u => u.role === 'teacher').length;
   const at = st.users.filter(u => u.role === 'teacher' && u.active).length;
   const pend = tt-at;
-  const pt = st.topups.filter(x => x.status === 'pending').length;
   const pw = st.withdrawals.filter(x => x.status === 'pending').length;
   const pd = getPE();
+  const availableCards = st.cards.filter(c => c.status === 'available').length;
 
   $('#adminWelcome').textContent = st.me.name;
   $('#adminStats').innerHTML = `
     <div class="stat-card" style="--sc:#0284c7"><div class="stat-icon">👨‍🎓</div><div class="stat-value">${ss}</div><div class="stat-label">طالب</div></div>
     <div class="stat-card" style="--sc:#7c3aed"><div class="stat-icon">👨‍🏫</div><div class="stat-value">${at}/${tt}</div><div class="stat-label">معلم مفعّل</div></div>
     <div class="stat-card" style="--sc:#059669"><div class="stat-icon">💰</div><div class="stat-value">${fm(pd.platformTotal)}</div><div class="stat-label">عمولات المنصة</div></div>
-    <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">🛒</div><div class="stat-value">${fm(pd.totalSales)}</div><div class="stat-label">إجمالي المبيعات</div></div>
+    <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">🎟️</div><div class="stat-value">${availableCards}</div><div class="stat-label">كروت متاحة</div></div>
   `;
 
   const pu = $('#pendingUsersBadge'); if(pend>0){pu.textContent=pend;pu.style.display='block'}else pu.style.display='none';
-  const ptb = $('#pendingTopupsBadge'); if(pt>0){ptb.textContent=pt;ptb.style.display='block'}else ptb.style.display='none';
   const pwb = $('#pendingWithdrawalsBadge'); if(pw>0){pwb.textContent=pw;pwb.style.display='block'}else pwb.style.display='none';
+}
+
+/* ==================== CARDS (كروت الشحن) ==================== */
+function renderCards(){
+  const stats = {
+    available: st.cards.filter(c => c.status === 'available').length,
+    used: st.cards.filter(c => c.status === 'used').length,
+    disabled: st.cards.filter(c => c.status === 'disabled').length,
+    totalValue: st.cards.filter(c => c.status === 'used').reduce((s,c) => s+c.amount, 0)
+  };
+  $('#cardsStats').innerHTML = `
+    <div class="stat-card" style="--sc:#059669"><div class="stat-icon">🟢</div><div class="stat-value">${stats.available}</div><div class="stat-label">متاحة</div></div>
+    <div class="stat-card" style="--sc:#57534e"><div class="stat-icon">⚫</div><div class="stat-value">${stats.used}</div><div class="stat-label">مستخدمة</div></div>
+    <div class="stat-card" style="--sc:#dc2626"><div class="stat-icon">🔴</div><div class="stat-value">${stats.disabled}</div><div class="stat-label">معطّلة</div></div>
+    <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">💰</div><div class="stat-value">${fm(stats.totalValue)}</div><div class="stat-label">إجمالي المستخدم</div></div>
+  `;
+
+  const q = ($('#cardSearch')?.value || '').trim().toUpperCase();
+  const f = st.cardFilter;
+  let arr = st.cards;
+  if(f !== 'all') arr = arr.filter(c => c.status === f);
+  if(q) arr = arr.filter(c => c.code.includes(q));
+  arr.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+
+  const l = $('#cardsList');
+  if(!arr.length){
+    l.innerHTML = '<div class="empty"><div class="empty-icon">🎟️</div><div class="empty-title">لا توجد كروت</div><div class="empty-text">اضغط "+ إنشاء" لإنشاء كروت شحن جديدة</div></div>';
+    return;
+  }
+  l.innerHTML = '';
+  arr.forEach(card => {
+    const u = card.usedBy ? st.users.find(x => x.id === card.usedBy) : null;
+    const el = document.createElement('div');
+    el.className = 'code-card ' + (card.status === 'used' ? 'used' : card.status === 'disabled' ? 'disabled' : '');
+    el.innerHTML = `
+      <div class="code-header">
+        <div>
+          <div class="code-amount">${fm(card.amount)} ل.س</div>
+          <div class="code-label">${card.status === 'available' ? '🟢 متاح' : card.status === 'used' ? '⚫ مستخدم' : '🔴 معطّل'}</div>
+        </div>
+      </div>
+      <div class="code-value">${esc(card.code)}</div>
+      <div class="code-meta">
+        <span>📅 ${fd(card.createdAt)}</span>
+        ${u ? `<span>👤 ${esc(u.name)}</span>` : ''}
+        ${card.usedAt ? `<span>✓ ${fd(card.usedAt)}</span>` : ''}
+      </div>
+      ${card.status === 'available' ? `
+        <div class="code-actions">
+          <button data-a="copy" data-code="${esc(card.code)}">📋 نسخ</button>
+          <button data-a="disable" data-id="${card.id}">⛔ تعطيل</button>
+          <button data-a="delete" data-id="${card.id}">🗑 حذف</button>
+        </div>
+      ` : card.status === 'disabled' ? `
+        <div class="code-actions">
+          <button data-a="enable" data-id="${card.id}">✅ تفعيل</button>
+          <button data-a="delete" data-id="${card.id}">🗑 حذف</button>
+        </div>
+      ` : `
+        <div class="code-actions">
+          <button data-a="delete" data-id="${card.id}">🗑 حذف</button>
+        </div>
+      `}
+    `;
+    el.querySelectorAll('[data-a]').forEach(b => b.onclick = async e => {
+      e.stopPropagation();
+      const a = b.dataset.a;
+      if(a === 'copy'){
+        navigator.clipboard.writeText(b.dataset.code);
+        toast('تم نسخ الكود ✓','success');
+      } else if(a === 'disable'){
+        if(!confirm('تعطيل هذا الكرت؟')) return;
+        await updateDoc(doc(db,'cards',b.dataset.id),{status:'disabled'});
+        toast('تم التعطيل','warning');
+      } else if(a === 'enable'){
+        await updateDoc(doc(db,'cards',b.dataset.id),{status:'available'});
+        toast('تم التفعيل ✓','success');
+      } else if(a === 'delete'){
+        if(!confirm('حذف الكرت نهائيًا؟')) return;
+        await deleteDoc(doc(db,'cards',b.dataset.id));
+        toast('تم الحذف');
+      }
+    });
+    l.appendChild(el);
+  });
+}
+
+function openCreateCardsModal(){
+  openM('🎟️ إنشاء كروت شحن', `
+    <div class="card" style="background:var(--surface-2);border-color:var(--gold-5);margin-bottom:16px">
+      <div style="font-size:13px;line-height:1.8;color:var(--text-2)">
+        💡 سيتم توليد كود فريد لكل كرت تلقائيًا. يمكنك طباعتها أو نسخها وإرسالها للطلاب.
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">💰 قيمة الكرت (ل.س)</label>
+      <input type="number" class="form-input" id="cardAmt" placeholder="5000" min="100" value="5000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">🔢 عدد الكروت</label>
+      <input type="number" class="form-input" id="cardQty" placeholder="10" min="1" max="100" value="10">
+      <div style="font-size:11.5px;color:var(--text-3);margin-top:6px">الحد الأقصى: 100 كرت في المرة</div>
+    </div>
+    <div class="card" style="background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;border:none;padding:16px;text-align:center">
+      <div style="font-size:12.5px;opacity:.9">إجمالي قيمة الكروت</div>
+      <div style="font-family:var(--font-title);font-size:28px;font-weight:900;margin-top:6px" id="cardsTotal">50,000 ل.س</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
+      <button class="btn btn-gold" id="createCardsOk">🎟️ إنشاء</button>
+    </div>
+  `);
+  
+  const updateTotal = () => {
+    const amt = parseInt($('#cardAmt').value, 10) || 0;
+    const qty = parseInt($('#cardQty').value, 10) || 0;
+    $('#cardsTotal').textContent = fm(amt * qty) + ' ل.س';
+  };
+  $('#cardAmt').oninput = updateTotal;
+  $('#cardQty').oninput = updateTotal;
+  updateTotal();
+  
+  $('#createCardsOk').onclick = async () => {
+    const amt = parseInt($('#cardAmt').value, 10);
+    const qty = parseInt($('#cardQty').value, 10);
+    if(!amt || amt < 100){ toast('أدخل قيمة صحيحة (100 ل.س على الأقل)','error'); return; }
+    if(!qty || qty < 1 || qty > 100){ toast('أدخل عددًا (1-100)','error'); return; }
+    
+    const btn = $('#createCardsOk');
+    btn.disabled = true;
+    btn.textContent = '⏳ جارٍ الإنشاء...';
+    
+    try{
+      const existingCodes = new Set(st.cards.map(c => c.code));
+      let created = 0;
+      for(let i = 0; i < qty; i++){
+        let code;
+        do { code = generateCardCode(); } while(existingCodes.has(code));
+        existingCodes.add(code);
+        await addDoc(collection(db, 'cards'), {
+          code,
+          amount: amt,
+          status: 'available',
+          createdBy: st.me.id,
+          createdAt: serverTimestamp()
+        });
+        created++;
+      }
+      closeM();
+      toast(`تم إنشاء ${created} كرت ✓`,'success');
+    }catch(e){
+      console.error(e);
+      toast('حدث خطأ','error');
+      btn.disabled = false;
+      btn.textContent = '🎟️ إنشاء';
+    }
+  };
+}
+
+/* ==================== REDEEM CARD (للطالب) ==================== */
+async function redeemCard(){
+  const input = $('#redeemCode');
+  const code = input.value.trim().toUpperCase();
+  if(!code || code.length < 16){ toast('أدخل كودًا صحيحًا (16 حرفًا)','error'); return; }
+  
+  const card = st.cards.find(c => c.code === code);
+  if(!card){ toast('❌ الكود غير موجود','error'); return; }
+  if(card.status === 'used'){ toast('⚠️ الكود مستخدم مسبقًا','warning'); return; }
+  if(card.status === 'disabled'){ toast('⛔ الكود معطّل','error'); return; }
+  
+  $('#redeemBtn').disabled = true;
+  $('#redeemBtn').textContent = '⏳ جارٍ التفعيل...';
+  
+  try{
+    await updateDoc(doc(db, 'cards', card.id), {
+      status: 'used',
+      usedBy: st.me.id,
+      usedAt: serverTimestamp()
+    });
+    await updateDoc(doc(db, 'users', st.me.id), { balance: (st.me.balance || 0) + card.amount });
+    await addDoc(collection(db, 'transactions'), {
+      userId: st.me.id,
+      type: 'card_redeem',
+      amount: card.amount,
+      description: 'تفعيل كرت شحن: ' + card.code.slice(0, 9) + '...',
+      date: serverTimestamp()
+    });
+    await addN(st.me.id, '🎟️ تم تفعيل الكرت', `تمت إضافة ${fm(card.amount)} ل.س إلى محفظتك`, 'success');
+    
+    input.value = '';
+    toast(`✓ تمت إضافة ${fm(card.amount)} ل.س`,'success');
+    
+    // تأثير احتفالي
+    setTimeout(() => {
+      renderWallet();
+    }, 500);
+  }catch(e){
+    console.error(e);
+    toast('حدث خطأ — حاول مجددًا','error');
+  }
+  
+  $('#redeemBtn').disabled = false;
+  $('#redeemBtn').textContent = '✓ تفعيل الكرت';
 }
 
 /* ==================== ADMIN USERS ==================== */
@@ -1141,38 +1318,88 @@ function renderUsers(){
   if(f === 'student') arr = arr.filter(u => u.role === 'student');
   if(f === 'teacher') arr = arr.filter(u => u.role === 'teacher');
   if(f === 'pending') arr = arr.filter(u => u.role === 'teacher' && !u.active);
+  if(f === 'inactive') arr = arr.filter(u => !u.active && u.role !== 'admin');
 
   const l = $('#usersList');
   if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">👥</div><div class="empty-title">لا يوجد مستخدمون</div></div>'; return; }
   l.innerHTML = '';
+  
   arr.sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(u => {
     const el = document.createElement('div');
-    el.className = 'list-item no-click';
+    el.className = 'card';
+    el.style.cssText = 'padding:16px;margin-bottom:12px';
     el.innerHTML = `
-      <div class="list-thumb">${ini(u.name)||'👤'}</div>
-      <div class="list-info">
-        <div class="list-title">${esc(u.name)} <span class="badge badge-${u.role}">${ROLES[u.role]}</span></div>
-        <div class="list-meta">
-          <span>@${esc(u.username)}</span>
-          ${u.grade ? '<span>'+GRADES[u.grade]+'</span>' : ''}
-          ${u.specialty ? '<span>'+esc(u.specialty)+'</span>' : ''}
-          ${u.role === 'teacher' ? `<span class="badge badge-${u.active?'active':'pending'}">${u.active?'مفعّل':'بانتظار'}</span>` : ''}
-          ${u.role === 'student' ? `<span>💰 ${fm(u.balance)}</span>` : ''}
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px">
+        <div class="list-thumb" style="width:52px;height:52px;font-size:20px;flex-shrink:0">${ini(u.name)||'👤'}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
+            <strong style="font-size:15px">${esc(u.name)}</strong>
+            <span class="badge badge-${u.role}">${ROLES[u.role]}</span>
+            ${u.role === 'teacher' ? `<span class="badge badge-${u.active?'active':'pending'}">${u.active?'✓ مفعّل':'⏳ بانتظار'}</span>` : ''}
+            ${u.role !== 'teacher' && u.active === false ? '<span class="badge badge-inactive">⛔ موقوف</span>' : ''}
+          </div>
+          <div style="font-size:12.5px;color:var(--text-3);display:flex;gap:10px;flex-wrap:wrap">
+            <span>@${esc(u.username)}</span>
+            ${u.grade ? `<span>🎓 ${GRADES[u.grade]}</span>` : ''}
+            ${u.specialty ? `<span>📚 ${esc(u.specialty)}</span>` : ''}
+            ${u.phone ? `<span>📱 ${esc(u.phone)}</span>` : ''}
+          </div>
+          ${u.role === 'student' ? `
+            <div style="margin-top:8px;padding:8px 12px;background:linear-gradient(135deg,var(--gold-5),var(--gold-4));border-radius:10px;display:inline-block">
+              <span style="font-size:11.5px;color:#78350f;font-weight:700">💰 الرصيد: </span>
+              <strong style="font-size:14px;color:#78350f">${fm(u.balance)} ل.س</strong>
+            </div>
+          ` : ''}
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
-        ${u.role === 'teacher' && !u.active ? `<button class="btn btn-success btn-sm" data-a="act" data-id="${u.id}">✓ تفعيل</button>` : ''}
-        ${u.role === 'teacher' && u.active ? `<button class="btn btn-warning btn-sm" data-a="dea" data-id="${u.id}">إيقاف</button>` : ''}
-        ${u.role === 'student' ? `<button class="btn btn-info btn-sm" data-a="bal" data-id="${u.id}">💰 رصيد</button>` : ''}
+      
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding-top:14px;border-top:1px solid var(--border)">
+        ${u.role === 'teacher' && !u.active ? `<button class="btn btn-success btn-sm" data-a="activate" data-id="${u.id}">✓ تفعيل الحساب</button>` : ''}
+        ${u.role === 'teacher' && u.active ? `<button class="btn btn-warning btn-sm" data-a="deactivate" data-id="${u.id}">⏸ إيقاف مؤقت</button>` : ''}
+        ${u.role === 'student' && u.active ? `<button class="btn btn-warning btn-sm" data-a="suspend" data-id="${u.id}">⏸ إيقاف الطالب</button>` : ''}
+        ${u.role === 'student' && !u.active ? `<button class="btn btn-success btn-sm" data-a="unsuspend" data-id="${u.id}">✓ إعادة تفعيل</button>` : ''}
+        ${u.role === 'student' ? `<button class="btn btn-info btn-sm" data-a="addBal" data-id="${u.id}">💰 إضافة رصيد</button>` : ''}
+        ${u.role === 'student' && (u.balance || 0) > 0 ? `<button class="btn btn-danger btn-sm" data-a="wdBal" data-id="${u.id}">💸 سحب رصيد</button>` : ''}
+        ${u.role === 'student' && (u.balance || 0) > 0 ? `<button class="btn btn-ghost btn-sm" data-a="resetBal" data-id="${u.id}">🔄 تصفير الرصيد</button>` : ''}
+        ${u.role !== 'admin' ? `<button class="btn btn-ghost btn-sm" data-a="notif" data-id="${u.id}">🔔 إرسال إشعار</button>` : ''}
+        ${u.role !== 'admin' ? `<button class="btn btn-ghost btn-sm" data-a="pass" data-id="${u.id}">🔑 كلمة المرور</button>` : ''}
+        ${u.role !== 'admin' ? `<button class="btn btn-danger btn-sm" data-a="delete" data-id="${u.id}">🗑 حذف</button>` : ''}
       </div>
     `;
+    
     el.querySelectorAll('[data-a]').forEach(b => b.onclick = async e => {
       e.stopPropagation();
       const a = b.dataset.a, id = b.dataset.id;
-      if(a === 'act'){ await updateDoc(doc(db,'users',id),{active:true}); await addN(id,'✅ تم تفعيل حسابك','حسابك كمعلّم مفعّل.','success'); toast('تم التفعيل','success'); }
-      else if(a === 'dea'){ await updateDoc(doc(db,'users',id),{active:false}); toast('تم الإيقاف','warning'); }
-      else if(a === 'bal') openBal(id);
+      const usr = st.users.find(x => x.id === id);
+      
+      if(a === 'activate'){
+        await updateDoc(doc(db,'users',id),{active:true});
+        await addN(id,'✅ تم تفعيل حسابك','حسابك كمعلّم مفعّل. يمكنك الآن إضافة الدورات والدروس.','success');
+        toast('تم التفعيل ✓','success');
+      }
+      else if(a === 'deactivate'){
+        if(!confirm(`إيقاف حساب ${usr.name} مؤقتًا؟`)) return;
+        await updateDoc(doc(db,'users',id),{active:false});
+        await addN(id,'⏸ تم إيقاف حسابك','تم إيقاف حسابك من قبل الإدارة. تواصل معنا للاستفسار.','warning');
+        toast('تم الإيقاف','warning');
+      }
+      else if(a === 'suspend'){
+        if(!confirm(`إيقاف الطالب ${usr.name}؟\nلن يستطيع تسجيل الدخول.`)) return;
+        await updateDoc(doc(db,'users',id),{active:false});
+        toast('تم إيقاف الطالب','warning');
+      }
+      else if(a === 'unsuspend'){
+        await updateDoc(doc(db,'users',id),{active:true});
+        toast('تم إعادة التفعيل','success');
+      }
+      else if(a === 'addBal') openBal(id);
+      else if(a === 'wdBal') openWithdrawFromUser(id);
+      else if(a === 'resetBal') await resetUserBalance(id);
+      else if(a === 'notif') openSendNotification(id);
+      else if(a === 'pass') openChangePassword(id);
+      else if(a === 'delete') await deleteUser(id);
     });
+    
     l.appendChild(el);
   });
 }
@@ -1180,10 +1407,12 @@ function renderUsers(){
 function openBal(id){
   const u = st.users.find(x => x.id === id);
   if(!u) return;
-  openM('💰 إضافة رصيد', `
-    <div class="form-group"><label class="form-label">الطالب</label><input class="form-input" value="${esc(u.name)}" readonly></div>
-    <div class="form-group"><label class="form-label">الرصيد الحالي</label><input class="form-input" value="${fm(u.balance)} ل.س" readonly></div>
-    <div class="form-group"><label class="form-label">المبلغ المراد إضافته</label><input type="number" class="form-input" id="balAmt" placeholder="5000" min="1"></div>
+  openM('💰 إضافة رصيد لـ ' + esc(u.name), `
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>الرصيد الحالي:</span><strong style="color:var(--emerald-3)">${fm(u.balance)} ل.س</strong></div>
+    </div>
+    <div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="balAmt" placeholder="5000" min="1"></div>
+    <div class="form-group"><label class="form-label">السبب (اختياري)</label><input class="form-input" id="balNote" placeholder="مثال: شحن يدوي"></div>
     <div style="display:flex;gap:10px;margin-top:20px">
       <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
       <button class="btn btn-success" id="balOk">+ إضافة</button>
@@ -1192,58 +1421,116 @@ function openBal(id){
   $('#balOk').onclick = async () => {
     const a = parseInt($('#balAmt').value, 10);
     if(!a || a <= 0){ toast('مبلغ خطأ','error'); return; }
+    const note = $('#balNote').value.trim() || 'إضافة رصيد من الإدارة';
     await updateDoc(doc(db,'users',id),{balance:(u.balance||0)+a});
-    await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:'إضافة رصيد من الإدارة',date:serverTimestamp()});
+    await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:note,date:serverTimestamp()});
     await addN(id,'💰 رصيد جديد',`أُضيف ${fm(a)} ل.س إلى محفظتك`,'success');
-    closeM(); toast('تمت الإضافة','success');
+    closeM(); toast('تمت الإضافة ✓','success');
   };
 }
 
-/* ==================== ADMIN TOPUPS ==================== */
-function renderTopups(){
-  const l = $('#topupsList');
-  const arr = [...st.topups].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
-  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">💳</div><div class="empty-title">لا توجد طلبات</div></div>'; return; }
-  l.innerHTML = '';
-  arr.forEach(r => {
-    const u = st.users.find(x => x.id === r.userId);
-    const el = document.createElement('div');
-    el.className = 'card';
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
-        <div><div style="font-size:15px;font-weight:800">${esc(u?.name||'—')}</div><div style="font-size:12px;color:var(--text-3)">${fdt(r.date)}</div></div>
-        <span class="badge badge-${r.status==='pending'?'pending':r.status==='approved'?'active':'inactive'}">${r.status==='pending'?'قيد المراجعة':r.status==='approved'?'مقبول':'مرفوض'}</span>
+function openWithdrawFromUser(id){
+  const u = st.users.find(x => x.id === id);
+  if(!u) return;
+  if((u.balance || 0) <= 0){ toast('لا يوجد رصيد للسحب','error'); return; }
+  openM('💸 سحب رصيد من ' + esc(u.name), `
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>الرصيد الحالي:</span><strong style="color:var(--emerald-3)">${fm(u.balance)} ل.س</strong></div>
+    </div>
+    <div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="wdFromAmt" min="1" max="${u.balance}" placeholder="أدخل المبلغ"></div>
+    <div class="form-group"><label class="form-label">السبب</label><textarea class="form-textarea" id="wdFromNote" placeholder="مثال: تصحيح رصيد، استرداد..."></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
+      <button class="btn btn-danger" id="wdFromOk">💸 سحب</button>
+    </div>
+  `);
+  $('#wdFromOk').onclick = async () => {
+    const a = parseInt($('#wdFromAmt').value, 10);
+    if(!a || a <= 0){ toast('مبلغ خطأ','error'); return; }
+    if(a > u.balance){ toast('المبلغ أكبر من الرصيد','error'); return; }
+    const note = $('#wdFromNote').value.trim() || 'سحب من الإدارة';
+    await updateDoc(doc(db,'users',u.id),{balance: (u.balance || 0) - a});
+    await addDoc(collection(db,'transactions'),{userId:u.id, type:'admin_withdraw', amount:a, description: note, date: serverTimestamp()});
+    await addN(u.id, '💸 تم سحب رصيد', `تم سحب ${fm(a)} ل.س — ${note}`, 'warning');
+    closeM(); toast('تم السحب ✓','success');
+  };
+}
+
+async function resetUserBalance(id){
+  const u = st.users.find(x => x.id === id);
+  if(!u) return;
+  if(!confirm(`تصفير رصيد ${u.name}؟\nالرصيد الحالي: ${fm(u.balance)} ل.س`)) return;
+  const text = prompt('اكتب "تصفير" للتأكيد:');
+  if(text !== 'تصفير'){ toast('تم الإلغاء'); return; }
+  await updateDoc(doc(db,'users',id),{balance: 0});
+  await addDoc(collection(db,'transactions'),{userId:id, type:'admin_reset', amount: u.balance || 0, description: 'تصفير الرصيد من الإدارة', date: serverTimestamp()});
+  await addN(id, '⚠️ تم تصفير رصيدك', 'تم تصفير رصيد محفظتك من قبل الإدارة', 'warning');
+  toast('تم التصفير ✓','success');
+}
+
+function openChangePassword(id){
+  const u = st.users.find(x => x.id === id);
+  if(!u) return;
+  openM('🔑 كلمة مرور ' + esc(u.name), `
+    <div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span>المستخدم:</span><strong>${esc(u.name)}</strong></div>
+      <div style="display:flex;justify-content:space-between"><span>اسم المستخدم:</span><strong>@${esc(u.username)}</strong></div>
+    </div>
+    <div class="card" style="background:var(--surface-2);border-color:var(--gold-5);margin-bottom:16px">
+      <div style="font-size:12.5px;line-height:1.9;color:var(--text-2)">
+        ⚠️ <strong style="color:var(--gold-2)">لأسباب أمنية</strong>، لا يمكن تغيير كلمة مرور Firebase Auth من الواجهة مباشرةً.
+        <br><br>
+        <strong>الحل:</strong> افتح <strong>Firebase Console</strong> → اختر المستخدم → <strong>Reset password</strong> أو احذفه وأعد إنشاءه.
       </div>
-      ${r.reference ? `<div style="background:#e0e7ff;border-radius:8px;padding:8px;margin-bottom:10px;text-align:center;font-size:12px;font-weight:800;color:#3730a3;letter-spacing:1px">📌 مرجع: ${esc(r.reference)}</div>` : ''}
-      <div style="background:var(--bg-2);border-radius:10px;padding:12px;margin-bottom:12px">
-        <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px"><span>المبلغ</span><strong>${fm(r.amount)} ل.س</strong></div>
-        <div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px"><span>رقم العملية</span><strong>${esc(r.receipt)}</strong></div>
-        ${r.wallet ? `<div style="display:flex;justify-content:space-between;font-size:13.5px"><span>محفظة الطالب</span><strong>${esc(r.wallet)}</strong></div>` : ''}
-      </div>
-      ${r.status === 'pending' ? `
-        <div style="display:flex;gap:8px">
-          <button class="btn btn-success btn-sm" style="flex:1" data-a="ap" data-id="${r.id}">✓ قبول</button>
-          <button class="btn btn-danger btn-sm" style="flex:1" data-a="rj" data-id="${r.id}">✗ رفض</button>
-        </div>
-      ` : ''}
-    `;
-    el.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
-      const rq = st.topups.find(x => x.id === b.dataset.id);
-      if(b.dataset.a === 'ap'){
-        const u2 = st.users.find(x => x.id === rq.userId);
-        await updateDoc(doc(db,'topups',rq.id),{status:'approved'});
-        await updateDoc(doc(db,'users',rq.userId),{balance:(u2.balance||0)+rq.amount});
-        await addDoc(collection(db,'transactions'),{userId:rq.userId,type:'topup',amount:rq.amount,description:'شحن مقبول - '+(rq.reference||''),date:serverTimestamp()});
-        await addN(rq.userId,'💰 تم قبول الشحن',`أُضيف ${fm(rq.amount)} ل.س`,'success');
-        toast('تم القبول','success');
-      } else {
-        await updateDoc(doc(db,'topups',rq.id),{status:'rejected'});
-        await addN(rq.userId,'❌ رفض طلب الشحن','تواصل مع الإدارة','danger');
-        toast('تم الرفض','warning');
-      }
-    });
-    l.appendChild(el);
-  });
+    </div>
+    <a href="https://console.firebase.google.com/project/nibras-c5243/authentication/users" target="_blank" class="btn btn-info" style="text-decoration:none">
+      🔗 فتح Firebase Console
+    </a>
+  `);
+}
+
+function openSendNotification(id){
+  const u = st.users.find(x => x.id === id);
+  if(!u) return;
+  openM('🔔 إشعار لـ ' + esc(u.name), `
+    <div class="form-group">
+      <label class="form-label">نوع الإشعار</label>
+      <select class="form-select" id="nType">
+        <option value="info">ℹ️ معلومات</option>
+        <option value="success">✅ نجاح</option>
+        <option value="warning">⚠️ تحذير</option>
+        <option value="danger">❌ مهم</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="nTitle" placeholder="مثال: تحديث مهم"></div>
+    <div class="form-group"><label class="form-label">النص</label><textarea class="form-textarea" id="nBody" placeholder="اكتب محتوى الإشعار..."></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:20px">
+      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
+      <button class="btn btn-primary" id="nOk">📤 إرسال</button>
+    </div>
+  `);
+  $('#nOk').onclick = async () => {
+    const t = $('#nTitle').value.trim();
+    const b = $('#nBody').value.trim();
+    if(!t || !b){ toast('أكمل البيانات','error'); return; }
+    await addN(id, t, b, $('#nType').value);
+    closeM(); toast('تم الإرسال ✓','success');
+  };
+}
+
+async function deleteUser(id){
+  const u = st.users.find(x => x.id === id);
+  if(!u) return;
+  if(u.role === 'admin'){ toast('لا يمكن حذف المدير','error'); return; }
+  if(!confirm(`⚠️ حذف ${u.name} نهائيًا؟\nلا يمكن التراجع.`)) return;
+  const confirmText = prompt('اكتب كلمة "حذف" للتأكيد:');
+  if(confirmText !== 'حذف'){ toast('تم الإلغاء'); return; }
+  await deleteDoc(doc(db,'users',id));
+  if(u.role === 'teacher'){
+    const mc = st.courses.filter(c => c.teacherId === id);
+    for(const c of mc) await deleteDoc(doc(db,'courses',c.id));
+  }
+  toast('تم الحذف','success');
 }
 
 /* ==================== ADMIN WITHDRAWALS ==================== */
@@ -1323,7 +1610,7 @@ function renderSubjects(){
 function openSubM(){
   openM('📖 مادة جديدة', `
     <div class="form-group"><label class="form-label">اسم المادة</label><input class="form-input" id="sN" placeholder="مثال: الرياضيات"></div>
-    <div class="form-group"><label class="form-label">الأيقونة (إيموجي)</label><input class="form-input" id="sI" placeholder="📐" maxlength="4"></div>
+    <div class="form-group"><label class="form-label">الأيقونة</label><input class="form-input" id="sI" placeholder="📐" maxlength="4"></div>
     <div class="form-group">
       <label class="form-label">الصفوف</label>
       <div style="display:grid;gap:8px">
@@ -1480,13 +1767,6 @@ function renderPlatformEarnings(){
       <div class="stat-card" style="--sc:#059669"><div class="stat-icon">👨‍🏫</div><div class="stat-value">${fm(d.teachersTotal)}</div><div class="stat-label">حصة المعلمين</div></div>
     </div>
     <div class="card">
-      <div class="card-title">التوزيع</div>
-      <div style="height:36px;border-radius:12px;overflow:hidden;display:flex;margin:14px 0 10px">
-        <div style="width:70%;background:linear-gradient(90deg,var(--emerald-3),var(--emerald-4));color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">70% للمعلم</div>
-        <div style="width:30%;background:linear-gradient(90deg,var(--gold-2),var(--gold-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800">30%</div>
-      </div>
-    </div>
-    <div class="card">
       <div class="card-title">تفاصيل المعلمين</div>
       ${stats.length ? stats.map(t => `
         <div style="padding:14px;background:var(--bg-2);border-radius:12px;margin-bottom:10px">
@@ -1502,6 +1782,36 @@ function renderPlatformEarnings(){
       `).join('') : '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد مبيعات</div></div>'}
     </div>
   `;
+}
+
+/* ==================== ADMIN TRANSACTIONS ==================== */
+function renderTransactions(){
+  const l = $('#transactionsList');
+  const arr = [...st.transactions].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
+  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">📊</div><div class="empty-title">لا توجد معاملات</div></div>'; return; }
+  const typeMap = {
+    topup: { icon:'⬇️', color:'#059669', label:'إيداع' },
+    card_redeem: { icon:'🎟️', color:'#d97706', label:'كرت شحن' },
+    purchase: { icon:'🛒', color:'#dc2626', label:'شراء' },
+    withdrawal: { icon:'⬆️', color:'#0284c7', label:'سحب' },
+    admin_withdraw: { icon:'💸', color:'#d97706', label:'سحب إداري' },
+    admin_reset: { icon:'🔄', color:'#7c3aed', label:'تصفير' }
+  };
+  l.innerHTML = arr.slice(0, 200).map(t => {
+    const u = st.users.find(x => x.id === t.userId);
+    const tm = typeMap[t.type] || { icon:'•', color:'#57534e', label:t.type };
+    const isCredit = ['topup','card_redeem'].includes(t.type);
+    return `
+      <div class="list-item no-click" style="padding:12px">
+        <div class="list-thumb" style="width:40px;height:40px;font-size:18px;background:${tm.color}">${tm.icon}</div>
+        <div class="list-info">
+          <div class="list-title" style="font-size:13px">${esc(u?.name||'—')}</div>
+          <div class="list-meta" style="font-size:11px">${esc(t.description||tm.label)} · ${fdt(t.date)}</div>
+        </div>
+        <div style="font-size:15px;font-weight:900;color:${isCredit?'var(--emerald-3)':'var(--danger)'}">${isCredit?'+':'-'}${fm(t.amount)}</div>
+      </div>
+    `;
+  }).join('');
 }
 
 /* ==================== TEACHER ==================== */
@@ -1611,8 +1921,8 @@ function renderWithdrawalsTeacher(){
       <div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0;letter-spacing:-1px">${fm(b.available)}</div>
       <div style="font-size:14px;opacity:.9">ليرة سورية</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
-        <div style="background:rgba(255,255,255,.18);border-radius:12px;padding:12px"><div style="font-size:11px;opacity:.9">إجمالي</div><div style="font-size:16px;font-weight:900;margin-top:2px">${fm(b.total)}</div></div>
-        <div style="background:rgba(255,255,255,.18);border-radius:12px;padding:12px"><div style="font-size:11px;opacity:.9">تم سحبه</div><div style="font-size:16px;font-weight:900;margin-top:2px">${fm(b.withdrawn)}</div></div>
+        <div style="background:rgba(255,255,255,.18);border-radius:12px;padding:12px"><div style="font-size:11px">إجمالي</div><div style="font-size:16px;font-weight:900;margin-top:2px">${fm(b.total)}</div></div>
+        <div style="background:rgba(255,255,255,.18);border-radius:12px;padding:12px"><div style="font-size:11px">تم سحبه</div><div style="font-size:16px;font-weight:900;margin-top:2px">${fm(b.withdrawn)}</div></div>
       </div>
     </div>
     <div class="card">
@@ -1830,16 +2140,22 @@ function renderWallet(){
   const arr = st.transactions.filter(t => t.userId === st.me.id).sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
   const l = $('#studentTransactions');
   if(!arr.length){ l.innerHTML = '<div class="empty" style="padding:24px"><div class="empty-text">لا توجد معاملات</div></div>'; return; }
+  const typeMap = {
+    topup: { icon:'⬇️', color:'var(--emerald-4)', label:'إيداع' },
+    card_redeem: { icon:'🎟️', color:'var(--gold-3)', label:'كرت شحن' },
+    purchase: { icon:'🛒', color:'#dc2626', label:'شراء' },
+    withdrawal: { icon:'⬆️', color:'#0284c7', label:'سحب' },
+    admin_withdraw: { icon:'💸', color:'#d97706', label:'سحب إداري' },
+    admin_reset: { icon:'🔄', color:'#7c3aed', label:'تصفير' }
+  };
   l.innerHTML = arr.map(t => {
-    const c = t.type === 'topup';
-    const wd = t.type === 'withdrawal';
-    const bg = c ? 'linear-gradient(135deg,var(--emerald-3),var(--emerald-4))' : wd ? 'linear-gradient(135deg,#0284c7,#0369a1)' : 'linear-gradient(135deg,#dc2626,#b91c1c)';
-    const ic = c ? '⬇️' : wd ? '⬆️' : '🛒';
+    const tm = typeMap[t.type] || { icon:'•', color:'#57534e', label:t.type };
+    const isCredit = ['topup','card_redeem'].includes(t.type);
     return `
       <div style="display:flex;gap:10px;padding:12px;background:var(--bg-2);border-radius:10px;margin-bottom:8px;align-items:center">
-        <div style="width:40px;height:40px;border-radius:10px;background:${bg};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${ic}</div>
-        <div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description)}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div>
-        <div style="font-size:15px;font-weight:900;color:${c?'var(--emerald-3)':'var(--danger)'}">${c?'+':'-'}${fm(t.amount)}</div>
+        <div style="width:40px;height:40px;border-radius:10px;background:${tm.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">${tm.icon}</div>
+        <div style="flex:1"><div style="font-size:13.5px;font-weight:700">${esc(t.description||tm.label)}</div><div style="font-size:11.5px;color:var(--text-3);margin-top:2px">${fdt(t.date)}</div></div>
+        <div style="font-size:15px;font-weight:900;color:${isCredit?'var(--emerald-3)':'var(--danger)'}">${isCredit?'+':'-'}${fm(t.amount)}</div>
       </div>
     `;
   }).join('');
@@ -1866,7 +2182,7 @@ function renderStudentWd(){
     </div>
     <div class="card" style="background:var(--surface-2);border-color:var(--gold-5)">
       <div style="font-size:13px;line-height:1.8;color:var(--text-2);font-weight:600">
-        💡 <strong style="color:var(--gold-2)">ملاحظة:</strong> الحد الأدنى للسحب 1000 ل.س. عند قبول الطلب، سيُخصم المبلغ من رصيدك ويُحوَّل إلى محفظتك خلال 24-48 ساعة.
+        💡 <strong style="color:var(--gold-2)">ملاحظة:</strong> الحد الأدنى 1000 ل.س. عند قبول الطلب، سيُخصم المبلغ من رصيدك ويُحوَّل إلى محفظتك خلال 24-48 ساعة.
       </div>
     </div>
   `;
@@ -1904,37 +2220,6 @@ function openStudentWdModal(){
     if(!m || !ac){ toast('أكمل البيانات','error'); return; }
     await addDoc(collection(db,'withdrawals'),{userId:st.me.id,role:'student',amount:a,method:m,account:ac,note:$('#swN').value.trim(),status:'pending',date:serverTimestamp()});
     closeM(); toast('تم الإرسال ✓','success'); renderStudentWd();
-  };
-}
-
-function openTopup(){
-  const ref = 'NB' + Date.now().toString(36).toUpperCase();
-  openM('💳 طلب شحن عبر الشام كاش', `
-    <div style="background:linear-gradient(135deg,var(--gold-5),var(--gold-4));border:1px solid var(--gold-3);border-radius:14px;padding:16px;margin-bottom:16px;font-size:13px;color:#78350f;line-height:1.9">
-      <strong>📋 خطوات الشحن:</strong><br>
-      1. حوّل المبلغ إلى رقم الشام كاش:<br>
-      <strong style="font-size:17px;letter-spacing:2px">${SHAM}</strong><br>
-      2. اكتب رقم المرجع التالي في ملاحظة التحويل:<br>
-      <strong style="font-size:15px;letter-spacing:2px;background:#fff;padding:6px 12px;border-radius:8px;display:inline-block;margin-top:6px">${ref}</strong><br>
-      3. ارجع لهذه الصفحة وأدخل البيانات
-    </div>
-    <div class="form-group"><label class="form-label">رقم المرجع (تلقائي)</label><input class="form-input" value="${ref}" readonly style="background:#e0e7ff;font-weight:800;letter-spacing:1px;text-align:center"></div>
-    <div class="form-group"><label class="form-label">المبلغ المحوّل (ل.س)</label><input type="number" class="form-input" id="tuA" min="100" placeholder="5000"></div>
-    <div class="form-group"><label class="form-label">رقم العملية من الشام كاش</label><input class="form-input" id="tuR" placeholder="12345678" dir="ltr" style="text-align:left"></div>
-    <div class="form-group"><label class="form-label">رقم محفظتك (للاسترداد عند الرفض)</label><input class="form-input" id="tuW" placeholder="09xx xxx xxx" dir="ltr" style="text-align:left"></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
-      <button class="btn btn-primary" id="tuOk">📤 إرسال الطلب</button>
-    </div>
-  `);
-  $('#tuOk').onclick = async () => {
-    const a = parseInt($('#tuA').value, 10);
-    const r = $('#tuR').value.trim();
-    const w = $('#tuW').value.trim();
-    if(!a || a < 100){ toast('مبلغ غير صحيح','error'); return; }
-    if(!r){ toast('أدخل رقم العملية','error'); return; }
-    await addDoc(collection(db,'topups'),{userId:st.me.id,amount:a,receipt:r,wallet:w,reference:ref,status:'pending',date:serverTimestamp()});
-    closeM(); toast('تم الإرسال ✓ — احتفظ برقم المرجع','success');
   };
 }
 
@@ -2087,7 +2372,7 @@ function renderProfile(){
   $('#saveProfile').onclick = async () => {
     const n = $('#pName').value.trim();
     if(!n){ toast('أدخل الاسم','error'); return; }
-    await updateDoc(doc(db,'users',st.me.id),{name:n,phone:$('#pphone')?.value||$('#pPhone').value.trim()});
+    await updateDoc(doc(db,'users',st.me.id),{name:n,phone:$('#pPhone').value.trim()});
     toast('تم الحفظ ✓','success');
   };
   $('#logoutFromProfile').onclick = logout;
@@ -2134,21 +2419,15 @@ function bind(){
     $('#teacherExpGroup').style.display = st.regRole === 'teacher' ? 'block' : 'none';
     $('#teacherBioGroup').style.display = st.regRole === 'teacher' ? 'block' : 'none';
   });
-  $('.role-option[data-role="student"]').style.borderColor = 'var(--emerald-3)';
+  const rOpt = $('.role-option[data-role="student"]');
+  if(rOpt) rOpt.style.borderColor = 'var(--emerald-3)';
 
-  $('#nextStepBtn').onclick = () => {
-    if(!validateStep()) return;
-    if(st.regStep < 4){ st.regStep++; updateStepper(); }
-  };
+  $('#nextStepBtn').onclick = () => { if(!validateStep()) return; if(st.regStep < 4){ st.regStep++; updateStepper(); } };
   $('#prevStepBtn').onclick = () => { if(st.regStep > 1){ st.regStep--; updateStepper(); } };
   $('#registerBtn').onclick = doRegister;
 
   $('#logoutBtn').onclick = logout;
-  $('#themeBtn').onclick = () => {
-    st.theme = st.theme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('nb_theme', st.theme);
-    applyTheme();
-  };
+  $('#themeBtn').onclick = () => { st.theme = st.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('nb_theme', st.theme); applyTheme(); };
   $('#brandBtn').onclick = () => go('profile');
   $('#chatBtn').onclick = () => go('chatList');
   $('#notifBtn').onclick = () => go('notifications');
@@ -2175,16 +2454,26 @@ function bind(){
   });
   $('#userSearch').oninput = () => renderUsers();
 
+  $$('#cardFilterChips .filter-chip').forEach(c => c.onclick = () => {
+    $$('#cardFilterChips .filter-chip').forEach(x => x.classList.toggle('active', x === c));
+    st.cardFilter = c.dataset.filter;
+    renderCards();
+  });
+  $('#cardSearch').oninput = () => renderCards();
+
+  $('#createCardsBtn').onclick = () => openCreateCardsModal();
   $('#addSubjectBtn').onclick = () => openSubM();
   $('#addCourseBtn').onclick = () => openCourseM();
   $('#addLessonBtn').onclick = () => { if(!st.courses.length){ toast('أضف دورة أولاً','error'); return; } openLessonM(); };
   $('#addMyCourseBtn').onclick = () => { if(!st.me.active){ toast('حسابك غير مفعّل','error'); return; } openCourseM(); };
   $('#addMyLessonBtn').onclick = () => { if(!st.me.active){ toast('حسابك غير مفعّل','error'); return; } const mc = st.courses.filter(c => c.teacherId === st.me.id); if(!mc.length){ toast('أضف دورة أولاً','error'); return; } openLessonM(); };
 
-  $('#requestTopupBtn').onclick = openTopup;
+  $('#redeemCode').addEventListener('input', e => formatCardInput(e.target));
+  $('#redeemBtn').onclick = redeemCard;
+  $('#redeemCode').addEventListener('keypress', e => { if(e.key === 'Enter') redeemCard(); });
+
   $('#goStudentWithdrawal').onclick = () => go('studentWithdrawal');
   $('#requestStudentWdBtn').onclick = openStudentWdModal;
-
   $('#backToStudentHome').onclick = () => go('studentHome');
   $('#backToSubject').onclick = () => openSub(st.curSubject);
   $('#backToCourse').onclick = () => openCourse(st.curCourse);
