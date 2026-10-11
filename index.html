@@ -824,6 +824,9 @@ const ini = n => { const p=String(n||'').trim().split(/\s+/); return ((p[0]||'')
 const tokenize = s => String(s||'').toLowerCase().replace(/[^\u0600-\u06FF\w\s]/g,' ').split(/\s+/).filter(w => w.length > 2);
 const getLevelInfo = id => LEVELS[id] || { name:'—', icon:'📘', color:'#64748b', desc:'' };
 
+// ✅ FIX 5: Helper لتوحيد المستوى (grade → level)
+const getCourseLevel = c => c?.level || c?.grade || '';
+
 function toast(msg, type=''){
 const t = $('#toast'); t.textContent = msg;
 t.className = 'toast show' + (type ? ' '+type : '');
@@ -1015,12 +1018,27 @@ $('#loginBtn').disabled = true; $('#loginBtn').innerHTML = '⏳...';
 try{ await signInWithEmailAndPassword(auth, u + EMAIL_SUF, p); }
 catch(e){ toast('بيانات دخول خاطئة','error'); $('#loginBtn').disabled = false; $('#loginBtn').innerHTML = 'دخول ←'; }
 }
+
 async function doRegister(){
 if(!onlineCheck()) return;
 const name = $('#regName').value.trim(), username = $('#regUser').value.trim().toLowerCase();
 const password = $('#regPass').value, phone = $('#regPhone').value.trim();
 if(!$('#regTerms').checked){ toast('وافق على الشروط','error'); return; }
 
+// ============ ✅ FIX 1: فحص وجود مدير بشكل آمن ============
+// نبحث عن مدير موجود. إذا فشل الاستعلام (صلاحيات)، نفترض أنه موجود (لأمان)
+let hasAdmin = false;
+try{
+  const s = await getDocs(query(collection(db,'users'), where('role','==','admin'), limit(1)));
+  hasAdmin = !s.empty;
+}catch(e){
+  console.warn('admin check failed, defaulting to hasAdmin=true', e);
+  hasAdmin = true;  // ✅ fallback آمن: لا ينشئ مدراء جدد
+}
+const finalRole = hasAdmin ? st.regRole : 'admin';
+// ==========================================================
+
+// ✅ FIX 2: قبول الشريك بدون حقل status
 let partnerId = null, partnerDiscount = 0, partnerName = '';
 const partnerCode = ($('#regPartnerCode')?.value || '').trim().toUpperCase();
 if(partnerCode){
@@ -1029,7 +1047,8 @@ const snap = await getDocs(query(collection(db,'partners'), where('code','==',pa
 if(!snap.empty){
 const p = snap.docs[0].data();
 const endOk = !p.discountEnd || (p.discountEnd.toDate ? p.discountEnd.toDate().getTime() > Date.now() : true);
-if(p.status === 'active' && endOk){
+const partnerActive = p.status === 'active' || p.status === undefined || p.status === null;
+if(partnerActive && endOk){
 partnerId = snap.docs[0].id;
 partnerDiscount = p.discount;
 partnerName = p.name;
@@ -1042,18 +1061,17 @@ let affiliateId = null, affiliateName = '';
 const affCode = ($('#regAffiliateCode')?.value || '').trim().toUpperCase();
 if(affCode){
 try{
-const snap = await getDocs(query(collection(db,'affiliates'), where('code','==',affCode), where('status','==','active'), limit(1)));
+const snap = await getDocs(query(collection(db,'affiliates'), where('code','==',affCode), limit(1)));
 if(!snap.empty){
+const a = snap.docs[0].data();
+const affActive = a.status === 'active' || a.status === undefined || a.status === null;
+if(affActive){
 affiliateId = snap.docs[0].id;
-affiliateName = snap.docs[0].data().name;
+affiliateName = a.name;
+}
 }
 }catch(e){ console.warn(e); }
 }
-
-let first = false;
-try{ const s = await getDocs(query(collection(db,'users'), limit(1))); first = s.empty; }
-catch(e){ first = true; }
-const finalRole = first ? 'admin' : st.regRole;
 
 $('#registerBtn').disabled = true; $('#registerBtn').innerHTML = '⏳...';
 try{
@@ -1084,7 +1102,7 @@ try{ await addSubscriber({ email: realEmail, name, level: $('#regLevel')?.value 
 catch(e){ console.warn('subscriber add', e); }
 }
 
-if(first) toast('تم إنشاء حساب المدير ✓','success');
+if(finalRole === 'admin') toast('تم إنشاء حساب المدير ✓','success');
 else if(partnerId) toast(`🎉 خصم ${partnerDiscount}% من ${partnerName}`,'success');
 else if(finalRole === 'teacher') toast('بانتظار التفعيل','success');
 }catch(e){
@@ -1179,14 +1197,19 @@ let ref = collection(db,col);
 if(whereFn) ref = query(ref, whereFn());
 st.unsubs.push(onSnapshot(ref, snap => {
 const arr = snap.docs.map(d => ({id:d.id, ...d.data()}));
-if(key === '_chats2'){
-const existing = st.chats || [];
-const ids = new Set(existing.map(c => c.id));
-arr.forEach(c => { if(!ids.has(c.id)) existing.push(c); });
-st.chats = existing;
+
+// ✅ FIX 5: توحيد المستوى في الدورات
+if(key === 'courses'){
+  st.courses = arr.map(c => ({ ...c, level: c.level || c.grade || '' }));
+} else if(key === '_chats2'){
+  const existing = st.chats || [];
+  const ids = new Set(existing.map(c => c.id));
+  arr.forEach(c => { if(!ids.has(c.id)) existing.push(c); });
+  st.chats = existing;
 } else if(key === '_settings'){
-if(arr[0]) st.settings = { _id: arr[0].id, ...arr[0] };
+  if(arr[0]) st.settings = { _id: arr[0].id, ...arr[0] };
 } else st[key] = arr;
+
 if(key === 'users'){ const me = st.users.find(u => u.id === st.me?.id); if(me){ st.me = me; updateHeader(); } }
 if(key === 'notifs') updateNB();
 if(key === 'chats' || key === '_chats2' || key === 'messages') updateCB();
@@ -1528,14 +1551,15 @@ const ptb = $('#pendingTicketsBadge'); if(ptb){ if(pt>0){ptb.textContent=pt;ptb.
 function renderAdminCourses(){
 const f = st.coursesFilter;
 let arr = st.courses;
-if(f !== 'all') arr = arr.filter(c => c.level === f);
+// ✅ FIX 5: استخدم getCourseLevel
+if(f !== 'all') arr = arr.filter(c => getCourseLevel(c) === f);
 arr = [...arr].sort((a,b) => (a.order||0) - (b.order||0));
 const l = $('#coursesList');
 if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">📚</div><div class="empty-title">لا توجد دورات</div><div class="empty-text">اضغط "+ إضافة"</div></div>'; return; }
 l.innerHTML = '';
 arr.forEach(c => {
 const t = st.users.find(x => x.id === c.teacherId);
-const lvlInfo = getLevelInfo(c.level);
+const lvlInfo = getLevelInfo(getCourseLevel(c));
 const lessonCount = st.lessons.filter(x => x.courseId === c.id).length;
 const el = document.createElement('div');
 el.className = 'list-item no-click';
@@ -1543,7 +1567,7 @@ el.innerHTML = `
 <div class="list-thumb" style="background:linear-gradient(135deg,${lvlInfo.color},${lvlInfo.color}dd)">${lvlInfo.icon}</div>
 <div class="list-info">
 <div class="list-title">${esc(c.title)}${c.free ? '<span class="badge badge-active">مجانية</span>' : ''}</div>
-<div class="list-meta"><span class="badge badge-${c.level === '12sci' ? 'sci' : c.level === '12lit' ? 'lit' : 'ninth'}" style="font-size:10px">${lvlInfo.name}</span><span>🎬 ${lessonCount}</span></div>
+<div class="list-meta"><span class="badge badge-${getCourseLevel(c) === '12sci' ? 'sci' : getCourseLevel(c) === '12lit' ? 'lit' : 'ninth'}" style="font-size:10px">${lvlInfo.name}</span><span>🎬 ${lessonCount}</span></div>
 ${t ? `<div style="font-size:11.5px;color:var(--text-3);margin-top:4px">👨‍🏫 ${esc(t.name)}</div>` : '<div style="font-size:11.5px;color:var(--danger);margin-top:4px">⚠️ بدون معلم</div>'}
 </div>
 <div style="display:flex;flex-direction:column;gap:4px">
@@ -1570,7 +1594,7 @@ c = c || { id:'', title:'', level:'9', teacherId:'', description:'', free:false,
 const teachers = st.users.filter(u => u.role === 'teacher' && u.active);
 openM(isNew ? '📚 دورة جديدة' : '✏️ تعديل', `
 <div class="form-group"><label class="form-label">العنوان <span class="req">*</span></label><input class="form-input" id="cT" value="${esc(c.title)}"></div>
-<div class="form-group"><label class="form-label">الصف <span class="req">*</span></label><select class="form-select" id="cLvl">${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${c.level===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select></div>
+<div class="form-group"><label class="form-label">الصف <span class="req">*</span></label><select class="form-select" id="cLvl">${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${getCourseLevel(c)===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">المعلم <span class="req">*</span></label><select class="form-select" id="cTe"><option value="">— اختر —</option>${teachers.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description||'')}</textarea></div>
 <div class="form-group"><label class="form-label">الترتيب</label><input type="number" class="form-input" id="cOrder" value="${c.order||0}"></div>
@@ -1597,7 +1621,7 @@ if(!st.lessons.length){ l.innerHTML = '<div class="empty"><div class="empty-icon
 l.innerHTML = '';
 [...st.lessons].sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x => {
 const c = st.courses.find(y => y.id === x.courseId);
-const lvlInfo = getLevelInfo(c?.level);
+const lvlInfo = getLevelInfo(getCourseLevel(c));
 const el = document.createElement('div');
 el.className = 'list-item no-click';
 el.innerHTML = `
@@ -1623,7 +1647,7 @@ const availableCourses = st.me.role === 'teacher' ? st.courses.filter(c => c.tea
 if(!availableCourses.length){ toast('ليس لديك دورات','error'); return; }
 if(!availableCourses.find(c => c.id === l.courseId)) l.courseId = availableCourses[0].id;
 openM(isNew ? '🎬 درس جديد' : '✏️ تعديل', `
-<div class="form-group"><label class="form-label">الدورة <span class="req">*</span></label><select class="form-select" id="lC">${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${getLevelInfo(c.level).icon} ${esc(c.title)}</option>`).join('')}</select></div>
+<div class="form-group"><label class="form-label">الدورة <span class="req">*</span></label><select class="form-select" id="lC">${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${getLevelInfo(getCourseLevel(c)).icon} ${esc(c.title)}</option>`).join('')}</select></div>
 <div class="form-group"><label class="form-label">العنوان <span class="req">*</span></label><input class="form-input" id="lT" value="${esc(l.title)}"></div>
 <div class="form-group"><label class="form-label">رابط يوتيوب <span class="req">*</span></label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" dir="ltr" style="text-align:left"></div>
 <div class="form-group"><label class="form-label">السعر (0 = مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price||0}" min="0"></div>
@@ -2012,7 +2036,7 @@ function renderPartners(){
 const q = ($('#partnerSearch')?.value || '').trim().toLowerCase();
 let arr = st.partners;
 if(q) arr = arr.filter(p => (p.name||'').toLowerCase().includes(q) || (p.code||'').toLowerCase().includes(q));
-const active = st.partners.filter(p => p.status === 'active').length;
+const active = st.partners.filter(p => p.status === 'active' || p.status === undefined).length;
 const totalStudents = st.users.filter(u => u.partnerId).length;
 const totalRevenue = st.transactions.filter(t => t.type === 'purchase' && t.partnerId).reduce((s,t) => s+(t.amount||0), 0);
 $('#partnersStats').innerHTML = `
@@ -2027,6 +2051,7 @@ arr.sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(p
 const myStudents = st.users.filter(u => u.partnerId === p.id);
 const myRevenue = st.transactions.filter(t => t.type === 'purchase' && t.partnerId === p.id).reduce((s,t) => s+(t.amount||0), 0);
 const isExpired = p.discountEnd && (p.discountEnd.toDate ? p.discountEnd.toDate().getTime() < Date.now() : false);
+const partnerActive = p.status === 'active' || p.status === undefined || p.status === null;
 const el = document.createElement('div');
 el.className = 'card';
 el.innerHTML = `
@@ -2034,7 +2059,7 @@ el.innerHTML = `
 <div style="flex:1;min-width:0">
 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
 <strong style="font-size:16px">${esc(p.name)}</strong>
-<span class="badge badge-${p.status === 'active' && !isExpired ? 'active' : 'inactive'}">${isExpired ? '⏰ منتهي' : p.status === 'active' ? '🟢 نشط' : '⛔'}</span>
+<span class="badge badge-${partnerActive && !isExpired ? 'active' : 'inactive'}">${isExpired ? '⏰ منتهي' : partnerActive ? '🟢 نشط' : '⛔'}</span>
 <span class="badge" style="background:#fce7f3;color:#9d174d">💸 ${p.discount}%</span>
 </div>
 <div style="font-size:12.5px;color:var(--text-3)">${p.type === 'school' ? '🏫 مدرسة' : '📚 معهد'}</div>
@@ -2053,13 +2078,13 @@ el.innerHTML = `
 <div style="display:flex;gap:6px">
 <button class="btn btn-info btn-sm" style="flex:1" data-view="${p.id}">👥 طلاب</button>
 <button class="btn btn-ghost btn-sm" style="flex:1" data-edit="${p.id}">✏️</button>
-<button class="btn btn-${p.status === 'active' ? 'warning' : 'success'} btn-sm" data-toggle="${p.id}">${p.status === 'active' ? '⏸' : '▶'}</button>
+<button class="btn btn-${partnerActive ? 'warning' : 'success'} btn-sm" data-toggle="${p.id}">${partnerActive ? '⏸' : '▶'}</button>
 <button class="btn btn-danger btn-sm" data-del="${p.id}">🗑</button>
 </div>`;
 el.querySelector('[data-copy]').onclick = () => { navigator.clipboard.writeText(p.code); toast('✓','success'); };
 el.querySelector('[data-view]').onclick = () => viewPartnerStudents(p);
 el.querySelector('[data-edit]').onclick = () => openPartnerM(p);
-el.querySelector('[data-toggle]').onclick = async () => { try{ await updateDoc(doc(db,'partners',p.id),{status: p.status === 'active' ? 'inactive' : 'active'}); toast('✓','success'); }catch(e){ toast('فشل','error'); } };
+el.querySelector('[data-toggle]').onclick = async () => { try{ await updateDoc(doc(db,'partners',p.id),{status: partnerActive ? 'inactive' : 'active'}); toast('✓','success'); }catch(e){ toast('فشل','error'); } };
 el.querySelector('[data-del]').onclick = async () => {
 if(myStudents.length > 0){ toast(`⚠️ ${myStudents.length} طالب مرتبط`,'error'); return; }
 if(!confirm(`حذف "${p.name}"؟`)) return;
@@ -2135,7 +2160,7 @@ function renderAffiliates(){
 const q = ($('#affiliateSearch')?.value || '').trim().toLowerCase();
 let arr = st.affiliates;
 if(q) arr = arr.filter(a => (a.name||'').toLowerCase().includes(q) || (a.code||'').toLowerCase().includes(q));
-const active = st.affiliates.filter(a => a.status === 'active').length;
+const active = st.affiliates.filter(a => a.status === 'active' || a.status === undefined).length;
 const totalStudents = st.users.filter(u => u.affiliateId).length;
 const totalCommissions = st.affiliates.reduce((s,a) => s + (a.totalEarned || 0), 0);
 $('#affiliatesStats').innerHTML = `
@@ -2151,6 +2176,7 @@ const myStudents = st.users.filter(u => u.affiliateId === a.id);
 const calc = calculateAffiliateTier({ id:a.id, ...a });
 const pendingWd = st.withdrawals.filter(w => w.affiliateId === a.id && w.status === 'pending').reduce((s,w) => s + w.amount, 0);
 const available = (a.balance || 0) - pendingWd;
+const affActive = a.status === 'active' || a.status === undefined || a.status === null;
 const el = document.createElement('div');
 el.className = 'card';
 el.innerHTML = `
@@ -2158,7 +2184,7 @@ el.innerHTML = `
 <div style="flex:1;min-width:0">
 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">
 <strong style="font-size:16px">${esc(a.name)}</strong>
-<span class="badge badge-${a.status === 'active' ? 'active' : 'inactive'}">${a.status === 'active' ? '🟢' : '⛔'}</span>
+<span class="badge badge-${affActive ? 'active' : 'inactive'}">${affActive ? '🟢' : '⛔'}</span>
 <span class="badge" style="background:${TIER_COLORS[calc.tier]}20;color:${TIER_COLORS[calc.tier]};border:1.5px solid ${TIER_COLORS[calc.tier]}">${calc.tierData.icon} ${calc.tierData.name} · ${calc.effectiveRate}%</span>
 </div>
 <div style="font-size:12.5px;color:var(--text-3)">${a.type === 'teacher' ? '👨‍🏫 معلم' : a.type === 'library' ? '📚 مكتبة' : a.type === 'shop' ? '🏪 متجر' : a.type === 'student' ? '👨‍🎓 طالب' : '👤'}</div>
@@ -2183,7 +2209,7 @@ el.innerHTML = `
 <button class="btn btn-success btn-sm" style="flex:1;min-width:100px" data-pay="${a.id}">💸 دفع</button>
 <button class="btn btn-info btn-sm" style="flex:1;min-width:100px" data-statement="${a.id}">📄 كشف</button>
 <button class="btn btn-ghost btn-sm" data-edit="${a.id}">✏️</button>
-<button class="btn btn-${a.status === 'active' ? 'warning' : 'success'} btn-sm" data-toggle="${a.id}">${a.status === 'active' ? '⏸' : '▶'}</button>
+<button class="btn btn-${affActive ? 'warning' : 'success'} btn-sm" data-toggle="${a.id}">${affActive ? '⏸' : '▶'}</button>
 <button class="btn btn-danger btn-sm" data-del="${a.id}">🗑</button>
 </div>`;
 el.querySelector('[data-copy-code]').onclick = () => { navigator.clipboard.writeText(a.code); toast('✓','success'); };
@@ -2193,7 +2219,7 @@ el.querySelector('[data-print]').onclick = () => generateAffiliatePoster(a);
 el.querySelector('[data-pay]').onclick = () => openAffiliatePayModal(a);
 el.querySelector('[data-statement]').onclick = () => generateAffiliateStatement(a);
 el.querySelector('[data-edit]').onclick = () => openAffiliateM(a);
-el.querySelector('[data-toggle]').onclick = async () => { try{ await updateDoc(doc(db,'affiliates',a.id),{status: a.status === 'active' ? 'inactive' : 'active'}); toast('✓','success'); }catch(e){ toast('فشل','error'); } };
+el.querySelector('[data-toggle]').onclick = async () => { try{ await updateDoc(doc(db,'affiliates',a.id),{status: affActive ? 'inactive' : 'active'}); toast('✓','success'); }catch(e){ toast('فشل','error'); } };
 el.querySelector('[data-del]').onclick = async () => {
 if(myStudents.length > 0 && !confirm(`⚠️ ${myStudents.length} طالب. حذف؟`)) return;
 if(myStudents.length === 0 && !confirm(`حذف "${a.name}"؟`)) return;
@@ -2318,12 +2344,14 @@ ${students.length ? `<table><thead><tr><th>الطالب</th><th>التسجيل</
 <h2>💸 آخر العمولات (${Math.min(purchases.length, 30)})</h2>
 ${purchases.length ? `<table><thead><tr><th>التاريخ</th><th>الطالب</th><th>الدرس</th><th>الشراء</th><th>العمولة</th></tr></thead><tbody>${purchases.slice(0,30).map(p => `<tr><td>${fd(p.date)}</td><td>${esc(p.studentName)}</td><td>${esc(p.lessonTitle.slice(0,40))}</td><td>${fm(p.amount)} ل.س</td><td class="pos">+${fm(Math.round(p.amount * calc.effectiveRate / 100))} ل.س</td></tr>`).join('')}</tbody></table>` : '<p style="color:#94a3b8;text-align:center;padding:20px">لا عمولات</p>'}
 <h2>📋 سجل المدفوعات (${withdrawals.length})</h2>
-${withdrawals.length ? `<table><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr></thead><tbody>${withdrawals.map(w => `<tr><td>${fd(w.date)}</td><td class="neg" style="color:#dc2626;font-weight:900">-${fm(w.amount)} ل.س</td><td>${esc(w.method||'—')}</td><td>${w.status === 'approved' ? 'مدفوع' : w.status === 'rejected' ? 'مرفوض' : 'مراجعة'}</td></tr>`).join('')}</tbody></table>` : '<p style="color:#94a3b8;text-align:center;padding:20px">لا مدفوعات</p>'}
+${withdrawals.length ? `<table><thead><tr><th>التاريخ</th><th>المبلغ</th><th>الطريقة</th><th>الحالة</th></tr></thead><tbody>${withdrawals.map(w => `<tr><td>${fd(w.date)}</td><td style="color:#dc2626;font-weight:900">-${fm(w.amount)} ل.س</td><td>${esc(w.method||'—')}</td><td>${w.status === 'approved' ? 'مدفوع' : w.status === 'rejected' ? 'مرفوض' : 'مراجعة'}</td></tr>`).join('')}</tbody></table>` : '<p style="color:#94a3b8;text-align:center;padding:20px">لا مدفوعات</p>'}
 <div style="background:#f8fafc;border-radius:14px;padding:20px;margin-top:20px;border-right:4px solid #059669"><div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;font-weight:700"><span>إجمالي العمولات:</span><span style="color:#059669;font-weight:900">${fm(af.totalEarned||0)} ل.س</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;font-weight:700;border-top:1px solid #e2e8f0"><span>المسحوبات:</span><span style="color:#dc2626;font-weight:900">-${fm(af.totalWithdrawn||0)} ل.س</span></div><div style="display:flex;justify-content:space-between;padding:12px 0;font-size:16px;font-weight:900;border-top:2px solid #059669;margin-top:8px"><span>الرصيد:</span><span style="font-size:22px">${fm(af.balance||0)} ل.س</span></div></div>
 <div class="footer">© 2025 <strong>أكاديمية النبراس</strong></div>
 <button class="btn no-print" onclick="window.print()">🖨️ طباعة / PDF</button></body></html>`);
 win.document.close();
 }
+
+// ==================== ✅ FIX 3: الأفلييت العام — جلب مباشر من Firestore ====================
 async function openAffiliatePublic(code){
 code = code.toUpperCase();
 $('#affiliatePublicView').style.display = 'block';
@@ -2337,15 +2365,41 @@ $('#affPublicContent').innerHTML = '<div class="card" style="text-align:center;p
 return;
 }
 const af = { id: snap.docs[0].id, ...snap.docs[0].data() };
-$('#affPublicName').textContent = af.name + ' · عمولة ' + af.commissionRate + '%';
-const students = st.users.filter(u => u.affiliateId === af.id);
-const pendingWd = st.withdrawals.filter(w => w.affiliateId === af.id && w.status === 'pending').reduce((s,w) => s + w.amount, 0);
+
+// جلب البيانات مباشرة (المستخدم غير مسجل)
+const studentsSnap = await getDocs(query(collection(db,'users'), where('affiliateId','==',af.id)));
+const students = studentsSnap.docs.map(d => ({id:d.id, ...d.data()}));
+
+const wdSnap = await getDocs(query(collection(db,'withdrawals'), where('affiliateId','==',af.id)));
+const withdrawals = wdSnap.docs.map(d => ({id:d.id, ...d.data()}));
+
+let allPurchases = [];
+for(const u of students){
+try{
+const pSnap = await getDocs(query(collection(db,'purchases'), where('userId','==',u.id)));
+pSnap.docs.forEach(d => allPurchases.push({id:d.id, ...d.data()}));
+}catch(e){}
+}
+
+const baseRate = af.baseRate || af.commissionRate || 15;
+$('#affPublicName').textContent = af.name + ' · عمولة ' + baseRate + '%';
+const pendingWd = withdrawals.filter(w => w.status === 'pending').reduce((s,w) => s + w.amount, 0);
 const available = (af.balance || 0) - pendingWd;
 const affiliateLink = location.origin + location.pathname + '?ref=' + af.code;
-const calc = calculateAffiliateTier(af);
+
+const studentCount = students.length;
+const totalRevenue = allPurchases.reduce((s,p) => s + (p.price||0), 0);
+let tier = 'bronze';
+if(studentCount >= TIERS.gold.minStudents || totalRevenue >= TIERS.gold.minRevenue) tier = 'gold';
+else if(studentCount >= TIERS.silver.minStudents || totalRevenue >= TIERS.silver.minRevenue) tier = 'silver';
+const tierData = TIERS[tier];
+const effectiveRate = Math.min(50, baseRate + tierData.rateBonus);
+const calc = { tier, tierData, effectiveRate, baseRate, studentCount, totalRevenue };
+
 const tierColors = { bronze:'#d97706', silver:'#64748b', gold:'#fbbf24' };
 const nextTier = calc.tier === 'bronze' ? 'silver' : calc.tier === 'silver' ? 'gold' : null;
 const nextT = nextTier ? TIERS[nextTier] : null;
+
 $('#affPublicContent').innerHTML = `
 <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:20px;padding:20px;margin-bottom:14px;text-align:center">
 <div style="font-size:12px;color:#78350f;font-weight:800;margin-bottom:6px">🎁 كودك</div>
@@ -2354,7 +2408,8 @@ $('#affPublicContent').innerHTML = `
 <button class="btn btn-gold btn-sm" data-act="copy-code">📋 الكود</button>
 <button class="btn btn-info btn-sm" data-act="copy-link">🔗 الرابط</button>
 <button class="btn btn-success btn-sm" data-act="share-wa">💬 واتساب</button>
-</div></div>
+</div>
+</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
 <div class="card" style="margin:0;padding:16px;text-align:center"><div style="font-size:28px;font-weight:900;color:#0284c7">${students.length}</div><div style="font-size:11px;color:var(--text-3);font-weight:700">طالب</div></div>
 <div class="card" style="margin:0;padding:16px;text-align:center"><div style="font-size:28px;font-weight:900;color:#059669">${fm(available)}</div><div style="font-size:11px;color:var(--text-3);font-weight:700">رصيد متاح</div></div>
@@ -2372,9 +2427,10 @@ ${nextTier ? `<div style="background:var(--bg-2);border-radius:12px;padding:14px
 </div>
 <div class="card">
 <div class="card-title">👥 آخر الطلاب</div>
-${students.length ? students.slice(-10).reverse().map(u => `<div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--border)"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">${ini(u.name)||'👤'}</div><div style="flex:1"><div style="font-size:13px;font-weight:800">${esc(u.name)}</div><div style="font-size:11px;color:var(--text-3)">${fd(u.createdAt)}</div></div><div style="font-size:11px;color:var(--text-3)">${st.purchases.filter(p => p.userId === u.id).length} درس</div></div>`).join('') : '<div style="padding:20px;text-align:center;color:var(--text-3);font-size:13px">لا طلاب بعد</div>'}
+${students.length ? students.slice(-10).reverse().map(u => `<div style="display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid var(--border)"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px">${ini(u.name)||'👤'}</div><div style="flex:1"><div style="font-size:13px;font-weight:800">${esc(u.name)}</div><div style="font-size:11px;color:var(--text-3)">${fd(u.createdAt)}</div></div></div>`).join('') : '<div style="padding:20px;text-align:center;color:var(--text-3);font-size:13px">لا طلاب بعد</div>'}
 </div>
-<button class="btn btn-primary" id="publicStatementBtn" style="margin-top:10px">📄 تحميل كشف حسابي PDF</button>`;
+<button class="btn btn-primary" id="publicStatementBtn" style="margin-top:10px">📄 تحميل كشف حسابي</button>`;
+
 $('#affPublicContent').querySelectorAll('[data-act]').forEach(b => b.onclick = () => {
 const act = b.dataset.act;
 if(act === 'copy-code'){ navigator.clipboard.writeText(af.code); toast('✓','success'); }
@@ -2384,12 +2440,25 @@ const msg = `مرحباً! 👋\n\n🎓 منصة أكاديمية النبراس
 window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 });
-$('#publicStatementBtn').onclick = () => generateAffiliateStatement(af);
+$('#publicStatementBtn').onclick = () => {
+// كشف مبسط يعمل بدون تسجيل دخول
+const today = new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'long',year:'numeric'}).format(new Date());
+const win = window.open('', '_blank');
+win.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>كشف - ${af.name}</title><style>*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:'Cairo',sans-serif;padding:30px;background:#fff;color:#0a0a0a}.header{display:flex;justify-content:space-between;padding-bottom:20px;border-bottom:3px solid #059669;margin-bottom:24px}.header h1{font-size:26px;font-weight:900;color:#064e3b}.box{background:linear-gradient(135deg,#064e3b,#059669);color:#fff;border-radius:14px;padding:20px;margin-bottom:20px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}.grid4>div{border-radius:12px;padding:14px;text-align:center;background:#f8fafc;border:1.5px solid #e2e8f0}.btn{position:fixed;bottom:20px;right:20px;padding:14px 26px;background:linear-gradient(135deg,#064e3b,#059669);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit}</style></head><body>
+<div class="header"><div><h1>💰 كشف حساب الأفلييت</h1><div style="font-size:12px;color:#64748b;margin-top:4px">أكاديمية النبراس</div></div><div style="text-align:left;font-size:12px"><div><strong>التاريخ:</strong> ${today}</div></div></div>
+<div class="box"><div style="font-size:22px;font-weight:900">${esc(af.name)}</div><div style="font-size:12px;opacity:.9;font-family:monospace;letter-spacing:2px;margin-top:4px">${esc(af.code)}</div><div style="display:inline-block;padding:6px 16px;border-radius:999px;font-size:12px;font-weight:800;background:rgba(251,191,36,.25);border:1.5px solid rgba(251,191,36,.6);color:#fbbf24;margin-top:10px">${calc.tierData.icon} ${calc.tierData.name} — ${calc.effectiveRate}%</div></div>
+<div class="grid4"><div><div style="font-size:22px;font-weight:900;color:#0284c7">${students.length}</div><div style="font-size:11px;color:#64748b;font-weight:700;margin-top:4px">طالب</div></div><div><div style="font-size:18px;font-weight:900;color:#059669">${fm(totalRevenue)}</div><div style="font-size:11px;color:#64748b;font-weight:700;margin-top:4px">إيرادات</div></div><div><div style="font-size:18px;font-weight:900;color:#d97706">${fm(af.totalEarned||0)}</div><div style="font-size:11px;color:#64748b;font-weight:700;margin-top:4px">عمولات</div></div><div><div style="font-size:18px;font-weight:900;color:#dc2626">${fm(af.balance||0)}</div><div style="font-size:11px;color:#64748b;font-weight:700;margin-top:4px">رصيد</div></div></div>
+<div style="text-align:center;padding:40px;color:#94a3b8;font-size:13px">للحصول على الكشف الكامل، تواصل مع الإدارة</div>
+<div style="margin-top:30px;padding-top:16px;border-top:2px dashed #e2e8f0;text-align:center;font-size:11px;color:#94a3b8">© 2025 <strong>أكاديمية النبراس</strong></div>
+<button class="btn" onclick="window.print()">🖨️ طباعة / PDF</button></body></html>`);
+win.document.close();
+};
 }catch(e){
 console.error(e);
 $('#affPublicContent').innerHTML = '<div class="card" style="text-align:center;padding:40px">خطأ: ' + (e.code||e.message) + '</div>';
 }
 }
+// ==========================================================================================
 
 function renderSettings(){
 $('#setDefaultCommission').value = st.settings.defaultCommission ?? 30;
@@ -2574,7 +2643,7 @@ const arr = st.courses.filter(c => c.teacherId === st.me.id);
 if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-icon">📚</div><div class="empty-title">لا دورات</div></div>'; return; }
 l.innerHTML = '';
 arr.forEach(c => {
-const lvlInfo = getLevelInfo(c.level);
+const lvlInfo = getLevelInfo(getCourseLevel(c));
 const cnt = st.lessons.filter(x => x.courseId === c.id).length;
 const el = document.createElement('div');
 el.className = 'list-item no-click';
@@ -2643,7 +2712,13 @@ $('#qlWalletCount').textContent = fm(me.balance) + ' ل.س';
 $('#studentStats').innerHTML = `
 <div class="stat-card" style="--sc:#d97706"><div class="stat-icon">💰</div><div class="stat-value">${fm(me.balance)}</div><div class="stat-label">رصيدي</div></div>
 <div class="stat-card" style="--sc:#059669"><div class="stat-icon">🎬</div><div class="stat-value">${mp.length}</div><div class="stat-label">دروس مشتراة</div></div>`;
-const myCourses = st.courses.filter(c => c.level === me.level).sort((a,b) => (a.order||0)-(b.order||0));
+
+// ✅ FIX 5: تطبيع المقارنة (grade أو level)
+const myCourses = st.courses.filter(c => {
+const cl = c.level || c.grade || '';
+return cl === me.level;
+}).sort((a,b) => (a.order||0)-(b.order||0));
+
 const cl = $('#studentCourses');
 if(!myCourses.length) cl.innerHTML = '<div class="empty"><div class="empty-icon">📚</div><div class="empty-title">لا دورات لصفك</div></div>';
 else{
@@ -2693,7 +2768,7 @@ function openCourse(id){
 const c = st.courses.find(x => x.id === id);
 if(!c) return;
 st.curCourse = id;
-const lvlInfo = getLevelInfo(c.level);
+const lvlInfo = getLevelInfo(getCourseLevel(c));
 $('#courseTitle').textContent = c.title;
 go('studentCourse');
 const t = st.users.find(u => u.id === c.teacherId);
@@ -2732,7 +2807,7 @@ con.appendChild(el);
 }
 
 let ytPlayer = null, ytReady = false, trackingInterval = null, currentLessonId = null, lastSavedSecond = 0;
-window.onYouTubeIframeAPIReady = function(){ ytReady = true; console.log('✅ YT API'); };
+window.onYouTubeIframeAPIReady = function(){ ytReady = true; };
 function createPlayer(videoId, startSeconds = 0, lessonId = null){
 destroyPlayer();
 currentLessonId = lessonId;
@@ -2993,7 +3068,7 @@ arr.forEach(p => {
 const x = st.lessons.find(y => y.id === p.lessonId);
 if(!x) return;
 const c = st.courses.find(y => y.id === x.courseId);
-const lvlInfo = getLevelInfo(c?.level);
+const lvlInfo = getLevelInfo(getCourseLevel(c));
 const el = document.createElement('div');
 el.className = 'list-item';
 el.innerHTML = `<div class="list-thumb purchased">✓</div><div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta"><span>${esc(c?.title||'')}</span><span>${lvlInfo.icon}</span></div></div>`;
@@ -3259,22 +3334,14 @@ const sugg = ['كيف أشحن محفظتي؟','كيف أشتري درس؟','ك�
 s.innerHTML = sugg.map(x => `<button class="ai-sugg" data-s="${esc(x)}">${esc(x)}</button>`).join('');
 s.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { $('#aiInput').value = b.dataset.s; sendAIMessage(); });
 }
-function findBestFAQ(question){
-const q = String(question||'').toLowerCase().trim();
-const qTokens = tokenize(q);
-const all = [...st.faq, ...LOCAL_FAQ];
-let best = null, bestScore = 0;
-all.forEach(f => {
-let score = 0;
-(f.keywords || []).forEach(kw => { const k = String(kw).toLowerCase().trim(); if(k && q.includes(k)) score += 10; });
-const fTokens = tokenize(f.question || '');
-score += qTokens.filter(t => fTokens.includes(t)).length * 3;
-if(score > bestScore){ bestScore = score; best = f; }
-});
-return bestScore >= 3 ? best : null;
-}
 function getSmartContextualAnswer(question){
+// ✅ حماية شاملة
 if(!st.me) return null;
+if(!Array.isArray(st.purchases)) st.purchases = [];
+if(!Array.isArray(st.notes)) st.notes = [];
+if(!Array.isArray(st.lessons)) st.lessons = [];
+if(!Array.isArray(st.courses)) st.courses = [];
+if(!Array.isArray(st.users)) st.users = [];
 const q = String(question||'').toLowerCase();
 const me = st.me;
 if(/رصيدي|كم رصيد|رصيد محفظتي/.test(q)) return `💰 رصيدك: *${fm(me.balance)} ل.س*`;
@@ -3283,10 +3350,13 @@ if(/شاراتي|كم شارة/.test(q)) return `🏅 لديك *${(me.badges||[]
 if(/شهاداتي|كم شهادة/.test(q)) return `📜 لديك *${countCompletedCourses()}* شهادة`;
 if(/مستواي|ما مستواي|أي صف|صفي/.test(q)){ const lvl = getLevelInfo(me.level); return `🎓 صفّك: *${lvl.name}* ${lvl.icon}`; }
 if(/كم معلم/.test(q)) return `👨‍🏫 *${st.users.filter(u => u.role === 'teacher' && u.active).length}* معلم`;
-if(/كم دورة/.test(q)) return `📚 *${st.courses.filter(c => c.level === me.level).length}* دورة في صفّك`;
+if(/كم دورة/.test(q)) return `📚 *${st.courses.filter(c => getCourseLevel(c) === me.level).length}* دورة في صفّك`;
 return null;
 }
+
+// ✅ FIX 4: sendAIMessage محسّن بمعالجة شاملة
 async function sendAIMessage(){
+if(!st.me){ toast('سجّل دخولك أولاً','error'); return; }
 const input = $('#aiInput');
 const text = input.value.trim();
 if(!text || st.aiWaitingForReply) return;
@@ -3299,14 +3369,45 @@ const typing = document.createElement('div');
 typing.className = 'ai-msg bot typing';
 typing.innerHTML = '<span></span><span></span><span></span>';
 c.appendChild(typing); c.scrollTop = c.scrollHeight;
+
 setTimeout(async () => {
-typing.remove();
+try{ typing.remove(); }catch(e){}
 let answer = null;
-try{ answer = getSmartContextualAnswer(text); }catch(e){}
-if(!answer){ try{ const faq = findBestFAQ(text); if(faq) answer = faq.answer; }catch(e){} }
+// 1. سياق ذكي
+try{ answer = getSmartContextualAnswer(text); }catch(e){ console.warn('ctx', e); }
+// 2. FAQ
+if(!answer){
+try{
+const faqList = Array.isArray(st.faq) ? st.faq : [];
+const all = [...faqList, ...LOCAL_FAQ];
+const q = String(text||'').toLowerCase().trim();
+const qTokens = tokenize(q);
+let best = null, bestScore = 0;
+all.forEach(f => {
+let score = 0;
+(f.keywords || []).forEach(kw => {
+const k = String(kw).toLowerCase().trim();
+if(k && q.includes(k)) score += 10;
+});
+const fTokens = tokenize(f.question || '');
+score += qTokens.filter(t => fTokens.includes(t)).length * 3;
+if(score > bestScore){ bestScore = score; best = f; }
+});
+if(bestScore >= 3 && best) answer = best.answer;
+}catch(e){ console.warn('faq', e); }
+}
+// 3. رد افتراضي + تذكرة
 if(!answer){
 answer = '🤔 لم أجد إجابة.\n\nسأرسل سؤالك للإدارة.\n\n💡 جرب:\n• "رصيدي"\n• "شهاداتي"\n• "كيف أشحن محفظتي؟"';
-try{ await addDoc(collection(db,'tickets'), { userId: st.me.id, question: text, status: 'pending', createdAt: serverTimestamp() }); }catch(e){}
+try{
+await addDoc(collection(db,'tickets'), {
+userId: st.me.id,
+userName: st.me.name,
+question: text,
+status: 'pending',
+createdAt: serverTimestamp()
+});
+}catch(e){ console.warn('ticket', e); }
 }
 st.aiChat.push({ role:'bot', text: answer, at: Date.now() });
 renderAIMessages();
@@ -3443,7 +3544,12 @@ if(!code){ info.style.display = 'none'; return; }
 try{
 const snap = await getDocs(query(collection(db,'partners'), where('code','==',code), limit(1)));
 if(snap.empty){ info.style.display='block'; info.style.background='#fee2e2'; info.style.color='#991b1b'; info.textContent='❌ كود غير صحيح'; }
-else{ const p = snap.docs[0].data(); info.style.display='block'; info.style.background='#dcfce7'; info.style.color='#065f46'; info.textContent = `✓ ${p.name} — خصم ${p.discount}%`; }
+else{
+const p = snap.docs[0].data();
+const partnerActive = p.status === 'active' || p.status === undefined || p.status === null;
+if(!partnerActive){ info.style.display='block'; info.style.background='#fee2e2'; info.style.color='#991b1b'; info.textContent='⛔ الشريك غير نشط'; }
+else{ info.style.display='block'; info.style.background='#dcfce7'; info.style.color='#065f46'; info.textContent = `✓ ${p.name} — خصم ${p.discount}%`; }
+}
 }catch(err){ info.style.display='none'; }
 });
 }
@@ -3455,9 +3561,14 @@ const code = e.target.value.trim().toUpperCase();
 const info = $('#affiliateCodeInfo');
 if(!code){ info.style.display = 'none'; return; }
 try{
-const snap = await getDocs(query(collection(db,'affiliates'), where('code','==',code), where('status','==','active'), limit(1)));
+const snap = await getDocs(query(collection(db,'affiliates'), where('code','==',code), limit(1)));
 if(snap.empty){ info.style.display='block'; info.style.background='#fee2e2'; info.style.color='#991b1b'; info.textContent='❌ كود غير صحيح'; }
-else{ const a = snap.docs[0].data(); info.style.display='block'; info.style.background='#dbeafe'; info.style.color='#1e40af'; info.textContent = `✓ ${a.name} يدعوك`; }
+else{
+const a = snap.docs[0].data();
+const affActive = a.status === 'active' || a.status === undefined || a.status === null;
+if(!affActive){ info.style.display='block'; info.style.background='#fee2e2'; info.style.color='#991b1b'; info.textContent='⛔ غير نشط'; }
+else{ info.style.display='block'; info.style.background='#dbeafe'; info.style.color='#1e40af'; info.textContent = `✓ ${a.name} يدعوك`; }
+}
 }catch(err){ info.style.display='none'; }
 });
 }
