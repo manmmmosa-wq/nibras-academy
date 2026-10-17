@@ -8,603 +8,302 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://www.youtube.com/iframe_api"></script>
+<!-- مكتبة Plyr للفيديو -->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <style>
 :root{
---primary:#4c1d95;--primary-2:#6d28d9;--primary-3:#8b5cf6;--primary-4:#a78bfa;
---gold:#d97706;--gold-2:#f59e0b;--gold-3:#fbbf24;--gold-4:#fde68a;
---rose:#ec4899;--rose-2:#f43f5e;
---bg:#faf5ff;--bg-2:#f3e8ff;--surface:#ffffff;--surface-2:#faf5ff;
---text:#1e1b4b;--text-2:#312e81;--text-3:#64748b;--text-4:#94a3b8;
+--primary:#4c1d95;--primary-2:#6d28d9;--primary-3:#8b5cf6;
+--gold:#d97706;--gold-2:#f59e0b;--gold-3:#fbbf24;
+--rose:#ec4899;
+--bg:#faf5ff;--bg-2:#f3e8ff;--surface:#ffffff;
+--text:#1e1b4b;--text-2:#312e81;--text-3:#64748b;
 --border:#ede9fe;--border-2:#ddd6fe;
 --danger:#dc2626;--info:#0284c7;
 --font:'Tajawal',sans-serif;--font-title:'Cairo',sans-serif;
---safe-bottom:env(safe-area-inset-bottom,0px)
 }
 [data-theme="dark"]{
---bg:#0a0616;--bg-2:#1a0b2e;--surface:#1e1b4b;--surface-2:#312e81;
---text:#faf5ff;--text-2:#e9d5ff;--text-3:#a78bfa;--text-4:#7c3aed;
+--bg:#0a0616;--bg-2:#1a0b2e;--surface:#1e1b4b;
+--text:#faf5ff;--text-2:#e9d5ff;--text-3:#a78bfa;
 --border:#312e81;--border-2:#4c1d95
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{overflow-x:hidden}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;padding-bottom:calc(88px + var(--safe-bottom));font-size:15px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;padding-bottom:88px;font-size:15px}
 button{cursor:pointer;border:none;background:none;color:inherit;font-family:inherit;font-size:inherit;transition:all .2s}
 input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 svg{display:block;flex-shrink:0}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
-.loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,#4c1d95,#6d28d9 50%,#8b5cf6);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;z-index:99999;color:#fff;transition:opacity .5s,visibility .5s}
+.loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,#4c1d95,#6d28d9);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:99999;color:#fff;transition:opacity .5s}
 .loading-screen.hide{opacity:0;visibility:hidden}
-.loading-logo{width:120px;height:120px;animation:float 3s ease-in-out infinite}
-.loading-title{font-family:var(--font-title);font-size:28px;font-weight:900}
-.loading-sub{font-size:14px;opacity:.85;font-weight:600}
-.loading-bar{width:200px;height:3px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden}
-.loading-bar::after{content:'';display:block;height:100%;background:linear-gradient(90deg,transparent,#fbbf24,transparent);animation:shimmer 1.6s infinite;background-size:200% 100%}
-.auth-screen{min-height:100vh;padding:28px 16px;background:linear-gradient(160deg,#4c1d95,#6d28d9 45%,#8b5cf6 75%,#ec4899);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.auth-card{background:rgba(255,255,255,.99);border-radius:32px;padding:40px 28px 36px;max-width:480px;width:100%;box-shadow:0 40px 80px -20px rgba(0,0,0,.5);position:relative;z-index:1;animation:slideUp .6s;max-height:96vh;overflow-y:auto}
-[data-theme="dark"] .auth-card{background:rgba(30,27,75,.99)}
-.auth-logo-wrap{display:flex;justify-content:center;margin-bottom:20px}
-.auth-logo-wrap svg{width:96px;height:96px}
-.auth-title{font-family:var(--font-title);font-size:28px;font-weight:900;text-align:center;color:var(--primary);margin-bottom:8px}
-.auth-subtitle{text-align:center;font-size:14px;color:var(--text-3);font-weight:500;margin-bottom:28px}
-.auth-tabs{display:flex;gap:6px;background:var(--bg-2);border-radius:16px;padding:5px;margin-bottom:24px}
-.auth-tab{flex:1;padding:13px;border-radius:12px;font-size:14px;font-weight:800;color:var(--text-3)}
-.auth-tab.active{background:var(--surface);color:var(--primary)}
-.form-group{margin-bottom:14px}
-.form-label{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:var(--text-2);margin-bottom:8px}
-.form-label .req{color:var(--danger)}
-.form-input,.form-select,.form-textarea{width:100%;padding:14px 16px;border:1.5px solid var(--border-2);border-radius:14px;background:var(--bg-2);font-size:15px;font-weight:600;outline:none;color:var(--text)}
+.auth-screen{min-height:100vh;padding:28px 16px;background:linear-gradient(160deg,#4c1d95,#6d28d9 45%,#8b5cf6 75%,#ec4899);display:flex;align-items:center;justify-content:center}
+.auth-card{background:var(--surface);border-radius:28px;padding:32px 24px;max-width:440px;width:100%;box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.auth-title{font-family:var(--font-title);font-size:26px;font-weight:900;text-align:center;color:var(--primary);margin-bottom:6px}
+.auth-subtitle{text-align:center;font-size:13px;color:var(--text-3);margin-bottom:24px}
+.auth-tabs{display:flex;gap:6px;background:var(--bg-2);border-radius:14px;padding:5px;margin-bottom:20px}
+.auth-tab{flex:1;padding:12px;border-radius:10px;font-size:14px;font-weight:800;color:var(--text-3)}
+.auth-tab.active{background:var(--surface);color:var(--primary);box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.form-group{margin-bottom:16px}
+.form-label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--text-2);margin-bottom:8px}
+.form-input,.form-select,.form-textarea{width:100%;padding:14px;border:1.5px solid var(--border-2);border-radius:12px;background:var(--bg-2);font-size:15px;font-weight:600;outline:none;color:var(--text)}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--primary-3);background:var(--surface)}
-.form-textarea{min-height:100px;resize:vertical;line-height:1.7}
 .pw-wrap{position:relative}
-.pw-toggle{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-3);padding:6px;cursor:pointer;font-size:18px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 24px;border-radius:16px;font-size:15px;font-weight:800;width:100%;text-decoration:none}
-.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
-.btn:disabled{opacity:.55;pointer-events:none}
+.pw-toggle{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-3);cursor:pointer;font-size:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;font-size:15px;font-weight:800;width:100%;text-decoration:none;transition:all .2s}
+.btn:active{transform:scale(0.98)}
 .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff}
 .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#fff}
 .btn-success{background:linear-gradient(135deg,#10b981,#34d399);color:#fff}
 .btn-danger{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
-.btn-warning{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
-.btn-info{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff}
-.btn-rose{background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff}
 .btn-ghost{background:var(--surface);color:var(--text);border:1.5px solid var(--border-2)}
-.btn-sm{padding:10px 18px;font-size:13.5px;width:auto;border-radius:12px}
-.app-bar{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--primary),var(--primary-2),var(--primary-3));color:#fff;padding:16px 20px;box-shadow:0 4px 24px -4px rgba(76,29,149,.35)}
-.app-bar-row{display:flex;justify-content:space-between;align-items:center;gap:14px;max-width:900px;margin:0 auto}
-.app-brand{display:flex;align-items:center;gap:14px;min-width:0;flex:1;cursor:pointer}
-.app-logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,rgba(251,191,36,.35),rgba(251,191,36,.12));border:1.5px solid rgba(251,191,36,.5);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.btn-sm{padding:8px 14px;font-size:13px;width:auto;border-radius:10px}
+.app-bar{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(76,29,149,.3)}
+.app-brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.app-logo{width:42px;height:42px;border-radius:12px;background:rgba(251,191,36,.2);border:1px solid rgba(251,191,36,.4);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .app-logo svg{width:100%;height:100%}
-.app-brand-name{font-family:var(--font-title);font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.app-user-name{font-size:12px;opacity:.85;font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.app-actions{display:flex;gap:8px;flex-shrink:0}
-.app-icon-btn{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff;position:relative}
-.app-icon-btn svg{width:20px;height:20px;stroke:currentColor;stroke-width:2}
-.app-icon-btn .badge{position:absolute;top:-4px;left:-4px;background:var(--rose);color:#fff;font-size:10.5px;font-weight:900;padding:2px 7px;border-radius:999px;min-width:20px;text-align:center;border:2px solid var(--primary-2)}
-main{padding:24px 18px;max-width:900px;margin:0 auto}
-.page{display:none;animation:fadeSlide .35s}
+.app-brand-name{font-family:var(--font-title);font-size:15px;font-weight:900}
+.app-user-name{font-size:11px;opacity:.85;font-weight:600}
+.app-actions{display:flex;gap:8px}
+.app-icon-btn{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff;position:relative}
+.app-icon-btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2}
+.app-icon-btn .badge{position:absolute;top:-4px;left:-4px;background:var(--rose);color:#fff;font-size:10px;font-weight:900;padding:2px 6px;border-radius:999px;border:2px solid var(--primary-2)}
+main{padding:20px 16px;max-width:800px;margin:0 auto}
+.page{display:none;animation:fadeSlide .3s}
 .page.active{display:block}
-.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;gap:14px}
-.page-title{font-family:var(--font-title);font-size:24px;font-weight:900;flex:1}
-.back-btn{width:46px;height:46px;border-radius:14px;background:var(--surface);border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center;color:var(--text-2)}
-.back-btn svg{width:20px;height:20px;stroke:currentColor;stroke-width:2.5}
-.card{background:var(--surface);border-radius:22px;padding:24px;border:1px solid var(--border);margin-bottom:16px;box-shadow:0 4px 16px -6px rgba(76,29,149,.06)}
-.card-title{font-size:13px;font-weight:900;color:var(--text-3);letter-spacing:.8px;margin-bottom:16px;text-transform:uppercase}
-.hero{background:radial-gradient(circle at 15% 15%,rgba(251,191,36,.35),transparent 45%),radial-gradient(circle at 85% 85%,rgba(236,72,153,.3),transparent 45%),linear-gradient(135deg,#4c1d95 0%,#6d28d9 55%,#8b5cf6 100%);color:#fff;border-radius:28px;padding:36px 28px;margin-bottom:24px;position:relative;overflow:hidden;box-shadow:0 24px 60px -18px rgba(76,29,149,.5)}
-.hero-inner{position:relative;z-index:1}
-.hero-label{font-size:13px;opacity:.92;font-weight:700}
-.hero-title{font-family:var(--font-title);font-size:32px;font-weight:900;margin-top:12px;line-height:1.2}
-.hero-title .highlight{color:#fbbf24}
-.hero-sub{font-size:15px;opacity:.92;margin-top:10px;font-weight:600}
-.hero-stats{display:flex;gap:22px;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.2)}
-.hero-stat{flex:1}
-.hero-stat-value{font-family:var(--font-title);font-size:26px;font-weight:900;line-height:1}
-.hero-stat-label{font-size:11.5px;opacity:.85;font-weight:700;margin-top:6px}
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:22px;position:relative;overflow:hidden;box-shadow:0 4px 16px -6px rgba(76,29,149,.06)}
-.stat-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:5px;background:var(--sc,var(--primary-3));border-radius:22px 0 0 22px}
-.stat-value{font-family:var(--font-title);font-size:30px;font-weight:900;line-height:1.05}
-.stat-label{font-size:13px;color:var(--text-3);font-weight:700;margin-top:6px}
-.action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.action-tile{background:var(--surface);border:1.5px solid var(--border);border-radius:22px;padding:24px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;cursor:pointer;position:relative;box-shadow:0 4px 16px -6px rgba(76,29,149,.06)}
-.action-tile:hover{transform:translateY(-5px);border-color:var(--tc,var(--primary-3))}
-.action-icon{width:64px;height:64px;border-radius:20px;background:var(--tc,var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center}
-.action-icon svg{width:32px;height:32px;stroke:#fff;stroke-width:2}
-.action-tile-title{font-size:15px;font-weight:900}
-.action-badge{position:absolute;top:12px;left:12px;background:var(--rose);color:#fff;font-size:11px;font-weight:900;padding:4px 9px;border-radius:999px;min-width:24px;text-align:center}
-.list-item{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:18px;margin-bottom:12px;display:flex;gap:16px;align-items:center;cursor:pointer;box-shadow:0 1px 2px rgba(76,29,149,.04)}
-.list-item:hover{border-color:var(--primary-3);box-shadow:0 12px 28px -10px rgba(76,29,149,.15)}
-.list-thumb{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;font-weight:900}
-.list-thumb.free{background:linear-gradient(135deg,#10b981,#34d399)}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
+.page-title{font-family:var(--font-title);font-size:22px;font-weight:900;flex:1}
+.back-btn{width:40px;height:40px;border-radius:12px;background:var(--surface);border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center;color:var(--text-2)}
+.card{background:var(--surface);border-radius:20px;padding:20px;border:1px solid var(--border);margin-bottom:16px;box-shadow:0 4px 15px rgba(0,0,0,0.02)}
+.hero{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-radius:24px;padding:30px 24px;margin-bottom:20px;position:relative;overflow:hidden;box-shadow:0 15px 30px rgba(76,29,149,.3)}
+.hero-title{font-family:var(--font-title);font-size:26px;font-weight:900;margin-top:8px;line-height:1.3}
+.hero-sub{font-size:14px;opacity:.9;margin-top:8px;font-weight:600}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:18px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.02)}
+.stat-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:4px;background:var(--sc,var(--primary-3));border-radius:18px 0 0 18px}
+.stat-value{font-family:var(--font-title);font-size:26px;font-weight:900;line-height:1.1}
+.stat-label{font-size:12px;color:var(--text-3);font-weight:700;margin-top:4px}
+.list-item{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:all .2s}
+.list-item:hover{border-color:var(--primary-3);box-shadow:0 8px 20px rgba(0,0,0,0.05)}
+.list-thumb{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px;font-weight:900}
 .list-thumb.locked{background:linear-gradient(135deg,#94a3b8,#64748b)}
 .list-thumb.purchased{background:linear-gradient(135deg,#0284c7,#0369a1)}
 .list-info{flex:1;min-width:0}
-.list-title{font-size:15.5px;font-weight:900;margin-bottom:6px;line-height:1.4}
-.list-meta{font-size:12.5px;color:var(--text-3);font-weight:600;display:flex;gap:12px;flex-wrap:wrap}
-.list-price{padding:6px 14px;border-radius:999px;font-size:12px;font-weight:800;background:var(--primary-2);color:#fff}
-.list-price.free{background:#10b981}
+.list-title{font-size:15px;font-weight:900;margin-bottom:4px}
+.list-meta{font-size:12px;color:var(--text-3);font-weight:600;display:flex;gap:10px;flex-wrap:wrap}
+.list-price{padding:4px 12px;border-radius:999px;font-size:11px;font-weight:800;background:var(--primary-2);color:#fff}
 .list-price.purchased{background:var(--info)}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:800}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:800}
 .badge-admin{background:#fee2e2;color:#991b1b}
 .badge-teacher{background:#ede9fe;color:#5b21b6}
 .badge-student{background:#dbeafe;color:#1e40af}
 .badge-active{background:#d1fae5;color:#065f46}
-.badge-pending{background:#fef3c7;color:#92400e}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:10px 6px calc(10px + var(--safe-bottom));z-index:50;max-width:900px;margin:0 auto;display:flex;justify-content:space-around;box-shadow:0 -12px 40px -12px rgba(76,29,149,.15)}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:16px;color:var(--text-3);font-size:11px;font-weight:800;position:relative;max-width:90px}
-.nav-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center}
-.nav-icon svg{width:24px;height:24px;stroke:currentColor;stroke-width:2}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:8px 6px 12px;z-index:50;max-width:800px;margin:0 auto;display:flex;justify-content:space-around;box-shadow:0 -5px 20px rgba(0,0,0,0.05)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:12px;color:var(--text-3);font-size:10px;font-weight:800;position:relative;max-width:80px}
+.nav-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.nav-icon svg{width:22px;height:22px;stroke:currentColor;stroke-width:2}
 .nav-item.active{color:var(--primary-3)}
-.nav-item.active::before{content:'';position:absolute;top:-3px;width:40px;height:4px;border-radius:4px;background:linear-gradient(90deg,var(--primary-3),var(--rose))}
-.modal{position:fixed;inset:0;z-index:9999;background:rgba(30,27,75,.75);display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px)}
+.nav-item.active::before{content:'';position:absolute;top:-2px;width:30px;height:3px;border-radius:3px;background:var(--primary-3)}
+.modal{position:fixed;inset:0;z-index:9999;background:rgba(30,27,75,.8);display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal.open{display:flex}
-.modal-box{background:var(--surface);border-radius:28px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;animation:scaleIn .3s}
-.modal-head{display:flex;justify-content:space-between;align-items:center;padding:22px 26px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:1}
-.modal-title{font-family:var(--font-title);font-size:19px;font-weight:900}
-.modal-close{width:42px;height:42px;border-radius:14px;background:var(--bg-2);display:flex;align-items:center;justify-content:center;color:var(--text-2)}
-.modal-close svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.5}
-.modal-body{padding:26px}
-.toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(150px);background:var(--text);color:var(--surface);padding:16px 26px;border-radius:16px;font-size:14.5px;font-weight:800;z-index:10000;transition:all .35s;opacity:0;max-width:calc(100% - 40px);text-align:center}
+.modal-box{background:var(--surface);border-radius:24px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;animation:fadeSlide .3s}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:1}
+.modal-title{font-family:var(--font-title);font-size:18px;font-weight:900}
+.modal-body{padding:20px}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(150px);background:var(--text);color:var(--surface);padding:14px 24px;border-radius:14px;font-size:14px;font-weight:800;z-index:10000;transition:all .3s;opacity:0;box-shadow:0 10px 30px rgba(0,0,0,0.3);text-align:center;width:max-content;max-width:90%}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .toast.success{background:#10b981;color:#fff}
 .toast.error{background:var(--danger);color:#fff}
-.toast.warning{background:var(--gold-2);color:#fff}
-.empty{text-align:center;padding:70px 24px;color:var(--text-3)}
-.empty-title{font-family:var(--font-title);font-size:18px;font-weight:900;color:var(--text);margin-bottom:10px}
-.empty-text{font-size:14px;line-height:1.7;font-weight:600}
-.progress{height:8px;background:var(--bg-2);border-radius:4px;overflow:hidden;margin:10px 0 6px}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--primary-3),var(--primary-4));border-radius:4px;transition:width .6s}
-.progress-text{display:flex;justify-content:space-between;font-size:12px;color:var(--text-3);font-weight:800}
-.section-title{font-family:var(--font-title);font-size:18px;font-weight:900;margin:28px 0 16px;display:flex;align-items:center;gap:12px}
-.section-title::before{content:'';width:5px;height:22px;background:linear-gradient(180deg,var(--primary-3),var(--rose));border-radius:3px}
-.video-player-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:22px;overflow:hidden;background:#000;margin-bottom:16px}
-.video-player-wrap iframe,.video-player-wrap>div{position:absolute;inset:0;width:100%;height:100%;border:0}
-.video-status{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--bg-2);border-radius:14px;margin-bottom:14px;font-size:13px;font-weight:800}
-.locked-box{background:linear-gradient(135deg,#312e81,#1e1b4b);border-radius:24px;padding:50px 28px;text-align:center;color:#fff;margin-bottom:18px}
-.locked-icon{display:flex;justify-content:center;margin-bottom:18px}
-.locked-icon svg{width:72px;height:72px;stroke:#fbbf24;stroke-width:1.5}
-.locked-box h3{font-family:var(--font-title);font-size:22px;font-weight:900;margin-bottom:14px}
-.locked-box p{font-size:15px;opacity:.92;line-height:1.8;margin-bottom:26px;font-weight:600}
-.locked-box .btn{max-width:300px;margin:0 auto}
-.search-box{position:relative;margin-bottom:20px}
-.search-box input{width:100%;padding:16px 52px 16px 20px;border-radius:16px;border:1.5px solid var(--border-2);background:var(--surface);font-size:15px;outline:none;font-weight:600}
-.filter-chips{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-bottom:20px}
-.filter-chip{flex-shrink:0;padding:10px 20px;border-radius:999px;font-size:13.5px;font-weight:800;background:var(--surface);border:1.5px solid var(--border-2);color:var(--text-3)}
-.filter-chip.active{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-color:transparent}
-.redeem-box{background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;border-radius:24px;padding:28px;text-align:center}
-.redeem-icon{font-size:64px;margin-bottom:12px}
-.redeem-title{font-family:var(--font-title);font-size:22px;font-weight:900;margin-bottom:8px}
-.redeem-sub{font-size:14px;opacity:.92;margin-bottom:22px;font-weight:600}
-.redeem-input{width:100%;padding:18px;border-radius:14px;border:none;background:rgba(255,255,255,.98);color:var(--primary);font-family:monospace;font-size:20px;font-weight:900;letter-spacing:4px;text-align:center;outline:none;text-transform:uppercase;direction:ltr}
-.redeem-btn{width:100%;padding:16px;margin-top:14px;background:#fff;color:var(--primary);border-radius:14px;font-size:15.5px;font-weight:900}
-.code-card{background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#fff;border-radius:20px;padding:20px;margin-bottom:14px}
-.code-card.used{background:linear-gradient(135deg,#64748b,#475569);opacity:.75}
-.code-card.disabled{background:linear-gradient(135deg,#7f1d1d,#991b1b)}
-.code-card .code-amount{font-family:var(--font-title);font-size:24px;font-weight:900}
-.code-card .code-value{font-family:monospace;font-size:20px;font-weight:900;letter-spacing:4px;background:rgba(255,255,255,.22);padding:12px 16px;border-radius:14px;text-align:center;border:1.5px dashed rgba(255,255,255,.5);margin:12px 0;word-break:break-all;direction:ltr}
-.code-card .code-actions{display:flex;gap:8px;margin-top:12px}
-.code-card .code-actions button{flex:1;padding:10px;border-radius:10px;background:rgba(255,255,255,.28);color:#fff;font-size:13px;font-weight:800;border:1px solid rgba(255,255,255,.4)}
-.ai-fab{position:fixed;bottom:calc(102px + var(--safe-bottom));left:22px;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 16px 40px -8px rgba(236,72,153,.6);z-index:80;cursor:pointer;animation:bounce 2.5s ease-in-out infinite}
-.ai-fab svg{width:30px;height:30px;stroke:#fff;stroke-width:2}
-.ai-panel{position:fixed;inset:0;z-index:9998;background:rgba(30,27,75,.75);display:none;backdrop-filter:blur(8px)}
-.ai-panel.open{display:block}
-.ai-window{position:absolute;bottom:0;left:0;right:0;max-width:900px;margin:0 auto;background:var(--surface);border-radius:28px 28px 0 0;height:88vh;display:flex;flex-direction:column;overflow:hidden}
-.ai-header{background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;padding:18px 22px;display:flex;align-items:center;gap:16px}
-.ai-avatar{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center}
-.ai-avatar svg{width:28px;height:28px;stroke:#fff;stroke-width:2}
-.ai-header-info{flex:1}
-.ai-header-title{font-family:var(--font-title);font-size:18px;font-weight:900}
-.ai-header-sub{font-size:12.5px;opacity:.92;margin-top:4px;display:flex;align-items:center;gap:8px;font-weight:700}
-.ai-online-dot{width:8px;height:8px;border-radius:50%;background:#34d399}
-.ai-close{width:42px;height:42px;border-radius:14px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center}
-.ai-close svg{width:20px;height:20px;stroke:#fff;stroke-width:2.5}
-.ai-messages{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:16px;background:var(--bg-2)}
-.ai-msg{max-width:85%;padding:14px 18px;border-radius:20px;font-size:14.5px;line-height:1.65;word-wrap:break-word;white-space:pre-wrap;font-weight:600}
-.ai-msg.user{background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;align-self:flex-end;border-bottom-left-radius:6px}
-.ai-msg.bot{background:var(--surface);color:var(--text);align-self:flex-start;border-bottom-right-radius:6px;border:1px solid var(--border)}
-.ai-suggestions{padding:14px 18px;display:flex;gap:10px;overflow-x:auto;background:var(--surface);border-top:1px solid var(--border)}
-.ai-sugg{flex-shrink:0;padding:10px 18px;border-radius:999px;background:var(--bg-2);border:1px solid var(--border);color:var(--text-2);font-size:13.5px;font-weight:800;white-space:nowrap;cursor:pointer}
-.ai-input-row{display:flex;gap:10px;padding:14px;background:var(--surface);border-top:1px solid var(--border);align-items:center;padding-bottom:calc(14px + var(--safe-bottom))}
-.ai-input{flex:1;padding:14px 20px;border-radius:26px;border:1.5px solid var(--border-2);background:var(--bg-2);outline:none;font-size:15px;font-weight:600}
-.ai-send{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;display:flex;align-items:center;justify-content:center}
-.ai-send svg{width:22px;height:22px;stroke:#fff;stroke-width:2.5}
-.settings-item{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:var(--surface);border-radius:16px;margin-bottom:10px;border:1.5px solid var(--border);cursor:pointer}
-.settings-item:hover{border-color:var(--primary-3)}
-.settings-icon{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.settings-info{flex:1;margin-right:14px}
-.settings-title{font-size:14.5px;font-weight:900;color:var(--text)}
-.settings-desc{font-size:12px;color:var(--text-3);margin-top:3px;font-weight:600}
-.switch{position:relative;width:52px;height:30px;background:#cbd5e1;border-radius:999px;transition:all .3s;cursor:pointer;flex-shrink:0}
-.switch.on{background:linear-gradient(135deg,var(--primary),var(--primary-3))}
-.switch::after{content:'';position:absolute;top:3px;right:3px;width:24px;height:24px;background:#fff;border-radius:50%;transition:all .3s}
-.switch.on::after{right:calc(100% - 27px)}
-.note-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:18px;margin-bottom:12px;cursor:pointer;position:relative}
-.note-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--gold-2),var(--primary-3))}
-.continue-card{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border-radius:24px;padding:24px;margin-bottom:18px;cursor:pointer;box-shadow:0 16px 40px -12px rgba(76,29,149,.45)}
-.continue-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.22);color:#fff;padding:6px 14px;border-radius:999px;font-size:11.5px;font-weight:800}
-.continue-title{font-family:var(--font-title);font-size:20px;font-weight:900;margin-top:12px}
-.continue-btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--primary);padding:12px 22px;border-radius:14px;font-size:14px;font-weight:900;margin-top:14px}
-.points-widget{background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;border-radius:20px;padding:22px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
-.points-icon{width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:28px}
-.points-info{flex:1}
-.points-num{font-family:var(--font-title);font-size:32px;font-weight:900;line-height:1}
-.points-label{font-size:12.5px;opacity:.92;margin-top:4px;font-weight:700}
-.hours-widget{background:linear-gradient(135deg,#0284c7,#0369a1);color:#fff;border-radius:20px;padding:22px;text-align:center;margin-bottom:18px}
-.hours-value{font-family:var(--font-title);font-size:40px;font-weight:900;line-height:1}
-.hours-label{font-size:13px;opacity:.92;margin-top:6px;font-weight:700}
-.audit-item{display:flex;gap:12px;padding:12px;background:var(--surface);border-radius:14px;margin-bottom:8px;border:1px solid var(--border)}
-.audit-icon{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:16px}
-.audit-text{flex:1;font-size:13px;font-weight:700}
-.audit-meta{font-size:11px;color:var(--text-3);margin-top:3px;font-weight:700}
-.conv-item{display:flex;align-items:center;gap:14px;padding:16px;background:var(--surface);border:1.5px solid var(--border);border-radius:20px;margin-bottom:12px;cursor:pointer}
-.conv-item.unread{border-right:4px solid var(--primary-3);background:linear-gradient(90deg,var(--surface),rgba(139,92,246,.04))}
-.conv-avatar{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900}
-.conv-info{flex:1;min-width:0}
-.conv-name{font-size:15px;font-weight:900}
-.conv-last{font-size:13px;color:var(--text-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:4px;font-weight:600}
-.conv-meta{text-align:left}
-.conv-time{font-size:11.5px;color:var(--text-3);font-weight:800}
-.conv-badge{display:inline-block;background:var(--rose);color:#fff;font-size:11px;font-weight:900;padding:3px 9px;border-radius:999px;margin-top:6px}
-.chat-container{display:flex;flex-direction:column;height:calc(100vh - 230px);background:var(--surface);border-radius:24px;border:1px solid var(--border);overflow:hidden}
-.chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;background:var(--bg-2)}
-.chat-msg{max-width:80%;padding:14px 18px;border-radius:20px;font-size:14.5px;line-height:1.6;word-wrap:break-word;font-weight:600}
-.chat-msg.me{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;align-self:flex-end;border-bottom-left-radius:6px}
-.chat-msg.other{background:var(--surface);color:var(--text);align-self:flex-start;border-bottom-right-radius:6px;border:1px solid var(--border)}
-.chat-msg-time{font-size:11px;opacity:.65;margin-top:6px;font-weight:700}
-.chat-input-row{display:flex;gap:10px;padding:14px;background:var(--surface);border-top:1px solid var(--border);align-items:center}
-.chat-input{flex:1;padding:14px 20px;border-radius:26px;border:1.5px solid var(--border-2);background:var(--bg-2);outline:none;font-size:15px;font-weight:600}
-.chat-send{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;display:flex;align-items:center;justify-content:center}
-.chat-send svg{width:22px;height:22px;stroke:#fff;stroke-width:2.5}
-@media(max-width:420px){
-.action-grid,.stats-grid{grid-template-columns:1fr}
-.hero-title{font-size:26px}
-}
-@media(min-width:768px){.action-grid{grid-template-columns:repeat(3,1fr)}}
+.empty{text-align:center;padding:40px 20px;color:var(--text-3)}
+.empty-title{font-family:var(--font-title);font-size:16px;font-weight:900;color:var(--text);margin-bottom:6px}
+.progress{height:6px;background:var(--bg-2);border-radius:3px;overflow:hidden;margin:6px 0}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--primary-3),var(--primary-2));border-radius:3px;transition:width .5s}
+.section-title{font-family:var(--font-title);font-size:16px;font-weight:900;margin:24px 0 12px;display:flex;align-items:center;gap:10px}
+.section-title::before{content:'';width:4px;height:18px;background:var(--primary-3);border-radius:2px}
+/* تنسيق Plyr */
+.plyr{--plyr-color-main:var(--primary-3);--plyr-video-control-color:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.2);margin-bottom:16px}
+.plyr__video-embed iframe{pointer-events:none}
+/* وضع التركيز */
+.focus-mode .app-bar,.focus-mode .bottom-nav,.focus-mode .ai-fab{display:none!important}
+.focus-mode main{padding:0;max-width:100%}
+.focus-mode .page-header{display:none}
+.focus-mode #page-studentWatch{padding:20px}
+.focus-exit{position:fixed;top:20px;left:20px;z-index:1000;background:var(--surface);color:var(--text);border:1px solid var(--border);padding:8px 16px;border-radius:10px;font-weight:900;box-shadow:0 4px 10px rgba(0,0,0,0.1);display:none}
+.focus-mode .focus-exit{display:block}
+/* الراديو */
+.ai-fab{position:fixed;bottom:90px;right:20px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(236,72,153,.4);z-index:80;cursor:pointer}
+.ai-fab svg{width:24px;height:24px;stroke:#fff;stroke-width:2}
+.lofi-fab{position:fixed;bottom:150px;right:20px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#10b981,#34d399);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 25px rgba(16,185,129,.4);z-index:80;cursor:pointer}
+.lofi-fab svg{width:24px;height:24px;stroke:#fff;stroke-width:2}
+.lofi-fab.playing{animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+/* صفحة الإعدادات */
+.settings-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface);border-radius:14px;margin-bottom:10px;border:1.5px solid var(--border);cursor:pointer}
+.settings-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.settings-info{flex:1;margin-right:12px}
+.settings-title{font-size:14px;font-weight:900}
+.settings-desc{font-size:11.5px;color:var(--text-3);margin-top:2px;font-weight:600}
+.switch{position:relative;width:44px;height:24px;background:#cbd5e1;border-radius:999px;transition:all .3s;flex-shrink:0}
+.switch.on{background:var(--primary-3)}
+.switch::after{content:'';position:absolute;top:2px;right:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:all .3s}
+.switch.on::after{right:calc(100% - 22px)}
 </style>
 </head>
 <body>
 
 <div class="loading-screen" id="loadingScreen">
-<div class="loading-logo"><svg viewBox="0 0 100 100"><defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs><path d="M50 10 L85 25 L85 65 Q85 85 50 92 Q15 85 15 65 L15 25 Z" fill="url(#lg)"/><text x="50" y="66" font-size="44" text-anchor="middle" fill="#4c1d95" font-family="serif" font-weight="bold">ن</text></svg></div>
-<div class="loading-title">أكاديمية النبراس</div>
-<div class="loading-sub">منصة تعليمية متكاملة</div>
-<div class="loading-bar"></div>
+<div style="font-size:48px;animation:float 2s infinite">🎓</div>
+<div style="font-family:var(--font-title);font-size:22px;font-weight:900">أكاديمية النبراس</div>
 </div>
 
+<!-- شاشة الدخول -->
 <div class="auth-screen" id="authScreen" style="display:none">
 <div class="auth-card">
-<div class="auth-logo-wrap"><svg viewBox="0 0 100 100"><defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4c1d95"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><path d="M50 6 L88 22 L88 60 Q88 88 50 96 Q12 88 12 60 L12 22 Z" fill="url(#sg)"/><text x="50" y="62" font-size="40" text-anchor="middle" fill="url(#ag)" font-family="serif" font-weight="bold">ن</text></svg></div>
 <div class="auth-title">أكاديمية النبراس</div>
 <div class="auth-subtitle">منصة تعليمية متكاملة</div>
 <div class="auth-tabs">
-<button class="auth-tab active" data-tab="login" id="tabLoginBtn">دخول</button>
-<button class="auth-tab" data-tab="register" id="tabRegisterBtn">حساب جديد</button>
+<button class="auth-tab active" onclick="switchAuthTab('login')">دخول</button>
+<button class="auth-tab" onclick="switchAuthTab('register')">حساب جديد</button>
 </div>
-
 <div id="loginPane">
-<div class="form-group"><label class="form-label">البريد الإلكتروني أو اسم المستخدم</label><input class="form-input" id="loginUser" placeholder="ahmed2024" dir="ltr" style="text-align:left"></div>
-<div class="form-group"><label class="form-label">كلمة المرور</label><div class="pw-wrap"><input type="password" class="form-input" id="loginPass" placeholder="••••••"><span class="pw-toggle" onclick="togglePw('loginPass',this)">👁</span></div></div>
-<div style="text-align:left;margin-bottom:16px;margin-top:-8px"><a href="#" id="forgotPasswordLink" style="font-size:13px;color:var(--text-3);font-weight:700;text-decoration:none">نسيت كلمة المرور؟</a></div>
-<button class="btn btn-primary" id="loginBtn">دخول إلى المنصة</button>
-<div style="display:flex;align-items:center;margin:20px 0"><div style="flex:1;height:1px;background:var(--border-2)"></div><span style="padding:0 12px;font-size:12px;font-weight:800;color:var(--text-3)">أو</span><div style="flex:1;height:1px;background:var(--border-2)"></div></div>
-<button class="btn btn-ghost" id="googleLoginBtn" style="background:#fff;color:#3c4043;border:1.5px solid #dadce0;font-weight:800">
-<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-الدخول عبر Google
+<div class="form-group"><label class="form-label">البريد أو اسم المستخدم</label><input class="form-input" id="loginUser" dir="ltr" style="text-align:left"></div>
+<div class="form-group"><label class="form-label">كلمة المرور</label><div class="pw-wrap"><input type="password" class="form-input" id="loginPass"><span class="pw-toggle" onclick="togglePw('loginPass',this)">👁</span></div></div>
+<div style="text-align:left;margin-bottom:14px"><a href="#" onclick="event.preventDefault();openForgot()" style="font-size:12px;color:var(--text-3);font-weight:700;text-decoration:none">نسيت كلمة المرور؟</a></div>
+<button class="btn btn-primary" id="loginBtn">دخول</button>
+<div style="text-align:center;margin:16px 0;font-size:12px;color:var(--text-3);font-weight:800">أو</div>
+<button class="btn btn-ghost" id="googleLoginBtn" style="background:#fff;color:#333;border:1px solid #ddd">
+<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+Google
 </button>
-<div style="text-align:center;margin-top:22px;padding-top:22px;border-top:1px solid var(--border-2)">
-<div style="font-size:12.5px;color:var(--text-3);font-weight:700;margin-bottom:12px">للتعرف على الأكاديمية:</div>
-<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-<button class="btn btn-ghost btn-sm" data-guest="about" style="font-size:12.5px">👥 من نحن</button>
-<button class="btn btn-ghost btn-sm" data-guest="director" style="font-size:12.5px">🎓 المدير</button>
-<button class="btn btn-ghost btn-sm" data-guest="how" style="font-size:12.5px">🚀 طريقة العمل</button>
 </div>
-</div>
-</div>
-
 <div id="registerPane" style="display:none">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-<label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--primary-3);border-radius:14px;padding:14px 8px;text-align:center;background:var(--surface)">
-<input type="radio" name="role" value="student" checked style="display:none">
-<div style="font-size:26px;margin-bottom:4px">👨‍🎓</div><div style="font-size:13px;font-weight:900">طالب</div>
-</label>
-<label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border-2);border-radius:14px;padding:14px 8px;text-align:center;background:var(--surface)">
-<input type="radio" name="role" value="teacher" style="display:none">
-<div style="font-size:26px;margin-bottom:4px">👨‍🏫</div><div style="font-size:13px;font-weight:900">معلم</div>
-</label>
-</div>
-<div class="form-group"><label class="form-label">الاسم الكامل <span class="req">*</span></label><input class="form-input" id="regName" placeholder="محمد أحمد"></div>
-<div class="form-group"><label class="form-label">اسم المستخدم <span class="req">*</span></label><input class="form-input" id="regUser" dir="ltr" style="text-align:left" placeholder="mohamed2024"></div>
-<div class="form-group"><label class="form-label">البريد الإلكتروني <span class="req">*</span></label><input type="email" class="form-input" id="regEmail" dir="ltr" style="text-align:left" placeholder="example@gmail.com"></div>
-<div class="form-group"><label class="form-label">رقم الهاتف <span class="req">*</span></label><input type="tel" class="form-input" id="regPhone" dir="ltr" style="text-align:left" placeholder="09xxxxxxxx"></div>
-<div class="form-group"><label class="form-label">كلمة المرور <span class="req">*</span></label><div class="pw-wrap"><input type="password" class="form-input" id="regPass" placeholder="6+ أحرف"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div></div>
-<div class="form-group"><label class="form-label">تأكيد كلمة المرور <span class="req">*</span></label><div class="pw-wrap"><input type="password" class="form-input" id="regPass2"><span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span></div></div>
-<div class="form-group" id="studentLevelGroup"><label class="form-label">الصف الدراسي <span class="req">*</span></label><select class="form-select" id="regLevel"><option value="9">📘 الصف التاسع</option><option value="12sci">🔬 بكالوريا علمي</option><option value="12lit">📖 بكالوريا أدبي</option></select></div>
-<div class="form-group" id="teacherSpecialtyGroup" style="display:none"><label class="form-label">التخصص <span class="req">*</span></label><select class="form-select" id="regSpecialty"><option value="">— اختر —</option><option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option><option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفلسفة</option><option>التربية الإسلامية</option></select></div>
-<label style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid var(--gold-3);border-radius:12px;cursor:pointer;font-size:12.5px;color:var(--text-2);margin-bottom:14px;font-weight:700">
-<input type="checkbox" id="regTerms" style="width:20px;height:20px;accent-color:var(--primary-3);flex-shrink:0;margin-top:1px">
-<span>أوافق على <strong>الشروط والأحكام</strong></span>
-</label>
-<button class="btn btn-primary" id="registerBtn" style="font-size:16px">إنشاء الحساب</button>
+<div class="form-group"><label class="form-label">الاسم الكامل *</label><input class="form-input" id="regName"></div>
+<div class="form-group"><label class="form-label">البريد الإلكتروني *</label><input type="email" class="form-input" id="regEmail" dir="ltr" style="text-align:left"></div>
+<div class="form-group"><label class="form-label">اسم المستخدم *</label><input class="form-input" id="regUser" dir="ltr" style="text-align:left"></div>
+<div class="form-group"><label class="form-label">رقم الهاتف *</label><input type="tel" class="form-input" id="regPhone" dir="ltr" style="text-align:left"></div>
+<div class="form-group"><label class="form-label">كلمة المرور *</label><div class="pw-wrap"><input type="password" class="form-input" id="regPass"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div></div>
+<label style="display:flex;gap:8px;font-size:12px;margin-bottom:14px"><input type="checkbox" id="regTerms"> أوافق على الشروط</label>
+<button class="btn btn-primary" id="registerBtn">إنشاء الحساب</button>
 </div>
 </div>
 </div>
 
-<div id="guestScreen" style="display:none;min-height:100vh;background:linear-gradient(160deg,#4c1d95,#6d28d9 60%,#8b5cf6);padding:22px 16px">
-<div style="max-width:640px;margin:0 auto">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;color:#fff">
-<button id="guestBackBtn" class="btn" style="width:auto;padding:10px 18px;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);font-size:13.5px">← رجوع</button>
-<div style="font-family:var(--font-title);font-size:16px;font-weight:900">أكاديمية النبراس</div>
-</div>
-<div id="guestContent"></div>
-</div>
-</div>
-
+<!-- شاشة التطبيق -->
 <div id="appScreen" style="display:none">
-<header class="app-bar"><div class="app-bar-row">
-<div class="app-brand" id="brandBtn"><div class="app-logo"><svg viewBox="0 0 100 100"><defs><linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><text x="50" y="68" font-size="52" text-anchor="middle" fill="url(#mg)" font-family="serif" font-weight="bold">ن</text></svg></div><div class="app-brand-info"><div class="app-brand-name">أكاديمية النبراس</div><div class="app-user-name" id="userLabel">—</div></div></div>
+<header class="app-bar">
+<div class="app-brand" onclick="go('profile')">
+<div class="app-logo"><svg viewBox="0 0 100 100"><text x="50" y="68" font-size="52" text-anchor="middle" fill="#fbbf24" font-family="serif" font-weight="bold">ن</text></svg></div>
+<div><div class="app-brand-name">أكاديمية النبراس</div><div class="app-user-name" id="userLabel">—</div></div>
+</div>
 <div class="app-actions">
-<button class="app-icon-btn" id="notifBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="badge" id="notifBadge" style="display:none">0</span></button>
-<button class="app-icon-btn" id="settingsBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
-<button class="app-icon-btn" id="logoutBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+<button class="app-icon-btn" onclick="go('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+<button class="app-icon-btn" onclick="logout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
 </div>
-</div></header>
+</header>
+
 <main>
-
-<section class="page" id="page-settings">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الإعدادات</h2><div style="width:46px"></div></div>
-
-<div class="card" style="padding:24px;text-align:center;background:linear-gradient(135deg,var(--primary),var(--primary-3));color:#fff;border:none;margin-bottom:20px">
-<div style="width:88px;height:88px;background:rgba(255,255,255,.22);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;margin:0 auto 16px" id="settingsAvatar">—</div>
-<div style="font-family:var(--font-title);font-size:20px;font-weight:900" id="settingsName">—</div>
-<div style="font-size:13px;opacity:.92;margin-top:6px;font-weight:700" id="settingsRole">—</div>
-</div>
-
-<div class="section-title">🎨 المظهر</div>
-<div class="settings-item" onclick="toggleTheme()">
-<div class="settings-icon">🌙</div>
-<div class="settings-info"><div class="settings-title">الوضع الليلي</div><div class="settings-desc" id="themeDesc">مُعطّل</div></div>
-<div class="switch" id="themeSwitch"></div>
-</div>
-<div class="settings-item" onclick="changeAccent()">
-<div class="settings-icon">🎨</div>
-<div class="settings-info"><div class="settings-title">لون التمييز</div><div class="settings-desc" id="accentDesc">بنفسجي</div></div>
-<div style="width:32px;height:32px;border-radius:50%;background:var(--primary-3);border:3px solid var(--surface);box-shadow:0 0 0 2px var(--border-2)"></div>
-</div>
-
-<div class="section-title">🔔 الإشعارات</div>
-<div class="settings-item" onclick="toggleSetting('notifNewLessons')">
-<div class="settings-icon">📚</div>
-<div class="settings-info"><div class="settings-title">دروس جديدة</div><div class="settings-desc">تنبيه عند إضافة دروس</div></div>
-<div class="switch on" id="sw-notifNewLessons"></div>
-</div>
-<div class="settings-item" onclick="toggleSetting('notifAnnouncements')">
-<div class="settings-icon">📢</div>
-<div class="settings-info"><div class="settings-title">إعلانات المنصة</div><div class="settings-desc">تحديثات وأخبار</div></div>
-<div class="switch on" id="sw-notifAnnouncements"></div>
-</div>
-<div class="settings-item" onclick="toggleSetting('notifPurchases')">
-<div class="settings-icon">🛒</div>
-<div class="settings-info"><div class="settings-title">المشتريات</div><div class="settings-desc">تأكيدات الشراء</div></div>
-<div class="switch on" id="sw-notifPurchases"></div>
-</div>
-
-<div class="section-title">🔒 الخصوصية</div>
-<div class="settings-item" onclick="toggleSetting('showProfile')">
-<div class="settings-icon">👤</div>
-<div class="settings-info"><div class="settings-title">إظهار ملفي</div><div class="settings-desc">للطلاب والمعلمين الآخرين</div></div>
-<div class="switch on" id="sw-showProfile"></div>
-</div>
-<div class="settings-item" onclick="toggleSetting('showOnline')">
-<div class="settings-icon">🟢</div>
-<div class="settings-info"><div class="settings-title">إظهار حالة الاتصال</div><div class="settings-desc">للآخرين</div></div>
-<div class="switch on" id="sw-showOnline"></div>
-</div>
-
-<div class="section-title">⚙️ الحساب</div>
-<div class="settings-item" onclick="go('profile')">
-<div class="settings-icon">✏️</div>
-<div class="settings-info"><div class="settings-title">تعديل الملف الشخصي</div><div class="settings-desc">الاسم والهاتف</div></div>
-<div style="color:var(--text-3);font-size:20px">›</div>
-</div>
-<div class="settings-item" onclick="changePasswordFromSettings()">
-<div class="settings-icon">🔑</div>
-<div class="settings-info"><div class="settings-title">تغيير كلمة المرور</div><div class="settings-desc">تحديث بيانات الدخول</div></div>
-<div style="color:var(--text-3);font-size:20px">›</div>
-</div>
-
-<div class="section-title">ℹ️ حول</div>
-<div class="settings-item" data-goto="about">
-<div class="settings-icon">👥</div>
-<div class="settings-info"><div class="settings-title">من نحن</div><div class="settings-desc">تعرف على الأكاديمية</div></div>
-<div style="color:var(--text-3);font-size:20px">›</div>
-</div>
-<div class="settings-item" data-goto="how">
-<div class="settings-icon">🚀</div>
-<div class="settings-info"><div class="settings-title">طريقة العمل</div><div class="settings-desc">كيف تبدأ رحلتك</div></div>
-<div style="color:var(--text-3);font-size:20px">›</div>
-</div>
-<div class="settings-item" onclick="toast('الإصدار 2.0.0','success')">
-<div class="settings-icon">📱</div>
-<div class="settings-info"><div class="settings-title">إصدار التطبيق</div><div class="settings-desc">الإصدار 2.0.0</div></div>
-</div>
-<div class="settings-item" onclick="window.open('https://wa.me/qr/HVZAC4QJMWI6I1','_blank')">
-<div class="settings-icon">💬</div>
-<div class="settings-info"><div class="settings-title">الدعم الفني</div><div class="settings-desc">تواصل معنا عبر واتساب</div></div>
-<div style="color:var(--text-3);font-size:20px">›</div>
-</div>
-
-<button class="btn btn-danger" style="margin-top:20px" onclick="logout()">🚪 تسجيل الخروج</button>
-</section>
-
-<section class="page" id="page-about">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">من نحن</h2><div style="width:46px"></div></div>
-<div class="hero" style="padding:36px 26px;text-align:center"><div class="hero-inner"><div style="font-size:46px;margin-bottom:14px">🎓</div><div class="hero-title" style="font-size:24px">منصة تعليمية <span class="highlight">بمعايير عالمية</span></div><div class="hero-sub" style="margin-top:14px;font-size:13.5px;line-height:1.8;opacity:.92">نبني جيلاً متعلماً، ونصنع مستقبلاً مشرقاً بالمعرفة</div></div></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-<div class="card" style="margin:0;padding:22px 16px;text-align:center"><div style="width:50px;height:50px;margin:0 auto 12px;background:linear-gradient(135deg,var(--primary),var(--primary-3));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px">🎯</div><div style="font-family:var(--font-title);font-size:14.5px;font-weight:900;margin-bottom:8px;color:var(--primary)">رؤيتنا</div><div style="font-size:12px;color:var(--text-3);line-height:1.7;font-weight:600">المنصة التعليمية الأولى في المنطقة العربية</div></div>
-<div class="card" style="margin:0;padding:22px 16px;text-align:center"><div style="width:50px;height:50px;margin:0 auto 12px;background:linear-gradient(135deg,var(--gold),var(--gold-2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px">💡</div><div style="font-family:var(--font-title);font-size:14.5px;font-weight:900;margin-bottom:8px;color:var(--gold)">رسالتنا</div><div style="font-size:12px;color:var(--text-3);line-height:1.7;font-weight:600">تعليم عالي الجودة في متناول الجميع</div></div>
-</div>
-<div class="card"><div style="font-family:var(--font-title);font-size:16px;font-weight:900;color:var(--primary);margin-bottom:14px">📖 قصتنا</div><div style="font-size:13.5px;line-height:2;color:var(--text-2);font-weight:600">انطلقت أكاديمية النبراس من إيمان عميق بأن التعليم الجيد حق لكل طالب، وليس امتيازاً. جمعنا نخبة من المعلمين المتميزين، وبنينا تقنية حديثة تسهّل الوصول إلى المعرفة، ووفرنا بيئة تفاعلية تُشعر الطالب بأنه جزء من مجتمع تعليمي حقيقي.</div></div>
-<div class="card"><div style="font-family:var(--font-title);font-size:16px;font-weight:900;color:var(--primary);margin-bottom:16px">✨ ما يميزنا</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-<div style="padding:18px 14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:14px"><div style="font-size:24px;margin-bottom:10px">✅</div><div style="font-size:13.5px;font-weight:900;color:var(--primary)">محتوى معتمد</div><div style="font-size:11.5px;color:var(--primary-2);font-weight:700">من نخبة المعلمين</div></div>
-<div style="padding:18px 14px;background:linear-gradient(135deg,#fce7f3,#fbcfe8);border-radius:14px"><div style="font-size:24px;margin-bottom:10px">🤖</div><div style="font-size:13.5px;font-weight:900;color:#9d174d">مساعد ذكي</div><div style="font-size:11.5px;color:#be185d;font-weight:700">دعم 24/7</div></div>
-<div style="padding:18px 14px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:14px"><div style="font-size:24px;margin-bottom:10px">🏆</div><div style="font-size:13.5px;font-weight:900;color:#78350f">شهادات موثقة</div><div style="font-size:11.5px;color:#92400e;font-weight:700">بعد إتمام الدورة</div></div>
-<div style="padding:18px 14px;background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:14px"><div style="font-size:24px;margin-bottom:10px">💬</div><div style="font-size:13.5px;font-weight:900;color:#1e40af">دعم مباشر</div><div style="font-size:11.5px;color:#1e3a8a;font-weight:700">تواصل مع المعلمين</div></div>
-</div></div>
-</section>
-
-<section class="page" id="page-director">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">عن المدير</h2><div style="width:46px"></div></div>
-<div class="card" style="padding:0;overflow:hidden;border:none;background:linear-gradient(160deg,#4c1d95 0%,#6d28d9 60%,#8b5cf6 100%);margin-bottom:16px">
-<div style="padding:44px 28px 36px;text-align:center">
-<div style="width:128px;height:128px;margin:0 auto 22px;border-radius:50%;overflow:hidden;border:4px solid rgba(251,191,36,.65);box-shadow:0 24px 48px rgba(0,0,0,.4)">
-<img src="https://ui-avatars.com/api/?name=M+Almousa&background=fbbf24&color=4c1d95&size=260&bold=true&font-size=0.4" alt="أ. محمد الموسى" style="width:100%;height:100%;object-fit:cover">
-</div>
-<div style="font-family:var(--font-title);font-size:28px;font-weight:900;color:#fff;margin-bottom:8px">أ. محمد الموسى</div>
-<div style="display:inline-block;padding:6px 16px;background:rgba(251,191,36,.18);border:1px solid rgba(251,191,36,.4);border-radius:999px;font-size:12.5px;color:#fde68a;font-weight:800">ماجستير في طرائق التدريس</div>
-<div style="width:70px;height:2px;background:linear-gradient(90deg,transparent,#fbbf24,transparent);margin:22px auto 16px"></div>
-<div style="font-size:12.5px;color:rgba(255,255,255,.8);font-weight:700;letter-spacing:1px">المدير التنفيذي — أكاديمية النبراس</div>
-</div></div>
-<div class="card" style="border-right:4px solid var(--gold-2)">
-<div style="font-size:14.5px;line-height:2.1;color:var(--text-2);font-weight:600">التعليم ليس مجرد نقل للمعلومات، بل بناء لشخصية متكاملة قادرة على التفكير النقدي والإبداع. في أكاديمية النبراس، نؤمن بأن كل طالب يحمل بداخله طاقة كامنة تنتظر من يوقظها بالمعرفة والأسلوب الصحيح. مهمتنا هنا ليست فقط التدريس، بل صناعة جيل يثق بقدراته ويحلم بلا حدود.</div>
-<div style="margin-top:22px;padding-top:16px;border-top:1px dashed var(--border-2);display:flex;justify-content:space-between;align-items:center"><div><div style="font-family:var(--font-title);font-size:15px;font-weight:900;color:var(--primary)">أ. محمد الموسى</div><div style="font-size:11.5px;color:var(--text-3);font-weight:700;margin-top:3px">ماجستير طرائق التدريس</div></div><div style="font-size:26px;color:var(--gold-2)">✍️</div></div>
-</div>
-<div class="stats-grid" style="grid-template-columns:repeat(3,1fr);gap:10px">
-<div class="stat-card" style="--sc:var(--primary);padding:22px 12px;text-align:center;margin:0"><div style="font-family:var(--font-title);font-size:30px;font-weight:900;color:var(--primary);line-height:1">+15</div><div style="font-size:11px;color:var(--text-3);font-weight:800;margin-top:10px">سنة خبرة</div></div>
-<div class="stat-card" style="--sc:var(--gold);padding:22px 12px;text-align:center;margin:0"><div style="font-family:var(--font-title);font-size:30px;font-weight:900;color:var(--gold);line-height:1">+50</div><div style="font-size:11px;color:var(--text-3);font-weight:800;margin-top:10px">دورة معتمدة</div></div>
-<div class="stat-card" style="--sc:var(--rose);padding:22px 12px;text-align:center;margin:0"><div style="font-family:var(--font-title);font-size:30px;font-weight:900;color:var(--rose);line-height:1">+5K</div><div style="font-size:11px;color:var(--text-3);font-weight:800;margin-top:10px">طالب</div></div>
-</div>
-</section>
-
-<section class="page" id="page-how">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">طريقة العمل</h2><div style="width:46px"></div></div>
-<div class="hero" style="padding:32px 26px;text-align:center"><div class="hero-inner"><div class="hero-label">3 خطوات فقط</div><div class="hero-title" style="font-size:24px">ابدأ رحلتك <span class="highlight">خلال دقائق</span></div></div></div>
-<div style="position:relative;padding-right:50px;margin-top:8px">
-<div style="position:absolute;top:24px;bottom:24px;right:22px;width:2px;background:linear-gradient(180deg,var(--primary-3),var(--rose),var(--gold-2));border-radius:2px;opacity:.5"></div>
-<div style="position:relative;margin-bottom:20px"><div style="position:absolute;top:0;right:-50px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary-3),var(--primary));color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:18px;font-weight:900;border:3px solid #fff;z-index:1">1</div><div class="card" style="margin:0;padding:20px 22px"><div style="font-family:var(--font-title);font-size:15.5px;font-weight:900;color:var(--primary);margin-bottom:8px">إنشاء الحساب</div><div style="font-size:13px;color:var(--text-3);line-height:1.8;font-weight:600">سجّل مجاناً باختيار نوع حسابك وأدخل بياناتك في أقل من دقيقة.</div></div></div>
-<div style="position:relative;margin-bottom:20px"><div style="position:absolute;top:0;right:-50px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--rose-2));color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:18px;font-weight:900;border:3px solid #fff;z-index:1">2</div><div class="card" style="margin:0;padding:20px 22px"><div style="font-family:var(--font-title);font-size:15.5px;font-weight:900;color:var(--rose);margin-bottom:8px">شحن المحفظة</div><div style="font-size:13px;color:var(--text-3);line-height:1.8;font-weight:600">احصل على كرت الشحن من شؤون الطلاب وفعّله من صفحة "محفظتي".</div></div></div>
-<div style="position:relative"><div style="position:absolute;top:0;right:-50px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold-2),var(--gold));color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:18px;font-weight:900;border:3px solid #fff;z-index:1">3</div><div class="card" style="margin:0;padding:20px 22px"><div style="font-family:var(--font-title);font-size:15.5px;font-weight:900;color:var(--gold);margin-bottom:8px">التعلم والإنجاز</div><div style="font-size:13px;color:var(--text-3);line-height:1.8;font-weight:600">اختر دورتك، شاهد الدروس، وتابع تقدمك حتى تحصل على شهادتك.</div></div></div>
-</div>
-<div class="card" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);border:1px solid #f9a8d4;margin-top:20px;padding:22px 20px;text-align:center"><div style="font-size:36px;margin-bottom:10px">🎁</div><div style="font-family:var(--font-title);font-size:15px;font-weight:900;color:#9d174d;margin-bottom:6px">هدية يومية</div><div style="font-size:12.5px;color:#be185d;font-weight:700">درس مجاني كل يوم + نقاط إضافية</div></div>
-</section>
-
+<!-- صفحة الطالب الرئيسية -->
 <section class="page active" id="page-studentHome">
-<div class="hero"><div class="hero-inner"><div class="hero-label">مرحبًا بك 👋</div><div class="hero-title">تعلّم <span class="highlight">بذكاء</span>،<br>وتفوّق <span class="highlight">بثقة</span></div><div class="hero-sub" id="studentGradeLabel">—</div></div></div>
-<div class="points-widget"><div class="points-icon">⭐</div><div class="points-info"><div class="points-num" id="pointsValue">0</div><div class="points-label">نقطة تميز</div></div></div>
+<div class="hero">
+<div class="hero-inner">
+<div style="font-size:13px;opacity:.9;font-weight:700" id="smartGreeting">مرحباً 👋</div>
+<div class="hero-title">جاهز للتفوق اليوم؟</div>
+<div class="hero-sub" id="studentGradeLabel">—</div>
+</div>
+</div>
+<div class="card" style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border-right:4px solid var(--gold-2);padding:16px">
+<div style="display:flex;gap:12px;align-items:center">
+<div style="font-size:24px">💡</div>
+<div><div style="font-size:10px;color:#92400e;font-weight:900">حكمة اليوم</div><div style="font-size:12.5px;color:#78350f;font-weight:700;line-height:1.5" id="dailyQuoteText">—</div></div>
+</div>
+</div>
+<div class="card" style="text-align:center;padding:20px">
+<div style="font-family:var(--font-title);font-size:14px;font-weight:900;color:var(--primary);margin-bottom:10px">⏱️ مؤقت التركيز (بومودورو)</div>
+<div style="font-family:var(--font-title);font-size:44px;font-weight:900;color:var(--primary-3);letter-spacing:-1px;margin-bottom:12px" id="timerDisplay">25:00</div>
+<div style="display:flex;gap:10px;justify-content:center">
+<button class="btn btn-primary btn-sm" id="startTimerBtn" style="padding:10px 24px">▶ بدء</button>
+<button class="btn btn-ghost btn-sm" id="resetTimerBtn" style="padding:10px 24px">إعادة</button>
+</div>
+</div>
+<div class="points-widget" style="background:linear-gradient(135deg,var(--rose),var(--primary-3));color:#fff;border-radius:20px;padding:18px;display:flex;align-items:center;gap:14px;margin-bottom:16px">
+<div style="font-size:28px">⭐</div>
+<div><div style="font-family:var(--font-title);font-size:24px;font-weight:900" id="pointsValue">0</div><div style="font-size:11px;opacity:.9;font-weight:700">نقطة تميز</div></div>
+</div>
 <div class="stats-grid" id="studentStats"></div>
-<div class="section-title">📚 دورات صفّي</div>
+<div class="section-title">📚 استكمل التعلم</div>
+<div id="continueBox"></div>
+<div class="section-title">📖 دورات صفّي</div>
 <div id="studentCourses"></div>
 </section>
 
-<section class="page" id="page-studentPurchases">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">دروسي</h2></div>
-<div id="purchasesList"></div>
-</section>
-
-<section class="page" id="page-studentWallet">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">محفظتي</h2></div>
-<div class="card" style="background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#fff;border:none;text-align:center;padding:32px"><div style="font-size:13.5px;opacity:.95;font-weight:800">رصيدي الحالي</div><div style="font-family:var(--font-title);font-size:52px;font-weight:900;margin:14px 0;letter-spacing:-2px" id="walletBalance">0</div><div style="font-size:15px">ليرة سورية</div></div>
-<div class="redeem-box" style="margin-bottom:18px"><div class="redeem-icon">🎟️</div><div class="redeem-title">استخدم كرت الشحن</div><div class="redeem-sub">أدخل الكود (16 حرفاً)</div><input class="redeem-input" id="redeemCode" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19"><button class="redeem-btn" id="redeemBtn">تفعيل</button></div>
-<div class="card" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;padding:24px"><a href="https://wa.me/qr/HVZAC4QJMWI6I1" target="_blank" class="btn" style="background:#fff;color:#128C7E;font-weight:900">📲 شؤون الطلاب - واتساب</a></div>
-<div class="card"><div class="card-title">📋 سجل المعاملات</div><div id="studentTransactions"></div></div>
-</section>
-
-<section class="page" id="page-studentCourse"><div class="page-header"><button class="back-btn" id="backToHome"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title" id="courseTitle">الدورة</h2><div style="width:46px"></div></div><div id="courseDetails"></div></section>
-
-<section class="page" id="page-studentWatch"><div class="page-header"><button class="back-btn" id="backToCourse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title" id="lessonTitle">الدرس</h2><div style="width:46px"></div></div><div id="lessonContent"></div></section>
-
-<section class="page" id="page-teacherHome">
-<div class="hero"><div class="hero-inner"><div class="hero-label">لوحة المعلم</div><div class="hero-title" id="teacherWelcome">—</div><div class="hero-sub" id="teacherSubtitle">—</div></div></div>
-<div class="stats-grid" id="teacherStats"></div>
-<div class="section-title">إدارة</div>
-<div class="action-grid">
-<button class="action-tile" data-goto="teacherCourses" style="--tc:var(--primary)"><div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg></div><div class="action-tile-title">دوراتي</div></button>
-<button class="action-tile" data-goto="teacherLessons" style="--tc:var(--rose)" style="--tc:#ec4899"><div class="action-icon" style="background:var(--rose)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/></svg></div><div class="action-tile-title">دروسي</div></button>
-<button class="action-tile" data-goto="teacherStudents" style="--tc:#0284c7"><div class="action-icon" style="background:#0284c7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="action-tile-title">طلابي</div></button>
-<button class="action-tile" data-goto="teacherEarnings" style="--tc:var(--gold)"><div class="action-icon" style="background:var(--gold)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="action-tile-title">أرباحي</div></button>
+<!-- صفحة المشاهدة -->
+<section class="page" id="page-studentWatch">
+<button class="focus-exit" onclick="toggleFocusMode()">✖ خروج من وضع التركيز</button>
+<div class="page-header" id="watchHeader">
+<button class="back-btn" onclick="go('studentHome')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg></button>
+<h2 class="page-title" id="lessonTitle">الدرس</h2>
+<div style="display:flex;gap:6px">
+<button class="btn btn-ghost btn-sm" onclick="toggleFocusMode()" title="وضع التركيز">🧘‍♂️</button>
+<button class="btn btn-info btn-sm" id="askTeacherBtn">اسأل</button>
 </div>
-</section>
-
-<section class="page" id="page-teacherCourses"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">دوراتي</h2><button class="btn btn-primary btn-sm" id="addMyCourseBtn">+</button></div><div id="myCoursesList"></div></section>
-
-<section class="page" id="page-teacherLessons"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">دروسي</h2><button class="btn btn-primary btn-sm" id="addMyLessonBtn">+</button></div><div id="myLessonsList"></div></section>
-
-<section class="page" id="page-teacherStudents"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">طلابي</h2></div><div class="stats-grid" id="teacherStudentsStats"></div><div id="teacherStudentsList"></div></section>
-
-<section class="page" id="page-teacherEarnings"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">أرباحي</h2></div><div id="earningsContent"></div></section>
-
-<section class="page" id="page-adminHome">
-<div class="hero"><div class="hero-inner"><div class="hero-label">لوحة المدير</div><div class="hero-title">أهلًا بك 👋</div><div class="hero-sub" id="adminWelcome">—</div></div></div>
-<div class="stats-grid" id="adminStats"></div>
-<div class="section-title">إدارة المنصة</div>
-<div class="action-grid">
-<button class="action-tile" data-goto="adminCourses" style="--tc:var(--primary)"><div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="action-tile-title">الدورات</div></button>
-<button class="action-tile" data-goto="adminLessons" style="--tc:var(--rose)"><div class="action-icon" style="background:var(--rose)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div><div class="action-tile-title">الدروس</div></button>
-<button class="action-tile" data-goto="adminUsers" style="--tc:#0284c7"><div class="action-icon" style="background:#0284c7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="action-tile-title">المستخدمون</div><span class="action-badge" id="pendingUsersBadge" style="display:none">0</span></button>
-<button class="action-tile" data-goto="adminCards" style="--tc:var(--gold)"><div class="action-icon" style="background:var(--gold)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div class="action-tile-title">كروت الشحن</div></button>
-<button class="action-tile" data-goto="adminWithdrawals" style="--tc:#059669"><div class="action-icon" style="background:#059669"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="action-tile-title">طلبات السحب</div><span class="action-badge" id="pendingWithdrawalsBadge" style="display:none">0</span></button>
-<button class="action-tile" data-goto="adminTransactions" style="--tc:#0891b2"><div class="action-icon" style="background:#0891b2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="action-tile-title">السجل المالي</div></button>
-<button class="action-tile" data-goto="adminPartners" style="--tc:#db2777"><div class="action-icon" style="background:#db2777"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="action-tile-title">الشركاء</div></button>
-<button class="action-tile" data-goto="adminCoupons" style="--tc:#6366f1"><div class="action-icon" style="background:#6366f1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div><div class="action-tile-title">الكوبونات</div></button>
 </div>
+<div id="lessonContent"></div>
 </section>
 
-<section class="page" id="page-adminUsers"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">المستخدمون</h2></div><div class="search-box"><input id="userSearch" placeholder="ابحث..."></div><div class="filter-chips" id="userFilterChips"><button class="filter-chip active" data-filter="all">الكل</button><button class="filter-chip" data-filter="student">الطلاب</button><button class="filter-chip" data-filter="teacher">المعلمون</button></div><div id="usersList"></div></section>
-
-<section class="page" id="page-adminCourses"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الدورات</h2><button class="btn btn-primary btn-sm" id="addCourseBtn">+</button></div><div id="coursesList"></div></section>
-
-<section class="page" id="page-adminLessons"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الدروس</h2><button class="btn btn-primary btn-sm" id="addLessonBtn">+</button></div><div id="lessonsList"></div></section>
-
-<section class="page" id="page-adminCards"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">كروت الشحن</h2><button class="btn btn-gold btn-sm" id="createCardsBtn">+</button></div><div class="stats-grid" id="cardsStats"></div><div class="filter-chips" id="cardFilterChips"><button class="filter-chip active" data-filter="all">الكل</button><button class="filter-chip" data-filter="available">متاح</button><button class="filter-chip" data-filter="used">مستخدم</button></div><div id="cardsList"></div></section>
-
-<section class="page" id="page-adminWithdrawals"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">طلبات السحب</h2></div><div id="withdrawalsAdminList"></div></section>
-
-<section class="page" id="page-adminTransactions"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">السجل المالي</h2></div><div id="transactionsList"></div></section>
-
-<section class="page" id="page-adminPartners"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الشركاء</h2><button class="btn btn-primary btn-sm" id="addPartnerBtn">+</button></div><div id="partnersList"></div></section>
-
-<section class="page" id="page-adminCoupons"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الكوبونات</h2><button class="btn btn-primary btn-sm" id="addCouponBtn">+</button></div><div id="couponsList"></div></section>
-
-<section class="page" id="page-profile">
-<div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">ملفي</h2></div>
-<div id="profileContent"></div>
+<!-- صفحة الإعدادات -->
+<section class="page" id="page-settings">
+<div class="page-header"><button class="back-btn" onclick="go('studentHome')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الإعدادات</h2><div style="width:40px"></div></div>
+<div class="card" style="text-align:center;padding:20px;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border:none;margin-bottom:20px">
+<div style="width:70px;height:70px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;margin:0 auto 12px" id="settingsAvatar">—</div>
+<div style="font-family:var(--font-title);font-size:18px;font-weight:900" id="settingsName">—</div>
+<div style="font-size:12px;opacity:.9;margin-top:4px" id="settingsRole">—</div>
+</div>
+<div class="settings-item" onclick="toggleTheme()"><div class="settings-icon">🌙</div><div class="settings-info"><div class="settings-title">الوضع الليلي</div><div class="settings-desc" id="themeDesc">مُعطّل</div></div><div class="switch" id="themeSwitch"></div></div>
+<div class="settings-item" onclick="window.open('https://wa.me/qr/HVZAC4QJMWI6I1','_blank')"><div class="settings-icon">💬</div><div class="settings-info"><div class="settings-title">الدعم الفني</div><div class="settings-desc">تواصل عبر واتساب</div></div><div style="font-size:18px;color:var(--text-3)">›</div></div>
+<div class="settings-item" onclick="toast('الإصدار 3.0.0','success')"><div class="settings-icon">📱</div><div class="settings-info"><div class="settings-title">إصدار التطبيق</div><div class="settings-desc">3.0.0</div></div></div>
+<button class="btn btn-danger" style="margin-top:20px" onclick="logout()">🚪 تسجيل الخروج</button>
 </section>
 
-<section class="page" id="page-notifications"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الإشعارات</h2></div><div id="notifsList"></div></section>
+<!-- صفحات أخرى (مبسطة لعدم الإطالة) -->
+<section class="page" id="page-profile"><div class="page-header"><button class="back-btn" onclick="go('studentHome')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">ملفي</h2></div><div id="profileContent"></div></section>
+<section class="page" id="page-studentCoursesPage"><div class="page-header"><button class="back-btn" onclick="go('studentHome')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الدورات</h2></div><div id="allCoursesList"></div></section>
+<section class="page" id="page-studentWallet"><div class="page-header"><button class="back-btn" onclick="go('studentHome')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">محفظتي</h2></div>
+<div class="card" style="background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#fff;border:none;text-align:center;padding:26px"><div style="font-size:12px;opacity:.95;font-weight:800">رصيدي</div><div style="font-family:var(--font-title);font-size:44px;font-weight:900;margin:10px 0" id="walletBalance">0</div><div style="font-size:14px">ليرة سورية</div></div>
+<div class="card" style="background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border:none;padding:20px;text-align:center"><div style="font-size:32px;margin-bottom:8px">🎟️</div><div style="font-size:16px;font-weight:900;margin-bottom:12px">تفعيل كرت الشحن</div><input class="form-input" id="redeemCode" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="text-align:center;letter-spacing:2px;font-family:monospace;text-transform:uppercase"><button class="btn btn-ghost" id="redeemBtn" style="margin-top:10px;color:var(--primary)">تفعيل</button></div>
+</section>
 
 </main>
-<nav class="bottom-nav" id="bottomNav"></nav>
+
+<!-- الأزرار العائمة -->
+<div class="lofi-fab" id="lofiFab" onclick="toggleLofi()" title="راديو التركيز">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</div>
+<audio id="lofiAudio" loop><source src="https://stream.zeno.fm/0r0xa792kwzuv" type="audio/mpeg"></audio>
+
+<div class="ai-fab" id="aiFab" onclick="openAI()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+
+<!-- نافذة المساعد الذكي -->
+<div class="modal" id="aiModal">
+<div class="modal-box" style="height:70vh;display:flex;flex-direction:column">
+<div class="modal-head"><h3 class="modal-title">🤖 المساعد الذكي</h3><button class="btn btn-ghost btn-sm" onclick="closeAI()">✖</button></div>
+<div style="flex:1;overflow-y:auto;padding:16px;background:var(--bg-2)" id="aiMessages">
+<div style="background:var(--surface);padding:12px;border-radius:14px;font-size:13px;font-weight:600;margin-bottom:10px;width:80%">مرحباً! كيف أقدر أساعدك اليوم؟</div>
+</div>
+<div style="padding:10px;background:var(--surface);display:flex;gap:8px">
+<input class="form-input" id="aiInput" placeholder="اكتب سؤالك..." style="margin:0">
+<button class="btn btn-primary" style="width:auto" onclick="sendAI()">إرسال</button>
+</div>
+</div>
 </div>
 
-<div class="ai-fab" id="aiFab" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-<div class="ai-panel" id="aiPanel">
-<div class="ai-window">
-<div class="ai-header">
-<div class="ai-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/></svg></div>
-<div class="ai-header-info"><div class="ai-header-title">المساعد الذكي</div><div class="ai-header-sub"><span class="ai-online-dot"></span><span>متصل</span></div></div>
-<button class="ai-close" id="aiClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-</div>
-<div class="ai-messages" id="aiMessages"></div>
-<div class="ai-suggestions" id="aiSuggestions"></div>
-<div class="ai-input-row"><input class="ai-input" id="aiInput" placeholder="اكتب سؤالك..."><button class="ai-send" id="aiSend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
-</div>
-</div>
-
-<div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h3 class="modal-title" id="modalTitle">—</h3><button class="modal-close" id="modalClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="modal-body" id="modalBody"></div></div></div>
-
+<!-- Modal عام -->
+<div class="modal" id="modal"><div class="modal-box"><div class="modal-head"><h3 class="modal-title" id="modalTitle">—</h3><button class="btn btn-ghost btn-sm" onclick="closeM()">✖</button></div><div class="modal-body" id="modalBody"></div></div></div>
 <div class="toast" id="toast"></div>
-<div id="ytPlayerContainer" style="display:none"><div id="ytPlayer"></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyA0svXYd-p2p9SmIKRV4c5KzdN6O3a33RU",
@@ -617,105 +316,47 @@ appId: "1:576307992316:web:ef31c7b613e3db3cca2979"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
-const LEVELS = {
-'9':     { name:'الصف التاسع',   icon:'📘', color:'#0284c7' },
-'12sci': { name:'بكالوريا علمي', icon:'🔬', color:'#7c3aed' },
-'12lit': { name:'بكالوريا أدبي', icon:'📖', color:'#db2777' }
-};
-const ROLES = { admin:'مدير', teacher:'معلم', student:'طالب' };
 const EMAIL_SUF = '@nibras.local';
-const LOCAL_FAQ = [
-{ q:'كيف أشحن محفظتي؟', a:'تواصل مع شؤون الطلاب عبر واتساب، ثم افتح "محفظتي" وفعّل الكرت.', keywords:['شحن','محفظة','كرت','رصيد'] },
-{ q:'كيف أشتري درساً؟', a:'افتح الدرس → اضغط "اشترِ الآن" → سيُخصم المبلغ من رصيدك.', keywords:['شراء','أشتري','دفع','درس'] },
-{ q:'كيف أحصل على شهادة؟', a:'أكمل جميع دروس الدورة → شهادة تلقائية.', keywords:['شهادة','شهادات','إتمام'] },
-{ q:'كم رصيدي؟', a:'اسألني "رصيدي" وسأخبرك!', keywords:['رصيدي','رصيد'] }
-];
 
-const st = {
-me:null, users:[], courses:[], lessons:[],
-purchases:[], transactions:[], withdrawals:[], chats:[], messages:[],
-notifs:[], cards:[], notes:[], faq:[],
-partners:[], coupons:[],
-settings:{ defaultCommission:30, minWithdrawal:1000, maxDiscount:60 },
-theme:'light', userFilter:'all', cardFilter:'all',
-curChat:null, curCourse:null, curLesson:null, unsubs:[],
-aiChat:[], aiWaitingForReply:false,
-searchFilter:'all'
-};
+const LEVELS = { '9': {name:'التاسع', icon:'📘', color:'#0284c7'}, '12sci': {name:'بكالوريا علمي', icon:'🔬', color:'#7c3aed'}, '12lit': {name:'بكالوريا أدبي', icon:'📖', color:'#db2777'} };
+const ROLES = { admin:'مدير', teacher:'معلم', student:'طالب' };
+
+const st = { me:null, users:[], courses:[], lessons:[], purchases:[], transactions:[], unsubs:[], theme:'light' };
 
 const $ = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fm = n => Number(n||0).toLocaleString('ar-EG');
-const fd = ts => { if(!ts) return '—'; const d=ts.toDate?ts.toDate():new Date(ts); return new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'short',year:'numeric'}).format(d); };
-const fdt = ts => { if(!ts) return '—'; const d=ts.toDate?ts.toDate():new Date(ts); return new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}).format(d); };
 const ini = n => { const p=String(n||'').trim().split(/\s+/); return ((p[0]||'')[0]||'')+((p[1]||'')[0]||''); };
-const tokenize = s => String(s||'').toLowerCase().replace(/[^\u0600-\u06FF\w\s]/g,' ').split(/\s+/).filter(w => w.length > 2);
 const getLevelInfo = id => LEVELS[id] || { name:'غير محدد', icon:'📘', color:'#64748b' };
-const getCourseLevel = c => String(c?.level || c?.grade || '').trim();
 
 function toast(msg, type=''){
-const t = $('#toast'); t.textContent = msg;
-t.className = 'toast show' + (type ? ' '+type : '');
-clearTimeout(t._t);
-t._t = setTimeout(() => t.classList.remove('show'), 3200);
+const t = $('#toast'); t.textContent = msg; t.className = 'toast show ' + type;
+setTimeout(() => t.classList.remove('show'), 3000);
 }
-function hideLoading(){ const s = $('#loadingScreen'); if(s){ s.classList.add('hide'); setTimeout(() => s.remove(), 600); } }
 window.togglePw = function(id, el){
 const inp = document.getElementById(id);
 if(inp.type === 'password'){ inp.type = 'text'; el.textContent = '🙈'; }
 else { inp.type = 'password'; el.textContent = '👁'; }
 };
-window.go = function(name, silent){ go(name, silent); };
-window.closeM = function(){ $('#modal').classList.remove('open'); };
-window.logout = async function(){ if(!confirm('تسجيل الخروج؟')) return; st.unsubs.forEach(u => u()); st.unsubs = []; await signOut(auth); location.reload(); };
-function onlineCheck(){ if(!navigator.onLine){ toast('تحقق من الإنترنت','error'); return false; } return true; }
-window.addEventListener('unhandledrejection', e => console.error('Unhandled:', e.reason));
-
-function generateCardCode(){
-const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-const seg = () => Array.from({length:4},() => chars[Math.floor(Math.random()*chars.length)]).join('');
-return `${seg()}-${seg()}-${seg()}-${seg()}`;
+function switchAuthTab(tab){
+document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+$('#loginPane').style.display = tab==='login'?'block':'none';
+$('#registerPane').style.display = tab==='register'?'block':'none';
 }
-function formatCardInput(input){
-let v = input.value.toUpperCase().replace(/[^A-Z0-9]/g,'');
-if(v.length > 16) v = v.slice(0,16);
-input.value = (v.match(/.{1,4}/g) || []).join('-');
-}
-function extractYT(i){
-if(!i) return '';
-if(/^[a-zA-Z0-9_-]{11}$/.test(i)) return i;
-const p = [/(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,/(?:youtu\.be\/)([a-zA-Z0-9_-]{11})/,/(?:youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/];
-for(const r of p){ const m = i.match(r); if(m) return m[1]; }
-return '';
-}
-function generatePartnerCode(name){
-const clean = String(name||'').replace(/[^a-zA-Z]/g,'');
-const base = (clean.slice(0,4) || 'PART').toUpperCase();
-return `${base}-${String(Math.floor(Math.random()*900) + 100)}`;
-}
+window.logout = async function(){ if(!confirm('تسجيل الخروج؟')) return; st.unsubs.forEach(u=>u()); await signOut(auth); location.reload(); };
 
 // === Auth ===
 async function doLogin(){
-if(!onlineCheck()) return;
 const u = $('#loginUser').value.trim().toLowerCase(), p = $('#loginPass').value;
-if(!u || !p){ toast('أكمل الحقول','error'); return; }
-$('#loginBtn').disabled = true; $('#loginBtn').innerHTML = '⏳...';
+if(!u || !p) return toast('أكمل الحقول','error');
+$('#loginBtn').disabled = true; $('#loginBtn').textContent = '...';
 try{
 const email = u.includes('@') ? u : u + EMAIL_SUF;
 await signInWithEmailAndPassword(auth, email, p);
-}catch(e){
-toast('بيانات دخول خاطئة','error');
-$('#loginBtn').disabled = false; $('#loginBtn').innerHTML = 'دخول إلى المنصة';
-}
+}catch(e){ toast('بيانات خاطئة','error'); $('#loginBtn').disabled = false; $('#loginBtn').textContent = 'دخول'; }
 }
 
 async function doGoogleLogin(){
-if(!onlineCheck()) return;
-const btn = $('#googleLoginBtn');
-const orig = btn.innerHTML;
-btn.disabled = true; btn.innerHTML = '⏳ جاري...';
 try{
 const provider = new GoogleAuthProvider();
 const result = await signInWithPopup(auth, provider);
@@ -723,1113 +364,247 @@ const user = result.user;
 const userDoc = await getDoc(doc(db, 'users', user.uid));
 if(!userDoc.exists()){
 await setDoc(doc(db, 'users', user.uid), {
-uid: user.uid, name: user.displayName || 'مستخدم',
-username: (user.email || '').split('@')[0], email: user.email || '',
-role: 'student', phone: '', level: '9',
-balance: 0, points: 0, favorites: [], activity: [],
-active: true, createdAt: serverTimestamp()
+uid: user.uid, name: user.displayName || 'مستخدم', username: (user.email || '').split('@')[0], email: user.email || '',
+role: 'student', phone: '', level: '9', balance: 0, points: 0, active: true, createdAt: serverTimestamp()
 });
-toast('🎉 تم إنشاء حسابك','success');
-} else toast('✓ مرحباً بك','success');
-}catch(error){
-console.error(error);
-if(error.code === 'auth/popup-closed-by-user') toast('تم إغلاق النافذة','warning');
-else if(error.code === 'auth/unauthorized-domain') toast('النطاق غير مصرح في Firebase','error');
-else if(error.code === 'auth/operation-not-allowed') toast('Google غير مفعّل','error');
-else toast('فشل: ' + (error.code||error.message),'error');
-btn.disabled = false; btn.innerHTML = orig;
+toast('🎉 تم إنشاء الحساب','success');
 }
+}catch(e){ toast('فشل: ' + e.code,'error'); }
 }
 
-function openForgotPasswordModal(){
+function openForgot(){
 openM('🔑 استعادة كلمة المرور', `
-<p style="font-size:13.5px;color:var(--text-2);line-height:1.8;margin-bottom:18px;font-weight:600">أدخل بريدك الإلكتروني المسجل وسنرسل لك رابط إعادة تعيين كلمة المرور.</p>
-<div class="form-group"><label class="form-label">البريد الإلكتروني</label><input type="email" class="form-input" id="resetEmail" placeholder="example@gmail.com" dir="ltr" style="text-align:left"></div>
-<button class="btn btn-primary" id="sendResetBtn">📧 إرسال الرابط</button>`);
+<div class="form-group"><label class="form-label">البريد الإلكتروني</label><input type="email" class="form-input" id="resetEmail" dir="ltr" style="text-align:left"></div>
+<button class="btn btn-primary" id="sendResetBtn">إرسال الرابط</button>`);
 $('#sendResetBtn').onclick = async () => {
 const email = $('#resetEmail').value.trim();
-if(!email || !email.includes('@')){ toast('أدخل بريداً صحيحاً','error'); return; }
-const btn = $('#sendResetBtn'); btn.disabled = true; btn.textContent = '⏳...';
+if(!email.includes('@')) return toast('بريد خاطئ','error');
 try{ await sendPasswordResetEmail(auth, email); toast('✓ تحقق من بريدك','success'); closeM(); }
-catch(error){
-if(error.code === 'auth/user-not-found') toast('البريد غير مسجل','error');
-else if(error.code === 'auth/invalid-email') toast('البريد غير صحيح','error');
-else toast('فشل الإرسال','error');
-}finally{ btn.disabled = false; btn.textContent = '📧 إرسال الرابط'; }
+catch(e){ toast('فشل الإرسال','error'); }
 };
 }
 
 async function doRegister(){
-if(!onlineCheck()) return;
-const name = $('#regName').value.trim();
-const username = $('#regUser').value.trim().toLowerCase();
-const email = $('#regEmail').value.trim().toLowerCase();
-const password = $('#regPass').value;
-const password2 = $('#regPass2').value;
-const phone = $('#regPhone').value.trim();
-
-if(!name){ toast('أدخل اسمك','error'); return; }
-if(!username || username.length < 3){ toast('اسم المستخدم 3+ أحرف','error'); return; }
-if(!/^[a-z0-9_]+$/.test(username)){ toast('بالإنجليزية فقط','error'); return; }
-if(!email || !email.includes('@')){ toast('أدخل بريداً صحيحاً','error'); return; }
-if(!password || password.length < 6){ toast('6+ أحرف','error'); return; }
-if(password !== password2){ toast('غير متطابقتين','error'); return; }
-if(!phone || !/^09\d{8}$/.test(phone)){ toast('رقم: 09xxxxxxxx','error'); return; }
-if(st.regRole === 'teacher' && !$('#regSpecialty').value){ toast('اختر التخصص','error'); return; }
-if(!$('#regTerms').checked){ toast('وافق على الشروط','error'); return; }
-
-let hasAdmin = true;
+const name = $('#regName').value.trim(), username = $('#regUser').value.trim().toLowerCase(), email = $('#regEmail').value.trim().toLowerCase(), phone = $('#regPhone').value.trim(), pass = $('#regPass').value;
+if(!name || !username || !email || !phone || !pass) return toast('أكمل الحقول','error');
+if(!$('#regTerms').checked) return toast('وافق على الشروط','error');
+$('#registerBtn').disabled = true; $('#registerBtn').textContent = '...';
 try{
-const s = await getDocs(query(collection(db,'users'), where('role','==','admin'), limit(1)));
-hasAdmin = !s.empty;
-}catch(e){ hasAdmin = true; }
-const finalRole = hasAdmin ? st.regRole : 'admin';
-$('#registerBtn').disabled = true; $('#registerBtn').innerHTML = '⏳...';
-try{
-const cred = await createUserWithEmailAndPassword(auth, email, password);
-await new Promise(r => setTimeout(r, 500));
-const userData = {
-uid: cred.user.uid, name, username, email, role: finalRole, phone,
-balance: 0, points: 0, favorites: [], activity: [],
-active: finalRole === 'student' || finalRole === 'admin',
-createdAt: serverTimestamp()
-};
-if(finalRole === 'student') userData.level = $('#regLevel').value;
-else if(finalRole === 'teacher') userData.specialty = $('#regSpecialty').value;
-await setDoc(doc(db,'users',cred.user.uid), userData);
-toast('🎉 مرحباً بك!','success');
-}catch(e){
-let msg = 'تعذّر: ' + (e.code||e.message);
-if(e.code === 'auth/email-already-in-use') msg = 'البريد محجوز';
-else if(e.code === 'auth/weak-password') msg = 'كلمة مرور ضعيفة';
-else if(e.code === 'auth/invalid-email') msg = 'بريد غير صحيح';
-toast(msg,'error');
-$('#registerBtn').disabled = false; $('#registerBtn').innerHTML = 'إنشاء الحساب';
-}
-}
-
-async function changePassword(){
-const oldPass = $('#oldPass').value, newPass = $('#newPass').value, newPass2 = $('#newPass2').value;
-if(!oldPass || !newPass || !newPass2){ toast('أكمل','error'); return; }
-if(newPass.length < 6){ toast('6+ أحرف','error'); return; }
-if(newPass !== newPass2){ toast('غير متطابقتين','error'); return; }
-const btn = $('#changePassBtn'); btn.disabled = true; btn.innerHTML = '⏳...';
-try{
-const user = auth.currentUser;
-const cred = EmailAuthProvider.credential(user.email, oldPass);
-await reauthenticateWithCredential(user, cred);
-await updatePassword(user, newPass);
-toast('✅ تم التغيير','success');
-$('#oldPass').value = ''; $('#newPass').value = ''; $('#newPass2').value = '';
-}catch(e){
-const msgs = { 'auth/wrong-password': 'كلمة المرور خاطئة', 'auth/requires-recent-login': 'سجّل من جديد' };
-toast(msgs[e.code] || 'فشل', 'error');
-}finally{ btn.disabled = false; btn.innerHTML = '🔑 تغيير'; }
+const cred = await createUserWithEmailAndPassword(auth, email, pass);
+await setDoc(doc(db,'users',cred.user.uid), {
+uid: cred.user.uid, name, username, email, phone, role: 'student', level: '9', balance: 0, points: 0, active: true, createdAt: serverTimestamp()
+});
+toast('🎉 مرحباً بك','success');
+}catch(e){ toast('فشل: ' + e.code,'error'); $('#registerBtn').disabled = false; $('#registerBtn').textContent = 'إنشاء الحساب'; }
 }
 
 onAuthStateChanged(auth, async user => {
-hideLoading();
+$('#loadingScreen').classList.add('hide');
 if(user){
-let d = null, tries = 0;
-while(tries < 8){
-try{ d = await getDoc(doc(db, 'users', user.uid)); if(d.exists()) break; }catch(e){}
-await new Promise(r => setTimeout(r, 400));
-tries++;
-}
-if(d && d.exists()){
+const d = await getDoc(doc(db,'users',user.uid));
+if(d.exists()){
 st.me = { id: user.uid, ...d.data() };
-if(!st.me.level && st.me.grade) st.me.level = st.me.grade;
 $('#authScreen').style.display = 'none';
-$('#guestScreen').style.display = 'none';
 $('#appScreen').style.display = 'block';
-$('#aiFab').style.display = 'flex';
-applyTheme(); updateHeader(); renderNav(); listenAll();
-const r = st.me.role;
-if(r === 'admin') go('adminHome');
-else if(r === 'teacher') go('teacherHome');
-else go('studentHome');
-} else await signOut(auth);
+$('#userLabel').textContent = st.me.name + ' · ' + ROLES[st.me.role];
+applyTheme();
+listenAll();
+go(st.me.role === 'admin' ? 'adminHome' : 'studentHome');
+}else await signOut(auth);
 } else {
-st.me = null;
 $('#authScreen').style.display = 'flex';
 $('#appScreen').style.display = 'none';
-$('#aiFab').style.display = 'none';
 }
 });
 
 function listenAll(){
-st.unsubs.forEach(u => u()); st.unsubs = [];
-const role = st.me.role, uid = st.me.id;
-const subs = [
-['courses','courses',null],
-['lessons','lessons',null],
-['faq','faq',null]
-];
-if(role === 'student'){
-subs.push(
-['purchases','purchases', q => where('userId','==',uid)],
-['transactions','transactions', q => where('userId','==',uid)],
-['notifications','notifs', q => where('userId','==',uid)]
-);
-} else if(role === 'teacher'){
-subs.push(
-['notifications','notifs', q => where('userId','==',uid)],
-['purchases','purchases',null]
-);
-} else if(role === 'admin'){
-subs.push(
-['users','users',null],
-['purchases','purchases',null],
-['transactions','transactions',null],
-['withdrawals','withdrawals',null],
-['notifications','notifs', q => where('userId','==',uid)],
-['cards','cards',null],
-['partners','partners',null],
-['coupons','coupons',null]
-);
-}
-subs.forEach(([col,key,whereFn]) => {
-let ref = collection(db,col);
-if(whereFn) ref = query(ref, whereFn());
-st.unsubs.push(onSnapshot(ref, snap => {
-const arr = snap.docs.map(d => ({id:d.id, ...d.data()}));
-if(key === 'courses'){ st.courses = arr.map(c => ({ ...c, _lvl: getCourseLevel(c) })); }
-else st[key] = arr;
-if(key === 'users'){ const me = st.users.find(u => u.id === st.me?.id); if(me){ st.me = me; updateHeader(); } }
-if(key === 'notifs') updateNB();
-if(key === 'withdrawals') updateWdBadge();
-debouncedRefresh();
-}, err => console.warn('Listener ' + col, err.code)));
+st.unsubs.forEach(u=>u()); st.unsubs = [];
+['courses','lessons'].forEach(col => {
+st.unsubs.push(onSnapshot(collection(db,col), snap => { st[col] = snap.docs.map(d=>({id:d.id,...d.data()})); refreshCurrent(); }));
 });
+st.unsubs.push(onSnapshot(query(collection(db,'purchases'), where('userId','==',st.me.id)), snap => { st.purchases = snap.docs.map(d=>({id:d.id,...d.data()})); refreshCurrent(); }));
 }
-let _refreshTimer;
-function debouncedRefresh(){ clearTimeout(_refreshTimer); _refreshTimer = setTimeout(refreshCurrent, 250); }
+
 function refreshCurrent(){
 const a = document.querySelector('.page.active');
-if(!a) return;
-go(a.id.replace('page-',''), true);
+if(a) go(a.id.replace('page-',''), true);
 }
 function go(name, silent){
-try{
-if(st.curLesson && window.ytPlayer && document.querySelector('.page.active')?.id === 'page-studentWatch' && name !== 'studentWatch'){
-saveNow(); destroyPlayer();
-}
-$$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-'+name));
-$$('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
 if(!silent) window.scrollTo({top:0, behavior:'smooth'});
-const map = {
-about:()=>{}, director:()=>{}, how:()=>{}, settings:renderSettings,
-adminHome:renderAdminHome, adminUsers:renderUsers, adminCards:renderCards,
-adminWithdrawals:renderWithdrawalsAdmin, adminCourses:renderAdminCourses,
-adminLessons:renderAdminLessons, adminTransactions:renderTransactions,
-adminPartners:renderPartners, adminCoupons:renderCoupons,
-teacherHome:renderTeacherHome, teacherCourses:renderMyCourses,
-teacherLessons:renderMyLessons, teacherStudents:renderTeacherStudents,
-teacherEarnings:renderEarnings,
-studentHome:renderStudentHome, studentWallet:renderWallet,
-studentPurchases:renderPurchases,
-profile:renderProfile, notifications:renderNotifications
-};
-if(map[name]) { try{ map[name](); }catch(e){ console.error(`❌ ${name}:`, e); } }
-}catch(outer){ console.error('Nav:', outer); }
+document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-'+name));
+if(name === 'studentHome') renderStudentHome();
+if(name === 'studentWatch' && st.curLesson) openLesson(st.curLesson);
+if(name === 'settings') renderSettings();
+if(name === 'profile') renderProfile();
+if(name === 'studentWallet') renderWallet();
+if(name === 'studentCoursesPage') renderAllCourses();
 }
 
-const NAV_ICONS = {
-home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
-video:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>',
-users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',
-money:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>',
-user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
-};
-function renderNav(){
-const r = st.me.role; let items = [];
-if(r === 'admin') items = [
-{id:'adminHome',ic:NAV_ICONS.home,l:'الرئيسية'},
-{id:'adminUsers',ic:NAV_ICONS.users,l:'المستخدمون'},
-{id:'adminCourses',ic:NAV_ICONS.book,l:'الدورات'},
-{id:'adminCards',ic:NAV_ICONS.money,l:'الكروت'},
-{id:'settings',ic:NAV_ICONS.user,l:'الإعدادات'}
-];
-else if(r === 'teacher') items = [
-{id:'teacherHome',ic:NAV_ICONS.home,l:'الرئيسية'},
-{id:'teacherLessons',ic:NAV_ICONS.video,l:'دروسي'},
-{id:'teacherStudents',ic:NAV_ICONS.users,l:'طلابي'},
-{id:'teacherEarnings',ic:NAV_ICONS.money,l:'أرباحي'},
-{id:'settings',ic:NAV_ICONS.user,l:'الإعدادات'}
-];
-else items = [
-{id:'studentHome',ic:NAV_ICONS.home,l:'الرئيسية'},
-{id:'studentPurchases',ic:NAV_ICONS.video,l:'دروسي'},
-{id:'studentWallet',ic:NAV_ICONS.money,l:'محفظتي'},
-{id:'profile',ic:NAV_ICONS.user,l:'ملفي'},
-{id:'settings',ic:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',l:'الإعدادات'}
-];
-$('#bottomNav').innerHTML = items.map(it => `<button class="nav-item" data-nav="${it.id}"><span class="nav-icon">${it.ic}</span><span>${it.l}</span></button>`).join('');
-$$('.nav-item').forEach(b => b.onclick = () => go(b.dataset.nav));
-}
-function updateHeader(){ if(st.me) $('#userLabel').textContent = st.me.name + ' · ' + ROLES[st.me.role]; }
-function updateNB(){ const n = st.notifs.filter(x => x.userId === st.me?.id && !x.read).length, b = $('#notifBadge'); if(n>0){b.textContent=n;b.style.display='block';}else b.style.display='none'; }
-function updateWdBadge(){
-const n = st.withdrawals.filter(x => x.status === 'pending').length;
-const b = $('#pendingWithdrawalsBadge');
-if(b){ if(n>0){b.textContent=n;b.style.display='block';}else b.style.display='none'; }
-}
-
-// === Settings ===
-function renderSettings(){
-const u = st.me;
-$('#settingsAvatar').textContent = ini(u.name) || '👤';
-$('#settingsName').textContent = u.name;
-$('#settingsRole').textContent = ROLES[u.role] + (u.specialty ? ' · ' + u.specialty : '') + (u.level ? ' · ' + getLevelInfo(u.level).name : '');
-$('#themeDesc').textContent = st.theme === 'dark' ? 'مُفعّل' : 'مُعطّل';
-$('#themeSwitch').classList.toggle('on', st.theme === 'dark');
-}
-function toggleTheme(){
-st.theme = st.theme === 'dark' ? 'light' : 'dark';
-localStorage.setItem('nb_theme', st.theme);
-applyTheme();
-if(st.me) renderSettings();
-}
-function changeAccent(){
-const accents = [
-{v:'#8b5cf6', n:'بنفسجي'},
-{v:'#ec4899', n:'وردي'},
-{v:'#f59e0b', n:'ذهبي'},
-{v:'#10b981', n:'أخضر'},
-{v:'#0284c7', n:'أزرق'}
-];
-const cur = localStorage.getItem('nb_accent') || '#8b5cf6';
-const idx = accents.findIndex(a => a.v === cur);
-const next = accents[(idx+1) % accents.length];
-localStorage.setItem('nb_accent', next.v);
-document.documentElement.style.setProperty('--primary-3', next.v);
-$('#accentDesc').textContent = next.n;
-toast('تم تغيير اللون: ' + next.n, 'success');
-}
-function toggleSetting(key){
-const saved = JSON.parse(localStorage.getItem('nb_settings') || '{}');
-saved[key] = !saved[key];
-localStorage.setItem('nb_settings', JSON.stringify(saved));
-const sw = $('#sw-' + key);
-if(sw) sw.classList.toggle('on', saved[key] !== false);
-}
-function changePasswordFromSettings(){ go('profile'); setTimeout(() => { document.getElementById('oldPass')?.focus(); }, 300); }
-
-function applyTheme(){
-document.documentElement.setAttribute('data-theme', st.theme);
-const accent = localStorage.getItem('nb_accent');
-if(accent){ document.documentElement.style.setProperty('--primary-3', accent); }
-}
-
-// === Admin ===
-function renderAdminHome(){
-const ss = st.users.filter(u => u.role === 'student').length;
-const tt = st.users.filter(u => u.role === 'teacher').length;
-const at = st.users.filter(u => u.role === 'teacher' && u.active).length;
-const pend = tt-at;
-const availableCards = st.cards.filter(c => c.status === 'available').length;
-$('#adminWelcome').textContent = st.me.name;
-$('#adminStats').innerHTML = `
-<div class="stat-card" style="--sc:var(--primary-3)"><div class="stat-value">${ss}</div><div class="stat-label">طالب</div></div>
-<div class="stat-card" style="--sc:var(--gold)"><div class="stat-value">${at}/${tt}</div><div class="stat-label">معلم مفعّل</div></div>
-<div class="stat-card" style="--sc:var(--rose)"><div class="stat-value">${st.courses.length}</div><div class="stat-label">دورة</div></div>
-<div class="stat-card" style="--sc:#0284c7"><div class="stat-value">${availableCards}</div><div class="stat-label">كروت</div></div>`;
-const pu = $('#pendingUsersBadge'); if(pu){ if(pend>0){pu.textContent=pend;pu.style.display='block';}else pu.style.display='none'; }
-updateWdBadge();
-}
-
-function renderUsers(){
-const q = ($('#userSearch')?.value || '').trim().toLowerCase();
-const f = st.userFilter;
-let arr = st.users;
-if(q) arr = arr.filter(u => u.name?.toLowerCase().includes(q) || u.username?.toLowerCase().includes(q));
-if(f === 'student') arr = arr.filter(u => u.role === 'student');
-if(f === 'teacher') arr = arr.filter(u => u.role === 'teacher');
-const l = $('#usersList');
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا مستخدمون</div></div>'; return; }
-l.innerHTML = '';
-arr.sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(u => {
-const lvlInfo = u.level ? getLevelInfo(u.level) : null;
-const el = document.createElement('div');
-el.className = 'card'; el.style.padding = '18px';
-el.innerHTML = `<div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:16px"><div class="list-thumb" style="width:56px;height:56px;font-size:20px">${ini(u.name)||'👤'}</div><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px"><strong style="font-size:16px">${esc(u.name)}</strong><span class="badge badge-${u.role}">${ROLES[u.role]}</span>${u.role === 'teacher' ? `<span class="badge badge-${u.active?'active':'pending'}">${u.active?'✓':'⏳'}</span>` : ''}</div><div style="font-size:13px;color:var(--text-3);display:flex;gap:12px;flex-wrap:wrap;font-weight:600"><span>@${esc(u.username)}</span>${lvlInfo ? `<span>${lvlInfo.icon} ${lvlInfo.name}</span>` : ''}${u.phone ? `<span>📱 ${esc(u.phone)}</span>` : ''}</div>${u.role === 'student' ? `<div style="margin-top:10px;padding:10px 14px;background:linear-gradient(135deg,var(--gold-3),var(--gold-2));border-radius:12px;display:inline-block"><strong style="font-size:15px;color:#78350f">💰 ${fm(u.balance)} ل.س</strong></div>` : ''}</div></div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding-top:16px;border-top:1px solid var(--border)">${u.role === 'teacher' && !u.active ? `<button class="btn btn-success btn-sm" data-a="activate" data-id="${u.id}">✓ تفعيل</button>` : ''}${u.role === 'teacher' && u.active ? `<button class="btn btn-warning btn-sm" data-a="deactivate" data-id="${u.id}">⏸ إيقاف</button>` : ''}${u.role === 'student' ? `<button class="btn btn-info btn-sm" data-a="addBal" data-id="${u.id}">💰 رصيد</button>` : ''}${u.role !== 'admin' ? `<button class="btn btn-danger btn-sm" data-a="delete" data-id="${u.id}">🗑</button>` : ''}</div>`;
-el.querySelectorAll('[data-a]').forEach(b => b.onclick = async e => {
-e.stopPropagation();
-const a = b.dataset.a, id = b.dataset.id;
-const usr = st.users.find(x => x.id === id);
-try{
-if(a === 'activate'){ await updateDoc(doc(db,'users',id),{active:true}); toast('✓','success'); }
-else if(a === 'deactivate'){ if(!confirm(`إيقاف ${usr.name}؟`)) return; await updateDoc(doc(db,'users',id),{active:false}); toast('تم','warning'); }
-else if(a === 'addBal') openBal(id);
-else if(a === 'delete') { if(!confirm(`حذف ${usr.name}؟`)) return; await deleteDoc(doc(db,'users',id)); toast('تم'); }
-}catch(err){ toast('فشل: ' + (err.code||err.message),'error'); }
-});
-l.appendChild(el);
-});
-}
-function openBal(id){
-const u = st.users.find(x => x.id === id);
-openM('💰 إضافة رصيد', `
-<div class="card" style="background:var(--bg-2);border:none;margin-bottom:18px"><div style="display:flex;justify-content:space-between;font-weight:700"><span>الرصيد:</span><strong style="color:var(--primary-3)">${fm(u.balance)} ل.س</strong></div></div>
-<div class="form-group"><label class="form-label">المبلغ</label><input type="number" class="form-input" id="balAmt" min="1"></div>
-<div class="form-group"><label class="form-label">السبب</label><input class="form-input" id="balNote"></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-success" id="balOk">+</button></div>`);
-$('#balOk').onclick = async () => {
-const a = parseInt($('#balAmt').value, 10);
-if(!a || a <= 0){ toast('مبلغ خطأ','error'); return; }
-try{
-const note = $('#balNote').value.trim() || 'إضافة رصيد';
-await updateDoc(doc(db,'users',id),{balance:(u.balance||0)+a});
-await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:note,date:serverTimestamp()});
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل: ' + (e.code||e.message),'error'); }
-};
-}
-
-function renderCards(){
-const stats = {
-available: st.cards.filter(c => c.status === 'available').length,
-used: st.cards.filter(c => c.status === 'used').length,
-totalValue: st.cards.filter(c => c.status === 'used').reduce((s,c) => s+(c.amount||0), 0)
-};
-$('#cardsStats').innerHTML = `
-<div class="stat-card" style="--sc:#059669"><div class="stat-value">${stats.available}</div><div class="stat-label">متاحة</div></div>
-<div class="stat-card" style="--sc:#64748b"><div class="stat-value">${stats.used}</div><div class="stat-label">مستخدمة</div></div>
-<div class="stat-card" style="--sc:var(--gold)"><div class="stat-value">${fm(stats.totalValue)}</div><div class="stat-label">إجمالي</div></div>
-<div class="stat-card" style="--sc:var(--primary-3)"><div class="stat-value">${st.cards.length}</div><div class="stat-label">الكل</div></div>`;
-const f = st.cardFilter;
-let arr = st.cards;
-if(f !== 'all') arr = arr.filter(c => c.status === f);
-const l = $('#cardsList');
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا كروت</div></div>'; return; }
-l.innerHTML = '';
-arr.forEach(card => {
-const el = document.createElement('div');
-el.className = 'code-card ' + (card.status === 'used' ? 'used' : '');
-el.innerHTML = `<div><div class="code-amount">${fm(card.amount)} ل.س</div></div><div class="code-value">${esc(card.code)}</div>${card.status === 'available' ? `<div class="code-actions"><button data-a="copy" data-code="${esc(card.code)}">📋</button><button data-a="delete" data-id="${card.id}">🗑</button></div>` : `<div class="code-actions"><button data-a="delete" data-id="${card.id}">🗑</button></div>`}`;
-el.querySelectorAll('[data-a]').forEach(b => b.onclick = async e => {
-e.stopPropagation();
-const a = b.dataset.a;
-try{
-if(a === 'copy'){ navigator.clipboard.writeText(b.dataset.code); toast('✓','success'); }
-else if(a === 'delete'){ if(!confirm('حذف؟')) return; await deleteDoc(doc(db,'cards',b.dataset.id)); toast('تم'); }
-}catch(err){ toast('فشل','error'); }
-});
-l.appendChild(el);
-});
-}
-function openCreateCardsModal(){
-openM('🎟️ إنشاء كروت', `
-<div class="form-group"><label class="form-label">💰 القيمة</label><input type="number" class="form-input" id="cardAmt" min="100" value="5000"></div>
-<div class="form-group"><label class="form-label">🔢 العدد</label><input type="number" class="form-input" id="cardQty" min="1" max="100" value="10"></div>
-<div class="card" style="background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;border:none;text-align:center;padding:20px"><div id="cardsTotal">50,000 ل.س</div></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-gold" id="createCardsOk">إنشاء</button></div>`);
-const upd = () => { const a = parseInt($('#cardAmt').value, 10) || 0, q = parseInt($('#cardQty').value, 10) || 0; $('#cardsTotal').textContent = fm(a*q) + ' ل.س'; };
-$('#cardAmt').oninput = upd; $('#cardQty').oninput = upd; upd();
-$('#createCardsOk').onclick = async () => {
-const amt = parseInt($('#cardAmt').value, 10), qty = parseInt($('#cardQty').value, 10);
-if(!amt || amt < 100 || !qty || qty < 1 || qty > 100){ toast('بيانات خطأ','error'); return; }
-const btn = $('#createCardsOk'); btn.disabled = true; btn.textContent = '⏳...';
-try{
-for(let i = 0; i < qty; i++){
-const code = generateCardCode();
-await addDoc(collection(db,'cards'),{ code, amount:amt, status:'available', createdBy:st.me.id, createdAt:serverTimestamp() });
-}
-closeM(); toast(`✓ ${qty}`,'success');
-}catch(e){ toast('فشل: ' + (e.code||e.message),'error'); btn.disabled = false; }
-};
-}
-async function redeemCard(){
-if(!onlineCheck()) return;
-const input = $('#redeemCode');
-const code = input.value.trim().toUpperCase();
-if(!code || code.length < 16){ toast('كود خطأ','error'); return; }
-const btn = $('#redeemBtn'); btn.disabled = true; btn.textContent = '⏳...';
-let addedAmount = 0;
-try{
-const snap = await getDocs(query(collection(db,'cards'), where('code','==',code), limit(1)));
-if(snap.empty) throw new Error('NOT_FOUND');
-const cardDoc = snap.docs[0];
-await runTransaction(db, async tx => {
-const cardRef = doc(db,'cards',cardDoc.id);
-const userRef = doc(db,'users', st.me.id);
-const cSnap = await tx.get(cardRef);
-const uSnap = await tx.get(userRef);
-if(!cSnap.exists()) throw new Error('NOT_FOUND');
-const c = cSnap.data();
-if(c.status === 'used') throw new Error('ALREADY_USED');
-const curBal = uSnap.data()?.balance || 0;
-addedAmount = c.amount;
-tx.update(cardRef,{ status:'used', usedBy:st.me.id, usedAt:serverTimestamp() });
-tx.update(userRef,{ balance: curBal + c.amount });
-});
-await addDoc(collection(db,'transactions'),{ userId: st.me.id, type:'card_redeem', amount: addedAmount, description:'تفعيل كرت', date: serverTimestamp() });
-input.value = '';
-toast(`✓ +${fm(addedAmount)}`,'success');
-}catch(e){
-const msgs = { ALREADY_USED:'⚠️ مستخدم', NOT_FOUND:'❌ غير موجود' };
-toast(msgs[e.message] || 'خطأ','error');
-}finally{ btn.disabled = false; btn.textContent = 'تفعيل'; }
-}
-
-function renderWithdrawalsAdmin(){
-const l = $('#withdrawalsAdminList');
-const arr = [...st.withdrawals].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا طلبات</div></div>'; return; }
-l.innerHTML = '';
-arr.forEach(w => {
-const u = st.users.find(x => x.id === w.userId);
-const el = document.createElement('div');
-el.className = 'card';
-el.innerHTML = `<div style="display:flex;justify-content:space-between;margin-bottom:14px"><div><div style="font-size:16px;font-weight:900">${esc(u?.name||'—')}</div><div style="font-size:12.5px;color:var(--text-3)">${fdt(w.date)}</div></div><span class="badge badge-${w.status==='pending'?'pending':w.status==='approved'?'active':'inactive'}">${w.status}</span></div><div style="background:var(--bg-2);border-radius:14px;padding:14px;margin-bottom:14px"><div><strong>${fm(w.amount)} ل.س</strong></div><div>${esc(w.method||'')}</div><div>${esc(w.account||'')}</div></div>${w.status === 'pending' ? `<div style="display:flex;gap:10px"><button class="btn btn-success btn-sm" style="flex:1" data-a="ap" data-id="${w.id}">✓</button><button class="btn btn-danger btn-sm" style="flex:1" data-a="rj" data-id="${w.id}">✗</button></div>` : ''}`;
-el.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
-try{
-if(b.dataset.a === 'ap'){ await updateDoc(doc(db,'withdrawals',b.dataset.id),{status:'approved',paidAt:serverTimestamp()}); toast('تم','success'); }
-else { await updateDoc(doc(db,'withdrawals',b.dataset.id),{status:'rejected'}); toast('رُفض','warning'); }
-}catch(e){ toast('فشل','error'); }
-});
-l.appendChild(el);
-});
-}
-function renderTransactions(){
-const l = $('#transactionsList');
-const arr = [...st.transactions].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا معاملات</div></div>'; return; }
-l.innerHTML = arr.slice(0, 200).map(t => {
-const u = st.users.find(x => x.id === t.userId);
-const credit = ['topup','card_redeem'].includes(t.type);
-return `<div class="list-item" style="padding:14px;cursor:default"><div class="list-info"><div class="list-title" style="font-size:14px">${esc(u?.name||'—')}</div><div class="list-meta" style="font-size:12px">${esc(t.description||'')} · ${fdt(t.date)}</div></div><div style="font-size:16px;font-weight:900;color:${credit?'#10b981':'var(--danger)'}">${credit?'+':'-'}${fm(t.amount)}</div></div>`;
-}).join('');
-}
-
-function renderAdminCourses(){
-const arr = st.courses;
-const l = $('#coursesList');
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دورات</div></div>'; return; }
-l.innerHTML = '';
-arr.forEach(c => {
-const t = st.users.find(x => x.id === c.teacherId);
-const lvlInfo = getLevelInfo(getCourseLevel(c));
-const lessonCount = st.lessons.filter(x => x.courseId === c.id).length;
-const el = document.createElement('div');
-el.className = 'list-item'; el.style.cursor = 'default';
-el.innerHTML = `<div class="list-thumb" style="background:linear-gradient(135deg,${lvlInfo.color},${lvlInfo.color}dd);font-size:28px">${lvlInfo.icon}</div><div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta"><span>${lvlInfo.name}</span><span>🎬 ${lessonCount}</span></div>${t ? `<div style="font-size:12px;color:var(--text-3);margin-top:6px">👨‍🏫 ${esc(t.name)}</div>` : ''}</div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn btn-info btn-sm" data-add="${c.id}">+</button><button class="btn btn-danger btn-sm" data-del="${c.id}">🗑</button></div>`;
-el.querySelector('[data-add]').onclick = e => { e.stopPropagation(); openLessonM(null, c.id); };
-el.querySelector('[data-del]').onclick = async e => {
-e.stopPropagation();
-if(!confirm('حذف الدورة وكل دروسها؟')) return;
-try{
-await deleteDoc(doc(db,'courses',c.id));
-for(const ls of st.lessons.filter(x => x.courseId === c.id)) await deleteDoc(doc(db,'lessons',ls.id));
-toast('تم');
-}catch(err){ toast('فشل','error'); }
-};
-l.appendChild(el);
-});
-}
-function openCourseM(c){
-const isNew = !c;
-c = c || { id:'', title:'', level:'9', teacherId:'', description:'' };
-const teachers = st.users.filter(u => u.role === 'teacher' && u.active);
-openM(isNew ? 'دورة جديدة' : 'تعديل', `
-<div class="form-group"><label class="form-label">العنوان <span class="req">*</span></label><input class="form-input" id="cT" value="${esc(c.title)}"></div>
-<div class="form-group"><label class="form-label">الصف <span class="req">*</span></label><select class="form-select" id="cLvl">${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${getCourseLevel(c)===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select></div>
-<div class="form-group"><label class="form-label">المعلم</label><select class="form-select" id="cTe"><option value="">— اختر —</option>${teachers.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>
-<div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description||'')}</textarea></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="cOk">حفظ</button></div>`);
-$('#cOk').onclick = async () => {
-const t = $('#cT').value.trim();
-if(!t){ toast('أدخل العنوان','error'); return; }
-const teacherId = $('#cTe').value;
-if(!teacherId){ toast('اختر المعلم','error'); return; }
-const btn = $('#cOk'); btn.disabled = true;
-try{
-const d = { title:t, level:$('#cLvl').value, teacherId, description:$('#cD').value.trim() };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'courses'), d); }
-else await updateDoc(doc(db,'courses',c.id), d);
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل: ' + (e.code||e.message),'error'); btn.disabled = false; }
-};
-}
-
-function renderAdminLessons(){
-const l = $('#lessonsList');
-if(!st.lessons.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
-l.innerHTML = '';
-[...st.lessons].sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x => {
-const c = st.courses.find(y => y.id === x.courseId);
-const el = document.createElement('div');
-el.className = 'list-item'; el.style.cursor = 'default';
-el.innerHTML = `<div class="list-thumb ${x.price === 0 ? 'free' : ''}">${x.price === 0 ? '🆓' : '🎬'}</div><div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta"><span>${esc(c?.title||'')}</span><span>${x.price === 0 ? 'مجاني' : fm(x.price)+' ل.س'}</span></div></div><button class="btn btn-danger btn-sm" data-d="${x.id}">🗑</button>`;
-el.querySelector('[data-d]').onclick = async e => { e.stopPropagation(); if(!confirm('حذف؟')) return; try{ await deleteDoc(doc(db,'lessons',x.id)); toast('تم'); }catch(err){ toast('فشل','error'); } };
-l.appendChild(el);
-});
-}
-function openLessonM(l, preselectedCourseId){
-const isNew = !l;
-const availableCourses = st.courses;
-if(!availableCourses.length){ toast('أضف دورة أولاً','error'); return; }
-l = l || { id:'', courseId: preselectedCourseId || availableCourses[0].id, title:'', youtubeId:'', price:0, description:'' };
-openM(isNew ? 'درس جديد' : 'تعديل', `
-<div class="form-group"><label class="form-label">الدورة</label><select class="form-select" id="lC">${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${esc(c.title)}</option>`).join('')}</select></div>
-<div class="form-group"><label class="form-label">العنوان <span class="req">*</span></label><input class="form-input" id="lT" value="${esc(l.title)}"></div>
-<div class="form-group"><label class="form-label">رابط يوتيوب <span class="req">*</span></label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" dir="ltr" style="text-align:left"></div>
-<div class="form-group"><label class="form-label">السعر (0=مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price||0}" min="0"></div>
-<div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="lD">${esc(l.description||'')}</textarea></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="lOk">حفظ</button></div>`);
-$('#lOk').onclick = async () => {
-const t = $('#lT').value.trim(), y = $('#lY').value.trim();
-if(!t || !y){ toast('أكمل','error'); return; }
-const yt = extractYT(y);
-if(!yt){ toast('رابط خطأ','error'); return; }
-const btn = $('#lOk'); btn.disabled = true;
-try{
-const co = st.courses.find(c => c.id === $('#lC').value);
-const d = { title:t, courseId:$('#lC').value, youtubeId:yt, price:parseInt($('#lP').value,10)||0, description:$('#lD').value.trim(), teacherId:co?.teacherId };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'lessons'), d); }
-else await updateDoc(doc(db,'lessons',l.id), d);
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل: ' + (e.code||e.message),'error'); btn.disabled = false; }
-};
-}
-
-function renderPartners(){
-const l = $('#partnersList');
-if(!st.partners.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا شركاء</div></div>'; return; }
-l.innerHTML = '';
-st.partners.forEach(p => {
-const el = document.createElement('div');
-el.className = 'card';
-el.innerHTML = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><strong style="font-size:17px">${esc(p.name)}</strong><span class="badge badge-active">🟢</span><span class="badge" style="background:#fce7f3;color:#9d174d">${p.discount}%</span></div><div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--primary);direction:ltr">${esc(p.code)}</div><button class="btn btn-primary btn-sm" data-copy="${esc(p.code)}" style="margin-top:10px;max-width:200px">📋 نسخ</button></div><button class="btn btn-danger btn-sm" data-del="${p.id}" style="width:100%">🗑 حذف</button>`;
-el.querySelector('[data-copy]').onclick = () => { navigator.clipboard.writeText(p.code); toast('✓','success'); };
-el.querySelector('[data-del]').onclick = async () => {
-if(!confirm('حذف؟')) return;
-try{ await deleteDoc(doc(db,'partners',p.id)); toast('تم'); }
-catch(e){ toast('فشل: ' + (e.code||e.message),'error'); }
-};
-l.appendChild(el);
-});
-}
-function openPartnerM(){
-openM('🤝 شريك جديد', `
-<div class="form-group"><label class="form-label">الاسم <span class="req">*</span></label><input class="form-input" id="ptName" placeholder="معهد النور"></div>
-<div class="form-group"><label class="form-label">الخصم %</label><input type="number" class="form-input" id="ptDiscount" min="0" max="90" value="30"></div>
-<div class="form-group"><label class="form-label">الكود <span class="req">*</span></label><input class="form-input" id="ptCode" placeholder="NOOR-100" dir="ltr" style="text-align:left;text-transform:uppercase;font-family:monospace"></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="ptOk">حفظ</button></div>`);
-$('#ptName').addEventListener('input', e => {
-const ci = $('#ptCode');
-if(!ci.value || ci.dataset.auto === '1'){ ci.value = generatePartnerCode(e.target.value); ci.dataset.auto = '1'; }
-});
-$('#ptOk').onclick = async () => {
-const name = $('#ptName').value.trim(), code = $('#ptCode').value.trim().toUpperCase();
-const discount = parseInt($('#ptDiscount').value, 10);
-if(!name || !code){ toast('أكمل','error'); return; }
-const btn = $('#ptOk'); btn.disabled = true;
-try{
-await addDoc(collection(db,'partners'), { name, code, discount, status:'active', createdAt:serverTimestamp() });
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل: ' + (e.code||e.message),'error'); btn.disabled = false; }
-};
-}
-
-function renderCoupons(){
-const l = $('#couponsList');
-if(!st.coupons.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا كوبونات</div></div>'; return; }
-l.innerHTML = '';
-st.coupons.forEach(cp => {
-const valueText = cp.type === 'percent' ? `${cp.value}%` : `${fm(cp.value)} ل.س`;
-const el = document.createElement('div');
-el.className = 'code-card'; el.style.background = 'linear-gradient(135deg,var(--primary),var(--primary-3))';
-el.innerHTML = `<div><div class="code-amount">${valueText}</div></div><div class="code-value">${esc(cp.code)}</div><div class="code-actions"><button data-copy="${esc(cp.code)}">📋</button><button data-del="${cp.id}">🗑</button></div>`;
-el.querySelector('[data-copy]').onclick = () => { navigator.clipboard.writeText(cp.code); toast('✓','success'); };
-el.querySelector('[data-del]').onclick = async () => {
-if(!confirm('حذف؟')) return;
-try{ await deleteDoc(doc(db,'coupons',cp.id)); toast('تم'); }
-catch(e){ toast('فشل','error'); }
-};
-l.appendChild(el);
-});
-}
-function openCouponM(){
-const code = 'CPN-' + Math.random().toString(36).slice(2,8).toUpperCase();
-openM('🎟️ كوبون جديد', `
-<div class="form-group"><label class="form-label">الكود</label><input class="form-input" id="cpCode" value="${code}" dir="ltr" style="text-align:left;font-family:monospace;font-weight:900;letter-spacing:2px;text-transform:uppercase"></div>
-<div class="form-group"><label class="form-label">النوع</label><select class="form-select" id="cpType"><option value="percent">📊 نسبة مئوية (%)</option><option value="fixed">💰 مبلغ ثابت (ل.س)</option></select></div>
-<div class="form-group"><label class="form-label">القيمة</label><input type="number" class="form-input" id="cpValue" min="1" placeholder="20"></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="cpOk">إنشاء</button></div>`);
-$('#cpOk').onclick = async () => {
-const c = $('#cpCode').value.trim().toUpperCase();
-const v = parseInt($('#cpValue').value, 10);
-if(!c || !v || v < 1){ toast('أكمل','error'); return; }
-const btn = $('#cpOk'); btn.disabled = true;
-try{
-await addDoc(collection(db,'coupons'), { code:c, type:$('#cpType').value, value:v, usedCount:0, status:'active', createdBy:st.me.id, createdAt:serverTimestamp() });
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل: ' + (e.code||e.message),'error'); btn.disabled = false; }
-};
-}
-
-// === Teacher ===
-function renderTeacherHome(){
-const me = st.me;
-const mc = st.courses.filter(c => c.teacherId === me.id);
-const ml = st.lessons.filter(l => l.teacherId === me.id);
-$('#teacherWelcome').textContent = me.name;
-$('#teacherSubtitle').textContent = me.specialty ? 'أستاذ ' + me.specialty : 'معلم';
-const teacherSales = st.purchases.filter(p => ml.some(l => l.id === p.lessonId));
-const totalRevenue = teacherSales.reduce((s,p) => s + (p.price||0), 0);
-const commission = st.settings.defaultCommission || 30;
-const teacherShare = Math.round(totalRevenue * (100 - commission) / 100);
-$('#teacherStats').innerHTML = `
-<div class="stat-card" style="--sc:var(--primary-3)"><div class="stat-value">${mc.length}</div><div class="stat-label">دورة</div></div>
-<div class="stat-card" style="--sc:var(--rose)"><div class="stat-value">${ml.length}</div><div class="stat-label">درس</div></div>
-<div class="stat-card" style="--sc:var(--gold)"><div class="stat-value">${fm(teacherShare)}</div><div class="stat-label">صافي</div></div>
-<div class="stat-card" style="--sc:#0284c7"><div class="stat-value">${teacherSales.length}</div><div class="stat-label">مبيعات</div></div>`;
-}
-function renderMyCourses(){
-const l = $('#myCoursesList');
-const arr = st.courses.filter(c => c.teacherId === st.me.id);
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دورات</div></div>'; return; }
-l.innerHTML = '';
-arr.forEach(c => {
-const lvlInfo = getLevelInfo(getCourseLevel(c));
-const cnt = st.lessons.filter(x => x.courseId === c.id).length;
-const el = document.createElement('div');
-el.className = 'list-item'; el.style.cursor = 'default';
-el.innerHTML = `<div class="list-thumb" style="background:linear-gradient(135deg,${lvlInfo.color},${lvlInfo.color}dd);font-size:26px">${lvlInfo.icon}</div><div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta"><span>${lvlInfo.name}</span><span>🎬 ${cnt}</span></div></div><button class="btn btn-primary btn-sm" data-add="${c.id}">+</button>`;
-el.querySelector('[data-add]').onclick = () => openLessonM(null, c.id);
-l.appendChild(el);
-});
-}
-function renderMyLessons(){
-const l = $('#myLessonsList');
-const myLessons = st.lessons.filter(x => x.teacherId === st.me.id);
-if(!myLessons.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
-l.innerHTML = '';
-myLessons.forEach(x => {
-const c = st.courses.find(y => y.id === x.courseId);
-const sales = st.purchases.filter(p => p.lessonId === x.id).length;
-const el = document.createElement('div');
-el.className = 'list-item'; el.style.cursor = 'default';
-el.innerHTML = `<div class="list-thumb ${x.price === 0 ? 'free' : ''}">${x.price === 0 ? '🆓' : '🎬'}</div><div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta"><span>${esc(c?.title||'—')}</span><span>${x.price === 0 ? 'مجاني' : fm(x.price)+' ل.س'}</span><span>🛒 ${sales}</span></div></div><button class="btn btn-danger btn-sm" data-del="${x.id}">🗑</button>`;
-el.querySelector('[data-del]').onclick = async () => {
-if(!confirm('حذف؟')) return;
-try{ await deleteDoc(doc(db,'lessons',x.id)); toast('تم'); }
-catch(err){ toast('فشل','error'); }
-};
-l.appendChild(el);
-});
-}
-async function renderTeacherStudents(){
-const l = $('#teacherStudentsList');
-l.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-3)">⏳...</div>';
-try{
-const myLessons = st.lessons.filter(x => x.teacherId === st.me.id);
-const myLessonIds = myLessons.map(x => x.id);
-if(!myLessonIds.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا طلاب</div></div>'; $('#teacherStudentsStats').innerHTML = ''; return; }
-const allPurchases = await getDocs(collection(db, 'purchases'));
-const mySales = allPurchases.docs.map(d => ({id:d.id, ...d.data()})).filter(p => myLessonIds.includes(p.lessonId));
-const studentMap = new Map();
-for(const sale of mySales){
-if(!studentMap.has(sale.userId)) studentMap.set(sale.userId, { count: 0, total: 0 });
-const e = studentMap.get(sale.userId);
-e.count++; e.total += (sale.price || 0);
-}
-const students = [];
-for(const sid of studentMap.keys()){
-try{ const ud = await getDoc(doc(db,'users',sid)); if(ud.exists()) students.push({ id:sid, ...ud.data(), count:studentMap.get(sid).count, total:studentMap.get(sid).total }); }catch(e){}
-}
-const totalRev = students.reduce((s,u) => s + u.total, 0);
-const myShare = Math.round(totalRev * 0.7);
-$('#teacherStudentsStats').innerHTML = `<div class="stat-card" style="--sc:var(--primary-3)"><div class="stat-value">${students.length}</div><div class="stat-label">طالب</div></div><div class="stat-card" style="--sc:var(--gold)"><div class="stat-value">${fm(myShare)}</div><div class="stat-label">حصتي</div></div>`;
-if(!students.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا طلاب</div></div>'; return; }
-l.innerHTML = students.sort((a,b) => b.total - a.total).map(u => `<div class="card" style="padding:16px"><div style="display:flex;gap:12px;align-items:center"><div class="list-thumb" style="width:52px;height:52px;font-size:18px">${ini(u.name)||'👤'}</div><div style="flex:1"><div style="font-size:15px;font-weight:900">${esc(u.name)}</div><div style="font-size:12.5px;color:var(--text-3);margin-top:4px">${u.level ? getLevelInfo(u.level).icon + ' ' + getLevelInfo(u.level).name : ''}</div></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px"><div style="background:var(--bg-2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:18px;font-weight:900;color:var(--primary-3)">${u.count}</div><div style="font-size:10.5px;color:var(--text-3)">درس</div></div><div style="background:var(--bg-2);border-radius:10px;padding:10px;text-align:center"><div style="font-size:14px;font-weight:900;color:var(--gold)">${fm(u.total)}</div><div style="font-size:10.5px;color:var(--text-3)">إجمالي</div></div></div></div>`).join('');
-}catch(e){ l.innerHTML = '<div class="empty"><div class="empty-title">خطأ</div></div>'; }
-}
-function renderEarnings(){
-const me = st.me;
-const ml = st.lessons.filter(l => l.teacherId === me.id);
-const sales = st.purchases.filter(p => ml.some(l => l.id === p.lessonId));
-const totalSales = sales.reduce((s,p) => s + (p.price||0), 0);
-const commission = st.settings.defaultCommission || 30;
-const platformTotal = Math.round(totalSales * commission / 100);
-const teacherTotal = totalSales - platformTotal;
-$('#earningsContent').innerHTML = `<div class="card" style="background:linear-gradient(135deg,#10b981,#34d399);color:#fff;border:none;text-align:center;padding:32px"><div>صافي أرباحك (${100 - commission}%)</div><div style="font-family:var(--font-title);font-size:48px;font-weight:900;margin:14px 0">${fm(teacherTotal)}</div><div>ليرة سورية</div></div><div class="card"><div style="padding:16px;background:var(--bg-2);border-radius:14px;margin-bottom:12px"><span>المبيعات:</span> <strong>${fm(totalSales)} ل.س</strong></div><div style="padding:16px;background:#fee2e2;border-radius:14px;margin-bottom:12px"><span style="color:#991b1b">عمولة (${commission}%):</span> <strong style="color:#991b1b">-${fm(platformTotal)}</strong></div><div style="padding:18px;background:#d1fae5;border-radius:14px"><strong style="color:#065f46">صافي:</strong> <strong style="color:#065f46;font-size:20px">${fm(teacherTotal)}</strong></div></div>`;
-}
-
-// === Student ===
+// === Student Home ===
 function renderStudentHome(){
 const me = st.me;
-const mp = st.purchases.filter(p => p.userId === me.id);
-const myLevel = String(me.level || me.grade || '').trim();
-const lvlInfo = getLevelInfo(myLevel);
-$('#studentGradeLabel').textContent = lvlInfo.icon + ' ' + lvlInfo.name;
+const hour = new Date().getHours();
+$('#smartGreeting').textContent = hour < 12 ? 'صباح الخير ☀️' : hour < 18 ? 'مساء الخير 🌤️' : 'مساء النور 🌙';
+const lvl = getLevelInfo(me.level || '9');
+$('#studentGradeLabel').textContent = lvl.icon + ' ' + lvl.name;
 $('#pointsValue').textContent = me.points || 0;
+
+const quotes = ["النجاح هو مجموع جهود صغيرة تتكرر يوماً بعد يوم.", "لا تذاكر لترضي أحداً، ذاكر لتبني مستقبلك.", "التعب اليوم، راحة غداً. استمر!", "العلم يُعطيك ما لا يعطيه المال."];
+$('#dailyQuoteText').textContent = quotes[new Date().getDate() % quotes.length];
+
 $('#studentStats').innerHTML = `
 <div class="stat-card" style="--sc:var(--gold)"><div class="stat-value">${fm(me.balance)}</div><div class="stat-label">رصيدي</div></div>
-<div class="stat-card" style="--sc:#059669"><div class="stat-value">${mp.length}</div><div class="stat-label">دروس مشتراة</div></div>
-<div class="stat-card" style="--sc:var(--rose)"><div class="stat-value">${(me.points||0)}</div><div class="stat-label">نقاطي</div></div>
-<div class="stat-card" style="--sc:var(--primary-3)"><div class="stat-value">${me.level ? getLevelInfo(me.level).name.split(' ')[0] : '—'}</div><div class="stat-label">صفّي</div></div>`;
-const allCourses = st.courses.map(c => ({ ...c, _lvl: getCourseLevel(c) }));
-let myCourses = myLevel ? allCourses.filter(c => c._lvl === myLevel) : [];
-if(!myCourses.length && allCourses.length > 0) myCourses = allCourses;
+<div class="stat-card" style="--sc:#059669"><div class="stat-value">${st.purchases.length}</div><div class="stat-label">دروسي</div></div>
+<div class="stat-card" style="--sc:var(--rose)"><div class="stat-value">${me.points||0}</div><div class="stat-label">نقاطي</div></div>
+<div class="stat-card" style="--sc:var(--primary-3)"><div class="stat-value">${lvl.name.split(' ')[0]}</div><div class="stat-label">صفّي</div></div>
+`;
+
+const myCourses = st.courses.filter(c => String(c.level) === String(me.level || '9'));
 const cl = $('#studentCourses');
-if(!myCourses.length){
-cl.innerHTML = '<div class="empty"><div class="empty-title">لا دورات متاحة</div></div>';
-} else {
+if(!myCourses.length){ cl.innerHTML = '<div class="empty"><div class="empty-title">لا توجد دورات لصفك</div></div>'; }
+else {
 cl.innerHTML = myCourses.map(c => {
-const t = st.users.find(u => u.id === c.teacherId);
 const ls = st.lessons.filter(x => x.courseId === c.id);
-const owned = ls.filter(x => x.price === 0 || mp.some(p => p.lessonId === x.id)).length;
+const owned = ls.filter(x => x.price === 0 || st.purchases.some(p => p.lessonId === x.id)).length;
 const pc = ls.length ? Math.round((owned/ls.length)*100) : 0;
-const lvl = getLevelInfo(c._lvl);
-return `<div class="list-item" data-course="${c.id}"><div class="list-thumb" style="background:linear-gradient(135deg,${lvl.color},${lvl.color}dd);font-size:26px">${lvl.icon}</div><div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta"><span>👨‍🏫 ${esc(t?.name||'—')}</span><span>🎬 ${ls.length}</span>${owned > 0 ? `<span style="color:var(--primary-3);font-weight:800">✓ ${pc}%</span>` : ''}</div>${owned > 0 && pc > 0 ? `<div class="progress" style="margin-top:10px"><div class="progress-bar" style="width:${pc}%"></div></div>` : ''}</div><div style="color:var(--text-3);font-size:20px">›</div></div>`;
-}).join('');
-cl.querySelectorAll('[data-course]').forEach(el => el.onclick = () => openCourse(el.dataset.course));
-}
-}
-function renderWallet(){
-$('#walletBalance').textContent = fm(st.me.balance);
-const arr = st.transactions.filter(t => t.userId === st.me.id).sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
-const l = $('#studentTransactions');
-if(!arr.length){ l.innerHTML = '<div class="empty" style="padding:28px">لا معاملات</div>'; return; }
-const tm = { topup:{icon:'⬇️',color:'#059669'}, card_redeem:{icon:'🎟️',color:'var(--gold)'}, purchase:{icon:'🛒',color:'#dc2626'} };
-l.innerHTML = arr.map(t => {
-const m = tm[t.type] || {icon:'•',color:'#64748b'};
-const credit = ['topup','card_redeem'].includes(t.type);
-return `<div style="display:flex;gap:12px;padding:14px;background:var(--bg-2);border-radius:14px;margin-bottom:10px;align-items:center"><div style="width:44px;height:44px;border-radius:13px;background:${m.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px">${m.icon}</div><div style="flex:1"><div style="font-size:14px;font-weight:800">${esc(t.description||'')}</div><div style="font-size:12px;color:var(--text-3);margin-top:4px;font-weight:700">${fdt(t.date)}</div></div><div style="font-size:16px;font-weight:900;color:${credit?'#10b981':'var(--danger)'}">${credit?'+':'-'}${fm(t.amount)}</div></div>`;
+return `<div class="list-item" onclick="openCourse('${c.id}')">
+<div class="list-thumb" style="background:${getLevelInfo(c.level).color}">${getLevelInfo(c.level).icon}</div>
+<div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta">🎬 ${ls.length} درس</div>
+${owned>0?`<div class="progress" style="margin-top:6px"><div class="progress-bar" style="width:${pc}%"></div></div>`:''}
+</div></div>`;
 }).join('');
 }
-function renderPurchases(){
-const arr = st.purchases.filter(p => p.userId === st.me.id).sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-const l = $('#purchasesList');
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
-l.innerHTML = '';
-arr.forEach(p => {
-const x = st.lessons.find(y => y.id === p.lessonId);
-if(!x) return;
-const c = st.courses.find(y => y.id === x.courseId);
-const el = document.createElement('div');
-el.className = 'list-item';
-el.innerHTML = `<div class="list-thumb purchased">✓</div><div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta">${esc(c?.title||'')}</div></div>`;
-el.onclick = () => openLesson(x.id);
-l.appendChild(el);
-});
-}
-function openCourse(id){
-const c = st.courses.find(x => x.id === id);
-if(!c) return;
-st.curCourse = id;
-const lvlInfo = getLevelInfo(getCourseLevel(c));
-$('#courseTitle').textContent = c.title;
-go('studentCourse');
-const t = st.users.find(u => u.id === c.teacherId);
-const mp = st.purchases.filter(p => p.userId === st.me.id);
-let ls = st.lessons.filter(x => x.courseId === id);
-const con = $('#courseDetails');
-con.innerHTML = '';
-const h = document.createElement('div');
-h.className = 'card';
-h.style.cssText = `background:linear-gradient(135deg,${lvlInfo.color},${lvlInfo.color}dd);color:#fff;border:none`;
-h.innerHTML = `<div style="display:flex;gap:16px;align-items:center"><div style="width:70px;height:70px;border-radius:20px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:38px">${lvlInfo.icon}</div><div><div style="font-family:var(--font-title);font-size:20px;font-weight:900">${esc(c.title)}</div><div style="font-size:13.5px;opacity:.92;margin-top:6px;font-weight:700">👨‍🏫 ${esc(t?.name||'—')}</div></div></div>${c.description ? `<p style="font-size:14.5px;line-height:1.8;opacity:.95;margin-top:14px;font-weight:600">${esc(c.description)}</p>` : ''}`;
-con.appendChild(h);
-if(!ls.length){ con.innerHTML += '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
-ls.forEach((l, i) => {
-const isF = l.price === 0, ow = isF || mp.some(p => p.lessonId === l.id);
-const el = document.createElement('div');
-el.className = 'list-item';
-el.innerHTML = `<div class="list-thumb ${isF?'free':ow?'purchased':'locked'}" style="font-size:${ow?22:20}px;font-weight:900">${ow ? (isF?'🆓':'✓') : (i+1)}</div><div class="list-info"><div class="list-title">${esc(l.title)}</div></div>${ow ? '<div class="list-price purchased">مفتوح</div>' : `<div class="list-price">${fm(l.price)} ل.س</div>`}`;
-el.onclick = () => openLesson(l.id);
-con.appendChild(el);
-});
+$('#continueBox').innerHTML = '<div class="empty" style="padding:10px;font-size:12px">لم تبدأ أي درس بعد</div>';
 }
 
 // === Video ===
-let ytPlayer = null, trackingInterval = null, currentLessonId = null, lastSavedSecond = 0;
-window.onYouTubeIframeAPIReady = function(){};
-function createPlayer(videoId, startSeconds = 0, lessonId = null){
-destroyPlayer();
-currentLessonId = lessonId;
-lastSavedSecond = startSeconds;
-const container = document.getElementById('ytPlayerContainer');
-container.style.display = 'block';
-ytPlayer = new YT.Player('ytPlayer', {
-videoId: videoId,
-playerVars: { start: Math.floor(startSeconds), rel:0, modestbranding:1, playsinline:1, autoplay:0, controls:1 },
-events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange }
-});
+let plyrInstance = null, trackingInterval = null;
+function openCourse(id){
+const c = st.courses.find(x => x.id === id); if(!c) return;
+const ls = st.lessons.filter(x => x.courseId === id);
+openM('📚 ' + c.title, ls.length ? ls.map(l => {
+const ow = l.price === 0 || st.purchases.some(p => p.lessonId === l.id);
+return `<div class="list-item" onclick="closeM(); openLesson('${l.id}')" style="padding:12px">
+<div class="list-thumb ${ow?'purchased':'locked'}" style="width:40px;height:40px;font-size:14px">${ow?'✓':'🔒'}</div>
+<div class="list-info"><div class="list-title" style="font-size:13.5px">${esc(l.title)}</div></div></div>`;
+}).join('') : '<div class="empty">لا دروس</div>');
 }
-function onPlayerReady(event){
-if(lastSavedSecond > 5){ setTimeout(() => { try{ event.target.seekTo(lastSavedSecond, true); }catch(e){} }, 500); }
-startTracking();
-}
-function onPlayerStateChange(event){
-if(event.data === 1) startTracking();
-else if(event.data === 2){ stopTracking(); saveNow(); }
-else if(event.data === 0){ stopTracking(); saveNow(100); }
-}
-function startTracking(){ stopTracking(); trackingInterval = setInterval(saveNow, 5000); }
-function stopTracking(){ if(trackingInterval){ clearInterval(trackingInterval); trackingInterval = null; } }
-async function saveNow(forcePct){
-if(!ytPlayer || !currentLessonId || !st.me) return;
-try{
-const seconds = Math.floor(ytPlayer.getCurrentTime?.() || 0);
-const duration = Math.floor(ytPlayer.getDuration?.() || 0);
-if(duration < 10) return;
-const pct = forcePct !== undefined ? forcePct : Math.round((seconds/duration)*100);
-if(Math.abs(seconds - lastSavedSecond) < 3 && pct < 95) return;
-lastSavedSecond = seconds;
-const existing = st.me.watch?.[currentLessonId];
-const wasCompleted = existing?.completed;
-await updateDoc(doc(db,'users',st.me.id), { [`watch.${currentLessonId}`]: { seconds, pct, duration, at: serverTimestamp(), completed: pct >= 90 || wasCompleted } });
-}catch(e){}
-}
-function destroyPlayer(){
-stopTracking();
-if(ytPlayer && ytPlayer.destroy){ try{ ytPlayer.destroy(); }catch(e){} }
-ytPlayer = null; currentLessonId = null; lastSavedSecond = 0;
-const container = document.getElementById('ytPlayerContainer');
-if(container){ container.style.display = 'none'; container.innerHTML = '<div id="ytPlayer"></div>'; }
-}
-function openLesson(id){
-const l = st.lessons.find(x => x.id === id);
-if(!l) return;
+
+window.openLesson = function(id){
+const l = st.lessons.find(x=>x.id===id); if(!l) return;
 st.curLesson = id;
 $('#lessonTitle').textContent = l.title;
+const ow = l.price === 0 || st.purchases.some(p => p.lessonId === l.id);
 go('studentWatch');
-destroyPlayer();
-const isF = l.price === 0;
-const ow = isF || st.purchases.some(p => p.userId === st.me.id && p.lessonId === l.id);
-const c = $('#lessonContent');
-if(ow){
-const watch = st.me.watch?.[l.id] || {};
-const savedSec = watch.seconds || 0;
-c.innerHTML = `<div class="video-player-wrap"><div id="ytPlayerMount"></div></div><div class="video-status"><span>▶ تشغيل</span><span>${watch.pct||0}%</span></div><div class="card"><div style="font-size:16px;font-weight:900;margin-bottom:10px">${esc(l.title)}</div><p style="font-size:14.5px;color:var(--text-2);line-height:1.8;margin:0;font-weight:600">${esc(l.description||'')}</p></div>`;
-setTimeout(() => {
-const mount = document.getElementById('ytPlayerMount');
-if(!mount) return;
-const waitApi = setInterval(() => {
-if(window.YT && window.YT.Player){
-clearInterval(waitApi);
-const container = document.getElementById('ytPlayerContainer');
-mount.appendChild(container);
-container.style.display = 'block';
-container.style.position = 'relative';
-container.style.width = '100%';
-container.style.height = '100%';
-createPlayer(l.youtubeId, savedSec, l.id);
-}
-}, 200);
-}, 100);
-} else {
-c.innerHTML = `<div class="locked-box"><div class="locked-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h3>مدفوع</h3><p>اشترِ بـ <strong style="color:#fbbf24;font-size:18px">${fm(l.price)} ل.س</strong></p>${st.me.balance >= l.price ? '<button class="btn btn-gold" id="buyBtn">🛒 اشترِ</button>' : '<button class="btn btn-gold" id="wallBtn">💰 شحن</button>'}</div><div class="card"><div style="font-size:16px;font-weight:900;margin-bottom:10px">${esc(l.title)}</div><p style="font-size:14.5px;color:var(--text-2);line-height:1.8;margin:0;font-weight:600">${esc(l.description||'')}</p></div>`;
-$('#buyBtn')?.addEventListener('click', () => openBuy(l));
-$('#wallBtn')?.addEventListener('click', () => go('studentWallet'));
-}
-}
-function openBuy(lesson){
-const finalPrice = lesson.price;
-openM('🛒 تأكيد الشراء', `
-<div class="card" style="background:var(--bg-2);border:none;margin-bottom:18px"><div style="font-size:16px;font-weight:900">${esc(lesson.title)}</div></div>
-<div style="background:linear-gradient(135deg,#fde68a,#fbbf24);border-radius:14px;padding:20px;border:1px solid #f59e0b"><div style="display:flex;justify-content:space-between;font-size:20px;font-weight:900;color:#78350f"><span>الإجمالي:</span><strong>${fm(finalPrice)} ل.س</strong></div></div>
-<div style="background:var(--bg-2);border-radius:14px;padding:16px;margin-top:14px"><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700"><span>رصيدك:</span><strong>${fm(st.me.balance)} ل.س</strong></div></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-success" id="buyOk">✓ تأكيد</button></div>`);
-$('#buyOk').onclick = async () => {
-if(st.me.balance < finalPrice){ toast('رصيدك غير كافٍ','error'); return; }
-try{
-await runTransaction(db, async tx => {
-const userRef = doc(db,'users', st.me.id);
-const uSnap = await tx.get(userRef);
-const curBal = uSnap.data()?.balance || 0;
-if(curBal < finalPrice) throw new Error('INSUFFICIENT');
-tx.update(userRef, { balance: curBal - finalPrice });
-});
-await addDoc(collection(db,'purchases'), { userId: st.me.id, lessonId: lesson.id, price: finalPrice, createdAt: serverTimestamp() });
-await addDoc(collection(db,'transactions'), { userId: st.me.id, type:'purchase', amount: finalPrice, description: 'شراء: ' + lesson.title, date: serverTimestamp() });
-closeM(); toast('✓','success');
-setTimeout(() => openLesson(lesson.id), 300);
-}catch(e){ toast('خطأ: ' + e.message,'error'); }
-};
-}
-
-// === Profile ===
-function renderProfile(){
-const u = st.me;
-const lvlInfo = u.level ? getLevelInfo(u.level) : null;
-$('#profileContent').innerHTML = `
-<div class="card" style="text-align:center;padding:32px"><div style="width:104px;height:104px;background:linear-gradient(135deg,var(--primary),var(--primary-3));border-radius:30px;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:40px;font-weight:900;margin:0 auto 20px">${ini(u.name)||'👤'}</div><div style="font-family:var(--font-title);font-size:24px;font-weight:900">${esc(u.name)}</div><div style="font-size:14.5px;color:var(--text-3);margin-top:8px;font-weight:700">${ROLES[u.role]}${lvlInfo?' · '+lvlInfo.icon+' '+lvlInfo.name:''}${u.specialty?' · '+esc(u.specialty):''}</div></div>
-<div class="card"><div class="card-title">✏️ تعديل</div><div class="form-group"><label class="form-label">الاسم</label><input class="form-input" id="pName" value="${esc(u.name)}"></div><div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" id="pPhone" value="${esc(u.phone||'')}" dir="ltr" style="text-align:left"></div><button class="btn btn-primary" id="saveProfile" style="margin-top:10px">💾 حفظ</button></div>
-<div class="card"><div class="card-title">🔑 تغيير كلمة المرور</div><div class="form-group"><label class="form-label">الحالية</label><div class="pw-wrap"><input type="password" class="form-input" id="oldPass"><span class="pw-toggle" onclick="togglePw('oldPass',this)">👁</span></div></div><div class="form-group"><label class="form-label">الجديدة</label><div class="pw-wrap"><input type="password" class="form-input" id="newPass"><span class="pw-toggle" onclick="togglePw('newPass',this)">👁</span></div></div><div class="form-group"><label class="form-label">تأكيد</label><div class="pw-wrap"><input type="password" class="form-input" id="newPass2"><span class="pw-toggle" onclick="togglePw('newPass2',this)">👁</span></div></div><button class="btn btn-warning" id="changePassBtn" style="margin-top:10px">🔑 تغيير</button></div>`;
-$('#saveProfile').onclick = async () => {
-const n = $('#pName').value.trim();
-if(!n){ toast('أدخل الاسم','error'); return; }
-try{ await updateDoc(doc(db,'users',st.me.id),{name:n,phone:$('#pPhone').value.trim()}); toast('✓','success'); }catch(e){ toast('فشل','error'); }
-};
-$('#changePassBtn').onclick = changePassword;
-}
-
-// === Notifications ===
-function renderNotifications(){
-const arr = st.notifs.filter(n => n.userId === st.me.id).sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
-arr.forEach(async n => { if(!n.read){ try{ await updateDoc(doc(db,'notifications',n.id),{read:true}); }catch(e){} } });
-const l = $('#notifsList');
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا إشعارات</div></div>'; return; }
-const ic = {success:'✓',warning:'⚠️',danger:'❌',info:'ℹ️'};
-const bg = {success:'#10b981',warning:'#d97706',danger:'#dc2626',info:'#0284c7'};
-l.innerHTML = arr.map(n => `<div class="card"><div style="display:flex;gap:14px"><div style="width:48px;height:48px;border-radius:14px;background:${bg[n.type]||bg.info};color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${ic[n.type]||'ℹ️'}</div><div style="flex:1"><div style="font-size:15px;font-weight:900">${esc(n.title)}</div><div style="font-size:13.5px;color:var(--text-2);margin-top:6px;line-height:1.7;font-weight:600">${esc(n.body)}</div><div style="font-size:12px;color:var(--text-3);margin-top:8px">${fdt(n.date)}</div></div></div></div>`).join('');
-}
-
-// === AI ===
-function renderAIMessages(){
-const c = $('#aiMessages');
-if(!st.aiChat.length){
-c.innerHTML = '';
-const w = document.createElement('div');
-w.className = 'ai-msg bot';
-w.textContent = 'مرحباً! 👋\nأنا المساعد الذكي.\n\nجرّب:\n• "رصيدي"\n• "كيف أشحن محفظتي؟"';
-c.appendChild(w);
+if(!ow){
+$('#lessonContent').innerHTML = `<div class="card" style="text-align:center;padding:40px"><div style="font-size:40px;margin-bottom:10px">🔒</div><div style="font-weight:900;font-size:18px;margin-bottom:10px">هذا الدرس مدفوع</div><button class="btn btn-gold" onclick="go('studentWallet')">شحن الرصيد</button></div>`;
 return;
 }
-c.innerHTML = st.aiChat.map(m => `<div class="ai-msg ${m.role}"><div>${esc(m.text)}</div></div>`).join('');
-c.scrollTop = c.scrollHeight;
+$('#lessonContent').innerHTML = `
+<div class="plyr__video-embed" id="plyrPlayer"><iframe src="https://www.youtube.com/embed/${l.youtubeId}?origin=https://anmmmosa-wq.github.io&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1" allowfullscreen allowtransparency allow="autoplay"></iframe></div>
+<div class="card"><div style="font-size:15px;font-weight:900;margin-bottom:6px">${esc(l.title)}</div><p style="font-size:13px;color:var(--text-3)">${esc(l.description||'')}</p></div>`;
+setTimeout(() => {
+if(plyrInstance) plyrInstance.destroy();
+plyrInstance = new Plyr('#plyrPlayer', { controls: ['play-large','play','progress','current-time','mute','volume','settings','pip','fullscreen'] });
+}, 300);
+};
+
+function toggleFocusMode(){
+document.body.classList.toggle('focus-mode');
 }
-function renderAISuggestions(){
-const s = $('#aiSuggestions');
-const sugg = ['كم رصيدي؟','كيف أشحن محفظتي؟','كيف أشتري درس؟','كيف أحصل على شهادة؟'];
-s.innerHTML = sugg.map(x => `<button class="ai-sugg" data-s="${esc(x)}">${esc(x)}</button>`).join('');
-s.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { $('#aiInput').value = b.dataset.s; sendAIMessage(); });
+
+// === Pomodoro ===
+let pomoTime = 25*60, pomoTimer = null;
+function updateTimer(){
+const m = Math.floor(pomoTime/60).toString().padStart(2,'0'), s = (pomoTime%60).toString().padStart(2,'0');
+if($('#timerDisplay')) $('#timerDisplay').textContent = `${m}:${s}`;
 }
-function getSmartContextualAnswer(question){
-if(!st.me) return null;
-const q = String(question||'').toLowerCase();
-const me = st.me;
-if(/رصيدي|كم رصيد/.test(q)) return `💰 رصيدك: ${fm(me.balance)} ل.س`;
-if(/كم درس|دروسي/.test(q)) return `🎬 لديك ${st.purchases.filter(p => p.userId === me.id).length} دروس`;
-if(/نقاطي/.test(q)) return `⭐ لديك ${me.points||0} نقطة`;
-if(/مستواي|صفي/.test(q)){ const lvl = getLevelInfo(me.level); return `🎓 صفّك: ${lvl.name}`; }
-return null;
+document.addEventListener('click', e => {
+if(e.target.id === 'startTimerBtn'){
+if(pomoTimer){ clearInterval(pomoTimer); pomoTimer = null; e.target.textContent = '▶ متابعة'; }
+else {
+e.target.textContent = '⏸ إيقاف';
+pomoTimer = setInterval(() => {
+pomoTime--; updateTimer();
+if(pomoTime <= 0){ clearInterval(pomoTimer); pomoTimer=null; pomoTime=25*60; updateTimer(); e.target.textContent='▶ بدء'; toast('🎉 انتهى وقت التركيز!','success'); }
+}, 1000);
 }
-async function sendAIMessage(){
-if(!st.me){ toast('سجّل','error'); return; }
-const input = $('#aiInput');
-const text = input.value.trim();
-if(!text || st.aiWaitingForReply) return;
-input.value = '';
-st.aiChat.push({ role:'user', text, at: Date.now() });
-renderAIMessages();
-st.aiWaitingForReply = true;
-const c = $('#aiMessages');
-const typing = document.createElement('div');
-typing.className = 'ai-msg bot typing';
-typing.innerHTML = '<span></span><span></span><span></span>';
-typing.style.cssText = 'display:flex;gap:6px;padding:18px 22px;align-items:center;background:var(--surface);border-radius:20px;align-self:flex-start;border:1px solid var(--border)';
-c.appendChild(typing); c.scrollTop = c.scrollHeight;
-setTimeout(async () => {
-try{ typing.remove(); }catch(e){}
-let answer = getSmartContextualAnswer(text);
-if(!answer){
-const all = LOCAL_FAQ;
-const q = String(text||'').toLowerCase().trim();
-const qTokens = tokenize(q);
-let best = null, bestScore = 0;
-all.forEach(f => {
-let score = 0;
-(f.keywords || []).forEach(kw => { const k = String(kw).toLowerCase().trim(); if(k && q.includes(k)) score += 10; });
-const fTokens = tokenize(f.question || '');
-score += qTokens.filter(t => fTokens.includes(t)).length * 3;
-if(score > bestScore){ bestScore = score; best = f; }
+}
+if(e.target.id === 'resetTimerBtn'){ if(pomoTimer){clearInterval(pomoTimer);pomoTimer=null;} pomoTime=25*60; updateTimer(); if($('#startTimerBtn')) $('#startTimerBtn').textContent='▶ بدء'; }
 });
-if(bestScore >= 3 && best) answer = best.answer;
+setTimeout(updateTimer, 1000);
+
+// === Lo-Fi Radio ===
+let lofiPlaying = false;
+window.toggleLofi = function(){
+const audio = $('#lofiAudio'), fab = $('#lofiFab');
+if(lofiPlaying){ audio.pause(); fab.classList.remove('playing'); }
+else { audio.play(); fab.classList.add('playing'); toast('🎵 تم تشغيل راديو التركيز','success'); }
+lofiPlaying = !lofiPlaying;
+};
+
+// === Settings & Profile ===
+function renderSettings(){
+$('#settingsAvatar').textContent = ini(st.me.name);
+$('#settingsName').textContent = st.me.name;
+$('#settingsRole').textContent = ROLES[st.me.role];
+$('#themeDesc').textContent = st.theme === 'dark' ? 'مُفعّل' : 'مُعطّل';
+$('#themeSwitch').classList.toggle('on', st.theme === 'dark');
 }
-if(!answer){ answer = '🤔 لم أجد إجابة.\n\n💡 جرب:\n• "رصيدي"\n• "كيف أشحن محفظتي؟"'; }
-st.aiChat.push({ role:'bot', text: answer, at: Date.now() });
-renderAIMessages();
-st.aiWaitingForReply = false;
-}, 400 + Math.random() * 400);
+window.toggleTheme = function(){
+st.theme = st.theme === 'dark' ? 'light' : 'dark';
+localStorage.setItem('nb_theme', st.theme);
+applyTheme(); renderSettings();
+};
+function applyTheme(){ document.documentElement.setAttribute('data-theme', st.theme); }
+
+function renderProfile(){
+$('#profileContent').innerHTML = `<div class="card" style="text-align:center"><div style="width:80px;height:80px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;margin:0 auto 16px">${ini(st.me.name)}</div><div style="font-size:20px;font-weight:900">${esc(st.me.name)}</div><div style="color:var(--text-3);font-size:13px;margin-top:4px">${ROLES[st.me.role]}</div></div>`;
 }
+
+function renderWallet(){
+$('#walletBalance').textContent = fm(st.me.balance);
+}
+$('#redeemBtn').onclick = async () => {
+toast('جاري التحقق...','info');
+const code = $('#redeemCode').value.trim().toUpperCase();
+try {
+const snap = await getDocs(query(collection(db,'cards'), where('code','==',code), limit(1)));
+if(snap.empty) return toast('كود غير موجود','error');
+const card = snap.docs[0].data();
+if(card.status === 'used') return toast('الكرت مستخدم','error');
+await updateDoc(doc(db,'cards',snap.docs[0].id), {status:'used', usedBy:st.me.id});
+await updateDoc(doc(db,'users',st.me.id), {balance: (st.me.balance||0) + card.amount});
+toast('✓ تم تفعيل الكرت','success');
+} catch(e) { toast('فشل: ' + (e.code||e.message),'error'); }
+};
+
+// === AI ===
+window.openAI = function(){ $('#aiModal').classList.add('open'); };
+window.closeAI = function(){ $('#aiModal').classList.remove('open'); };
+window.sendAI = function(){
+const txt = $('#aiInput').value.trim(); if(!txt) return;
+$('#aiMessages').innerHTML += `<div style="background:var(--primary);color:#fff;padding:10px;border-radius:12px;font-size:13px;margin-bottom:10px;width:80%;align-self:flex-end;margin-right:auto">${esc(txt)}</div>`;
+$('#aiInput').value = '';
+setTimeout(() => {
+$('#aiMessages').innerHTML += `<div style="background:var(--surface);padding:10px;border-radius:12px;font-size:13px;margin-bottom:10px;width:80%">أهلاً! أنا مساعدك الذكي. (رد تجريبي)</div>`;
+$('#aiMessages').scrollTop = $('#aiMessages').scrollHeight;
+}, 800);
+};
 
 // === Utils ===
 function openM(t,h){ $('#modalTitle').textContent = t; $('#modalBody').innerHTML = h; $('#modal').classList.add('open'); }
+window.closeM = () => $('#modal').classList.remove('open');
+window.go = go;
+window.openCourse = openCourse;
 
-// === Bind ===
-function bind(){
-$$('.auth-tab').forEach(t => t.onclick = () => {
-$$('.auth-tab').forEach(x => x.classList.toggle('active', x === t));
-const tab = t.dataset.tab;
-$('#loginPane').style.display = tab === 'login' ? 'block' : 'none';
-$('#registerPane').style.display = tab === 'register' ? 'block' : 'none';
-});
-$('#loginBtn').onclick = doLogin;
-$('#loginPass').addEventListener('keypress', e => { if(e.key === 'Enter') doLogin(); });
-$('#googleLoginBtn').onclick = doGoogleLogin;
-$('#forgotPasswordLink').onclick = (e) => { e.preventDefault(); openForgotPasswordModal(); };
-$$('.role-option').forEach(el => el.onclick = () => {
-$$('.role-option').forEach(x => x.style.borderColor = 'var(--border-2)');
-el.style.borderColor = 'var(--primary-3)';
-el.querySelector('input').checked = true;
-st.regRole = el.dataset.role;
-$('#studentLevelGroup').style.display = st.regRole === 'student' ? 'block' : 'none';
-$('#teacherSpecialtyGroup').style.display = st.regRole === 'teacher' ? 'block' : 'none';
-});
-st.regRole = 'student';
-$('#registerBtn').onclick = doRegister;
-$('#logoutBtn').onclick = () => window.logout();
-$('#settingsBtn').onclick = () => go('settings');
-$('#brandBtn').onclick = () => go('profile');
-$('#notifBtn').onclick = () => go('notifications');
-$('#modalClose').onclick = () => $('#modal').classList.remove('open');
-$('#modal').onclick = e => { if(e.target.id === 'modal') $('#modal').classList.remove('open'); };
-document.addEventListener('click', e => {
-const guestBtn = e.target.closest('[data-guest]');
-if(guestBtn){ e.preventDefault(); showGuestPage(guestBtn.dataset.guest); return; }
-const g = e.target.closest('[data-goto]'); if(g){ e.preventDefault(); go(g.dataset.goto); return; }
-const b = e.target.closest('[data-back]'); if(b){ e.preventDefault(); const r = st.me?.role; if(r === 'admin') go('adminHome'); else if(r === 'teacher') go('teacherHome'); else if(r === 'student') go('studentHome'); }
-});
-$('#guestBackBtn')?.addEventListener('click', () => {
-$('#guestScreen').style.display = 'none';
-$('#authScreen').style.display = 'flex';
-});
-$$('#userFilterChips .filter-chip').forEach(c => c.onclick = () => { $$('#userFilterChips .filter-chip').forEach(x => x.classList.toggle('active', x === c)); st.userFilter = c.dataset.filter; renderUsers(); });
-$('#userSearch').oninput = () => renderUsers();
-$$('#cardFilterChips .filter-chip').forEach(c => c.onclick = () => { $$('#cardFilterChips .filter-chip').forEach(x => x.classList.toggle('active', x === c)); st.cardFilter = c.dataset.filter; renderCards(); });
-$('#addCourseBtn').onclick = () => openCourseM(null);
-$('#addLessonBtn').onclick = () => { if(!st.courses.length){ toast('أضف دورة','error'); return; } openLessonM(null); };
-$('#addMyCourseBtn').onclick = () => openCourseM(null);
-$('#addMyLessonBtn').onclick = () => { const mc = st.courses.filter(c => c.teacherId === st.me.id); if(!mc.length){ toast('أضف دورة','error'); return; } openLessonM(null); };
-$('#addPartnerBtn').onclick = () => openPartnerM();
-$('#addCouponBtn').onclick = () => openCouponM();
-$('#createCardsBtn').onclick = () => openCreateCardsModal();
-$('#redeemCode').addEventListener('input', e => formatCardInput(e.target));
-$('#redeemBtn').onclick = redeemCard;
-$('#backToHome').onclick = () => go('studentHome');
-$('#backToCourse').onclick = () => openCourse(st.curCourse);
-$('#aiFab').onclick = () => { $('#aiPanel').classList.add('open'); if(!st.aiChat.length){ renderAIMessages(); renderAISuggestions(); } setTimeout(() => $('#aiInput')?.focus(), 200); };
-$('#aiClose').onclick = () => $('#aiPanel').classList.remove('open');
-$('#aiPanel').onclick = e => { if(e.target.id === 'aiPanel') $('#aiPanel').classList.remove('open'); };
-$('#aiSend').onclick = sendAIMessage;
-$('#aiInput').addEventListener('keypress', e => { if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendAIMessage(); } });
-}
-
-function showGuestPage(tab){
-$('#authScreen').style.display = 'none';
-$('#guestScreen').style.display = 'block';
-const map = {
-about: document.getElementById('page-about').innerHTML,
-director: document.getElementById('page-director').innerHTML,
-how: document.getElementById('page-how').innerHTML
-};
-$('#guestContent').innerHTML = map[tab] || '';
-window.scrollTo({top:0, behavior:'smooth'});
-}
-
-// === Init ===
 document.addEventListener('DOMContentLoaded', () => {
 st.theme = localStorage.getItem('nb_theme') || 'light';
-bind();
 applyTheme();
-renderAISuggestions();
-setTimeout(hideLoading, 1500);
+$('#loginBtn').onclick = doLogin;
+$('#googleLoginBtn').onclick = doGoogleLogin;
+$('#registerBtn').onclick = doRegister;
+setTimeout(() => { if(!st.me) $('#authScreen').style.display='flex'; }, 1000);
 });
 </script>
 </body>
