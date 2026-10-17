@@ -308,8 +308,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 .cert-code{font-family:ui-monospace,monospace;font-size:12px;color:#92400e;letter-spacing:3px;margin-top:24px;font-weight:800}
 .note-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:18px;margin-bottom:12px;cursor:pointer;box-shadow:var(--shadow-xs);position:relative}
 .note-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--gold-3),var(--emerald-3))}
-
-/* Student enhancements */
 .continue-card{background:linear-gradient(135deg,#065f46,#059669);color:#fff;border-radius:24px;padding:24px;margin-bottom:18px;position:relative;overflow:hidden;box-shadow:0 16px 40px -12px rgba(6,95,70,.45);cursor:pointer}
 .continue-card::before{content:'';position:absolute;top:-50%;right:-20%;width:80%;height:200%;background:radial-gradient(circle,rgba(251,191,36,.35),transparent 60%)}
 .continue-inner{position:relative;z-index:1}
@@ -369,8 +367,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 .new-badge{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;padding:3px 9px;border-radius:999px;font-size:9.5px;font-weight:900}
 .fav-btn{background:none;border:none;font-size:22px;cursor:pointer;padding:6px;color:#cbd5e1}
 .fav-btn.active{color:#fbbf24;filter:drop-shadow(0 0 6px rgba(251,191,36,.6))}
-
-/* Admin enhancements */
 .analytics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
 .chart-bar{background:linear-gradient(180deg,#10b981,#059669);border-radius:8px 8px 0 0;min-height:4px}
 .chart-wrap{display:flex;align-items:flex-end;gap:6px;height:140px;padding:14px;background:var(--surface);border-radius:18px;border:1px solid var(--border);margin-bottom:18px;overflow-x:auto}
@@ -390,7 +386,10 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 .notif-row{display:flex;gap:10px;padding:12px;background:var(--surface-2);border-radius:12px;margin-bottom:8px;align-items:center;border:1px solid var(--border)}
 .analytics-big{font-family:var(--font-title);font-size:44px;font-weight:900;letter-spacing:-2px;line-height:1}
 .section-mini-title{font-family:var(--font-title);font-size:15px;font-weight:900;margin:18px 0 12px;display:flex;align-items:center;gap:8px;color:var(--text-2)}
-
+.whatsapp-card{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border-radius:22px;padding:26px;text-align:center;margin-bottom:16px;box-shadow:0 16px 40px -12px rgba(37,211,102,.5)}
+.whatsapp-phone{background:rgba(255,255,255,.22);border-radius:16px;padding:16px;margin-bottom:16px;direction:ltr;font-family:var(--font-title);font-size:23px;font-weight:900;letter-spacing:2px}
+.contact-banner{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border-radius:20px;padding:18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 12px 32px -10px rgba(37,211,102,.45)}
+.contact-banner:hover{transform:translateY(-2px)}
 @media(max-width:420px){
 .action-grid,.stats-grid{grid-template-columns:1fr}
 .quick-links{grid-template-columns:repeat(2,1fr)}
@@ -417,7 +416,15 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div style="font-size:14px;opacity:.9;margin-top:6px;font-weight:700" id="affPublicName">—</div>
 </div>
 <div id="affPublicContent"></div>
-<button onclick="location.href=location.origin+location.pathname" class="btn" style="margin-top:22px;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.25)">← رجوع</button>
+<div style="margin-top:22px;background:rgba(37,211,102,.9);border-radius:16px;padding:16px;text-align:center">
+<div style="font-size:13px;opacity:.95;margin-bottom:8px;font-weight:700">📲 للتواصل والعمولات</div>
+<div style="font-size:20px;font-weight:900;direction:ltr;letter-spacing:1.5px;margin-bottom:12px">+963 995 194 337</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<a href="https://wa.me/963995194337" target="_blank" class="btn btn-sm" style="background:#fff;color:#128C7E;font-weight:900">💬 واتساب</a>
+<a href="tel:+963995194337" class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.4);font-weight:900">📞 اتصال</a>
+</div>
+</div>
+<button onclick="location.href=location.origin+location.pathname" class="btn" style="margin-top:14px;background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.25)">← رجوع</button>
 </div>
 </div>
 
@@ -467,6 +474,10 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <button class="btn btn-ghost" id="prevStepBtn" style="display:none;flex:1">السابق</button>
 <button class="btn btn-primary" id="nextStepBtn" style="flex:1">التالي</button>
 <button class="btn btn-primary" id="registerBtn" style="display:none;flex:1">إنشاء الحساب</button>
+</div>
+<div style="text-align:center;margin-top:20px;padding:14px;background:var(--bg-2);border-radius:14px">
+<div style="font-size:12.5px;color:var(--text-3);font-weight:700;margin-bottom:6px">💬 تحتاج مساعدة؟</div>
+<a href="https://wa.me/963995194337" target="_blank" style="color:var(--emerald-3);font-weight:900;font-size:14px;text-decoration:none;direction:ltr;display:inline-block">+963 995 194 337</a>
 </div>
 </div>
 </div>
@@ -640,6 +651,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 </div>
 <div id="continueBox"></div>
 <div id="dailyLessonBox"></div>
+<div id="contactBannerBox"></div>
 <div id="pointsBox"></div>
 <div id="streakCalendarBox"></div>
 <div id="dailyTasksBox"></div>
@@ -731,15 +743,24 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div style="font-family:var(--font-title);font-size:52px;font-weight:900;margin:14px 0;letter-spacing:-2px" id="walletBalance">0</div>
 <div style="font-size:15px">ليرة سورية</div>
 </div>
+<div class="whatsapp-card">
+<div style="font-size:52px;margin-bottom:10px">📲</div>
+<div style="font-family:var(--font-title);font-size:20px;font-weight:900;margin-bottom:8px">للشحن والتواصل</div>
+<div style="font-size:13.5px;opacity:.92;margin-bottom:16px;font-weight:700">رقم الشحن السوري المعتمد</div>
+<div class="whatsapp-phone">+963 995 194 337</div>
+<button onclick="window.openRechargeModal()" class="btn" style="background:#fff;color:#128C7E;font-weight:900;padding:14px;margin-bottom:10px">⚡ شحن سريع عبر واتساب</button>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<a href="https://wa.me/963995194337" target="_blank" class="btn" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.45);font-weight:900;padding:14px">💬 واتساب</a>
+<a href="tel:+963995194337" class="btn" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.45);font-weight:900;padding:14px">📞 اتصال</a>
+</div>
+<div style="font-size:11.5px;opacity:.85;margin-top:14px;font-weight:700">⏰ متاح يومياً 9 صباحاً - 11 مساءً</div>
+</div>
 <div class="redeem-box" style="margin-bottom:18px">
 <div class="redeem-icon">🎟️</div>
 <div class="redeem-title">استخدم كرت الشحن</div>
 <div class="redeem-sub">أدخل الكود (16 حرفاً)</div>
 <input class="redeem-input" id="redeemCode" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
 <button class="redeem-btn" id="redeemBtn">تفعيل</button>
-</div>
-<div class="card" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;padding:24px">
-<a href="https://wa.me/qr/HVZAC4QJMWI6I1" target="_blank" class="btn" style="background:#fff;color:#128C7E;font-weight:900">📲 شؤون الطلاب - واتساب</a>
 </div>
 <div class="card"><div class="card-title">💸 سحب الرصيد</div><button class="btn btn-info" id="goStudentWithdrawal">سحب رصيدي</button></div>
 <div class="card"><div class="card-title">📋 سجل المعاملات</div><div id="studentTransactions"></div></div>
@@ -785,6 +806,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
 const firebaseConfig = {
 apiKey: "AIzaSyA0svXYd-p2p9SmIKRV4c5KzdN6O3a33RU",
@@ -797,6 +819,13 @@ appId: "1:576307992316:web:ef31c7b613e3db3cca2979"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const functions = getFunctions(app, 'europe-west1');
+
+// ===== معلومات التواصل والشحن =====
+const CONTACT_PHONE = '+963995194337';
+const CONTACT_PHONE_DISPLAY = '+963 995 194 337';
+const CONTACT_WHATSAPP = '963995194337';
+const CONTACT_NAME = 'شؤون الطلاب والشحن';
 
 const LEVELS = {
 '9':     { name:'الصف التاسع',   icon:'📘', color:'#0284c7', desc:'دورات الصف التاسع' },
@@ -816,11 +845,12 @@ certificate:{icon:'🏆',name:'متميز',desc:'إتمام دورة'}
 };
 
 const LOCAL_FAQ = [
-{ q:'كيف أشحن محفظتي؟', a:'1️⃣ تواصل مع شؤون الطلاب عبر واتساب\n2️⃣ افتح "محفظتي" → "تفعيل كرت"\n3️⃣ أدخل الكود (16 حرفاً)', keywords:['شحن','محفظة','كرت','رصيد'] },
+{ q:'كيف أشحن محفظتي؟', a:`1️⃣ تواصل معنا عبر واتساب: ${CONTACT_PHONE_DISPLAY}\n2️⃣ افتح "محفظتي" → "تفعيل كرت"\n3️⃣ أدخل الكود (16 حرفاً)`, keywords:['شحن','محفظة','كرت','رصيد'] },
 { q:'كيف أشتري درساً؟', a:'افتح الدرس → اضغط "اشترِ الآن" → سيُخصم المبلغ.', keywords:['شراء','أشتري','دفع','درس'] },
 { q:'كيف أحصل على شهادة؟', a:'أكمل جميع دروس الدورة → شهادة تلقائية.', keywords:['شهادة','شهادات','إتمام'] },
 { q:'كيف أسحب رصيدي؟', a:'محفظتي → سحب رصيدي. الحد الأدنى 1000 ل.س.', keywords:['سحب','تحويل'] },
-{ q:'كم رصيدي؟', a:'اسألني "رصيدي" وسأخبرك!', keywords:['رصيدي','رصيد'] }
+{ q:'كم رصيدي؟', a:'اسألني "رصيدي" وسأخبرك!', keywords:['رصيدي','رصيد'] },
+{ q:'كيف أتواصل مع الإدارة؟', a:`📞 اتصل على: ${CONTACT_PHONE_DISPLAY}\n💬 أو واتساب على نفس الرقم`, keywords:['تواصل','اتصال','دعم','مساعدة','رقم'] }
 ];
 
 const st = {
@@ -891,7 +921,6 @@ const base = (clean.slice(0,5) || 'REF').toUpperCase();
 return `${base}-${String(Math.floor(Math.random()*900) + 100)}`;
 }
 
-// ===== Helpers =====
 function getTodayKey(){ return new Date().toISOString().slice(0,10); }
 function getWatchHours(){
 const watch = st.me.watch || {};
@@ -945,7 +974,6 @@ const days = (Date.now() - (c.createdAt.toDate?.().getTime() || 0)) / (86400000)
 return days < 7;
 }
 
-// ===== Audit Log =====
 async function logAudit(action, entity, details){
 try{
 await addDoc(collection(db,'audit'), {
@@ -956,7 +984,6 @@ at: serverTimestamp()
 }catch(e){}
 }
 
-// ===== Stepper =====
 function updateStepper(){
 $$('.step').forEach(s => {
 const n = parseInt(s.dataset.step);
@@ -1006,7 +1033,6 @@ $('#reviewData').innerHTML = Object.entries(data).map(([k,v]) =>
 `<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--border-2)"><span style="color:var(--text-3);font-weight:700">${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('');
 }
 
-// ===== Auth =====
 async function doLogin(){
 if(!onlineCheck()) return;
 const u = $('#loginUser').value.trim().toLowerCase(), p = $('#loginPass').value;
@@ -1072,6 +1098,24 @@ else if(finalRole === 'teacher') userData.specialty = $('#regSpecialty').value;
 if(partnerId){ userData.partnerId = partnerId; userData.partnerDiscount = partnerDiscount; userData.partnerName = partnerName; }
 if(affiliateId){ userData.affiliateId = affiliateId; userData.affiliateName = affiliateName; }
 await setDoc(doc(db,'users',cred.user.uid), userData);
+
+// علامة bootstrap المدير الأول
+if(finalRole === 'admin'){
+try { await setDoc(doc(db,'admins','first'), { createdAt: serverTimestamp(), uid: cred.user.uid }); } catch(e){ console.error(e); }
+}
+
+// إشعار ترحيبي تلقائي
+try {
+  await addDoc(collection(db,'notifications'), {
+    userId: cred.user.uid,
+    title: '🎉 أهلاً بك في أكاديمية النبراس',
+    body: `مرحباً ${name}!\n\n📚 نتمنى لك رحلة تعليمية موفقة.\n\n💰 للشحن والاستفسار:\n📞 ${CONTACT_PHONE_DISPLAY}\n\n💬 تواصل معنا عبر واتساب في أي وقت.`,
+    type: 'info',
+    read: false,
+    date: serverTimestamp()
+  });
+} catch(e) { console.error('Welcome notif failed:', e); }
+
 if(finalRole === 'admin') toast('✓ حساب المدير','success');
 else if(partnerId) toast(`🎉 خصم ${partnerDiscount}%`,'success');
 else if(finalRole === 'teacher') toast('بانتظار التفعيل','success');
@@ -1083,6 +1127,7 @@ toast(msg,'error');
 $('#registerBtn').disabled = false; $('#registerBtn').innerHTML = 'إنشاء الحساب';
 }
 }
+
 async function logout(){
 if(!confirm('تسجيل الخروج؟')) return;
 st.unsubs.forEach(u => u()); st.unsubs = [];
@@ -1295,7 +1340,6 @@ const b = $('#pendingWithdrawalsBadge');
 if(b){ if(n>0){b.textContent=n;b.style.display='block';}else b.style.display='none'; }
 }
 
-// ============== ADMIN HOME ==============
 function renderAdminHome(){
 const ss = st.users.filter(u => u.role === 'student').length;
 const tt = st.users.filter(u => u.role === 'teacher').length;
@@ -1312,7 +1356,6 @@ const pu = $('#pendingUsersBadge'); if(pu){ if(pend>0){pu.textContent=pend;pu.st
 updateWdBadge();
 }
 
-// ============== ADMIN ANALYTICS ==============
 function renderAdminAnalytics(){
 const purchases = st.purchases || [];
 const totalRevenue = purchases.reduce((s,p) => s + (p.price||0), 0);
@@ -1395,7 +1438,6 @@ return `<div style="margin-bottom:12px">
 }).join('');
 }
 
-// ============== COUPONS ==============
 function renderCoupons(){
 const l = $('#couponsList');
 if(!st.coupons || !st.coupons.length){
@@ -1473,7 +1515,6 @@ closeM(); toast('✓','success');
 };
 }
 
-// ============== BROADCAST ==============
 async function sendBroadcast(){
 const target = $('#bcTarget').value;
 const type = $('#bcType').value;
@@ -1507,7 +1548,6 @@ else recipients = st.users.filter(u => u.role === 'student' && u.level === targe
 $('#bcCount').textContent = recipients.length;
 }
 
-// ============== AUDIT ==============
 function renderAudit(){
 const l = $('#auditList');
 const arr = (st.audit || []).filter(a => {
@@ -1529,7 +1569,6 @@ l.innerHTML = arr.slice(0,200).map(a => `
 </div>`).join('');
 }
 
-// ============== BULK IMPORT ==============
 async function bulkImport(){
 const raw = $('#bulkData').value.trim();
 if(!raw){ toast('الصق البيانات','error'); return; }
@@ -1561,7 +1600,6 @@ await logAudit('create','bulk',`استيراد ${success} مستخدم`);
 if(success) toast(`✓ ${success}`,'success');
 }
 
-// ============== BACKUP ==============
 async function exportAllBackup(){
 toast('⏳...','info');
 const collections = ['users','courses','lessons','purchases','transactions','withdrawals','cards','partners','affiliates','notes','faq','coupons','notifications'];
@@ -1632,18 +1670,7 @@ let done = 0;
 for(const v of toDelete){ try{ await deleteDoc(doc(db,'visits',v.id)); done++; }catch(e){} }
 toast(`✓ ${done}`,'success');
 }
-async function applyCouponToLesson(lesson, code){
-const cp = (st.coupons || []).find(c => c.code === code.toUpperCase() && c.status !== 'disabled');
-if(!cp) return { ok:false, msg:'كوبون غير صحيح' };
-if(cp.expiresAt?.toDate && cp.expiresAt.toDate().getTime() < Date.now()) return { ok:false, msg:'انتهى' };
-if(cp.maxUses && (cp.usedCount||0) >= cp.maxUses) return { ok:false, msg:'انتهت استخداماته' };
-let discount = 0;
-if(cp.type === 'percent') discount = Math.round(lesson.price * cp.value / 100);
-else discount = Math.min(cp.value, lesson.price);
-return { ok:true, discount, coupon: cp };
-}
 
-// ============== COURSES ==============
 function renderAdminCourses(){
 let arr = [...st.courses].sort((a,b) => (a.order||0) - (b.order||0));
 const l = $('#coursesList');
@@ -1745,7 +1772,6 @@ closeM(); toast('✓','success');
 };
 }
 
-// ============== USERS ==============
 function renderUsers(){
 const q = ($('#userSearch')?.value || '').trim().toLowerCase();
 const f = st.userFilter;
@@ -1813,14 +1839,17 @@ openM('💰 إضافة رصيد', `
 $('#balOk').onclick = async () => {
 const a = parseInt($('#balAmt').value, 10);
 if(!a || a <= 0){ toast('مبلغ خطأ','error'); return; }
+const btn = $('#balOk'); btn.disabled = true; btn.textContent = '⏳...';
 try{
 const note = $('#balNote').value.trim() || 'إضافة رصيد';
-await updateDoc(doc(db,'users',id),{balance:(u.balance||0)+a});
-await addDoc(collection(db,'transactions'),{userId:id,type:'topup',amount:a,description:note,date:serverTimestamp()});
-await addN(id,'💰 رصيد جديد',`+${fm(a)} ل.س`,'success');
+const fn = httpsCallable(functions, 'adminAddBalance');
+await fn({ userId: id, amount: a, note });
 await logAudit('create','balance',`أضاف ${fm(a)} لـ ${u.name}`);
 closeM(); toast('✓','success');
-}catch(e){ toast('فشل','error'); }
+}catch(e){
+toast(e.message || 'فشل','error');
+btn.disabled = false; btn.textContent = '+';
+}
 };
 }
 function openWithdrawFromUser(id){
@@ -1833,13 +1862,16 @@ openM('💸 سحب رصيد', `
 $('#wdFromOk').onclick = async () => {
 const a = parseInt($('#wdFromAmt').value, 10);
 if(!a || a <= 0 || a > u.balance){ toast('مبلغ خطأ','error'); return; }
+const btn = $('#wdFromOk'); btn.disabled = true; btn.textContent = '⏳...';
 try{
 const note = $('#wdFromNote').value.trim() || 'سحب إداري';
-await updateDoc(doc(db,'users',u.id),{balance:(u.balance||0)-a});
-await addDoc(collection(db,'transactions'),{userId:u.id,type:'admin_withdraw',amount:a,description:note,date:serverTimestamp()});
-await addN(u.id,'💸 سحب رصيد',`-${fm(a)} ل.س`,'warning');
+const fn = httpsCallable(functions, 'adminWithdrawBalance');
+await fn({ userId: u.id, amount: a, note });
 closeM(); toast('✓','success');
-}catch(e){ toast('فشل','error'); }
+}catch(e){
+toast(e.message || 'فشل','error');
+btn.disabled = false; btn.textContent = 'سحب';
+}
 };
 }
 function openSendNotification(id){
@@ -1862,7 +1894,6 @@ if(prompt('اكتب "حذف":') !== 'حذف') return;
 try{ await deleteDoc(doc(db,'users',id)); await logAudit('delete','user',`حذف المستخدم: ${u.name}`); toast('تم'); }catch(e){ toast('فشل','error'); }
 }
 
-// ============== CARDS ==============
 function renderCards(){
 const stats = {
 available: st.cards.filter(c => c.status === 'available').length,
@@ -1926,42 +1957,25 @@ closeM(); toast(`✓ ${qty}`,'success');
 }catch(e){ toast('فشل','error'); btn.disabled = false; }
 };
 }
+
 async function redeemCard(){
 if(!onlineCheck()) return;
 const input = $('#redeemCode');
 const code = input.value.trim().toUpperCase();
 if(!code || code.length < 16){ toast('كود خطأ','error'); return; }
 const btn = $('#redeemBtn'); btn.disabled = true; btn.textContent = '⏳...';
-let addedAmount = 0;
 try{
-const snap = await getDocs(query(collection(db,'cards'), where('code','==',code), limit(1)));
-if(snap.empty) throw new Error('NOT_FOUND');
-const cardDoc = snap.docs[0];
-await runTransaction(db, async tx => {
-const cardRef = doc(db,'cards',cardDoc.id);
-const userRef = doc(db,'users', st.me.id);
-const cSnap = await tx.get(cardRef);
-const uSnap = await tx.get(userRef);
-if(!cSnap.exists()) throw new Error('NOT_FOUND');
-const c = cSnap.data();
-if(c.status === 'used') throw new Error('ALREADY_USED');
-if(c.status === 'disabled') throw new Error('DISABLED');
-const curBal = uSnap.data()?.balance || 0;
-addedAmount = c.amount;
-tx.update(cardRef,{ status:'used', usedBy:st.me.id, usedAt:serverTimestamp() });
-tx.update(userRef,{ balance: curBal + c.amount });
-});
-await addDoc(collection(db,'transactions'),{ userId: st.me.id, type:'card_redeem', amount: addedAmount, description:'تفعيل كرت', date: serverTimestamp() });
-await addN(st.me.id, '🎟️ تم التفعيل', `+${fm(addedAmount)} ل.س`, 'success');
+const fn = httpsCallable(functions, 'redeemCard');
+const res = await fn({ code });
 input.value = '';
-toast(`✓ +${fm(addedAmount)}`,'success');
+toast(`✓ +${fm(res.data.amount)}`, 'success');
 }catch(e){
-const msgs = { ALREADY_USED:'⚠️ مستخدم', DISABLED:'⛔ معطّل', NOT_FOUND:'❌ غير موجود' };
-toast(msgs[e.message] || 'خطأ','error');
-}finally{ btn.disabled = false; btn.textContent = 'تفعيل'; }
+toast(e.message || 'خطأ', 'error');
+}finally{
+btn.disabled = false; btn.textContent = 'تفعيل';
+}
 }
 
-// ============== WITHDRAWALS ==============
 function renderWithdrawalsAdmin(){
 const l = $('#withdrawalsAdminList');
 const arr = [...st.withdrawals].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
@@ -1976,19 +1990,16 @@ el.querySelectorAll('[data-a]').forEach(b => b.onclick = async () => {
 const rq = st.withdrawals.find(x => x.id === b.dataset.id);
 try{
 if(b.dataset.a === 'ap'){
-await updateDoc(doc(db,'withdrawals',rq.id),{status:'approved',paidAt:serverTimestamp()});
-if(rq.userId && !rq.teacherId){
-const usr = st.users.find(x => x.id === rq.userId);
-await updateDoc(doc(db,'users',rq.userId),{balance:(usr.balance||0)-rq.amount});
-}
-await addN(rq.teacherId || rq.userId,'✅ تم تحويل مبلغك',`${fm(rq.amount)} ل.س`,'success');
+const fn = httpsCallable(functions, 'approveWithdrawal');
+await fn({ withdrawalId: rq.id });
 await logAudit('update','withdrawal',`دفع ${fm(rq.amount)} لـ ${u?.name}`);
 toast('تم','success');
 } else {
-await updateDoc(doc(db,'withdrawals',rq.id),{status:'rejected'});
+const fn = httpsCallable(functions, 'rejectWithdrawal');
+await fn({ withdrawalId: rq.id, reason: 'مرفوض من الإدارة' });
 toast('رُفض','warning');
 }
-}catch(e){ toast('فشل','error'); }
+}catch(e){ toast(e.message || 'فشل','error'); }
 });
 l.appendChild(el);
 });
@@ -2004,7 +2015,6 @@ return `<div class="list-item no-click" style="padding:14px"><div class="list-in
 }).join('');
 }
 
-// ============== PARTNERS ==============
 function renderPartners(){
 const l = $('#partnersList');
 if(!st.partners.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا شركاء</div></div>'; return; }
@@ -2043,7 +2053,7 @@ const discount = parseInt($('#ptDiscount').value, 10);
 if(!name || !code){ toast('أكمل','error'); return; }
 const btn = $('#ptOk'); btn.disabled = true;
 try{
-const d = { name, code, type:$('#ptType')?.value || 'institute', discount, phone:$('#ptPhone').value.trim(), status:p.status || 'active' };
+const d = { name, code, type:'institute', discount, phone:$('#ptPhone').value.trim(), status:p.status || 'active' };
 if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'partners'), d); }
 else await updateDoc(doc(db,'partners', p.id), d);
 closeM(); toast('✓','success');
@@ -2051,7 +2061,6 @@ closeM(); toast('✓','success');
 };
 }
 
-// ============== AFFILIATES ==============
 function renderAffiliates(){
 const l = $('#affiliatesList');
 if(!st.affiliates.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا أفلييت</div></div>'; return; }
@@ -2115,16 +2124,19 @@ const amt = parseInt($('#afPayAmt').value, 10);
 const method = $('#afPayMethod').value;
 if(!amt || amt <= 0 || amt > available){ toast('مبلغ خطأ','error'); return; }
 if(!method){ toast('اختر الطريقة','error'); return; }
+const btn = $('#afPayOk'); btn.disabled = true; btn.textContent = '⏳...';
 try{
-await updateDoc(doc(db,'affiliates', af.id), { balance: (af.balance||0) - amt, totalWithdrawn: (af.totalWithdrawn||0) + amt });
-await addDoc(collection(db,'transactions'), { affiliateId: af.id, affiliateName: af.name, type:'affiliate_payout', amount: amt, method, date: serverTimestamp() });
-await addN('AFFILIATE:' + af.id, '💸 تم تحويل عمولتك', `${fm(amt)} ل.س`,'success');
+const fn = httpsCallable(functions, 'payAffiliate');
+await fn({ affiliateId: af.id, amount: amt, method });
+await logAudit('update','affiliate_payout',`دفع ${fm(amt)} لـ ${af.name} (${method})`);
 closeM(); toast('✓','success');
-}catch(e){ toast('فشل','error'); }
+}catch(e){
+toast(e.message || 'فشل','error');
+btn.disabled = false; btn.textContent = '💸';
+}
 };
 }
 
-// ============== AFFILIATE PUBLIC ==============
 async function openAffiliatePublic(code){
 code = code.toUpperCase();
 $('#affiliatePublicView').style.display = 'block';
@@ -2168,7 +2180,6 @@ window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }catch(e){ $('#affPublicContent').innerHTML = '<div class="card" style="padding:48px">خطأ: ' + e.message + '</div>'; }
 }
 
-// ============== TEACHER ==============
 function renderTeacherHome(){
 const me = st.me;
 const mc = st.courses.filter(c => c.teacherId === me.id);
@@ -2319,11 +2330,18 @@ $('#wdOk').onclick = async () => {
 const a = parseInt($('#wdA').value, 10), m = $('#wdM2').value, ac = $('#wdAc').value.trim();
 if(!a || a < minW || a > available){ toast('مبلغ خطأ','error'); return; }
 if(!m || !ac){ toast('أكمل','error'); return; }
-try{ await addDoc(collection(db,'withdrawals'),{teacherId:st.me.id,role:'teacher',amount:a,method:m,account:ac,status:'pending',date:serverTimestamp()}); closeM(); toast('✓','success'); }catch(e){ toast('فشل','error'); }
+const btn = $('#wdOk'); btn.disabled = true; btn.textContent = '⏳...';
+try{
+const fn = httpsCallable(functions, 'requestWithdrawal');
+await fn({ amount: a, method: m, account: ac });
+closeM(); toast('✓','success');
+}catch(e){
+toast(e.message || 'فشل','error');
+btn.disabled = false; btn.textContent = 'إرسال';
+}
 };
 }
 
-// ============== STUDENT HOME ==============
 function renderStudentHome(){
 const me = st.me;
 const mp = st.purchases.filter(p => p.userId === me.id);
@@ -2341,6 +2359,7 @@ $('#qlWalletCount').textContent = fm(me.balance) + ' ل.س';
 $('#qlFavCount').textContent = getFavorites().length;
 renderContinueBox(mp);
 renderDailyLesson();
+renderContactBanner();
 renderPointsBox();
 renderStreakCalendar();
 renderDailyTasks();
@@ -2391,6 +2410,19 @@ el.onclick = () => openCourse(c.id);
 ae.appendChild(el);
 });
 } else { at.style.display = 'none'; ae.innerHTML = ''; }
+}
+function renderContactBanner(){
+const box = $('#contactBannerBox');
+if(!box) return;
+box.innerHTML = `
+<div class="contact-banner" onclick="window.openRechargeModal()">
+<div style="font-size:36px">📲</div>
+<div style="flex:1">
+<div style="font-size:15px;font-weight:900">للشحن والتواصل</div>
+<div style="font-size:13px;opacity:.95;direction:ltr;font-weight:700;margin-top:2px">${CONTACT_PHONE_DISPLAY}</div>
+</div>
+<div style="font-size:24px">←</div>
+</div>`;
 }
 function renderContinueBox(mp){
 const box = $('#continueBox');
@@ -2448,13 +2480,11 @@ const lesson = st.lessons.find(l => l.id === lessonId);
 if(!lesson) return;
 if(!confirm(`🎁 اشتري "${lesson.title}" مجاناً؟`)) return;
 try{
-await addDoc(collection(db,'purchases'), { userId: st.me.id, lessonId: lesson.id, price: 0, isFree: true, fromDaily: true, createdAt: serverTimestamp() });
-await updateDoc(doc(db,'users',st.me.id), { dailyFreeBought: todayKey });
-await addN(st.me.id, '🎁 حصة مجانية', `"${lesson.title}"`, 'success');
-await addPoints(10, 'حصة يومية');
+const fn = httpsCallable(functions, 'claimDailyLesson');
+const res = await fn({ lessonId: lesson.id });
 toast('🎉','success');
-setTimeout(() => openLesson(lesson.id), 500);
-}catch(e){ toast('فشل','error'); }
+setTimeout(() => openLesson(res.data.lessonId), 500);
+}catch(e){ toast(e.message || 'فشل','error'); }
 }
 function renderPointsBox(){
 const pts = getPoints();
@@ -2682,7 +2712,6 @@ con.appendChild(el);
 });
 }
 
-// ============== VIDEO ==============
 let ytPlayer = null, trackingInterval = null, currentLessonId = null, lastSavedSecond = 0;
 window.onYouTubeIframeAPIReady = function(){};
 function createPlayer(videoId, startSeconds = 0, lessonId = null){
@@ -2773,7 +2802,18 @@ c.innerHTML = `
 <div class="locked-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
 <h3>مدفوع</h3>
 <p>اشترِ بـ <strong style="color:var(--gold-4);font-size:18px">${fm(l.price)} ل.س</strong></p>
-${st.me.balance >= l.price ? '<button class="btn btn-gold" id="buyBtn">🛒 اشترِ</button>' : '<button class="btn btn-gold" id="wallBtn">💰 شحن</button>'}
+${st.me.balance >= l.price ? '<button class="btn btn-gold" id="buyBtn">🛒 اشترِ</button>' : '<button class="btn btn-gold" id="wallBtn">💰 شحن المحفظة</button>'}
+</div>
+<div class="whatsapp-card">
+<div style="font-size:38px;margin-bottom:8px">📲</div>
+<div style="font-family:var(--font-title);font-size:16px;font-weight:900;margin-bottom:6px">تحتاج رصيد؟ تواصل معنا</div>
+<div style="font-size:13px;opacity:.92;margin-bottom:14px;font-weight:700">رقم الشحن السوري</div>
+<div class="whatsapp-phone" style="font-size:20px;padding:12px">${CONTACT_PHONE_DISPLAY}</div>
+<button onclick="window.openRechargeModal()" class="btn" style="background:#fff;color:#128C7E;font-weight:900;padding:12px;margin-bottom:8px">⚡ شحن سريع</button>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<a href="https://wa.me/963995194337" target="_blank" class="btn" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.45);font-weight:900;padding:12px">💬 واتساب</a>
+<a href="tel:+963995194337" class="btn" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.45);font-weight:900;padding:12px">📞 اتصال</a>
+</div>
 </div>
 <div class="card"><div style="font-size:16px;font-weight:900;margin-bottom:10px">${esc(l.title)}</div><p style="font-size:14.5px;color:var(--text-2);line-height:1.8;margin:0;font-weight:600">${esc(l.description||'')}</p></div>`;
 $('#buyBtn')?.addEventListener('click', () => openBuy(l));
@@ -2793,33 +2833,19 @@ openM('🛒 تأكيد الشراء', `
 <div style="background:var(--bg-2);border-radius:14px;padding:16px"><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700"><span>رصيدك:</span><strong>${fm(st.me.balance)} ل.س</strong></div></div>
 <div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-success" id="buyOk">✓ تأكيد</button></div>`);
 $('#buyOk').onclick = async () => {
-let actualFinal = finalPrice;
-let appliedCoupon = null;
-const couponCode = $('#couponInput')?.value.trim();
-if(couponCode){
-const r = await applyCouponToLesson({ price: finalPrice }, couponCode);
-if(r.ok){ actualFinal = finalPrice - r.discount; appliedCoupon = r.coupon; toast(`🎟️ خصم ${fm(r.discount)} ل.س`, 'success'); }
-else { toast(r.msg, 'warning'); return; }
-}
-if(st.me.balance < actualFinal){ toast('رصيدك غير كافٍ','error'); return; }
+const btn = $('#buyOk');
+btn.disabled = true; btn.textContent = '⏳...';
 try{
-await runTransaction(db, async tx => {
-const userRef = doc(db,'users', st.me.id);
-const uSnap = await tx.get(userRef);
-const curBal = uSnap.data()?.balance || 0;
-if(curBal < actualFinal) throw new Error('INSUFFICIENT');
-tx.update(userRef, { balance: curBal - actualFinal });
-});
-await addDoc(collection(db,'purchases'), { userId: st.me.id, lessonId: lesson.id, price: actualFinal, couponCode: appliedCoupon?.code || null, createdAt: serverTimestamp() });
-await addDoc(collection(db,'transactions'), { userId: st.me.id, type:'purchase', amount: actualFinal, description: 'شراء: ' + lesson.title, date: serverTimestamp() });
-if(appliedCoupon){
-try{ await updateDoc(doc(db,'coupons',appliedCoupon.id), { usedCount: (appliedCoupon.usedCount||0)+1 }); }catch(e){}
-}
-await addN(st.me.id,'✓ تم الشراء',`تم شراء: ${lesson.title}`,'success');
-await addPoints(5, 'شراء');
-closeM(); toast('✓','success');
+const couponCode = $('#couponInput')?.value.trim().toUpperCase() || '';
+const fn = httpsCallable(functions, 'purchaseLesson');
+await fn({ lessonId: lesson.id, couponCode });
+closeM();
+toast('✓','success');
 setTimeout(() => openLesson(lesson.id), 300);
-}catch(e){ toast('خطأ','error'); }
+}catch(e){
+toast(e.message || 'خطأ','error');
+btn.disabled = false; btn.textContent = '✓ تأكيد';
+}
 };
 }
 
@@ -2855,7 +2881,15 @@ $('#swOk').onclick = async () => {
 const a = parseInt($('#swA').value, 10), m = $('#swM').value, ac = $('#swAc').value.trim();
 if(!a || a < minW || a > balance){ toast('مبلغ خطأ','error'); return; }
 if(!m || !ac){ toast('أكمل','error'); return; }
-try{ await addDoc(collection(db,'withdrawals'),{userId:st.me.id,role:'student',amount:a,method:m,account:ac,status:'pending',date:serverTimestamp()}); closeM(); toast('✓','success'); renderStudentWd(); }catch(e){ toast('فشل','error'); }
+const btn = $('#swOk'); btn.disabled = true; btn.textContent = '⏳...';
+try{
+const fn = httpsCallable(functions, 'requestWithdrawal');
+await fn({ amount: a, method: m, account: ac });
+closeM(); toast('✓','success'); renderStudentWd();
+}catch(e){
+toast(e.message || 'فشل','error');
+btn.disabled = false; btn.textContent = 'إرسال';
+}
 };
 }
 function renderPurchases(){
@@ -2953,7 +2987,6 @@ openM('📜 شهادة', `
 <div style="display:flex;gap:12px;margin-top:18px"><button class="btn btn-ghost" onclick="closeM()">إغلاق</button><button class="btn btn-gold" onclick="window.print()">🖨️</button></div>`);
 }
 
-// ============== CHAT ==============
 function getChatBetween(u1,u2){ return st.chats.find(c => (c.user1===u1&&c.user2===u2)||(c.user1===u2&&c.user2===u1)); }
 async function getOrCreateChat(u1,u2){
 let c = getChatBetween(u1,u2);
@@ -3067,6 +3100,15 @@ ${u.role === 'student' ? `<div style="margin-top:16px;display:flex;justify-conte
 <div class="form-group"><label class="form-label">الهاتف</label><input class="form-input" id="pPhone" value="${esc(u.phone||'')}" dir="ltr" style="text-align:left"></div>
 <button class="btn btn-primary" id="saveProfile" style="margin-top:10px">💾 حفظ</button>
 </div>
+<div class="card" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;text-align:center;padding:20px">
+<div style="font-size:36px;margin-bottom:8px">📲</div>
+<div style="font-size:15px;font-weight:900;margin-bottom:6px">للتواصل والشحن</div>
+<div style="font-family:var(--font-title);font-size:20px;font-weight:900;direction:ltr;letter-spacing:1.5px;margin-bottom:12px">${CONTACT_PHONE_DISPLAY}</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<a href="https://wa.me/963995194337" target="_blank" class="btn btn-sm" style="background:#fff;color:#128C7E;font-weight:900">💬 واتساب</a>
+<a href="tel:+963995194337" class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:1.5px solid rgba(255,255,255,.45);font-weight:900">📞 اتصال</a>
+</div>
+</div>
 <div class="card"><div class="card-title">🔑 تغيير كلمة المرور</div>
 <div class="form-group"><label class="form-label">الحالية</label><div class="pw-wrap"><input type="password" class="form-input" id="oldPass"><span class="pw-toggle" onclick="togglePw('oldPass',this)">👁</span></div></div>
 <div class="form-group"><label class="form-label">الجديدة</label><div class="pw-wrap"><input type="password" class="form-input" id="newPass"><span class="pw-toggle" onclick="togglePw('newPass',this)">👁</span></div></div>
@@ -3082,13 +3124,99 @@ try{ await updateDoc(doc(db,'users',st.me.id),{name:n,phone:$('#pPhone').value.t
 $('#changePassBtn').onclick = changePassword;
 $('#logoutFromProfile').onclick = logout;
 }
+
+// ===== الشحن السريع عبر واتساب =====
+window.openRechargeModal = function(){
+  if(!st.me){ toast('سجّل أولاً','error'); return; }
+  const amounts = [5000, 10000, 25000, 50000];
+  openM('⚡ شحن سريع', `
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:56px;margin-bottom:8px">💰</div>
+      <div style="font-family:var(--font-title);font-size:18px;font-weight:900;color:var(--text-2)">اختر المبلغ</div>
+      <div style="font-size:13px;color:var(--text-3);margin-top:6px;font-weight:700">سيتم إرسال طلب جاهز عبر واتساب</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      ${amounts.map(a => `<button class="btn btn-ghost" data-amt="${a}" style="padding:16px;font-size:16px;font-weight:900;border:2px solid var(--border-2);border-radius:14px">${fm(a)}<div style="font-size:11px;color:var(--text-3);margin-top:2px;font-weight:700">ل.س</div></button>`).join('')}
+    </div>
+    <div class="form-group">
+      <label class="form-label">أو أدخل مبلغاً مخصصاً</label>
+      <input type="number" class="form-input" id="rechargeCustomAmount" placeholder="مثال: 15000" min="1000" style="font-size:16px;text-align:center">
+    </div>
+    <div class="form-group">
+      <label class="form-label">طريقة الدفع</label>
+      <select class="form-select" id="rechargeMethod">
+        <option>شام كاش</option>
+        <option>الهرم</option>
+        <option>سيرياتيل كاش</option>
+        <option>MTN كاش</option>
+        <option>نقداً (مقابلة شخصية)</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:22px">
+      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
+      <button class="btn btn-success" id="rechargeConfirm" style="flex:2">📲 إرسال عبر واتساب</button>
+    </div>
+  `);
+  let selectedAmount = 0;
+  $$('#modalBody [data-amt]').forEach(b => {
+    b.onclick = () => {
+      $$('#modalBody [data-amt]').forEach(x => { x.style.borderColor = 'var(--border-2)'; x.style.background = ''; });
+      b.style.borderColor = 'var(--emerald-3)';
+      b.style.background = 'rgba(16,185,129,.08)';
+      selectedAmount = parseInt(b.dataset.amt);
+      $('#rechargeCustomAmount').value = '';
+    };
+  });
+  $('#rechargeCustomAmount').addEventListener('input', e => {
+    selectedAmount = parseInt(e.target.value) || 0;
+    $$('#modalBody [data-amt]').forEach(x => { x.style.borderColor = 'var(--border-2)'; x.style.background = ''; });
+  });
+  $('#rechargeConfirm').onclick = () => {
+    let amount = selectedAmount;
+    const custom = parseInt($('#rechargeCustomAmount').value);
+    if(custom > 0) amount = custom;
+    if(!amount || amount < 1000){ toast('المبلغ الأدنى 1,000 ل.س','error'); return; }
+    const method = $('#rechargeMethod').value;
+    const message = buildRechargeMessage(amount, method);
+    window.open(`https://wa.me/${CONTACT_WHATSAPP}?text=${encodeURIComponent(message)}`, '_blank');
+    closeM();
+    toast('✓ يتم تحويلك لواتساب','success');
+  };
+};
+
+function buildRechargeMessage(amount, method){
+  const name = st.me.name || 'طالب';
+  const username = st.me.username || '';
+  const userId = st.me.id || '';
+  const balance = fm(st.me.balance || 0);
+  const levelName = st.me.level ? getLevelInfo(st.me.level).name : '';
+  return `🎓 *طلب شحن محفظة — أكاديمية النبراس*
+
+👤 *الاسم:* ${name}
+🆔 *المستخدم:* @${username}
+🎓 *الصف:* ${levelName || '—'}
+💰 *الرصيد الحالي:* ${balance} ل.س
+🔑 *المعرف:* ${userId.slice(0, 12)}...
+
+━━━━━━━━━━━━━━
+
+💵 *المبلغ المطلوب:* ${amount.toLocaleString('ar-EG')} ل.س
+💳 *طريقة الدفع:* ${method}
+
+━━━━━━━━━━━━━━
+
+📸 سأرسل صورة إشعار التحويل بعد الاتفاق.
+
+جزيل الشكر 🌹`;
+}
+
 function renderAIMessages(){
 const c = $('#aiMessages');
 if(!st.aiChat.length){
 c.innerHTML = '';
 const w = document.createElement('div');
 w.className = 'ai-msg bot';
-w.textContent = 'مرحباً! 👋\nأنا المساعد الذكي.\n\nجرّب:\n• "رصيدي"\n• "كيف أشحن محفظتي؟"';
+w.textContent = `مرحباً! 👋\nأنا المساعد الذكي.\n\nجرّب:\n• "رصيدي"\n• "كيف أشحن محفظتي؟"\n\n📞 للتواصل: ${CONTACT_PHONE_DISPLAY}`;
 c.appendChild(w);
 return;
 }
@@ -3151,7 +3279,7 @@ if(score > bestScore){ bestScore = score; best = f; }
 if(bestScore >= 3 && best) answer = best.answer;
 }catch(e){}
 }
-if(!answer){ answer = '🤔 لم أجد إجابة.\n\n💡 جرب:\n• "رصيدي"\n• "كيف أشحن محفظتي؟"'; }
+if(!answer){ answer = `🤔 لم أجد إجابة.\n\n💡 جرب:\n• "رصيدي"\n• "كيف أشحن محفظتي؟"\n\n📞 للتواصل: ${CONTACT_PHONE_DISPLAY}`; }
 st.aiChat.push({ role:'bot', text: answer, at: Date.now() });
 renderAIMessages();
 st.aiWaitingForReply = false;
@@ -3159,6 +3287,7 @@ st.aiWaitingForReply = false;
 }
 function openM(t,h){ $('#modalTitle').textContent = t; $('#modalBody').innerHTML = h; $('#modal').classList.add('open'); }
 window.closeM = () => $('#modal').classList.remove('open');
+window.openQuickRecharge = () => window.openRechargeModal();
 function applyTheme(){
 document.documentElement.setAttribute('data-theme', st.theme);
 const b = $('#themeBtn');
@@ -3246,7 +3375,6 @@ $$('#searchFilters .filter-chip').forEach(x => x.classList.toggle('active', x ==
 st.searchFilter = c.dataset.sf;
 renderSearchResults();
 });
-// Admin new features
 $('#addCouponBtn')?.addEventListener('click', () => openCouponM());
 $('#bcSend')?.addEventListener('click', () => sendBroadcast());
 $('#bcTarget')?.addEventListener('change', () => updateBcCount());
