@@ -2,9 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<!-- Version 13.1 -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#065f46">
 <title>أكاديمية النبراس</title>
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="النبراس">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -470,6 +476,9 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <header class="app-bar"><div class="app-bar-row">
 <div class="app-brand" id="brandBtn"><div class="app-logo"><svg viewBox="0 0 100 100"><defs><linearGradient id="miniGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><text x="50" y="68" font-size="52" text-anchor="middle" fill="url(#miniGrad)" font-family="serif" font-weight="bold">ن</text></svg></div><div class="app-brand-info"><div class="app-brand-name">أكاديمية النبراس</div><div class="app-user-name" id="userLabel">—</div></div></div>
 <div class="app-actions">
+<button class="app-icon-btn" id="installAppBtn" onclick="installPWA()" style="display:none;background:rgba(251,191,36,.2);border-color:rgba(251,191,36,.4)">
+<svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+</button>
 <button class="app-icon-btn" id="chatBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="badge" id="chatBadge" style="display:none">0</span></button>
 <button class="app-icon-btn" id="notifBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="badge" id="notifBadge" style="display:none">0</span></button>
 <button class="app-icon-btn" id="themeBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
@@ -818,6 +827,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="toast" id="toast"></div>
 <div id="ytPlayerContainer" style="display:none"><div id="ytPlayer"></div></div>
 
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -857,12 +867,69 @@ first_note:{icon:'📝',name:'المدوّن',desc:'أول ملاحظة'},
 social:{icon:'💬',name:'اجتماعي',desc:'10 رسائل'},
 certificate:{icon:'🏆',name:'متميز',desc:'إتمام دورة'}
 };
+
 const LOCAL_FAQ = [
-{ q:'كيف أشحن محفظتي؟', a:`1️⃣ تواصل معنا عبر واتساب: ${CONTACT_PHONE_DISPLAY}\n2️⃣ افتح "محفظتي" → "تفعيل كرت"\n3️⃣ أدخل الكود`, keywords:['شحن','محفظة','كرت','رصيد'] },
-{ q:'كيف أشتري درساً؟', a:'افتح الدرس → اضغط "اشترِ"', keywords:['شراء','أشتري','دفع'] },
-{ q:'كيف أحصل على شهادة؟', a:'أكمل جميع دروس الدورة', keywords:['شهادة','شهادات'] },
-{ q:'كم رصيدي؟', a:'اسألني "رصيدي"', keywords:['رصيدي','رصيد'] },
-{ q:'كيف أتواصل مع الإدارة؟', a:`📞 ${CONTACT_PHONE_DISPLAY}`, keywords:['تواصل','اتصال','دعم','مساعدة'] }
+// ========== 1. المحفظة والشحن والرصيد ==========
+{ q:'كيف أشحن محفظتي؟', a:`1️⃣ تواصل معنا عبر واتساب: ${CONTACT_PHONE_DISPLAY}\n2️⃣ افتح "محفظتي" ← "شحن سريع"\n3️⃣ حول المبلغ وستصلك رسالة تأكيد.`, keywords:['شحن','محفظة','رصيد','كيف أشحن','أضيف فلوس'] },
+{ q:'كيف أضيف رصيد؟', a:`استخدم زر "شحن سريع" في المحفظة، أو تواصل معنا على ${CONTACT_PHONE_DISPLAY} لإرسال كرت شحن.`, keywords:['أضيف رصيد','زيادة الرصيد','شحن'] },
+{ q:'أين أجد كود الشحن؟', a:'كود الشحن يتكون من 16 حرفاً (مثال: XXXX-XXXX-XXXX-XXXX). يمكنك الحصول عليه من إدارة المنصة.', keywords:['كود','كرت شحن','وين الكود'] },
+{ q:'الكرت لا يعمل؟', a:'تأكد من كتابة الكود بشكل صحيح (16 حرف). إذا استمرت المشكلة تواصل معنا فوراً عبر الواتساب.', keywords:['كرت لا يعمل','خطأ في الكرت','كود خطأ'] },
+{ q:'كيف أسحب رصيدي؟', a:'اذهب إلى "محفظتي" ← "سحب الرصيد"، واختر الطريقة (شام كاش، الهرم، الخ). الحد الأدنى للسحب 1000 ل.س.', keywords:['سحب','أسحب رصيدي','سحب أرباح'] },
+{ q:'متى يتم تحويل الأرباح؟', a:'تتم مراجعة طلبات السحب يومياً. يتم التحويل خلال 24 إلى 48 ساعة كحد أقصى.', keywords:['متى التحويل','وقت السحب','تحويل الأرباح'] },
+{ q:'كم الحد الأدنى للسحب؟', a:'الحد الأدنى لسحب الرصيد (للطلاب والمعلمين) هو 1000 ليرة سورية.', keywords:['الحد الأدنى','أقل مبلغ للسحب'] },
+{ q:'لماذا لا أستطيع الشحن؟', a:'تأكد من اتصالك بالإنترنت، أو تأكد أن حسابك نشط. إذا كنت طالباً، تواصل مع الدعم.', keywords:['لا أستطيع الشحن','مشكلة في الشحن'] },
+{ q:'هل يوجد شحن مجاني؟', a:'نعم! هناك "حصة اليوم" المجانية في الصفحة الرئيسية، يمكنك الحصول على درس مدفوع مجاناً مرة كل يوم.', keywords:['شحن مجاني','رصيد مجاني','حصه مجانية'] },
+{ q:'كم رصيدي؟', a:'اسألني "رصيدي" وسأخبرك برصيدك الحالي فوراً.', keywords:['رصيدي','كم رصيد','فلوسي'] },
+{ q:'طريقة الدفع شام كاش؟', a:'نعم، ندعم شام كاش، الهرم، سيرياتيل كاش، وMTN كاش. اختر طريقتك في نافذة "شحن سريع".', keywords:['شام كاش','الهرم','سيرياتيل','mtn'] },
+{ q:'هل المحفظة آمنة؟', a:'نعم، جميع عمليات الشحن والدفع محمية ومشفرة، ولا يتم حفظ بياناتك.', keywords:['أمان','حماية','هل هي آمنة'] },
+{ q:'ما هو كرت الشحن؟', a:'هو كود رقمي بقيمة مالية (مثلاً 5000 ل.س)، عندما تدخله في المحفظة يضاف المبلغ لرصيدك.', keywords:['كرت شحن','ما هو الكرت'] },
+{ q:'الرصيد لا يظهر؟', a:'جرب إغلاق التطبيق وفتحه (تحديث الصفحة). إذا استمرت المشكلة، تواصل مع الدعم.', keywords:['الرصيد لا يظهر','مشكلة في الرصيد'] },
+{ q:'هل هناك رسوم على الشحن؟', a:'لا، الشحن مجاني تماماً. تدفع فقط قيمة المبلغ الذي تريد شحنه.', keywords:['رسوم','عمولة شحن'] },
+// ========== 2. الدروس والدورات ==========
+{ q:'كيف أشتري درساً؟', a:'افتح الدرس، إذا كان مدفوعاً اضغط "🛒 اشترِ"، وسيتم خصم المبلغ من رصيدك ويفتح لك مباشرة.', keywords:['شراء','أشتري درس','كيف اشتري'] },
+{ q:'كيف أشاهد الدروس؟', a:'اذهب للصفحة الرئيسية، اختر "دورات صفي"، ثم اختر الدورة، ثم اضغط على الدرس المشترى.', keywords:['مشاهدة','أشاهد الدروس','فيديو'] },
+{ q:'ماذا لو انقطع الإنترنت أثناء الدرس؟', a:'عند عودتك للدرس، سيتذكر النظام اللحظة التي توقفت عندها، ويمكنك إكمال الفيديو من نفس المكان.', keywords:['انقطع النت','توقف الفيديو'] },
+{ q:'هل الدروس مسجلة أم مباشرة؟', a:'جميع الدروس مسجلة بجودة عالية، يمكنك مشاهدتها في أي وقت تريد.', keywords:['مسجلة','مباشر','بث'] },
+{ q:'كيف أبحث عن درس معين؟', a:'استخدم أيقونة البحث (🔍) في الأعلى، واكتب اسم الدرس أو اسم المعلم.', keywords:['بحث','أبحث','وين الدرس'] },
+{ q:'لماذا الدرس لا يفتح؟', a:'تأكد أنك قمت بشراء الدرس أولاً، أو أن رصيدك كافٍ. إذا كنت شاهدته سابقاً، جرب تحديث الصفحة.', keywords:['لا يفتح','الدرس مقفل','مشكلة في الفتح'] },
+{ q:'هل يمكنني تحميل الدروس؟', a:'حالياً الدروس مخصصة للمشاهدة أونلاين فقط لحماية حقوق المعلمين، لا يمكن تحميلها.', keywords:['تحميل','حفظ الفيديو','أوفلاين'] },
+{ q:'هل الدروس مطابقة للمنهاج؟', a:'نعم، دوراتنا مخصصة لطلاب المنهاج السوري (بكالوريا علمي، أدبي، وتاسع).', keywords:['منهاج','وزاري','مطابق'] },
+{ q:'كيف أتواصل مع المعلم؟', a:'في صفحة الدرس، اضغط "اسأل المعلم"، أو اذهب إلى صفحة "الرسائل" لبدء محادثة معه.', keywords:['تواصل مع المعلم','أسأل المعلم','شات'] },
+{ q:'كيف أفتح قائمة دروسي؟', a:'من القائمة السفلية، اضغط على "دروسي" لتظهر لك كل الدروس التي اشتريتها.', keywords:['دروسي','قائمة الدروس','مشترياتي'] },
+{ q:'ما هو الكوبون؟', a:'هو كود (مثل CPN-ABCD) يمنحك خصماً بنسبة معينة عند الشراء. أدخله في نافذة الدفع.', keywords:['كوبون','كود خصم','كيف أستخدم الكوبون'] },
+// ========== 3. الامتحانات وبنك الأسئلة ==========
+{ q:'كيف أبدأ امتحاناً؟', a:'من الصفحة الرئيسية، اضغط "الامتحانات التجريبية"، واختر المادة التي تريد اختبار نفسك فيها.', keywords:['امتحان','أبدأ امتحان','اختبار'] },
+{ q:'كم مدة الامتحان؟', a:'الامتحان السريع يعطيك 90 ثانية لكل سؤال. الامتحان الوزاري الكامل يعطيك ساعتين.', keywords:['مدة','وقت الامتحان','كم دقيقة'] },
+{ q:'ما هو الامتحان الوزاري؟', a:'هو امتحان محاكي لامتحان الوزارة، يجمع الأسئلة الوزارية السابقة، ولا يسمح بتغيير الإجابة بعد اختيارها.', keywords:['وزاري','امتحان الوزارة','محاكي'] },
+{ q:'كيف أعرف نتيجتي؟', a:'بمجرد ضغطك على "إنهاء الامتحان"، ستظهر نتيجتك فوراً مع نسبة مئوية ومراجعة لكل سؤال.', keywords:['نتيجة','الدرجة','كم جبت'] },
+{ q:'كيف أرى شرح الأسئلة التي أخطأت بها؟', a:'في صفحة النتيجة، ستجد مراجعة لكل سؤال، مع إظهار الإجابة الصحيحة وشرح المعلم تحتها.', keywords:['شرح','إجابة صحيحة','الأخطاء'] },
+{ q:'هل النتائج ترسل للأهل؟', a:'يمكنك أنت مشاركة النتيجة مع أهلك عبر زر الواتساب (📤) الموجود في صفحة النتيجة.', keywords:['أهل','مشاركة النتيجة','واتساب'] },
+{ q:'هل أحصل على نقاط من الامتحانات؟', a:'نعم، تحصل على نقطتين لكل إجابة صحيحة، مما يزيد من نقاطك في لوحة المتصدرين.', keywords:['نقاط','متصدرين','امتحان نقاط'] },
+{ q:'كيف أرى نتائجي السابقة؟', a:'في صفحة "الامتحانات"، أسفل القائمة، ستجد "نتائجي السابقة" مع النسب المئوية.', keywords:['نتائج سابقة','سجل الامتحانات','تاريخي'] },
+// ========== 4. الشهادات والشارات ==========
+{ q:'كيف أحصل على شهادة؟', a:'يجب أن تشتري وتكمل جميع دروس "دورة معينة"، وعندها ستظهر لك الشهادة تلقائياً في صفحة "شهاداتي".', keywords:['شهادة','كيف أحصل على شهادة','إتمام'] },
+{ q:'هل الشهادة معتمدة؟', a:'الشهادة هي شهادة إتمام من أكاديمية النبراس، وتثبت أنك أكملت محتوى الدورة بالكامل.', keywords:['معتمدة','رسمية','تثبت'] },
+{ q:'كيف أطبع الشهادة؟', a:'افتح الشهادة، واضغط على زر "🖨️ طباعة" في الأسفل، أو احفظها كصورة من هاتفك.', keywords:['طباعة','طبع الشهادة','بي دي إف'] },
+{ q:'لماذا لم تظهر الشهادة؟', a:'تأكد أنك اشتريت جميع دروس الدورة. الشهادة لا تظهر إلا عند اكتمال 100% من الدروس.', keywords:['لم تظهر الشهادة','مشكلة في الشهادة'] },
+{ q:'ما هي الشارات (Badges)؟', a:'هي أوسمة تحصل عليها عند تحقيق إنجازات (مثل أول شراء، أو إكمال 5 دروس)، تجدها في صفحة "شاراتي".', keywords:['شارات','أوسمة','إنجازات'] },
+// ========== 5. الحساب والتسجيل ==========
+{ q:'كيف أسجل حساباً جديداً؟', a:'اضغط على "حساب جديد"، واتبع الخطوات (الاسم، المستخدم، كلمة المرور، الصف).', keywords:['تسجيل','حساب جديد','إنشاء حساب'] },
+{ q:'نسيت كلمة المرور؟', a:'حالياً، تواصل مع الدعم عبر الواتساب لتتم إعادة تعيين كلمة المرور لك.', keywords:['نسيت كلمة المرور','استعادة الحساب','باسورد'] },
+{ q:'كيف أغيّر كلمة المرور؟', a:'اذهب إلى "ملفي" (Profile) ← "تغيير كلمة المرور"، وأدخل الكلمة القديمة والجديدة.', keywords:['تغيير كلمة المرور','باسورد جديد','تعديل'] },
+{ q:'لماذا لم يتم تفعيل حسابي؟', a:'حسابات المعلمين تحتاج موافقة الإدارة. حسابات الطلاب تُفعل تلقائياً. إذا كنت معلماً انتظر التفعيل.', keywords:['تفعيل','حساب معلم','قيد المراجعة'] },
+{ q:'كيف أصبح معلماً؟', a:'سجل حساباً جديداً واختر "معلم" في الخطوة الثانية، ثم انتظر مراجعة الإدارة وتفعيل حسابك.', keywords:['أصبح معلم','تسجيل معلم','معلم جديد'] },
+{ q:'كيف أغير اسمي؟', a:'اذهب إلى "ملفي" وعدل حقل الاسم ثم اضغط حفظ.', keywords:['تغيير الاسم','تعديل الاسم'] },
+// ========== 6. المعلمون ==========
+{ q:'كيف أضيف دورة جديدة (للمعلم)؟', a:'من لوحة المعلم، اضغط "دوراتي" ← "+" واملأ بيانات الدورة (العنوان، الصف، الوصف).', keywords:['إضافة دورة','معلم دورة','أضيف دورة'] },
+{ q:'كيف أضيف درساً (للمعلم)؟', a:'من لوحة المعلم، اضغط "دروسي" ← "+"، واختر الدورة، وأدخل عنوان الدرس ورابط يوتيوب.', keywords:['إضافة درس','أضيف فيديو','درس جديد'] },
+{ q:'كيف أربح من المنصة؟', a:'عند شراء الطلاب لدروسك، يتم احتساب عمولتك (مثلاً 70%) من قيمة الدرس، وتضاف لأرباحك.', keywords:['أرباح المعلم','عمولة','ربح'] },
+{ q:'كيف أسحب أرباحي؟', a:'من لوحة المعلم، اضغط "سحب الأرباح" ← "+"، وحدد المبلغ وطريقة الدفع.', keywords:['سحب أرباح المعلم','تحويل أرباح'] },
+{ q:'كيف أرى طلابي؟', a:'من لوحة المعلم، اضغط "طلابي" لتظهر قائمة بكل من اشترى دروساً منك وإحصائياتهم.', keywords:['طلاب المعلم','من اشترى'] },
+// ========== 7. الدعم والمشاكل التقنية ==========
+{ q:'كيف أتواصل مع الدعم؟', a:`يمكنك التواصل معنا مباشرة عبر الواتساب على الرقم: ${CONTACT_PHONE_DISPLAY}`, keywords:['دعم','تواصل','مساعدة','رقم الدعم'] },
+{ q:'التطبيق لا يعمل؟', a:'جرب تحديث الصفحة (F5)، أو امسح الكاش من إعدادات المتصفح، أو جرب متصفحاً آخر (Chrome).', keywords:['لا يعمل','تطبيق معطل','مشكلة تقنية'] },
+{ q:'هل يوجد تطبيق للهاتف؟', a:'حالياً المنصة تعمل كموقع ويب متجاوب (PWA). يمكنك إضافتها للشاشة الرئيسية من خيارات المتصفح.', keywords:['تطبيق هاتف','تحميل تطبيق','apk'] },
+{ q:'كيف أرى الإشعارات؟', a:'اضغط على أيقونة الجرس (🔔) في الشريط العلوي لرؤية جميع إشعاراتك.', keywords:['إشعارات','جرس','تنبيهات'] }
 ];
 
 const st = {
@@ -1202,6 +1269,7 @@ debouncedRefresh();
 let _refreshTimer;
 function debouncedRefresh(){ clearTimeout(_refreshTimer); _refreshTimer = setTimeout(refreshCurrent, 250); }
 function refreshCurrent(){
+if (examState && examState.answers) return; // حماية الامتحان من التحديث التلقائي
 const a = document.querySelector('.page.active');
 if(!a) return;
 go(a.id.replace('page-',''), true);
@@ -1211,6 +1279,7 @@ try{
 if(st.curLesson && window.ytPlayer && document.querySelector('.page.active')?.id === 'page-studentWatch' && name !== 'studentWatch'){
 saveNow(); destroyPlayer();
 }
+if (name !== 'studentExam') examState = null; // إلغاء حالة الامتحان عند الخروج
 $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-'+name));
 $$('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
 if(!silent) window.scrollTo({top:0, behavior:'smooth'});
@@ -1285,7 +1354,6 @@ const b = $('#pendingWithdrawalsBadge');
 if(b){ if(n>0){b.textContent=n;b.style.display='block';}else b.style.display='none'; }
 }
 
-// ============ ADMIN HOME ============
 function renderAdminHome(){
 const ss = st.users.filter(u => u.role === 'student').length;
 const tt = st.users.filter(u => u.role === 'teacher').length;
@@ -1302,7 +1370,6 @@ const pu = $('#pendingUsersBadge'); if(pu){ if(pend>0){pu.textContent=pend;pu.st
 updateWdBadge();
 }
 
-// ============ ADMIN ANALYTICS ============
 function renderAdminAnalytics(){
 const purchases = st.purchases || [];
 const totalRevenue = purchases.reduce((s,p) => s + (p.price||0), 0);
@@ -1347,10 +1414,8 @@ $('#anLevelsDist').innerHTML = Object.entries(LEVELS).map(([k,v]) => {
 const pct = Math.round((levelCounts[k]/totalStudents)*100);
 return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:6px"><span>${v.icon} ${v.name}</span><span style="color:${v.color}">${levelCounts[k]} (${pct}%)</span></div><div class="progress"><div class="progress-bar" style="width:${pct}%;background:${v.color}"></div></div></div>`;
 }).join('');
-$('#anTopStudents').innerHTML = '<div class="empty" style="padding:20px">لا بيانات كافية</div>';
 }
 
-// ============ COUPONS ============
 function renderCoupons(){
 const l = $('#couponsList');
 if(!st.coupons || !st.coupons.length){
@@ -1374,29 +1439,19 @@ l.appendChild(el);
 }
 function openCouponM(){
 const code = 'CPN-' + Math.random().toString(36).slice(2,8).toUpperCase();
-openM('🎟️ كوبون جديد', `
-<div class="form-group"><label class="form-label">الكود</label><input class="form-input" id="cpCode" value="${code}" dir="ltr" style="text-align:left;font-family:monospace"></div>
-<div class="form-group"><label class="form-label">النوع</label><select class="form-select" id="cpType"><option value="percent">📊 %</option><option value="fixed">💰 ثابت</option></select></div>
-<div class="form-group"><label class="form-label">القيمة</label><input type="number" class="form-input" id="cpValue" min="1"></div>
-<div class="form-group"><label class="form-label">الحد الأقصى</label><input type="number" class="form-input" id="cpMaxUses" min="1"></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-purple" id="cpOk">إنشاء</button></div>`);
+openM('🎟️ كوبون جديد', `<div class="form-group"><label class="form-label">الكود</label><input class="form-input" id="cpCode" value="${code}" dir="ltr" style="text-align:left;font-family:monospace"></div><div class="form-group"><label class="form-label">النوع</label><select class="form-select" id="cpType"><option value="percent">📊 %</option><option value="fixed">💰 ثابت</option></select></div><div class="form-group"><label class="form-label">القيمة</label><input type="number" class="form-input" id="cpValue" min="1"></div><div class="form-group"><label class="form-label">الحد الأقصى</label><input type="number" class="form-input" id="cpMaxUses" min="1"></div><div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-purple" id="cpOk">إنشاء</button></div>`);
 $('#cpOk').onclick = async () => {
 const c = $('#cpCode').value.trim().toUpperCase();
 const v = parseInt($('#cpValue').value, 10);
 if(!c || !v || v < 1){ toast('أكمل','error'); return; }
 try{
-await addDoc(collection(db,'coupons'), {
-code: c, type: $('#cpType').value, value: v,
-maxUses: parseInt($('#cpMaxUses').value)||0, usedCount: 0, status: 'active',
-createdBy: st.me.id, createdAt: serverTimestamp()
-});
+await addDoc(collection(db,'coupons'), { code: c, type: $('#cpType').value, value: v, maxUses: parseInt($('#cpMaxUses').value)||0, usedCount: 0, status: 'active', createdBy: st.me.id, createdAt: serverTimestamp() });
 await logAudit('create','coupon',`كوبون ${c}`);
 closeM(); toast('✓','success');
 }catch(e){ toast('فشل','error'); }
 };
 }
 
-// ============ QUESTIONS BANK ============
 function renderAdminQuestions(){
 const q = ($('#questionSearch')?.value || '').toLowerCase();
 const f = document.querySelector('#questionFilters .filter-chip.active')?.dataset.qf || 'all';
@@ -1454,17 +1509,11 @@ const parts = parseCSVLine(line);
 if(parts.length < 8){ fail++; continue; }
 const [subject, level, text, o1, o2, o3, o4, correctIdx, diff, expl, year, source] = parts;
 await addDoc(collection(db,'questions'), {
-subject: (subject||'عام').trim(),
-level: level.trim(),
-text: text.trim(),
-options: [o1,o2,o3,o4].map(o => (o||'').trim()),
-correctIndex: parseInt(correctIdx)||0,
-difficulty: parseInt(diff)||3,
-explanation: (expl||'').trim(),
-year: year ? parseInt(year) : null,
-source: (source||'').trim() || 'خاص',
-teacherId: st.me.id,
-createdAt: serverTimestamp()
+subject: (subject||'عام').trim(), level: level.trim(), text: text.trim(),
+options: [o1,o2,o3,o4].map(o => (o||'').trim()), correctIndex: parseInt(correctIdx)||0,
+difficulty: parseInt(diff)||3, explanation: (expl||'').trim(),
+year: year ? parseInt(year) : null, source: (source||'').trim() || 'خاص',
+teacherId: st.me.id, createdAt: serverTimestamp()
 });
 ok++;
 }catch(e){ fail++; }
@@ -1486,7 +1535,6 @@ out.push(cur);
 return out;
 }
 
-// ============ HARDEST QUESTIONS ============
 function renderHardest(){
 const l = $('#hardestList');
 const allExams = st.exams || [];
@@ -1504,23 +1552,12 @@ stats[q.id].total++;
 if(userAns !== q.correctIndex) stats[q.id].wrong++;
 });
 });
-const sorted = Object.entries(stats)
-.map(([id, s]) => ({ id, ...s, wrongPct: Math.round((s.wrong/s.total)*100) }))
-.filter(x => x.total >= 3)
-.sort((a,b) => b.wrongPct - a.wrongPct)
-.slice(0, 20);
+const sorted = Object.entries(stats).map(([id, s]) => ({ id, ...s, wrongPct: Math.round((s.wrong/s.total)*100) })).filter(x => x.total >= 3).sort((a,b) => b.wrongPct - a.wrongPct).slice(0, 20);
 if(!sorted.length){
 l.innerHTML = '<div class="empty"><div class="empty-title">تحتاج 3 محاولات على الأقل لكل سؤال</div></div>';
 return;
 }
-l.innerHTML = `
-<div class="card" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;border:none;padding:24px;text-align:center;margin-bottom:18px">
-<div style="font-size:44px;margin-bottom:8px">🔥</div>
-<div style="font-size:18px;font-weight:900">أصعب ${sorted.length} سؤال</div>
-<div style="opacity:.92;margin-top:6px;font-weight:700;font-size:13px">بناءً على نتائج الطلاب</div>
-</div>
-${sorted.map((q, i) => `<div class="card" style="padding:16px;margin-bottom:12px;border-right:4px solid #dc2626"><div style="display:flex;justify-content:space-between;margin-bottom:10px;align-items:center"><div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px">#${i+1}</div><div style="text-align:left"><div style="font-size:13px;color:#dc2626;font-weight:900">${q.wrongPct}% يخطئون</div><div style="font-size:11px;color:var(--text-3);font-weight:700">${q.wrong} / ${q.total}</div></div></div><div style="font-size:14px;font-weight:800;line-height:1.7">${esc(q.text)}</div></div>`).join('')}
-`;
+l.innerHTML = `<div class="card" style="background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;border:none;padding:24px;text-align:center;margin-bottom:18px"><div style="font-size:44px;margin-bottom:8px">🔥</div><div style="font-size:18px;font-weight:900">أصعب ${sorted.length} سؤال</div></div>${sorted.map((q, i) => `<div class="card" style="padding:16px;margin-bottom:12px;border-right:4px solid #dc2626"><div style="display:flex;justify-content:space-between;margin-bottom:10px;align-items:center"><div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px">#${i+1}</div><div style="text-align:left"><div style="font-size:13px;color:#dc2626;font-weight:900">${q.wrongPct}% يخطئون</div><div style="font-size:11px;color:var(--text-3);font-weight:700">${q.wrong} / ${q.total}</div></div></div><div style="font-size:14px;font-weight:800;line-height:1.7">${esc(q.text)}</div></div>`).join('')}`;
 }
 
 // ============ EXAMS ============
@@ -1707,6 +1744,7 @@ const isCorrect = userAns === q.correctIndex;
 review.innerHTML += `<div class="card" style="padding:16px;margin-bottom:10px;border-right:4px solid ${isCorrect?'#10b981':'#dc2626'}"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;color:var(--text-3);font-weight:800">سؤال ${i+1}</div><div style="font-size:14px;font-weight:900;color:${isCorrect?'#10b981':'#dc2626'}">${isCorrect?'✓':userAns===undefined?'⊘':'✗'}</div></div><div style="font-size:14px;font-weight:800;line-height:1.7;margin-bottom:10px">${esc(q.text)}</div><div style="font-size:13px;color:var(--text-2);margin-bottom:6px"><strong>الصحيح:</strong> ${esc(q.options[q.correctIndex])}</div>${!isCorrect && userAns !== undefined ? `<div style="font-size:13px;color:var(--danger)"><strong>إجابتك:</strong> ${esc(q.options[userAns])}</div>` : ''}${q.explanation ? `<div style="font-size:12.5px;background:var(--bg-2);padding:10px;border-radius:10px;margin-top:8px;line-height:1.7">💡 ${esc(q.explanation)}</div>` : ''}</div>`;
 });
 window.scrollTo({top:0, behavior:'smooth'});
+examState = null; // مسح الحالة بعد العرض
 }
 window.shareWithParent = function(examId){
 const e = (st.exams||[]).find(x => x.id === examId);
@@ -1746,13 +1784,7 @@ function openCourseM(c){
 const isNew = !c;
 c = c || { id:'', title:'', level:'9', teacherId: st.me.role === 'teacher' ? st.me.id : '', description:'', free:false };
 const teachers = st.users.filter(u => u.role === 'teacher' && u.active);
-openM(isNew ? 'دورة جديدة' : 'تعديل', `
-<div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="cT" value="${esc(c.title)}"></div>
-<div class="form-group"><label class="form-label">الصف</label><select class="form-select" id="cLvl">${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${getCourseLevel(c)===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select></div>
-${st.me.role === 'admin' ? `<div class="form-group"><label class="form-label">المعلم</label><select class="form-select" id="cTe"><option value="">— اختر —</option>${teachers.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>` : ''}
-<div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description||'')}</textarea></div>
-<label style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg-2);border-radius:14px;cursor:pointer;margin-bottom:16px"><input type="checkbox" id="cFree" ${c.free?'checked':''} style="width:22px;height:22px"><span style="font-size:14px;font-weight:800">مجانية</span></label>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="cOk">حفظ</button></div>`);
+openM(isNew ? 'دورة جديدة' : 'تعديل', `<div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="cT" value="${esc(c.title)}"></div><div class="form-group"><label class="form-label">الصف</label><select class="form-select" id="cLvl">${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${getCourseLevel(c)===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select></div>${st.me.role === 'admin' ? `<div class="form-group"><label class="form-label">المعلم</label><select class="form-select" id="cTe"><option value="">— اختر —</option>${teachers.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>` : ''}<div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description||'')}</textarea></div><label style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg-2);border-radius:14px;cursor:pointer;margin-bottom:16px"><input type="checkbox" id="cFree" ${c.free?'checked':''} style="width:22px;height:22px"><span style="font-size:14px;font-weight:800">مجانية</span></label><div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="cOk">حفظ</button></div>`);
 $('#cOk').onclick = async () => {
 const t = $('#cT').value.trim();
 if(!t){ toast('أدخل العنوان','error'); return; }
@@ -1761,8 +1793,7 @@ if(st.me.role === 'admin' && !teacherId){ toast('اختر المعلم','error')
 const btn = $('#cOk'); btn.disabled = true;
 try{
 const d = { title:t, level:$('#cLvl').value, teacherId, description:$('#cD').value.trim(), free:$('#cFree').checked };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'courses'), d); }
-else await updateDoc(doc(db,'courses',c.id), d);
+if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'courses'), d); } else await updateDoc(doc(db,'courses',c.id), d);
 closeM(); toast('✓','success');
 }catch(e){ toast('فشل','error'); btn.disabled = false; }
 };
@@ -1790,13 +1821,7 @@ const availableCourses = st.me.role === 'teacher' ? st.courses.filter(c => c.tea
 if(!availableCourses.length){ toast('أضف دورة أولاً','error'); return; }
 l = l || { id:'', courseId: preselectedCourseId || availableCourses[0].id, title:'', youtubeId:'', price:0, description:'' };
 if(!availableCourses.find(c => c.id === l.courseId)) l.courseId = availableCourses[0].id;
-openM(isNew ? 'درس جديد' : 'تعديل', `
-<div class="form-group"><label class="form-label">الدورة</label><select class="form-select" id="lC">${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${esc(c.title)}</option>`).join('')}</select></div>
-<div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="lT" value="${esc(l.title)}"></div>
-<div class="form-group"><label class="form-label">رابط يوتيوب</label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" dir="ltr" style="text-align:left"></div>
-<div class="form-group"><label class="form-label">السعر (0=مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price||0}" min="0"></div>
-<div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="lD">${esc(l.description||'')}</textarea></div>
-<div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="lOk">حفظ</button></div>`);
+openM(isNew ? 'درس جديد' : 'تعديل', `<div class="form-group"><label class="form-label">الدورة</label><select class="form-select" id="lC">${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${esc(c.title)}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="lT" value="${esc(l.title)}"></div><div class="form-group"><label class="form-label">رابط يوتيوب</label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" dir="ltr" style="text-align:left"></div><div class="form-group"><label class="form-label">السعر (0=مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price||0}" min="0"></div><div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="lD">${esc(l.description||'')}</textarea></div><div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="lOk">حفظ</button></div>`);
 $('#lOk').onclick = async () => {
 const t = $('#lT').value.trim(), y = $('#lY').value.trim();
 if(!t || !y){ toast('أكمل','error'); return; }
@@ -1806,8 +1831,7 @@ const btn = $('#lOk'); btn.disabled = true;
 try{
 const co = st.courses.find(c => c.id === $('#lC').value);
 const d = { title:t, courseId:$('#lC').value, youtubeId:yt, price:parseInt($('#lP').value,10)||0, description:$('#lD').value.trim(), teacherId:co?.teacherId || st.me.id };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'lessons'), d); }
-else await updateDoc(doc(db,'lessons',l.id), d);
+if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'lessons'), d); } else await updateDoc(doc(db,'lessons',l.id), d);
 closeM(); toast('✓','success');
 }catch(e){ toast('فشل','error'); btn.disabled = false; }
 };
@@ -1894,7 +1918,6 @@ if(prompt('اكتب "حذف":') !== 'حذف') return;
 try{ await deleteDoc(doc(db,'users',id)); toast('تم'); }catch(e){ toast('فشل','error'); }
 }
 
-// ============ CARDS/WITHDRAWALS/TRANSACTIONS/PARTNERS/AFFILIATES ============
 function renderCards(){
 const stats = {
 available: st.cards.filter(c => c.status === 'available').length,
@@ -2019,8 +2042,7 @@ const name = $('#ptName').value.trim(), code = $('#ptCode').value.trim().toUpper
 if(!name || !code){ toast('أكمل','error'); return; }
 try{
 const d = { name, code, discount: parseInt($('#ptDiscount').value)||30, phone:$('#ptPhone').value.trim(), status:'active' };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'partners'), d); }
-else await updateDoc(doc(db,'partners', p.id), d);
+if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'partners'), d); } else await updateDoc(doc(db,'partners', p.id), d);
 closeM(); toast('✓','success');
 }catch(e){ toast('فشل','error'); }
 };
@@ -2057,14 +2079,12 @@ const name = $('#afName').value.trim(), code = $('#afCode').value.trim().toUpper
 if(!name || !code){ toast('أكمل','error'); return; }
 try{
 const d = { name, code, baseRate: parseInt($('#afRate').value)||15, phone:$('#afPhone').value.trim(), status:'active', balance: af.balance||0, totalEarned: af.totalEarned||0 };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'affiliates'), d); }
-else await updateDoc(doc(db,'affiliates', af.id), d);
+if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'affiliates'), d); } else await updateDoc(doc(db,'affiliates', af.id), d);
 closeM(); toast('✓','success');
 }catch(e){ toast('فشل','error'); }
 };
 }
 
-// ============ BROADCAST/AUDIT/BULK/BACKUP ============
 async function sendBroadcast(){
 const target = $('#bcTarget').value, type = $('#bcType').value;
 const title = $('#bcTitle').value.trim(), body = $('#bcBody').value.trim();
@@ -2130,8 +2150,7 @@ toast('⏳...','info');
 const collections = ['users','courses','lessons','purchases','transactions','withdrawals','cards','partners','affiliates','notes','faq','coupons','notifications','questions','exams'];
 const backup = { exportedAt: new Date().toISOString(), data: {} };
 for(const col of collections){
-try{ const snap = await getDocs(collection(db, col)); backup.data[col] = snap.docs.map(d => ({ id: d.id, ...d.data() })); }
-catch(e){ backup.data[col] = []; }
+try{ const snap = await getDocs(collection(db, col)); backup.data[col] = snap.docs.map(d => ({ id: d.id, ...d.data() })); } catch(e){ backup.data[col] = []; }
 }
 const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
 const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
@@ -2169,7 +2188,6 @@ for(const v of toDelete){ try{ await deleteDoc(doc(db,'visits',v.id)); }catch(e)
 toast(`✓ ${toDelete.length}`,'success');
 }
 
-// ============ TEACHER FUNCTIONS ============
 function renderTeacherHome(){
 const me = st.me;
 const mc = st.courses.filter(c => c.teacherId === me.id);
@@ -2288,15 +2306,11 @@ const a = parseInt($('#wdA').value, 10), m = $('#wdM2').value, ac = $('#wdAc').v
 if(!a || a < minW || a > available){ toast('مبلغ خطأ','error'); return; }
 if(!m || !ac){ toast('أكمل','error'); return; }
 const btn = $('#wdOk'); btn.disabled = true;
-try{
-const fn = httpsCallable(functions, 'requestWithdrawal');
-await fn({ amount: a, method: m, account: ac });
-closeM(); toast('✓','success');
-}catch(e){ toast(e.message || 'فشل','error'); btn.disabled = false; }
+try{ const fn = httpsCallable(functions, 'requestWithdrawal'); await fn({ amount: a, method: m, account: ac }); closeM(); toast('✓','success'); }
+catch(e){ toast(e.message || 'فشل','error'); btn.disabled = false; }
 };
 }
 
-// ============ STUDENT HOME ============
 function renderStudentHome(){
 const me = st.me;
 const mp = st.purchases.filter(p => p.userId === me.id);
@@ -2553,7 +2567,6 @@ con.appendChild(el);
 });
 }
 
-// ============ VIDEO ============
 let ytPlayer = null, trackingInterval = null, currentLessonId = null, lastSavedSecond = 0;
 window.onYouTubeIframeAPIReady = function(){};
 function createPlayer(videoId, startSeconds = 0, lessonId = null){
@@ -2650,7 +2663,6 @@ setTimeout(() => openLesson(lesson.id), 300);
 };
 }
 
-// ============ WALLET / WITHDRAWAL / PURCHASES / NOTES / BADGES / CERTS ============
 function renderWallet(){
 $('#walletBalance').textContent = fm(st.me.balance);
 const arr = st.transactions.filter(t => t.userId === st.me.id).sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
@@ -2745,7 +2757,6 @@ const today = new Intl.DateTimeFormat('ar-EG',{day:'numeric',month:'long',year:'
 openM('📜 شهادة', `<div class="cert-frame"><div class="cert-seal">🏆</div><div class="cert-title">شهادة إتمام</div><div class="cert-sub">CERTIFICATE</div><div class="cert-divider"></div><div class="cert-label">تشهد بأن</div><div class="cert-name">${esc(st.me.name)}</div><div class="cert-label">قد أكمل</div><div class="cert-course">${esc(d.course.title)}</div><div class="cert-code">${certId}</div><div style="font-size:11px;color:#78350f;margin-top:8px;font-weight:800">📅 ${today}</div></div><div style="display:flex;gap:12px;margin-top:18px"><button class="btn btn-ghost" onclick="closeM()">إغلاق</button><button class="btn btn-gold" onclick="window.print()">🖨️</button></div>`);
 }
 
-// ============ CHAT ============
 function getChatBetween(u1,u2){ return st.chats.find(c => (c.user1===u1&&c.user2===u2)||(c.user1===u2&&c.user2===u1)); }
 async function getOrCreateChat(u1,u2){
 let c = getChatBetween(u1,u2);
@@ -2842,7 +2853,6 @@ const bg = {success:'linear-gradient(135deg,var(--emerald-3),var(--emerald-4))',
 l.innerHTML = arr.map(n => `<div class="card"><div style="display:flex;gap:14px"><div style="width:48px;height:48px;border-radius:14px;background:${bg[n.type]||bg.info};color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${ic[n.type]||'ℹ️'}</div><div style="flex:1"><div style="font-size:15px;font-weight:900">${esc(n.title)}</div><div style="font-size:13.5px;color:var(--text-2);margin-top:6px;line-height:1.7;white-space:pre-wrap;font-weight:600">${esc(n.body)}</div><div style="font-size:12px;color:var(--text-3);margin-top:8px">${fdt(n.date)}</div></div></div></div>`).join('');
 }
 
-// ============ PROFILE ============
 function renderProfile(){
 const u = st.me;
 const badgeCount = (u.badges||[]).length;
@@ -2857,7 +2867,6 @@ $('#changePassBtn').onclick = changePassword;
 $('#logoutFromProfile').onclick = logout;
 }
 
-// ============ RECHARGE MODAL ============
 window.openRechargeModal = function(){
 if(!st.me){ toast('سجّل أولاً','error'); return; }
 const amounts = [5000, 10000, 25000, 50000];
@@ -2894,27 +2903,9 @@ const username = st.me.username || '';
 const userId = st.me.id || '';
 const balance = fm(st.me.balance || 0);
 const levelName = st.me.level ? getLevelInfo(st.me.level).name : '';
-return `🎓 *طلب شحن محفظة — النبراس*
-
-👤 *الاسم:* ${name}
-🆔 *المستخدم:* @${username}
-🎓 *الصف:* ${levelName || '—'}
-💰 *الرصيد الحالي:* ${balance} ل.س
-🔑 *المعرف:* ${userId.slice(0, 12)}...
-
-━━━━━━━━━━━━━━
-
-💵 *المبلغ:* ${amount.toLocaleString('ar-EG')} ل.س
-💳 *طريقة الدفع:* ${method}
-
-━━━━━━━━━━━━━━
-
-📸 سأرسل صورة إشعار التحويل بعد الاتفاق.
-
-جزيل الشكر 🌹`;
+return `🎓 *طلب شحن محفظة — النبراس*\n\n👤 *الاسم:* ${name}\n🆔 *المستخدم:* @${username}\n🎓 *الصف:* ${levelName || '—'}\n💰 *الرصيد الحالي:* ${balance} ل.س\n🔑 *المعرف:* ${userId.slice(0, 12)}...\n\n━━━━━━━━━━━━━━\n\n💵 *المبلغ:* ${amount.toLocaleString('ar-EG')} ل.س\n💳 *طريقة الدفع:* ${method}\n\n━━━━━━━━━━━━━━\n\n📸 سأرسل صورة إشعار التحويل بعد الاتفاق.\n\nجزيل الشكر 🌹`;
 }
 
-// ============ AI ============
 function renderAIMessages(){
 const c = $('#aiMessages');
 if(!st.aiChat.length){
@@ -2988,7 +2979,6 @@ st.aiWaitingForReply = false;
 }, 400 + Math.random() * 400);
 }
 
-// ============ MODAL & THEME ============
 function openM(t,h){ $('#modalTitle').textContent = t; $('#modalBody').innerHTML = h; $('#modal').classList.add('open'); }
 window.closeM = () => $('#modal').classList.remove('open');
 function applyTheme(){
@@ -2999,7 +2989,6 @@ b.innerHTML = st.theme === 'dark' ? '<svg viewBox="0 0 24 24" fill="none" stroke
 }
 }
 
-// ============ BIND ============
 function bind(){
 $$('.auth-tab').forEach(t => t.onclick = () => {
 $$('.auth-tab').forEach(x => x.classList.toggle('active', x === t));
@@ -3122,6 +3111,30 @@ else { const a = snap.docs[0].data(); info.style.display='block'; info.style.bac
 }
 }
 
+// ===== PWA Installation =====
+let deferredPrompt;
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(()=>{}); });
+}
+window.addEventListener('beforeinstallprompt', (e) => {
+e.preventDefault();
+deferredPrompt = e;
+const installBtn = document.getElementById('installAppBtn');
+if(installBtn) installBtn.style.display = 'flex';
+});
+window.installPWA = async function() {
+if (!deferredPrompt) { toast('التطبيق مثبت مسبقاً أو متصفحك لا يدعم التثبيت', 'info'); return; }
+deferredPrompt.prompt();
+const { outcome } = await deferredPrompt.userChoice;
+if (outcome === 'accepted') { toast('🎉 تم تثبيت التطبيق بنجاح!', 'success'); }
+deferredPrompt = null;
+};
+window.addEventListener('appinstalled', () => {
+const installBtn = document.getElementById('installAppBtn');
+if(installBtn) installBtn.style.display = 'none';
+toast('شكراً لتثبيت التطبيق!', 'success');
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 st.theme = localStorage.getItem('nb_theme') || 'light';
 if(!localStorage.getItem('nb_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches) st.theme = 'dark';
@@ -3143,5 +3156,4 @@ setTimeout(hideLoading, 2500);
 </script>
 </body>
 </html>
-
   
