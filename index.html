@@ -2,7 +2,6 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<!-- Version 13.3 -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#065f46">
 <title>أكاديمية النبراس</title>
@@ -384,8 +383,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 .contact-banner:hover{transform:translateY(-2px)}
 .exam-option{padding:16px;border-radius:14px;text-align:right;font-size:15px;font-weight:700;transition:all .2s;width:100%}
 .exam-option:disabled{opacity:.6;cursor:not-allowed}
-
-/* Teacher Profile CSS */
 .teacher-card{background:var(--surface);border-radius:20px;padding:16px;margin-bottom:12px;border:1.5px solid var(--border);display:flex;gap:14px;align-items:center;cursor:pointer;transition:all .2s;box-shadow:var(--shadow-xs)}
 .teacher-card:hover{border-color:var(--emerald-3);transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .teacher-avatar{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--emerald),var(--emerald-3));color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:22px;font-weight:900;flex-shrink:0}
@@ -407,11 +404,8 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 .bio-box{background:linear-gradient(135deg,#fefce8,#fef3c7);border:1.5px solid var(--gold-5);border-radius:20px;padding:20px;margin-bottom:16px}
 .bio-title{font-family:var(--font-title);font-size:14px;font-weight:900;color:#78350f;margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .bio-text{font-size:14px;line-height:1.9;color:#78350f;font-weight:600;white-space:pre-wrap}
-
-/* Version Number */
 .version-tag{text-align:center;padding:20px;font-size:11px;color:var(--text-4);font-weight:700}
 .version-tag span{color:var(--emerald-3);font-weight:900}
-
 @media(max-width:420px){.action-grid,.stats-grid{grid-template-columns:1fr}.quick-links{grid-template-columns:repeat(2,1fr)}.badges-grid{grid-template-columns:repeat(2,1fr)}.hero-title{font-size:26px}}
 @media(min-width:768px){.action-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
@@ -425,7 +419,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 <div class="loading-bar"></div>
 </div>
 
-<!-- الدخول والتسجيل -->
 <div class="auth-screen" id="authScreen" style="display:none">
 <div class="auth-card">
 <div class="auth-logo-wrap"><svg viewBox="0 0 100 100"><defs><linearGradient id="authGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient><linearGradient id="shieldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#065f46"/><stop offset="1" stop-color="#10b981"/></linearGradient></defs><path d="M50 6 L88 22 L88 60 Q88 88 50 96 Q12 88 12 60 L12 22 Z" fill="url(#shieldGrad)"/><text x="50" y="62" font-size="40" text-anchor="middle" fill="url(#authGrad)" font-family="serif" font-weight="bold">ن</text></svg></div>
@@ -481,7 +474,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 </div>
 </div>
 
-<!-- التطبيق الأساسي -->
 <div id="appScreen" style="display:none">
 <header class="app-bar"><div class="app-bar-row">
 <div class="app-brand" id="brandBtn"><div class="app-logo"><svg viewBox="0 0 100 100"><defs><linearGradient id="miniGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><text x="50" y="68" font-size="52" text-anchor="middle" fill="url(#miniGrad)" font-family="serif" font-weight="bold">ن</text></svg></div><div class="app-brand-info"><div class="app-brand-name">أكاديمية النبراس</div><div class="app-user-name" id="userLabel">—</div></div></div>
@@ -501,9 +493,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 <div class="hero"><div class="hero-inner"><div class="hero-label">لوحة المدير</div><div class="hero-title">أهلًا بك 👋</div><div class="hero-sub" id="adminWelcome">—</div></div></div>
 <div class="stats-grid" id="adminStats"></div>
 <div class="section-title">إدارة المنصة</div>
-<div class="action-grid" id="adminMainGrid">
-<!-- سيتم تعبئتها بالـ JS -->
-</div>
+<div class="action-grid" id="adminMainGrid"></div>
 </section>
 
 <section class="page" id="page-adminAnalytics">
@@ -652,9 +642,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 <div class="hero"><div class="hero-inner"><div class="hero-label">لوحة المعلم</div><div class="hero-title" id="teacherWelcome">—</div><div class="hero-sub" id="teacherSubtitle">—</div></div></div>
 <div class="stats-grid" id="teacherStats"></div>
 <div class="section-title">إدارة</div>
-<div class="action-grid" id="teacherMainGrid">
-<!-- سيتم تعبئتها بالـ JS -->
-</div>
+<div class="action-grid" id="teacherMainGrid"></div>
 </section>
 
 <section class="page" id="page-teacherAnalytics">
@@ -871,7 +859,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 <div class="version-tag">أكاديمية النبراس <span>v13.3</span></div>
 </div>
 
-<!-- أزرار ونوافذ عائمة -->
 <div class="ai-fab" id="aiFab" style="display:none"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
 <div class="ai-panel" id="aiPanel">
 <div class="ai-window">
@@ -890,6 +877,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto;padding-bottom:120px;}
 
 <div class="toast" id="toast"></div>
 <div id="ytPlayerContainer" style="display:none"><div id="ytPlayer"></div></div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -931,67 +919,14 @@ certificate:{icon:'🏆',name:'متميز',desc:'إتمام دورة'}
 };
 
 const LOCAL_FAQ = [
-// ========== 1. المحفظة والشحن والرصيد ==========
 { q:'كيف أشحن محفظتي؟', a:`1️⃣ تواصل معنا عبر واتساب: ${CONTACT_PHONE_DISPLAY}\n2️⃣ افتح "محفظتي" ← "شحن سريع"\n3️⃣ حول المبلغ وستصلك رسالة تأكيد.`, keywords:['شحن','محفظة','رصيد','كيف أشحن','أضيف فلوس'] },
 { q:'كيف أضيف رصيد؟', a:`استخدم زر "شحن سريع" في المحفظة، أو تواصل معنا على ${CONTACT_PHONE_DISPLAY} لإرسال كرت شحن.`, keywords:['أضيف رصيد','زيادة الرصيد','شحن'] },
-{ q:'أين أجد كود الشحن؟', a:'كود الشحن يتكون من 16 حرفاً (مثال: XXXX-XXXX-XXXX-XXXX). يمكنك الحصول عليه من إدارة المنصة.', keywords:['كود','كرت شحن','وين الكود'] },
-{ q:'الكرت لا يعمل؟', a:'تأكد من كتابة الكود بشكل صحيح (16 حرف). إذا استمرت المشكلة تواصل معنا فوراً عبر الواتساب.', keywords:['كرت لا يعمل','خطأ في الكرت','كود خطأ'] },
-{ q:'كيف أسحب رصيدي؟', a:'اذهب إلى "محفظتي" ← "سحب الرصيد"، واختر الطريقة (شام كاش، الهرم، الخ). الحد الأدنى للسحب 1000 ل.س.', keywords:['سحب','أسحب رصيدي','سحب أرباح'] },
-{ q:'متى يتم تحويل الأرباح؟', a:'تتم مراجعة طلبات السحب يومياً. يتم التحويل خلال 24 إلى 48 ساعة كحد أقصى.', keywords:['متى التحويل','وقت السحب','تحويل الأرباح'] },
-{ q:'كم الحد الأدنى للسحب؟', a:'الحد الأدنى لسحب الرصيد (للطلاب والمعلمين) هو 1000 ليرة سورية.', keywords:['الحد الأدنى','أقل مبلغ للسحب'] },
-{ q:'لماذا لا أستطيع الشحن؟', a:'تأكد من اتصالك بالإنترنت، أو تأكد أن حسابك نشط. إذا كنت طالباً، تواصل مع الدعم.', keywords:['لا أستطيع الشحن','مشكلة في الشحن'] },
-{ q:'هل يوجد شحن مجاني؟', a:'نعم! هناك "حصة اليوم" المجانية في الصفحة الرئيسية، يمكنك الحصول على درس مدفوع مجاناً مرة كل يوم.', keywords:['شحن مجاني','رصيد مجاني','حصه مجانية'] },
-{ q:'كم رصيدي؟', a:'اسألني "رصيدي" وسأخبرك برصيدك الحالي فوراً.', keywords:['رصيدي','كم رصيد','فلوسي'] },
-{ q:'طريقة الدفع شام كاش؟', a:'نعم، ندعم شام كاش، الهرم، سيرياتيل كاش، وMTN كاش. اختر طريقتك في نافذة "شحن سريع".', keywords:['شام كاش','الهرم','سيرياتيل','mtn'] },
-{ q:'هل المحفظة آمنة؟', a:'نعم، جميع عمليات الشحن والدفع محمية ومشفرة، ولا يتم حفظ بياناتك.', keywords:['أمان','حماية','هل هي آمنة'] },
-{ q:'ما هو كرت الشحن؟', a:'هو كود رقمي بقيمة مالية (مثلاً 5000 ل.س)، عندما تدخله في المحفظة يضاف المبلغ لرصيدك.', keywords:['كرت شحن','ما هو الكرت'] },
-{ q:'الرصيد لا يظهر؟', a:'جرب إغلاق التطبيق وفتحه (تحديث الصفحة). إذا استمرت المشكلة، تواصل مع الدعم.', keywords:['الرصيد لا يظهر','مشكلة في الرصيد'] },
-{ q:'هل هناك رسوم على الشحن؟', a:'لا، الشحن مجاني تماماً. تدفع فقط قيمة المبلغ الذي تريد شحنه.', keywords:['رسوم','عمولة شحن'] },
-// ========== 2. الدروس والدورات ==========
 { q:'كيف أشتري درساً؟', a:'افتح الدرس، إذا كان مدفوعاً اضغط "🛒 اشترِ"، وسيتم خصم المبلغ من رصيدك ويفتح لك مباشرة.', keywords:['شراء','أشتري درس','كيف اشتري'] },
 { q:'كيف أشاهد الدروس؟', a:'اذهب للصفحة الرئيسية، اختر "دورات صفي"، ثم اختر الدورة، ثم اضغط على الدرس المشترى.', keywords:['مشاهدة','أشاهد الدروس','فيديو'] },
-{ q:'ماذا لو انقطع الإنترنت أثناء الدرس؟', a:'عند عودتك للدرس، سيتذكر النظام اللحظة التي توقفت عندها، ويمكنك إكمال الفيديو من نفس المكان.', keywords:['انقطع النت','توقف الفيديو'] },
-{ q:'هل الدروس مسجلة أم مباشرة؟', a:'جميع الدروس مسجلة بجودة عالية، يمكنك مشاهدتها في أي وقت تريد.', keywords:['مسجلة','مباشر','بث'] },
-{ q:'كيف أبحث عن درس معين؟', a:'استخدم أيقونة البحث (🔍) في الأعلى، واكتب اسم الدرس أو اسم المعلم.', keywords:['بحث','أبحث','وين الدرس'] },
-{ q:'لماذا الدرس لا يفتح؟', a:'تأكد أنك قمت بشراء الدرس أولاً، أو أن رصيدك كافٍ. إذا كنت شاهدته سابقاً، جرب تحديث الصفحة.', keywords:['لا يفتح','الدرس مقفل','مشكلة في الفتح'] },
-{ q:'هل يمكنني تحميل الدروس؟', a:'حالياً الدروس مخصصة للمشاهدة أونلاين فقط لحماية حقوق المعلمين، لا يمكن تحميلها.', keywords:['تحميل','حفظ الفيديو','أوفلاين'] },
-{ q:'هل الدروس مطابقة للمنهاج؟', a:'نعم، دوراتنا مخصصة لطلاب المنهاج السوري (بكالوريا علمي، أدبي، وتاسع).', keywords:['منهاج','وزاري','مطابق'] },
-{ q:'كيف أتواصل مع المعلم؟', a:'في صفحة الدرس، اضغط "اسأل المعلم"، أو اذهب إلى صفحة "الرسائل" لبدء محادثة معه.', keywords:['تواصل مع المعلم','أسأل المعلم','شات'] },
-{ q:'كيف أفتح قائمة دروسي؟', a:'من القائمة السفلية، اضغط على "دروسي" لتظهر لك كل الدروس التي اشتريتها.', keywords:['دروسي','قائمة الدروس','مشترياتي'] },
-{ q:'ما هو الكوبون؟', a:'هو كود (مثل CPN-ABCD) يمنحك خصماً بنسبة معينة عند الشراء. أدخله في نافذة الدفع.', keywords:['كوبون','كود خصم','كيف أستخدم الكوبون'] },
-// ========== 3. الامتحانات وبنك الأسئلة ==========
-{ q:'كيف أبدأ امتحاناً؟', a:'من الصفحة الرئيسية، اضغط "الامتحانات التجريبية"، واختر المادة التي تريد اختبار نفسك فيها.', keywords:['امتحان','أبدأ امتحان','اختبار'] },
-{ q:'كم مدة الامتحان؟', a:'الامتحان السريع يعطيك 90 ثانية لكل سؤال. الامتحان الوزاري الكامل يعطيك ساعتين.', keywords:['مدة','وقت الامتحان','كم دقيقة'] },
-{ q:'ما هو الامتحان الوزاري؟', a:'هو امتحان محاكي لامتحان الوزارة، يجمع الأسئلة الوزارية السابقة، ولا يسمح بتغيير الإجابة بعد اختيارها.', keywords:['وزاري','امتحان الوزارة','محاكي'] },
-{ q:'كيف أعرف نتيجتي؟', a:'بمجرد ضغطك على "إنهاء الامتحان"، ستظهر نتيجتك فوراً مع نسبة مئوية ومراجعة لكل سؤال.', keywords:['نتيجة','الدرجة','كم جبت'] },
-{ q:'كيف أرى شرح الأسئلة التي أخطأت بها؟', a:'في صفحة النتيجة، ستجد مراجعة لكل سؤال، مع إظهار الإجابة الصحيحة وشرح المعلم تحتها.', keywords:['شرح','إجابة صحيحة','الأخطاء'] },
-{ q:'هل النتائج ترسل للأهل؟', a:'يمكنك أنت مشاركة النتيجة مع أهلك عبر زر الواتساب (📤) الموجود في صفحة النتيجة.', keywords:['أهل','مشاركة النتيجة','واتساب'] },
-{ q:'هل أحصل على نقاط من الامتحانات؟', a:'نعم، تحصل على نقطتين لكل إجابة صحيحة، مما يزيد من نقاطك في لوحة المتصدرين.', keywords:['نقاط','متصدرين','امتحان نقاط'] },
-{ q:'كيف أرى نتائجي السابقة؟', a:'في صفحة "الامتحانات"، أسفل القائمة، ستجد "نتائجي السابقة" مع النسب المئوية.', keywords:['نتائج سابقة','سجل الامتحانات','تاريخي'] },
-// ========== 4. الشهادات والشارات ==========
 { q:'كيف أحصل على شهادة؟', a:'يجب أن تشتري وتكمل جميع دروس "دورة معينة"، وعندها ستظهر لك الشهادة تلقائياً في صفحة "شهاداتي".', keywords:['شهادة','كيف أحصل على شهادة','إتمام'] },
-{ q:'هل الشهادة معتمدة؟', a:'الشهادة هي شهادة إتمام من أكاديمية النبراس، وتثبت أنك أكملت محتوى الدورة بالكامل.', keywords:['معتمدة','رسمية','تثبت'] },
-{ q:'كيف أطبع الشهادة؟', a:'افتح الشهادة، واضغط على زر "🖨️ طباعة" في الأسفل، أو احفظها كصورة من هاتفك.', keywords:['طباعة','طبع الشهادة','بي دي إف'] },
-{ q:'لماذا لم تظهر الشهادة؟', a:'تأكد أنك اشتريت جميع دروس الدورة. الشهادة لا تظهر إلا عند اكتمال 100% من الدروس.', keywords:['لم تظهر الشهادة','مشكلة في الشهادة'] },
-{ q:'ما هي الشارات (Badges)؟', a:'هي أوسمة تحصل عليها عند تحقيق إنجازات (مثل أول شراء، أو إكمال 5 دروس)، تجدها في صفحة "شاراتي".', keywords:['شارات','أوسمة','إنجازات'] },
-// ========== 5. الحساب والتسجيل ==========
-{ q:'كيف أسجل حساباً جديداً؟', a:'اضغط على "حساب جديد"، واتبع الخطوات (الاسم، المستخدم، كلمة المرور، الصف).', keywords:['تسجيل','حساب جديد','إنشاء حساب'] },
-{ q:'نسيت كلمة المرور؟', a:'حالياً، تواصل مع الدعم عبر الواتساب لتتم إعادة تعيين كلمة المرور لك.', keywords:['نسيت كلمة المرور','استعادة الحساب','باسورد'] },
-{ q:'كيف أغيّر كلمة المرور؟', a:'اذهب إلى "ملفي" (Profile) ← "تغيير كلمة المرور"، وأدخل الكلمة القديمة والجديدة.', keywords:['تغيير كلمة المرور','باسورد جديد','تعديل'] },
-{ q:'لماذا لم يتم تفعيل حسابي؟', a:'حسابات المعلمين تحتاج موافقة الإدارة. حسابات الطلاب تُفعل تلقائياً. إذا كنت معلماً انتظر التفعيل.', keywords:['تفعيل','حساب معلم','قيد المراجعة'] },
-{ q:'كيف أصبح معلماً؟', a:'سجل حساباً جديداً واختر "معلم" في الخطوة الثانية، ثم انتظر مراجعة الإدارة وتفعيل حسابك.', keywords:['أصبح معلم','تسجيل معلم','معلم جديد'] },
-{ q:'كيف أغير اسمي؟', a:'اذهب إلى "ملفي" وعدل حقل الاسم ثم اضغط حفظ.', keywords:['تغيير الاسم','تعديل الاسم'] },
-// ========== 6. المعلمون ==========
-{ q:'كيف أضيف دورة جديدة (للمعلم)؟', a:'من لوحة المعلم، اضغط "دوراتي" ← "+" واملأ بيانات الدورة (العنوان، الصف، الوصف).', keywords:['إضافة دورة','معلم دورة','أضيف دورة'] },
-{ q:'كيف أضيف درساً (للمعلم)؟', a:'من لوحة المعلم، اضغط "دروسي" ← "+"، واختر الدورة، وأدخل عنوان الدرس ورابط يوتيوب.', keywords:['إضافة درس','أضيف فيديو','درس جديد'] },
-{ q:'كيف أربح من المنصة؟', a:'عند شراء الطلاب لدروسك، يتم احتساب عمولتك (مثلاً 70%) من قيمة الدرس، وتضاف لأرباحك.', keywords:['أرباح المعلم','عمولة','ربح'] },
-{ q:'كيف أسحب أرباحي؟', a:'من لوحة المعلم، اضغط "سحب الأرباح" ← "+"، وحدد المبلغ وطريقة الدفع.', keywords:['سحب أرباح المعلم','تحويل أرباح'] },
-{ q:'كيف أرى طلابي؟', a:'من لوحة المعلم، اضغط "طلابي" لتظهر قائمة بكل من اشترى دروساً منك وإحصائياتهم.', keywords:['طلاب المعلم','من اشترى'] },
-// ========== 7. الدعم والمشاكل التقنية ==========
 { q:'كيف أتواصل مع الدعم؟', a:`يمكنك التواصل معنا مباشرة عبر الواتساب على الرقم: ${CONTACT_PHONE_DISPLAY}`, keywords:['دعم','تواصل','مساعدة','رقم الدعم'] },
-{ q:'التطبيق لا يعمل؟', a:'جرب تحديث الصفحة (F5)، أو امسح الكاش من إعدادات المتصفح، أو جرب متصفحاً آخر (Chrome).', keywords:['لا يعمل','تطبيق معطل','مشكلة تقنية'] },
-{ q:'هل يوجد تطبيق للهاتف؟', a:'حالياً المنصة تعمل كموقع ويب متجاوب (PWA). يمكنك إضافتها للشاشة الرئيسية من خيارات المتصفح.', keywords:['تطبيق هاتف','تحميل تطبيق','apk'] },
-{ q:'كيف أرى الإشعارات؟', a:'اضغط على أيقونة الجرس (🔔) في الشريط العلوي لرؤية جميع إشعاراتك.', keywords:['إشعارات','جرس','تنبيهات'] }
+{ q:'كيف أبدأ امتحاناً؟', a:'من الصفحة الرئيسية، اضغط "الامتحانات التجريبية"، واختر المادة التي تريد اختبار نفسك فيها.', keywords:['امتحان','أبدأ امتحان','اختبار'] },
+{ q:'كم رصيدي؟', a:'اسألني "رصيدي" وسأخبرك برصيدك الحالي فوراً.', keywords:['رصيدي','كم رصيد','فلوسي'] }
 ];
 
 const st = {
@@ -1196,7 +1131,6 @@ createdAt: serverTimestamp()
 if(finalRole === 'student') userData.level = $('#regLevel').value;
 else if(finalRole === 'teacher') userData.specialty = $('#regSpecialty').value;
 
-// تتبع الإحالة
 const pendingRefCourse = sessionStorage.getItem('pending_ref_course');
 if(pendingRefCourse){
 const refCourse = st.courses.find(c => c.id === pendingRefCourse);
@@ -1265,7 +1199,8 @@ if(!st.me.level && st.me.grade) st.me.level = st.me.grade;
 $('#authScreen').style.display = 'none';
 $('#appScreen').style.display = 'block';
 $('#aiFab').style.display = 'flex';
-applyTheme(); updateHeader(); renderNav(); listenAll();
+applyTheme(); updateHeader(); renderNav(); 
+try { listenAll(); } catch(e) { console.error("listenAll error:", e); }
 try{ await addDoc(collection(db,'visits'),{userId:st.me.id,userName:st.me.name,userRole:st.me.role,type:'login',at:serverTimestamp()}); }catch(e){}
 setInterval(async () => { try{ await updateDoc(doc(db,'users',st.me.id),{lastSeen: serverTimestamp()}); }catch(e){} }, 3*60*1000);
 const r = st.me.role;
@@ -1282,6 +1217,7 @@ $('#aiFab').style.display = 'none';
 });
 
 function listenAll(){
+try {
 st.unsubs.forEach(u => u()); st.unsubs = [];
 const role = st.me.role, uid = st.me.id;
 const subs = [['courses','courses',null],['lessons','lessons',null],['faq','faq',null]];
@@ -1313,7 +1249,7 @@ subs.push(
 ['users','users',null],['purchases','purchases',null],['transactions','transactions',null],
 ['withdrawals','withdrawals',null],['notifications','notifs', q => where('userId','==',uid)],
 ['cards','cards',null],['notes','notes',null],['partners','partners',null],
-['affiliates','affiliates',null],['settings','_settings', q => limit(q,1)],
+['affiliates','affiliates',null],['settings','_settings', null],
 ['coupons','coupons',null],['audit','audit',null],['visits','visits',null],
 ['progress','progress',null],['certificates','certificates',null],
 ['questions','questions',null],['exams','exams',null],
@@ -1342,14 +1278,15 @@ if(key === 'users'){ const me = st.users.find(u => u.id === st.me?.id); if(me){ 
 if(key === 'notifs') updateNB();
 if(key === 'chats' || key === '_chats2' || key === 'messages') updateCB();
 if(key === 'withdrawals') updateWdBadge();
-debouncedRefresh();
+if (!examState) { debouncedRefresh(); }
 }, err => console.warn('Listener ' + col, err.code)));
 });
+} catch(e) { console.error("Error in listenAll", e); }
 }
 let _refreshTimer;
 function debouncedRefresh(){ clearTimeout(_refreshTimer); _refreshTimer = setTimeout(refreshCurrent, 250); }
 function refreshCurrent(){
-if (examState && examState.answers) return; // حماية الامتحان من التحديث التلقائي
+if (examState && examState.answers) return;
 const a = document.querySelector('.page.active');
 if(!a) return;
 go(a.id.replace('page-',''), true);
@@ -1359,7 +1296,7 @@ try{
 if(st.curLesson && window.ytPlayer && document.querySelector('.page.active')?.id === 'page-studentWatch' && name !== 'studentWatch'){
 saveNow(); destroyPlayer();
 }
-if (name !== 'studentExam') examState = null; // إلغاء حالة الامتحان عند الخروج
+if (name !== 'studentExam') examState = null;
 $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-'+name));
 $$('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.nav === name));
 if(!silent) window.scrollTo({top:0, behavior:'smooth'});
@@ -1442,7 +1379,6 @@ const b = $('#pendingWithdrawalsBadge');
 if(b){ if(n>0){b.textContent=n;b.style.display='block';}else b.style.display='none'; }
 }
 
-// ============ ADMIN DASHBOARD ============
 function renderAdminHome(){
 const ss = st.users.filter(u => u.role === 'student').length;
 const tt = st.users.filter(u => u.role === 'teacher').length;
@@ -1456,7 +1392,6 @@ $('#adminStats').innerHTML = `
 <div class="stat-card" style="--sc:#059669"><div class="stat-value">${st.courses.length}</div><div class="stat-label">دورة</div></div>
 <div class="stat-card" style="--sc:#d97706"><div class="stat-value">${availableCards}</div><div class="stat-label">كروت متاحة</div></div>`;
 
-// بناء أزرار لوحة الإدارة
 $('#adminMainGrid').innerHTML = `
 <button class="action-tile" data-goto="adminCourses" style="--tc:#065f46"><div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg></div><div class="action-tile-title">الدورات</div></button>
 <button class="action-tile" data-goto="adminLessons" style="--tc:#0891b2"><div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/></svg></div><div class="action-tile-title">الدروس</div></button>
@@ -1526,7 +1461,6 @@ return `<div style="margin-bottom:12px"><div style="display:flex;justify-content
 $('#anTopStudents').innerHTML = '<div class="empty" style="padding:20px">لا بيانات كافية</div>';
 }
 
-// ============ TEACHER DASHBOARD ============
 function renderTeacherHome(){
 const me = st.me;
 const mc = st.courses.filter(c => c.teacherId === me.id);
@@ -1540,7 +1474,6 @@ const commission = st.settings.defaultCommission || 30;
 const teacherShare = Math.round(totalRevenue * (100 - commission) / 100);
 $('#teacherStats').innerHTML = `<div class="stat-card" style="--sc:#065f46"><div class="stat-value">${mc.length}</div><div class="stat-label">دورة</div></div><div class="stat-card" style="--sc:#0891b2"><div class="stat-value">${ml.length}</div><div class="stat-label">درس</div></div><div class="stat-card" style="--sc:#059669"><div class="stat-value">${fm(teacherShare)}</div><div class="stat-label">صافي</div></div><div class="stat-card" style="--sc:#d97706"><div class="stat-value">${teacherSales.length}</div><div class="stat-label">مبيعات</div></div>`;
 
-// بناء أزرار لوحة المعلم
 $('#teacherMainGrid').innerHTML = `
 <button class="action-tile" data-goto="teacherCourses" style="--tc:#065f46"><div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/></svg></div><div class="action-tile-title">دوراتي</div></button>
 <button class="action-tile" data-goto="teacherLessons" style="--tc:#0891b2"><div class="action-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/></svg></div><div class="action-tile-title">دروسي</div></button>
@@ -1561,7 +1494,6 @@ $('#teacherMainGrid').innerHTML = `
 document.querySelectorAll('#teacherMainGrid [data-goto]').forEach(b => b.onclick = () => go(b.dataset.goto));
 }
 
-// ============ STUDENT DASHBOARD ============
 function renderStudentHome(){
 const me = st.me;
 const mp = st.purchases.filter(p => p.userId === me.id);
@@ -1636,26 +1568,12 @@ box.innerHTML = `
 ${teachers.map(t => {
 const myCoursesForTeacher = myCourses.filter(c => c.teacherId === t.id);
 const totalLessons = st.lessons.filter(l => l.teacherId === t.id).length;
-return `
-<div class="teacher-card" data-teacher="${t.id}">
-<div class="teacher-avatar">${ini(t.name) || '👨‍🏫'}</div>
-<div class="teacher-info">
-<div class="teacher-name">${esc(t.name)}</div>
-<div class="teacher-specialty">${esc(t.specialty || 'معلم')}</div>
-<div class="teacher-stats">
-<span>📚 ${myCoursesForTeacher.length} دورة</span>
-<span>🎬 ${totalLessons} درس</span>
-</div>
-</div>
-<div style="color:var(--text-3);font-size:20px">›</div>
-</div>
-`;
+return `<div class="teacher-card" data-teacher="${t.id}"><div class="teacher-avatar">${ini(t.name) || '👨‍🏫'}</div><div class="teacher-info"><div class="teacher-name">${esc(t.name)}</div><div class="teacher-specialty">${esc(t.specialty || 'معلم')}</div><div class="teacher-stats"><span>📚 ${myCoursesForTeacher.length} دورة</span><span>🎬 ${totalLessons} درس</span></div></div><div style="color:var(--text-3);font-size:20px">›</div></div>`;
 }).join('')}
 `;
 box.querySelectorAll('[data-teacher]').forEach(el => { el.onclick = () => openTeacherProfile(el.dataset.teacher); });
 }
 
-// ============ UTILS ============
 function renderContinueBox(mp){
 const box = $('#continueBox');
 const watch = st.me.watch || {};
@@ -1816,7 +1734,6 @@ if(owned.length === all.length) cnt++;
 return cnt;
 }
 
-// ============ TEACHER ANALYTICS v13.2 ============
 function renderTeacherAnalytics(){
   const myLessons = st.lessons.filter(l => l.teacherId === st.me.id);
   const lessonIds = myLessons.map(l => l.id);
@@ -1908,7 +1825,6 @@ function renderTeacherAnalytics(){
   };
 }
 
-// ============ TEACHER COUPONS ============
 function renderTeacherCoupons(){
   const l = $('#teacherCouponsList');
   const myCoupons = (st.coupons || []).filter(c => c.ownerTeacherId === st.me.id);
@@ -1975,7 +1891,6 @@ function openTeacherCouponM(){
   };
 }
 
-// ============ TEACHER NOTIFY ============
 function renderTeacherNotify(){
   const myCourses = st.courses.filter(c => c.teacherId === st.me.id);
   const myLessons = st.lessons.filter(l => l.teacherId === st.me.id);
@@ -2043,7 +1958,6 @@ async function sendTeacherNotify(){
   toast(`✓ أُرسل لـ ${sent} طالب`, 'success');
 }
 
-// ============ TEACHER RATINGS ============
 function renderTeacherRatings(){
   const myLessons = st.lessons.filter(l => l.teacherId === st.me.id);
   const myRatings = (st.ratings || []).filter(r => myLessons.some(l => l.id === r.lessonId));
@@ -2101,7 +2015,6 @@ function renderTeacherRatings(){
   `;
 }
 
-// ============ TEACHER PROFILE ============
 function renderTeacherProfile(teacherId){
   const teacher = st.users.find(u => u.id === teacherId);
   if(!teacher || teacher.role !== 'teacher'){ toast('المعلم غير موجود','error'); return; }
@@ -2186,7 +2099,6 @@ function openEditTeacherProfile(){
   };
 }
 
-// ============ TEACHER REFERRALS ============
 function renderTeacherReferrals(){
   const referred = st.users.filter(u => u.referredBy === st.me.id);
   const myCourses = st.courses.filter(c => c.teacherId === st.me.id);
@@ -2228,7 +2140,6 @@ function shareCourseLink(courseId){
   $('#copyShareLink').onclick = () => { navigator.clipboard.writeText(link); toast('✓ تم نسخ الرابط','success'); };
 }
 
-// ============ TEACHER MOTIVATION ============
 function calculateTeacherPoints(teacher){
   const myLessons = st.lessons.filter(l => l.teacherId === teacher.id);
   const lessonIds = myLessons.map(l => l.id);
@@ -2302,7 +2213,6 @@ function renderTeacherMotivation(){
   `;
 }
 
-// ============ EARNINGS CALCULATOR ============
 function openEarningsCalculator(){
   const myLessons = st.lessons.filter(l => l.teacherId === st.me.id);
   const avgPrice = myLessons.length ? Math.round(myLessons.reduce((s,l) => s + (l.price||0), 0) / myLessons.length) : 5000;
@@ -2338,7 +2248,6 @@ function openEarningsCalculator(){
   calc();
 }
 
-// ============ TEACHER NOTES ============
 async function openStudentNote(studentId){
   const student = st.users.find(u => u.id === studentId);
   if(!student) return;
@@ -2371,7 +2280,6 @@ async function openStudentNote(studentId){
   });
 }
 
-// ============ TEACHER MY QUESTIONS ============
 function renderMyQuestions(){
   const myQuestions = (st.questions || []).filter(q => q.ownerTeacherId === st.me.id);
   const bySubject = {};
@@ -2438,7 +2346,6 @@ function openAddMyQuestion(){
   };
 }
 
-// ============ COURSES/LESSONS ============
 function renderAdminCourses(){
 let arr = [...st.courses].sort((a,b) => (a.order||0) - (b.order||0));
 const l = $('#coursesList');
@@ -2630,7 +2537,6 @@ catch(e){ toast(e.message || 'فشل','error'); btn.disabled = false; }
 };
 }
 
-// ============ USERS ============
 function renderUsers(){
 const q = ($('#userSearch')?.value || '').trim().toLowerCase();
 const f = st.userFilter;
@@ -2775,7 +2681,6 @@ toast(`✓ +${fm(res.data.amount)}`, 'success');
 }catch(e){ toast(e.message || 'خطأ', 'error'); }
 finally{ btn.disabled = false; btn.textContent = 'تفعيل'; }
 }
-
 function renderWithdrawalsAdmin(){
 const l = $('#withdrawalsAdminList');
 const arr = [...st.withdrawals].sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
@@ -2982,7 +2887,6 @@ for(const v of toDelete){ try{ await deleteDoc(doc(db,'visits',v.id)); }catch(e)
 toast(`✓ ${toDelete.length}`,'success');
 }
 
-// ============ EXAM ENGINE ============
 let examState = null;
 let examTick = null;
 
@@ -3169,7 +3073,7 @@ const isCorrect = userAns === q.correctIndex;
 review.innerHTML += `<div class="card" style="padding:16px;margin-bottom:10px;border-right:4px solid ${isCorrect?'#10b981':'#dc2626'}"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><div style="font-size:13px;color:var(--text-3);font-weight:800">سؤال ${i+1}</div><div style="font-size:14px;font-weight:900;color:${isCorrect?'#10b981':'#dc2626'}">${isCorrect?'✓':userAns===undefined?'⊘':'✗'}</div></div><div style="font-size:14px;font-weight:800;line-height:1.7;margin-bottom:10px">${esc(q.text)}</div><div style="font-size:13px;color:var(--text-2);margin-bottom:6px"><strong>الصحيح:</strong> ${esc(q.options[q.correctIndex])}</div>${!isCorrect && userAns !== undefined ? `<div style="font-size:13px;color:var(--danger)"><strong>إجابتك:</strong> ${esc(q.options[userAns])}</div>` : ''}${q.explanation ? `<div style="font-size:12.5px;background:var(--bg-2);padding:10px;border-radius:10px;margin-top:8px;line-height:1.7">💡 ${esc(q.explanation)}</div>` : ''}</div>`;
 });
 window.scrollTo({top:0, behavior:'smooth'});
-examState = null; // مسح الحالة بعد العرض
+examState = null;
 }
 window.shareWithParent = function(examId){
 const e = (st.exams||[]).find(x => x.id === examId);
@@ -3182,7 +3086,6 @@ const sorted = (st.exams||[]).filter(e => e.userId === st.me.id).sort((a,b) => (
 if(sorted[0]) window.shareWithParent(sorted[0].id);
 };
 
-// ============ COURSE/VIDEO ============
 let ytPlayer = null, trackingInterval = null, currentLessonId = null, lastSavedSecond = 0;
 window.onYouTubeIframeAPIReady = function(){};
 function createPlayer(videoId, startSeconds = 0, lessonId = null){
@@ -3347,7 +3250,6 @@ try { await addDoc(collection(db,'lessonRatings'), { lessonId, userId: st.me.id,
 };
 }
 
-// ============ WALLET/PURCHASES ============
 function renderWallet(){
 $('#walletBalance').textContent = fm(st.me.balance);
 const arr = st.transactions.filter(t => t.userId === st.me.id).sort((a,b) => (b.date?.seconds||0)-(a.date?.seconds||0));
@@ -3591,7 +3493,6 @@ const levelName = st.me.level ? getLevelInfo(st.me.level).name : '';
 return `🎓 *طلب شحن محفظة — النبراس*\n\n👤 *الاسم:* ${name}\n🆔 *المستخدم:* @${username}\n🎓 *الصف:* ${levelName || '—'}\n💰 *الرصيد الحالي:* ${balance} ل.س\n🔑 *المعرف:* ${userId.slice(0, 12)}...\n\n━━━━━━━━━━━━━━\n\n💵 *المبلغ:* ${amount.toLocaleString('ar-EG')} ل.س\n💳 *طريقة الدفع:* ${method}\n\n━━━━━━━━━━━━━━\n\n📸 سأرسل صورة إشعار التحويل بعد الاتفاق.\n\nجزيل الشكر 🌹`;
 }
 
-// ============ AI & MISC ============
 function renderAIMessages(){
 const c = $('#aiMessages');
 if(!st.aiChat.length){
@@ -3768,7 +3669,6 @@ $('#importQuestionsBtn')?.addEventListener('click', () => openImportQuestions())
 $('#questionSearch')?.addEventListener('input', () => renderAdminQuestions());
 $$('#questionFilters .filter-chip').forEach(c => c.onclick = () => { $$('#questionFilters .filter-chip').forEach(x => x.classList.toggle('active', x === c)); renderAdminQuestions(); });
 
-// v13.3 bindings
 $('#newTeacherCouponBtn')?.addEventListener('click', () => openTeacherCouponM());
 $('#tNotifySend')?.addEventListener('click', () => sendTeacherNotify());
 $('#addMyQuestionBtn')?.addEventListener('click', () => openAddMyQuestion());
@@ -3803,7 +3703,6 @@ else { const a = snap.docs[0].data(); info.style.display='block'; info.style.bac
 }
 }
 
-// ===== PWA Installation =====
 let deferredPrompt;
 if ('serviceWorker' in navigator) {
 window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(()=>{}); });
