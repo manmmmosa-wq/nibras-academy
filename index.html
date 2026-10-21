@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<!-- Version 14.0 — Full Fixed + Share Course -->
+<!-- Version 15.0 — Ultimate Edition -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#065f46">
 <title>أكاديمية النبراس</title>
@@ -46,6 +46,7 @@ svg{display:block;flex-shrink:0}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes typing{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+
 .loading-screen{position:fixed;inset:0;background:linear-gradient(135deg,#065f46,#047857 50%,#10b981);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;z-index:99999;color:#fff;transition:opacity .5s,visibility .5s}
 .loading-screen.hide{opacity:0;visibility:hidden}
 .loading-logo{width:120px;height:120px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 24px 48px rgba(0,0,0,.3))}
@@ -53,6 +54,7 @@ svg{display:block;flex-shrink:0}
 .loading-sub{font-size:14px;opacity:.75;font-weight:600}
 .loading-bar{width:200px;height:3px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
 .loading-bar::after{content:'';display:block;height:100%;background:linear-gradient(90deg,transparent,#fbbf24,transparent);animation:shimmer 1.6s infinite;background-size:200% 100%}
+
 .auth-screen{min-height:100vh;padding:28px 16px;background:linear-gradient(160deg,#065f46,#047857 45%,#059669 75%,#0d9488);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .auth-screen::before{content:'';position:absolute;top:-40%;right:-25%;width:75%;height:130%;background:radial-gradient(circle,rgba(251,191,36,.18),transparent 55%);pointer-events:none}
 .auth-card{background:rgba(255,255,255,.99);backdrop-filter:blur(24px);border-radius:32px;padding:40px 28px 36px;max-width:480px;width:100%;box-shadow:0 40px 80px -20px rgba(0,0,0,.5);position:relative;z-index:1;animation:slideUp .6s;max-height:96vh;overflow-y:auto}
@@ -64,6 +66,7 @@ svg{display:block;flex-shrink:0}
 .auth-tabs{display:flex;gap:6px;background:var(--bg-2);border-radius:16px;padding:5px;margin-bottom:24px}
 .auth-tab{flex:1;padding:13px;border-radius:12px;font-size:14px;font-weight:800;color:var(--text-3);transition:all .25s}
 .auth-tab.active{background:var(--surface);color:var(--emerald);box-shadow:var(--shadow-sm)}
+
 .form-group{margin-bottom:18px}
 .form-label{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;color:var(--text-2);margin-bottom:10px}
 .form-label .req{color:var(--danger)}
@@ -73,6 +76,14 @@ svg{display:block;flex-shrink:0}
 .form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 18px center;padding-left:46px}
 .pw-wrap{position:relative}
 .pw-toggle{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-3);padding:6px;cursor:pointer;user-select:none;display:flex;font-size:18px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:420px){.form-row{grid-template-columns:1fr;gap:0}}
+
+/* Registration Cards */
+.role-option.selected{border-color:var(--emerald-3) !important;background:rgba(16,185,129,.06) !important}
+.level-option.selected{border-color:var(--emerald-3) !important;background:rgba(16,185,129,.06) !important;transform:translateY(-2px);box-shadow:0 8px 20px -8px rgba(16,185,129,.35)}
+@media(max-width:420px){.level-option{padding:12px 6px !important}.level-option > div:first-of-type{font-size:26px !important}.level-option > div:last-of-type{font-size:11px !important}}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 26px;border-radius:16px;font-size:15px;font-weight:800;transition:all .2s;width:100%;text-decoration:none}
 .btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
 .btn:disabled{opacity:.55;pointer-events:none}
@@ -85,17 +96,7 @@ svg{display:block;flex-shrink:0}
 .btn-purple{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff}
 .btn-ghost{background:var(--surface);color:var(--text);border:1.5px solid var(--border-2)}
 .btn-sm{padding:10px 18px;font-size:13.5px;width:auto;border-radius:12px}
-.stepper{display:flex;justify-content:space-between;margin-bottom:28px;padding:0 4px}
-.step{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;position:relative}
-.step-circle{width:40px;height:40px;border-radius:50%;background:var(--surface-2);border:2px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:var(--text-3);transition:all .3s;z-index:1}
-.step-label{font-size:11px;font-weight:800;color:var(--text-3);white-space:nowrap}
-.step.active .step-circle{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));border-color:var(--emerald-3);color:#fff;transform:scale(1.12)}
-.step.active .step-label{color:var(--emerald)}
-.step.done .step-circle{background:var(--emerald-3);border-color:var(--emerald-3);color:#fff}
-.step.done .step-label{color:var(--emerald-3)}
-.step-line{position:absolute;top:20px;right:50%;left:-50%;height:2px;background:var(--border-2);z-index:0}
-.step.done .step-line,.step.active .step-line{background:var(--emerald-3)}
-.step:first-child .step-line{display:none}
+
 .app-bar{position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--emerald),var(--emerald-2) 55%,var(--emerald-3));color:#fff;padding:16px 20px;box-shadow:0 4px 24px -4px rgba(6,95,70,.35);padding-top:calc(16px + var(--safe-top))}
 .app-bar-row{display:flex;justify-content:space-between;align-items:center;gap:14px;max-width:900px;margin:0 auto}
 .app-brand{display:flex;align-items:center;gap:14px;min-width:0;flex:1;cursor:pointer}
@@ -132,8 +133,6 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px}
 .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:22px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
 .stat-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--sc,var(--emerald-3)),color-mix(in srgb,var(--sc,var(--emerald-3)) 40%,transparent));border-radius:22px 0 0 22px}
-.stat-icon{width:50px;height:50px;border-radius:16px;background:linear-gradient(135deg,var(--sc,var(--emerald-3)),color-mix(in srgb,var(--sc,var(--emerald-3)) 65%,#fff));color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:14px;position:relative;z-index:1}
-.stat-icon svg{width:26px;height:26px;stroke:#fff;stroke-width:2}
 .stat-value{font-family:var(--font-title);font-size:30px;font-weight:900;line-height:1.05;position:relative;z-index:1}
 .stat-label{font-size:13px;color:var(--text-3);font-weight:700;margin-top:6px;position:relative;z-index:1}
 .action-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -385,6 +384,40 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 .exam-option{padding:16px;border-radius:14px;text-align:right;font-size:15px;font-weight:700;transition:all .2s;width:100%}
 .exam-option:disabled{opacity:.6;cursor:not-allowed}
 .share-course-banner{background:linear-gradient(135deg,#065f46,#10b981);color:#fff;padding:16px;border-radius:16px;margin-bottom:20px;text-align:center;animation:slideUp .5s;box-shadow:0 12px 32px -8px rgba(6,95,70,.4)}
+
+/* Teachers Scroll */
+.teachers-scroll{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;scrollbar-width:none;scroll-snap-type:x mandatory}
+.teachers-scroll::-webkit-scrollbar{display:none}
+.teacher-card{flex-shrink:0;width:155px;background:var(--surface);border-radius:22px;padding:0 12px 16px;text-align:center;border:1.5px solid var(--border);box-shadow:var(--shadow-sm);cursor:pointer;scroll-snap-align:start;transition:all .25s;position:relative;overflow:hidden}
+.teacher-card::before{content:'';position:absolute;top:0;left:0;right:0;height:62px;background:linear-gradient(135deg,var(--tc,#065f46),color-mix(in srgb,var(--tc,#065f46) 40%,#fff));z-index:0}
+.teacher-card:hover{transform:translateY(-4px);border-color:var(--emerald-3);box-shadow:var(--shadow-md)}
+.teacher-avatar{width:68px;height:68px;border-radius:22px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:24px;font-weight:900;margin:14px auto 12px;position:relative;z-index:1;border:4px solid var(--surface);box-shadow:0 8px 20px -6px rgba(0,0,0,.2)}
+.teacher-online-dot{position:absolute;bottom:4px;right:4px;width:16px;height:16px;border-radius:50%;background:#10b981;border:3px solid var(--surface);animation:pulse 2s infinite}
+.teacher-name{font-family:var(--font-title);font-size:14px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;position:relative;z-index:1}
+.teacher-specialty{font-size:11px;color:var(--text-3);font-weight:700;margin-top:3px;position:relative;z-index:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.teacher-stats{display:flex;justify-content:center;gap:16px;margin-top:12px;position:relative;z-index:1;padding-top:12px;border-top:1px dashed var(--border-2)}
+.teacher-stat{display:flex;flex-direction:column;align-items:center;gap:1px}
+.teacher-stat .n{font-size:15px;font-weight:900;color:var(--emerald-3);font-family:var(--font-title)}
+.teacher-stat .l{font-size:9.5px;color:var(--text-3);font-weight:700}
+
+/* Course Cards */
+.course-card{background:var(--surface);border-radius:22px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-sm);border:1.5px solid var(--border);transition:all .25s;cursor:pointer;position:relative}
+.course-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--emerald-3)}
+.course-cover{height:110px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.course-cover::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35),transparent 55%);pointer-events:none}
+.course-cover-icon{font-size:56px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.25));z-index:1}
+.course-new-badge{position:absolute;top:12px;right:12px;background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;font-size:10px;font-weight:900;padding:4px 11px;border-radius:999px;z-index:2;box-shadow:0 4px 12px rgba(220,38,38,.4)}
+.course-cover-price{position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);color:#fff;font-size:11px;font-weight:900;padding:5px 12px;border-radius:999px;z-index:2}
+.course-body{padding:16px 16px 14px}
+.course-title-main{font-family:var(--font-title);font-size:15.5px;font-weight:900;line-height:1.35;margin-bottom:10px}
+.course-teacher-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.course-teacher-av{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.course-teacher-name{flex:1;font-size:12.5px;font-weight:800;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.course-meta-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.course-meta-item{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--text-3);font-weight:800}
+.course-cta{padding:8px 16px;border-radius:10px;font-size:12px;font-weight:900;background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#fff;border:none;cursor:pointer;transition:all .2s}
+.course-cta:hover{transform:scale(1.05);box-shadow:0 8px 20px -6px rgba(6,95,70,.4)}
+
 @media(max-width:420px){.action-grid,.stats-grid{grid-template-columns:1fr}.quick-links{grid-template-columns:repeat(2,1fr)}.badges-grid{grid-template-columns:repeat(2,1fr)}.hero-title{font-size:26px}}
 @media(min-width:768px){.action-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
@@ -404,49 +437,77 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="auth-title">أكاديمية النبراس</div>
 <div class="auth-subtitle">منصة تعليمية متكاملة</div>
 <div class="auth-tabs"><button class="auth-tab active" data-tab="login">دخول</button><button class="auth-tab" data-tab="register">حساب جديد</button></div>
+
 <div id="loginPane">
 <div class="form-group"><label class="form-label">اسم المستخدم</label><input class="form-input" id="loginUser" placeholder="ahmed2024"></div>
 <div class="form-group"><label class="form-label">كلمة المرور</label><div class="pw-wrap"><input type="password" class="form-input" id="loginPass" placeholder="••••••"><span class="pw-toggle" onclick="togglePw('loginPass',this)">👁</span></div></div>
 <button class="btn btn-primary" id="loginBtn">دخول إلى المنصة</button>
 </div>
+
 <div id="registerPane" style="display:none">
-<div class="stepper">
-<div class="step active" data-step="1"><div class="step-line"></div><div class="step-circle">1</div><div class="step-label">الأساسي</div></div>
-<div class="step" data-step="2"><div class="step-line"></div><div class="step-circle">2</div><div class="step-label">النوع</div></div>
-<div class="step" data-step="3"><div class="step-line"></div><div class="step-circle">3</div><div class="step-label">التفاصيل</div></div>
-<div class="step" data-step="4"><div class="step-line"></div><div class="step-circle">4</div><div class="step-label">التأكيد</div></div>
-</div>
-<div class="reg-step" data-step="1">
-<div class="form-group"><label class="form-label">الاسم الكامل <span class="req">*</span></label><input class="form-input" id="regName" placeholder="أحمد محمد"></div>
-<div class="form-group"><label class="form-label">اسم المستخدم <span class="req">*</span></label><input class="form-input" id="regUser" dir="ltr" style="text-align:left" placeholder="ahmed2024"></div>
-<div class="form-group"><label class="form-label">كلمة المرور <span class="req">*</span></label><div class="pw-wrap"><input type="password" class="form-input" id="regPass" placeholder="6+ أحرف"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div></div>
-<div class="form-group"><label class="form-label">تأكيد كلمة المرور <span class="req">*</span></label><div class="pw-wrap"><input type="password" class="form-input" id="regPass2"><span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span></div></div>
-</div>
-<div class="reg-step" data-step="2" style="display:none">
-<div class="form-group"><label class="form-label">نوع الحساب <span class="req">*</span></label>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
-<label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--emerald-3);border-radius:18px;padding:22px 14px;text-align:center;background:var(--surface)"><input type="radio" name="role" value="student" checked style="display:none"><div style="width:56px;height:56px;margin:0 auto 10px;background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px">👨‍🎓</div><div style="font-size:15px;font-weight:900">طالب</div></label>
-<label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border);border-radius:18px;padding:22px 14px;text-align:center;background:var(--surface)"><input type="radio" name="role" value="teacher" style="display:none"><div style="width:56px;height:56px;margin:0 auto 10px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px">👨‍🏫</div><div style="font-size:15px;font-weight:900">معلم</div></label>
-</div></div>
-</div>
-<div class="reg-step" data-step="3" style="display:none">
-<div class="form-group"><label class="form-label">رقم الهاتف <span class="req">*</span></label><input type="tel" class="form-input" id="regPhone" dir="ltr" style="text-align:left" placeholder="09xxxxxxxx"></div>
-<div class="form-group" id="studentLevelGroup"><label class="form-label">الصف الدراسي <span class="req">*</span></label><select class="form-select" id="regLevel"><option value="9">📘 الصف التاسع</option><option value="12sci">🔬 بكالوريا علمي</option><option value="12lit">📖 بكالوريا أدبي</option></select></div>
-<div class="form-group" id="teacherSpecialtyGroup" style="display:none"><label class="form-label">التخصص <span class="req">*</span></label><select class="form-select" id="regSpecialty"><option value="">— اختر —</option><option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option><option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفلسفة</option><option>التربية الإسلامية</option></select></div>
-</div>
-<div class="reg-step" data-step="4" style="display:none">
-<div class="card" style="background:linear-gradient(135deg,#fefce8,#fef3c7);border-color:var(--gold-5)"><div class="card-title" style="color:var(--gold-2)">📋 مراجعة</div><div id="reviewData" style="font-size:14px;line-height:2.2;font-weight:700"></div></div>
-<label style="display:flex;align-items:flex-start;gap:12px;padding:16px;background:linear-gradient(135deg,#fefce8,#fef3c7);border:1px solid var(--gold-5);border-radius:16px;cursor:pointer;font-size:14px;color:var(--text-2);margin-top:16px;font-weight:700"><input type="checkbox" id="regTerms" style="width:22px;height:22px;accent-color:var(--emerald-3);flex-shrink:0;margin-top:2px"><span>أوافق على <strong>الشروط والأحكام</strong>.</span></label>
-</div>
-<div style="display:flex;gap:12px;margin-top:28px">
-<button class="btn btn-ghost" id="prevStepBtn" style="display:none;flex:1">السابق</button>
-<button class="btn btn-primary" id="nextStepBtn" style="flex:1">التالي</button>
-<button class="btn btn-primary" id="registerBtn" style="display:none;flex:1">إنشاء الحساب</button>
-</div>
-<div style="text-align:center;margin-top:20px;padding:14px;background:var(--bg-2);border-radius:14px">
-<div style="font-size:12.5px;color:var(--text-3);font-weight:700;margin-bottom:6px">💬 تحتاج مساعدة؟</div>
-<a href="https://wa.me/963995194337" target="_blank" style="color:var(--emerald-3);font-weight:900;font-size:14px;text-decoration:none;direction:ltr;display:inline-block">+963 995 194 337</a>
-</div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+    <div style="width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,#065f46,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0">1</div>
+    <div style="font-family:var(--font-title);font-size:15px;font-weight:900;color:var(--emerald)">المعلومات الأساسية</div>
+  </div>
+  <div class="form-group"><label class="form-label">الاسم الكامل <span class="req">*</span></label><input class="form-input" id="regName" placeholder="أحمد محمد" autocomplete="name"></div>
+  <div class="form-group"><label class="form-label">اسم المستخدم <span class="req">*</span></label><input class="form-input" id="regUser" dir="ltr" style="text-align:left" placeholder="ahmed2024" autocomplete="username"><div style="font-size:11.5px;color:var(--text-3);margin-top:6px;font-weight:600">3+ أحرف إنجليزية/أرقام فقط</div></div>
+  <div class="form-row">
+    <div class="form-group"><label class="form-label">كلمة المرور <span class="req">*</span></label><div class="pw-wrap"><input type="password" class="form-input" id="regPass" placeholder="6+ أحرف" autocomplete="new-password"><span class="pw-toggle" onclick="togglePw('regPass',this)">👁</span></div></div>
+    <div class="form-group"><label class="form-label">التأكيد <span class="req">*</span></label><div class="pw-wrap"><input type="password" class="form-input" id="regPass2" placeholder="••••••" autocomplete="new-password"><span class="pw-toggle" onclick="togglePw('regPass2',this)">👁</span></div></div>
+  </div>
+  <div class="form-group"><label class="form-label">رقم الهاتف <span class="req">*</span></label><input type="tel" class="form-input" id="regPhone" dir="ltr" style="text-align:left" placeholder="09xxxxxxxx" autocomplete="tel" maxlength="10"></div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin:22px 0 14px">
+    <div style="width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,#065f46,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0">2</div>
+    <div style="font-family:var(--font-title);font-size:15px;font-weight:900;color:var(--emerald)">نوع الحساب</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <label class="role-option" data-role="student" style="cursor:pointer;border:2px solid var(--emerald-3);border-radius:18px;padding:18px 12px;text-align:center;background:rgba(16,185,129,.05);transition:all .2s">
+      <input type="radio" name="role" value="student" checked style="display:none">
+      <div style="width:52px;height:52px;margin:0 auto 10px;background:linear-gradient(135deg,#dbeafe,#bfdbfe);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px">👨‍🎓</div>
+      <div style="font-size:14px;font-weight:900">طالب</div><div style="font-size:10.5px;color:var(--text-3);margin-top:3px;font-weight:700">للتعلم والامتحانات</div>
+    </label>
+    <label class="role-option" data-role="teacher" style="cursor:pointer;border:2px solid var(--border);border-radius:18px;padding:18px 12px;text-align:center;background:var(--surface);transition:all .2s">
+      <input type="radio" name="role" value="teacher" style="display:none">
+      <div style="width:52px;height:52px;margin:0 auto 10px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px">👨‍🏫</div>
+      <div style="font-size:14px;font-weight:900">معلم</div><div style="font-size:10.5px;color:var(--text-3);margin-top:3px;font-weight:700">لنشر الدروس</div>
+    </label>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:10px;margin:22px 0 14px">
+    <div style="width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,#065f46,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0">3</div>
+    <div id="step3Label" style="font-family:var(--font-title);font-size:15px;font-weight:900;color:var(--emerald)">اختر صفّك</div>
+  </div>
+  <div id="studentLevelGroup">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px">
+      <label class="level-option" data-level="9" style="cursor:pointer;border:2px solid var(--border);border-radius:16px;padding:16px 8px;text-align:center;background:var(--surface);transition:all .2s">
+        <input type="radio" name="level" value="9" style="display:none"><div style="font-size:32px;margin-bottom:6px">📘</div><div style="font-size:13px;font-weight:900;color:#0284c7">تاسع</div>
+      </label>
+      <label class="level-option" data-level="12sci" style="cursor:pointer;border:2px solid var(--border);border-radius:16px;padding:16px 8px;text-align:center;background:var(--surface);transition:all .2s">
+        <input type="radio" name="level" value="12sci" style="display:none"><div style="font-size:32px;margin-bottom:6px">🔬</div><div style="font-size:13px;font-weight:900;color:#7c3aed">علمي</div>
+      </label>
+      <label class="level-option" data-level="12lit" style="cursor:pointer;border:2px solid var(--border);border-radius:16px;padding:16px 8px;text-align:center;background:var(--surface);transition:all .2s">
+        <input type="radio" name="level" value="12lit" style="display:none"><div style="font-size:32px;margin-bottom:6px">📖</div><div style="font-size:13px;font-weight:900;color:#db2777">أدبي</div>
+      </label>
+    </div>
+    <div id="levelHint" style="font-size:11.5px;color:var(--text-3);text-align:center;font-weight:600;margin-bottom:8px">👆 اختر صفّك لعرض الدروس المناسبة</div>
+  </div>
+  <div id="teacherSpecialtyGroup" style="display:none">
+    <select class="form-select" id="regSpecialty">
+      <option value="">— اختر تخصصك —</option><option>الرياضيات</option><option>الفيزياء</option><option>الكيمياء</option><option>الأحياء</option><option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفلسفة</option><option>التربية الإسلامية</option>
+    </select>
+    <div style="font-size:11.5px;color:var(--text-3);margin-top:6px;font-weight:600">📌 سيُراجع حسابك من الإدارة قبل التفعيل</div>
+  </div>
+
+  <label style="display:flex;align-items:flex-start;gap:12px;padding:14px;background:linear-gradient(135deg,#fefce8,#fef3c7);border:1px solid var(--gold-5);border-radius:14px;cursor:pointer;font-size:13px;color:var(--text-2);margin:20px 0 14px;font-weight:700">
+    <input type="checkbox" id="regTerms" style="width:22px;height:22px;accent-color:var(--emerald-3);flex-shrink:0;margin-top:1px">
+    <span>أوافق على <strong style="color:var(--gold-2)">الشروط والأحكام</strong></span>
+  </label>
+  <button class="btn btn-primary" id="registerBtn" style="font-size:16px">🎉 إنشاء حسابي</button>
+  <div style="text-align:center;margin-top:18px;padding:14px;background:var(--bg-2);border-radius:14px">
+    <div style="font-size:12.5px;color:var(--text-3);font-weight:700;margin-bottom:6px">💬 تواجه مشكلة؟</div>
+    <a href="https://wa.me/963995194337" target="_blank" style="color:var(--emerald-3);font-weight:900;font-size:14px;text-decoration:none;direction:ltr;display:inline-block">+963 995 194 337</a>
+  </div>
 </div>
 </div>
 </div>
@@ -523,11 +584,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="stats-grid" id="questionsStats"></div>
 <div class="search-box"><input id="questionSearch" placeholder="ابحث في الأسئلة..."></div>
 <div class="filter-chips" id="questionFilters">
-<button class="filter-chip active" data-qf="all">الكل</button>
-<button class="filter-chip" data-qf="12sci">علمي</button>
-<button class="filter-chip" data-qf="12lit">أدبي</button>
-<button class="filter-chip" data-qf="9">تاسع</button>
-<button class="filter-chip" data-qf="ministerial">🏛 وزاري</button>
+<button class="filter-chip active" data-qf="all">الكل</button><button class="filter-chip" data-qf="12sci">علمي</button><button class="filter-chip" data-qf="12lit">أدبي</button><button class="filter-chip" data-qf="9">تاسع</button><button class="filter-chip" data-qf="ministerial">🏛 وزاري</button>
 </div>
 <div id="questionsList"></div>
 </section>
@@ -541,21 +598,9 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">📢 إشعار جماعي</h2><div style="width:46px"></div></div>
 <div class="card">
 <div class="form-group"><label class="form-label">الفئة المستهدفة</label>
-<select class="form-select" id="bcTarget">
-<option value="all_students">👨‍🎓 كل الطلاب</option>
-<option value="9">📘 طلاب التاسع</option>
-<option value="12sci">🔬 بكالوريا علمي</option>
-<option value="12lit">📖 بكالوريا أدبي</option>
-<option value="teachers">👨‍🏫 كل المعلمين</option>
-<option value="everyone">🌍 الجميع</option>
-</select></div>
+<select class="form-select" id="bcTarget"><option value="all_students">👨‍🎓 كل الطلاب</option><option value="9">📘 طلاب التاسع</option><option value="12sci">🔬 بكالوريا علمي</option><option value="12lit">📖 بكالوريا أدبي</option><option value="teachers">👨‍🏫 كل المعلمين</option><option value="everyone">🌍 الجميع</option></select></div>
 <div class="form-group"><label class="form-label">النوع</label>
-<select class="form-select" id="bcType">
-<option value="info">ℹ️ معلومات</option>
-<option value="success">✅ نجاح</option>
-<option value="warning">⚠️ تحذير</option>
-<option value="danger">🚨 عاجل</option>
-</select></div>
+<select class="form-select" id="bcType"><option value="info">ℹ️ معلومات</option><option value="success">✅ نجاح</option><option value="warning">⚠️ تحذير</option><option value="danger">🚨 عاجل</option></select></div>
 <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="bcTitle" placeholder="عنوان الإشعار"></div>
 <div class="form-group"><label class="form-label">المحتوى</label><textarea class="form-textarea" id="bcBody" style="min-height:140px"></textarea></div>
 <div class="card" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;padding:14px;margin-bottom:14px">
@@ -569,10 +614,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">📝 سجل التعديلات</h2><button class="btn btn-ghost btn-sm" id="clearAuditBtn">مسح</button></div>
 <div class="search-box"><input id="auditSearch" placeholder="ابحث..."></div>
 <div class="filter-chips" id="auditFilters">
-<button class="filter-chip active" data-af="all">الكل</button>
-<button class="filter-chip" data-af="create">➕ إضافة</button>
-<button class="filter-chip" data-af="update">✏️ تعديل</button>
-<button class="filter-chip" data-af="delete">🗑 حذف</button>
+<button class="filter-chip active" data-af="all">الكل</button><button class="filter-chip" data-af="create">➕ إضافة</button><button class="filter-chip" data-af="update">✏️ تعديل</button><button class="filter-chip" data-af="delete">🗑 حذف</button>
 </div>
 <div id="auditList"></div>
 </section>
@@ -580,15 +622,9 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <section class="page" id="page-adminBulk">
 <div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">📋 استيراد بالجملة</h2><div style="width:46px"></div></div>
 <div class="card">
-<div style="font-size:13.5px;color:var(--text-2);line-height:1.8;font-weight:600;margin-bottom:16px">
-<strong>التنسيق:</strong><br>
-اسم,اسم_المستخدم,كلمة_المرور,هاتف,الصف
-</div>
+<div style="font-size:13.5px;color:var(--text-2);line-height:1.8;font-weight:600;margin-bottom:16px"><strong>التنسيق:</strong><br>اسم,اسم_المستخدم,كلمة_المرور,هاتف,الصف</div>
 <textarea class="bulk-textarea" id="bulkData" placeholder="الصق البيانات هنا..."></textarea>
-<div style="display:flex;gap:10px;margin-top:14px">
-<button class="btn btn-ghost btn-sm" id="bulkSampleBtn" style="flex:1">📋 نموذج</button>
-<button class="btn btn-primary btn-sm" id="bulkImportBtn" style="flex:2">📥 استيراد</button>
-</div>
+<div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-ghost btn-sm" id="bulkSampleBtn" style="flex:1">📋 نموذج</button><button class="btn btn-primary btn-sm" id="bulkImportBtn" style="flex:2">📥 استيراد</button></div>
 <div id="bulkResult" style="margin-top:18px"></div>
 </div>
 </section>
@@ -602,10 +638,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="card" style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;padding:18px">
 <div style="font-family:var(--font-title);font-size:16px;font-weight:900;color:#78350f;margin-bottom:10px">📊 تصدير CSV</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<button class="btn btn-gold btn-sm" data-export="users">👥 المستخدمون</button>
-<button class="btn btn-gold btn-sm" data-export="purchases">🛒 المشتريات</button>
-<button class="btn btn-gold btn-sm" data-export="transactions">💰 المعاملات</button>
-<button class="btn btn-gold btn-sm" data-export="courses">📚 الدورات</button>
+<button class="btn btn-gold btn-sm" data-export="users">👥 المستخدمون</button><button class="btn btn-gold btn-sm" data-export="purchases">🛒 المشتريات</button><button class="btn btn-gold btn-sm" data-export="transactions">💰 المعاملات</button><button class="btn btn-gold btn-sm" data-export="courses">📚 الدورات</button>
 </div>
 </div>
 <div class="card" style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-color:#fca5a5;padding:18px">
@@ -648,13 +681,11 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div id="pointsBox"></div>
 <div id="streakCalendarBox"></div>
 <div id="dailyTasksBox"></div>
+
 <button class="quick-link" data-quick="studentExam" style="--ql:#dc2626;grid-column:1/-1;padding:22px;flex-direction:row;justify-content:center;gap:14px;margin-bottom:18px">
-<div style="font-size:32px">📝</div>
-<div style="text-align:right">
-<div style="font-size:15px;font-weight:900">الامتحانات التجريبية</div>
-<div style="font-size:12px;color:var(--text-3)">اختبر نفسك كأنها البكالوريا</div>
-</div>
+<div style="font-size:32px">📝</div><div style="text-align:right"><div style="font-size:15px;font-weight:900">الامتحانات التجريبية</div><div style="font-size:12px;color:var(--text-3)">اختبر نفسك كأنها البكالوريا</div></div>
 </button>
+
 <div class="quick-links">
 <button class="quick-link" data-quick="studentNotes" style="--ql:#d97706"><div class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="quick-link-label">ملاحظاتي</div><div class="quick-link-count" id="qlNotesCount">0</div></button>
 <button class="quick-link" data-quick="studentBadges" style="--ql:#7c3aed"><div class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/></svg></div><div class="quick-link-label">شاراتي</div><div class="quick-link-count" id="qlBadgesCount">0/7</div></button>
@@ -665,10 +696,19 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <button class="quick-link" data-quick="studentActivity" style="--ql:#0ea5e9"><div class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="quick-link-label">نشاطاتي</div></button>
 <button class="quick-link" data-quick="studentLeaderboard" style="--ql:#fbbf24"><div class="quick-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div><div class="quick-link-label">المتصدرون</div></button>
 </div>
+
 <div class="stats-grid" id="studentStats"></div>
 <div id="recommendationsBox"></div>
+
+<div class="section-title">👨‍🏫 معلمونا</div>
+<div class="teachers-scroll" id="featuredTeachers"></div>
+
+<div class="section-title">⭐ دورات مميزة</div>
+<div id="featuredCourses"></div>
+
 <div class="section-title">📚 دورات صفّي</div>
 <div id="studentCourses"></div>
+
 <div class="section-title" id="activeCoursesTitle" style="display:none">دوراتي الحالية</div>
 <div id="studentActiveCourses"></div>
 </section>
@@ -682,10 +722,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 <div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">بحث</h2><div style="width:46px"></div></div>
 <div class="search-box"><input id="globalSearch" placeholder="ابحث..."></div>
 <div class="filter-chips" id="searchFilters">
-<button class="filter-chip active" data-sf="all">الكل</button>
-<button class="filter-chip" data-sf="lesson">🎬 الدروس</button>
-<button class="filter-chip" data-sf="course">📚 الدورات</button>
-<button class="filter-chip" data-sf="teacher">👨‍🏫 المعلمون</button>
+<button class="filter-chip active" data-sf="all">الكل</button><button class="filter-chip" data-sf="lesson">🎬 الدروس</button><button class="filter-chip" data-sf="course">📚 الدورات</button><button class="filter-chip" data-sf="teacher">👨‍🏫 المعلمون</button>
 </div>
 <div id="searchResults"></div>
 </section>
@@ -835,6 +872,18 @@ const LEVELS = {
 '12sci': { name:'بكالوريا علمي', icon:'🔬', color:'#7c3aed' },
 '12lit': { name:'بكالوريا أدبي', icon:'📖', color:'#db2777' }
 };
+const SPECIALTY_COLORS = {
+  'الرياضيات': '#7c3aed',
+  'الفيزياء': '#0891b2',
+  'الكيمياء': '#db2777',
+  'الأحياء': '#059669',
+  'اللغة العربية': '#d97706',
+  'اللغة الإنجليزية': '#0284c7',
+  'التاريخ': '#92400e',
+  'الجغرافيا': '#0d9488',
+  'الفلسفة': '#6366f1',
+  'التربية الإسلامية': '#065f46'
+};
 const ROLES = { admin:'مدير', teacher:'معلم', student:'طالب' };
 const EMAIL_SUF = '@nibras.local';
 const BADGES = {
@@ -848,24 +897,38 @@ certificate:{icon:'🏆',name:'متميز',desc:'إتمام دورة'}
 };
 
 const LOCAL_FAQ = [
-{ q:'كيف أشحن محفظتي؟', a:`1️⃣ تواصل معنا عبر واتساب: ${CONTACT_PHONE_DISPLAY}\n2️⃣ افتح "محفظتي" ← "شحن سريع"\n3️⃣ حول المبلغ وستصلك رسالة تأكيد.`, keywords:['شحن','محفظة','رصيد','كيف أشحن','أضيف فلوس'] },
+{ q:'كيف أشحن محفظتي؟', a:`1️⃣ تواصل معنا عبر واتساب: ${CONTACT_PHONE_DISPLAY}\n2️⃣ افتح "محفظتي" ← "شحن سريع"\n3️⃣ حول المبلغ وستصلك رسالة تأكيد.`, keywords:['شحن','محفظة','رصيد','كيف أشحن','أضيف فلوس','شحن سريع'] },
 { q:'كيف أضيف رصيد؟', a:`استخدم زر "شحن سريع" في المحفظة، أو تواصل معنا على ${CONTACT_PHONE_DISPLAY} لإرسال كرت شحن.`, keywords:['أضيف رصيد','زيادة الرصيد','شحن'] },
-{ q:'أين أجد كود الشحن؟', a:'كود الشحن يتكون من 16 حرفاً (مثال: XXXX-XXXX-XXXX-XXXX). يمكنك الحصول عليه من إدارة المنصة.', keywords:['كود','كرت شحن','وين الكود'] },
-{ q:'كيف أسحب رصيدي؟', a:'اذهب إلى "محفظتي" ← "سحب الرصيد"، واختر الطريقة (شام كاش، الهرم، الخ). الحد الأدنى للسحب 1000 ل.س.', keywords:['سحب','أسحب رصيدي','سحب أرباح'] },
+{ q:'أين أجد كود الشحن؟', a:'كود الشحن يتكون من 16 حرفاً (مثال: XXXX-XXXX-XXXX-XXXX). يمكنك الحصول عليه من إدارة المنصة أو عبر الواتساب.', keywords:['كود','كرت شحن','وين الكود','كود 16'] },
+{ q:'الكرت لا يعمل؟', a:'تأكد من كتابة الكود بشكل صحيح (16 حرف). إذا استمرت المشكلة تواصل معنا فوراً عبر الواتساب.', keywords:['كرت لا يعمل','خطأ في الكرت','كود خطأ'] },
+{ q:'كيف أسحب رصيدي؟', a:'اذهب إلى "محفظتي" ← "سحب الرصيد"، واختر الطريقة (شام كاش، الهرم، الخ). الحد الأدنى للسحب 1000 ل.س.', keywords:['سحب','أسحب رصيدي','سحب أرباح','سحب فلوس'] },
+{ q:'متى يتم تحويل الأرباح؟', a:'تتم مراجعة طلبات السحب يومياً. يتم التحويل خلال 24 إلى 48 ساعة كحد أقصى.', keywords:['متى التحويل','وقت السحب','تحويل الأرباح'] },
 { q:'كم الحد الأدنى للسحب؟', a:'الحد الأدنى لسحب الرصيد (للطلاب والمعلمين) هو 1000 ليرة سورية.', keywords:['الحد الأدنى','أقل مبلغ للسحب'] },
-{ q:'كيف أشتري درساً؟', a:'افتح الدرس، إذا كان مدفوعاً اضغط "🛒 اشترِ"، وسيتم خصم المبلغ من رصيدك ويفتح لك مباشرة.', keywords:['شراء','أشتري درس','كيف اشتري'] },
-{ q:'كيف أشاهد الدروس؟', a:'اذهب للصفحة الرئيسية، اختر "دورات صفي"، ثم اختر الدورة، ثم اضغط على الدرس المشترى.', keywords:['مشاهدة','أشاهد الدروس','فيديو'] },
-{ q:'كيف أبحث عن درس معين؟', a:'استخدم أيقونة البحث (🔍) في الأعلى، واكتب اسم الدرس أو اسم المعلم.', keywords:['بحث','أبحث','وين الدرس'] },
+{ q:'كيف أشتري درساً؟', a:'افتح الدرس، إذا كان مدفوعاً اضغط "🛒 اشترِ"، وسيتم خصم المبلغ من رصيدك ويفتح لك مباشرة.', keywords:['شراء','أشتري درس','كيف اشتري','دفع'] },
+{ q:'كيف أشاهد الدروس؟', a:'اذهب للصفحة الرئيسية، اختر "دورات صفّي"، ثم اختر الدورة، ثم اضغط على الدرس المشترى.', keywords:['مشاهدة','أشاهد الدروس','فيديو'] },
+{ q:'ماذا لو انقطع الإنترنت أثناء الدرس؟', a:'عند عودتك للدرس، سيتذكر النظام اللحظة التي توقفت عندها، ويمكنك إكمال الفيديو من نفس المكان.', keywords:['انقطع النت','توقف الفيديو','أكمل'] },
+{ q:'هل يمكنني تحميل الدروس؟', a:'حالياً الدروس مخصصة للمشاهدة أونلاين فقط لحماية حقوق المعلمين، لا يمكن تحميلها.', keywords:['تحميل','حفظ الفيديو','أوفلاين'] },
 { q:'كيف أتواصل مع المعلم؟', a:'في صفحة الدرس، اضغط "اسأل المعلم"، أو اذهب إلى صفحة "الرسائل" لبدء محادثة معه.', keywords:['تواصل مع المعلم','أسأل المعلم','شات'] },
 { q:'كيف أبدأ امتحاناً؟', a:'من الصفحة الرئيسية، اضغط "الامتحانات التجريبية"، واختر المادة التي تريد اختبار نفسك فيها.', keywords:['امتحان','أبدأ امتحان','اختبار'] },
+{ q:'كم مدة الامتحان؟', a:'الامتحان السريع يعطيك 90 ثانية لكل سؤال. الامتحان الوزاري الكامل يعطيك ساعتين.', keywords:['مدة','وقت الامتحان','كم دقيقة'] },
+{ q:'ما هو الامتحان الوزاري؟', a:'هو امتحان محاكي لامتحان الوزارة، يجمع الأسئلة الوزارية السابقة، ولا يسمح بتغيير الإجابة بعد اختيارها.', keywords:['وزاري','امتحان الوزارة','محاكي'] },
 { q:'كيف أعرف نتيجتي؟', a:'بمجرد ضغطك على "إنهاء الامتحان"، ستظهر نتيجتك فوراً مع نسبة مئوية ومراجعة لكل سؤال.', keywords:['نتيجة','الدرجة','كم جبت'] },
+{ q:'كيف أرى شرح الأسئلة التي أخطأت بها؟', a:'في صفحة النتيجة، ستجد مراجعة لكل سؤال، مع إظهار الإجابة الصحيحة وشرح المعلم تحتها.', keywords:['شرح','إجابة صحيحة','الأخطاء'] },
 { q:'كيف أحصل على شهادة؟', a:'يجب أن تشتري وتكمل جميع دروس "دورة معينة"، وعندها ستظهر لك الشهادة تلقائياً في صفحة "شهاداتي".', keywords:['شهادة','كيف أحصل على شهادة','إتمام'] },
 { q:'كيف أطبع الشهادة؟', a:'افتح الشهادة، واضغط على زر "🖨️ طباعة" في الأسفل، أو احفظها كصورة من هاتفك.', keywords:['طباعة','طبع الشهادة','بي دي إف'] },
+{ q:'لماذا لم تظهر الشهادة؟', a:'تأكد أنك اشتريت جميع دروس الدورة. الشهادة لا تظهر إلا عند اكتمال 100% من الدروس.', keywords:['لم تظهر الشهادة','مشكلة في الشهادة'] },
 { q:'ما هي الشارات (Badges)؟', a:'هي أوسمة تحصل عليها عند تحقيق إنجازات (مثل أول شراء، أو إكمال 5 دروس)، تجدها في صفحة "شاراتي".', keywords:['شارات','أوسمة','إنجازات'] },
-{ q:'كيف أسجل حساباً جديداً؟', a:'اضغط على "حساب جديد"، واتبع الخطوات (الاسم، المستخدم، كلمة المرور، الصف).', keywords:['تسجيل','حساب جديد','إنشاء حساب'] },
+{ q:'كيف أسجل حساباً جديداً؟', a:'اضغط على "حساب جديد"، واتبع الخطوات (الاسم، المستخدم، كلمة المرور، الصف أو التخصص).', keywords:['تسجيل','حساب جديد','إنشاء حساب'] },
 { q:'نسيت كلمة المرور؟', a:'حالياً، تواصل مع الدعم عبر الواتساب لتتم إعادة تعيين كلمة المرور لك.', keywords:['نسيت كلمة المرور','استعادة الحساب','باسورد'] },
 { q:'كيف أغيّر كلمة المرور؟', a:'اذهب إلى "ملفي" (Profile) ← "تغيير كلمة المرور"، وأدخل الكلمة القديمة والجديدة.', keywords:['تغيير كلمة المرور','باسورد جديد','تعديل'] },
+{ q:'لماذا لم يتم تفعيل حسابي؟', a:'حسابات المعلمين تحتاج موافقة الإدارة. حسابات الطلاب تُفعل تلقائياً. إذا كنت معلماً انتظر التفعيل.', keywords:['تفعيل','حساب معلم','قيد المراجعة'] },
+{ q:'كيف أصبح معلماً؟', a:'سجل حساباً جديداً واختر "معلم" في الخطوة الثانية، ثم انتظر مراجعة الإدارة وتفعيل حسابك.', keywords:['أصبح معلم','تسجيل معلم','معلم جديد'] },
+{ q:'كيف أضيف دورة جديدة (للمعلم)؟', a:'من لوحة المعلم، اضغط "دوراتي" ← "+" واملأ بيانات الدورة (العنوان، الصف، الوصف).', keywords:['إضافة دورة','معلم دورة','أضيف دورة'] },
+{ q:'كيف أضيف درساً (للمعلم)؟', a:'من لوحة المعلم، اضغط "دروسي" ← "+"، واختر الدورة، وأدخل عنوان الدرس ورابط يوتيوب.', keywords:['إضافة درس','أضيف فيديو','درس جديد'] },
+{ q:'كيف أربح من المنصة؟', a:'عند شراء الطلاب لدروسك، يتم احتساب عمولتك (مثلاً 70%) من قيمة الدرس، وتضاف لأرباحك.', keywords:['أرباح المعلم','عمولة','ربح'] },
+{ q:'كيف أسحب أرباحي؟', a:'من لوحة المعلم، اضغط "سحب الأرباح" ← "+"، وحدد المبلغ وطريقة الدفع.', keywords:['سحب أرباح المعلم','تحويل أرباح'] },
 { q:'كيف أتواصل مع الدعم؟', a:`يمكنك التواصل معنا مباشرة عبر الواتساب على الرقم: ${CONTACT_PHONE_DISPLAY}`, keywords:['دعم','تواصل','مساعدة','رقم الدعم'] },
+{ q:'التطبيق لا يعمل؟', a:'جرب تحديث الصفحة (F5)، أو امسح الكاش من إعدادات المتصفح، أو جرب متصفحاً آخر (Chrome).', keywords:['لا يعمل','تطبيق معطل','مشكلة تقنية'] },
 { q:'هل يوجد تطبيق للهاتف؟', a:'حالياً المنصة تعمل كموقع ويب متجاوب (PWA). يمكنك إضافتها للشاشة الرئيسية من خيارات المتصفح.', keywords:['تطبيق هاتف','تحميل تطبيق','apk'] },
 { q:'كيف أرى الإشعارات؟', a:'اضغط على أيقونة الجرس (🔔) في الشريط العلوي لرؤية جميع إشعاراتك.', keywords:['إشعارات','جرس','تنبيهات'] }
 ];
@@ -877,7 +940,7 @@ notifs:[], cards:[], notes:[], faq:[], partners:[], affiliates:[],
 coupons:[], audit:[], visits:[], progress:[], certificates:[],
 settings:{ defaultCommission:30, minWithdrawal:1000, maxDiscount:60 },
 theme:'light', userFilter:'all', cardFilter:'all',
-regStep:1, regRole:'student',
+regRole:'student', regLevel:'12sci',
 curChat:null, curCourse:null, curLesson:null, unsubs:[],
 aiChat:[], aiWaitingForReply:false, searchFilter:'all', auditFilter:'all',
 _chats1:[], _chats2:[]
@@ -994,51 +1057,6 @@ await addDoc(collection(db,'audit'), { action, entity, details, adminId: st.me.i
 }catch(e){}
 }
 
-function updateStepper(){
-$$('.step').forEach(s => {
-const n = parseInt(s.dataset.step);
-s.classList.toggle('active', n === st.regStep);
-s.classList.toggle('done', n < st.regStep);
-});
-$$('.reg-step').forEach(s => s.style.display = parseInt(s.dataset.step) === st.regStep ? 'block' : 'none');
-$('#prevStepBtn').style.display = st.regStep > 1 ? 'flex' : 'none';
-$('#nextStepBtn').style.display = st.regStep < 4 ? 'flex' : 'none';
-$('#registerBtn').style.display = st.regStep === 4 ? 'flex' : 'none';
-if(st.regStep === 4) buildReview();
-}
-function validateStep(){
-if(st.regStep === 1){
-const name = $('#regName').value.trim(), user = $('#regUser').value.trim().toLowerCase();
-const pass = $('#regPass').value, pass2 = $('#regPass2').value;
-if(!name){ toast('أدخل الاسم','error'); return false; }
-if(!user || user.length < 3){ toast('3+ أحرف','error'); return false; }
-if(!/^[a-z0-9_]+$/.test(user)){ toast('بالإنجليزية','error'); return false; }
-if(!pass || pass.length < 6){ toast('6+ أحرف','error'); return false; }
-if(pass !== pass2){ toast('غير متطابقتين','error'); return false; }
-return true;
-}
-if(st.regStep === 3){
-const phone = $('#regPhone').value.trim();
-if(!phone || !/^09\d{8}$/.test(phone)){ toast('رقم 09xxxxxxxx','error'); return false; }
-if(st.regRole === 'teacher' && !$('#regSpecialty').value){ toast('اختر التخصص','error'); return false; }
-return true;
-}
-return true;
-}
-function buildReview(){
-const role = st.regRole;
-const data = {
-'الاسم': $('#regName').value.trim(),
-'اسم المستخدم': '@' + $('#regUser').value.trim().toLowerCase(),
-'النوع': role === 'student' ? '👨‍🎓 طالب' : '👨‍🏫 معلم',
-'الهاتف': $('#regPhone').value.trim()
-};
-if(role === 'student') data['الصف'] = getLevelInfo($('#regLevel').value).name;
-else data['التخصص'] = $('#regSpecialty').value || '—';
-$('#reviewData').innerHTML = Object.entries(data).map(([k,v]) =>
-`<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--border-2)"><span style="color:var(--text-3);font-weight:700">${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('');
-}
-
 async function doLogin(){
 if(!onlineCheck()) return;
 const u = $('#loginUser').value.trim().toLowerCase(), p = $('#loginPass').value;
@@ -1050,16 +1068,35 @@ catch(e){ toast('بيانات خاطئة','error'); $('#loginBtn').disabled = fa
 
 async function doRegister(){
 if(!onlineCheck()) return;
-const name = $('#regName').value.trim(), username = $('#regUser').value.trim().toLowerCase();
-const password = $('#regPass').value, phone = $('#regPhone').value.trim();
-if(!$('#regTerms').checked){ toast('وافق على الشروط','error'); return; }
+const name = $('#regName').value.trim();
+const username = $('#regUser').value.trim().toLowerCase();
+const password = $('#regPass').value;
+const password2 = $('#regPass2').value;
+const phone = $('#regPhone').value.trim();
+const role = st.regRole;
+const level = st.regLevel || '';
+const specialty = $('#regSpecialty')?.value || '';
+
+if(!name || name.length < 3){ toast('أدخل اسمك الكامل', 'error'); $('#regName')?.focus(); return; }
+if(!username || username.length < 3){ toast('اسم المستخدم: 3+ أحرف', 'error'); $('#regUser')?.focus(); return; }
+if(!/^[a-z0-9_]+$/.test(username)){ toast('حروف إنجليزية وأرقام فقط', 'error'); $('#regUser')?.focus(); return; }
+if(!password || password.length < 6){ toast('كلمة المرور: 6+ أحرف', 'error'); $('#regPass')?.focus(); return; }
+if(password !== password2){ toast('كلمتا المرور غير متطابقتين', 'error'); $('#regPass2')?.focus(); return; }
+if(!phone || !/^09\d{8}$/.test(phone)){ toast('رقم الهاتف: 09xxxxxxxx', 'error'); $('#regPhone')?.focus(); return; }
+if(role === 'student' && !level){ toast('اختر صفّك الدراسي 👆', 'error'); return; }
+if(role === 'teacher' && !specialty){ toast('اختر تخصصك', 'error'); $('#regSpecialty')?.focus(); return; }
+if(!$('#regTerms').checked){ toast('وافق على الشروط والأحكام', 'error'); return; }
+
 let hasAdmin = true;
 try{
 const s = await getDocs(query(collection(db,'users'), where('role','==','admin'), limit(1)));
 hasAdmin = !s.empty;
 }catch(e){ hasAdmin = true; }
-const finalRole = hasAdmin ? st.regRole : 'admin';
-$('#registerBtn').disabled = true; $('#registerBtn').innerHTML = '⏳...';
+const finalRole = hasAdmin ? role : 'admin';
+
+const btn = $('#registerBtn');
+btn.disabled = true; btn.innerHTML = '⏳ جاري الإنشاء...';
+
 try{
 const cred = await createUserWithEmailAndPassword(auth, username + EMAIL_SUF, password);
 await new Promise(r => setTimeout(r, 500));
@@ -1069,25 +1106,30 @@ balance: 0, badges: [], points: 0, favorites: [], activity: [],
 active: finalRole === 'student' || finalRole === 'admin',
 createdAt: serverTimestamp()
 };
-if(finalRole === 'student') userData.level = $('#regLevel').value;
-else if(finalRole === 'teacher') userData.specialty = $('#regSpecialty').value;
-await setDoc(doc(db,'users',cred.user.uid), userData);
-if(finalRole === 'admin'){ try { await setDoc(doc(db,'admins','first'), { createdAt: serverTimestamp(), uid: cred.user.uid }); } catch(e){} }
+if(finalRole === 'student') userData.level = level;
+else if(finalRole === 'teacher') userData.specialty = specialty;
+
+await setDoc(doc(db, 'users', cred.user.uid), userData);
+
+if(finalRole === 'admin'){
+try { await setDoc(doc(db,'admins','first'), { createdAt: serverTimestamp(), uid: cred.user.uid }); } catch(e){}
+}
 try{
 await addDoc(collection(db,'notifications'), {
-userId: cred.user.uid, title: '🎉 أهلاً بك',
-body: `مرحباً ${name}!\n\n📚 نتمنى لك التوفيق.\n💰 للشحن: ${CONTACT_PHONE_DISPLAY}`,
+userId: cred.user.uid, title: '🎉 أهلاً بك في النبراس',
+body: `مرحباً ${name}!\n\n📚 رحلتك تبدأ الآن.\n💰 للشحن: ${CONTACT_PHONE_DISPLAY}`,
 type:'info', read:false, date:serverTimestamp()
 });
 }catch(e){}
-if(finalRole === 'admin') toast('✓ حساب المدير','success');
-else if(finalRole === 'teacher') toast('بانتظار التفعيل','success');
+if(finalRole === 'admin') toast('✓ حساب المدير', 'success');
+else if(finalRole === 'teacher') toast('⏳ بانتظار تفعيل الإدارة', 'warning');
+else toast('🎉 أهلاً بك!', 'success');
 }catch(e){
-let msg = 'تعذّر الإنشاء';
+let msg = 'تعذّر إنشاء الحساب';
 if(e.code === 'auth/email-already-in-use') msg = 'اسم المستخدم محجوز';
 else if(e.code === 'auth/weak-password') msg = 'كلمة المرور ضعيفة';
-toast(msg,'error');
-$('#registerBtn').disabled = false; $('#registerBtn').innerHTML = 'إنشاء الحساب';
+toast(msg, 'error');
+btn.disabled = false; btn.innerHTML = '🎉 إنشاء حسابي';
 }
 }
 
@@ -1135,7 +1177,7 @@ const r = st.me.role;
 if(r === 'admin') go('adminHome');
 else if(r === 'teacher') go('teacherHome');
 else go('studentHome');
-// ✅ فتح الدورة المُشاركة تلقائياً بعد الدخول
+
 const pendingCourse = localStorage.getItem('nb_pending_course');
 if(pendingCourse){
 localStorage.removeItem('nb_pending_course');
@@ -1166,7 +1208,6 @@ function listenAll(){
 st.unsubs.forEach(u => u()); st.unsubs = [];
 const role = st.me.role, uid = st.me.id;
 
-// ✅ listener مباشر على وثيقة المستخدم الحالي (للتزامن الفوري)
 st.unsubs.push(onSnapshot(doc(db, 'users', uid), snap => {
 if(snap.exists()){
 st.me = { id: snap.id, ...snap.data() };
@@ -1176,7 +1217,6 @@ updateHeader();
 }));
 
 const subs = [['courses','courses',null],['lessons','lessons',null],['faq','faq',null]];
-// ✅ المستخدمون متاحون للجميع (لعرض أسماء المعلمين والمحادثات)
 subs.push(['users','users', null]);
 
 if(role === 'student'){
@@ -1322,35 +1362,88 @@ const b = $('#pendingWithdrawalsBadge');
 if(b){ if(n>0){b.textContent=n;b.style.display='block';}else b.style.display='none'; }
 }
 
-// ✅ دالة مشاركة الدورة
 window.shareCourse = function(courseId){
 const c = st.courses.find(x => x.id === courseId);
 if(!c) return;
 const url = `${location.origin}${location.pathname}?course=${courseId}`;
 const text = `📚 ${c.title}\n\n🎓 أكاديمية النبراس\n\n${url}`;
-openM('🔗 مشاركة الدورة', `
-<div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px;text-align:center">
-<div style="font-size:15px;font-weight:900">${esc(c.title)}</div>
-<div style="font-size:12.5px;color:var(--text-3);margin-top:6px">${getLevelInfo(getCourseLevel(c)).icon} ${getLevelInfo(getCourseLevel(c)).name}</div>
-</div>
-<div class="form-group">
-<label class="form-label">🔗 الرابط</label>
-<input class="form-input" id="shareLink" value="${url}" readonly dir="ltr" style="text-align:left;font-size:11.5px;font-family:monospace">
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-<button class="btn" id="shareWA" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff">💬 واتساب</button>
-<button class="btn btn-primary" id="shareCopy">📋 نسخ</button>
-</div>
-${navigator.share ? '<button class="btn btn-ghost" id="shareNative" style="width:100%">📤 مشاركة عبر...</button>' : ''}
-`);
-$('#shareCopy').onclick = () => {
-navigator.clipboard.writeText(url).then(() => toast('✓ تم نسخ الرابط','success')).catch(() => toast('فشل النسخ','error'));
-};
-$('#shareWA').onclick = () => {
-window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-};
+openM('🔗 مشاركة الدورة', `<div class="card" style="background:var(--bg-2);border:none;margin-bottom:16px;text-align:center"><div style="font-size:15px;font-weight:900">${esc(c.title)}</div></div><div class="form-group"><label class="form-label">🔗 الرابط</label><input class="form-input" id="shareLink" value="${url}" readonly dir="ltr" style="text-align:left;font-size:11.5px;font-family:monospace"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px"><button class="btn" id="shareWA" style="background:linear-gradient(135deg,#25D366,#128C7E);color:#fff">💬 واتساب</button><button class="btn btn-primary" id="shareCopy">📋 نسخ</button></div>${navigator.share ? '<button class="btn btn-ghost" id="shareNative" style="width:100%">📤 مشاركة عبر...</button>' : ''}`);
+$('#shareCopy').onclick = () => { navigator.clipboard.writeText(url).then(() => toast('✓ تم نسخ الرابط','success')).catch(() => toast('فشل النسخ','error')); };
+$('#shareWA').onclick = () => { window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank'); };
 const nb = $('#shareNative');
 if(nb) nb.onclick = async () => { try { await navigator.share({ title: c.title, text, url }); } catch(e){} };
+};
+
+function renderFeaturedTeachers(){
+const box = $('#featuredTeachers');
+if(!box) return;
+const teachers = st.users.filter(u => u.role === 'teacher' && u.active).map(t => {
+const courses = st.courses.filter(c => c.teacherId === t.id);
+const lessons = st.lessons.filter(l => l.teacherId === t.id);
+const students = new Set();
+st.purchases.forEach(p => { if(lessons.some(l => l.id === p.lessonId)) students.add(p.userId); });
+const isOnline = (Date.now() - (t.lastSeen?.toDate?.().getTime() || 0)) < 5*60*1000;
+return { ...t, courseCount: courses.length, studentCount: students.size, isOnline };
+}).filter(t => t.courseCount > 0).sort((a, b) => {
+if(a.isOnline !== b.isOnline) return b.isOnline - a.isOnline;
+return b.studentCount - a.studentCount;
+});
+if(!teachers.length){ box.innerHTML = '<div class="empty" style="padding:24px;font-size:13px">لا يوجد معلمون بعد</div>'; return; }
+box.innerHTML = teachers.map(t => {
+const color = SPECIALTY_COLORS[t.specialty] || '#065f46';
+return `<div class="teacher-card" data-teacher="${t.id}" style="--tc:${color}"><div class="teacher-avatar">${ini(t.name) || '👤'}${t.isOnline ? '<div class="teacher-online-dot"></div>' : ''}</div><div class="teacher-name">${esc(t.name)}</div><div class="teacher-specialty">${esc(t.specialty || 'معلم')}</div><div class="teacher-stats"><div class="teacher-stat"><span class="n">${t.courseCount}</span><span class="l">دورة</span></div><div class="teacher-stat"><span class="n">${t.studentCount}</span><span class="l">طالب</span></div></div></div>`;
+}).join('');
+box.querySelectorAll('[data-teacher]').forEach(el => { el.onclick = () => openTeacherProfile(el.dataset.teacher); });
+}
+
+function renderFeaturedCourses(){
+const box = $('#featuredCourses');
+if(!box) return;
+const me = st.me;
+const mp = st.purchases.filter(p => p.userId === me.id);
+const myLevel = String(me.level || me.grade || '').trim();
+let list = st.courses.filter(c => getCourseLevel(c) === myLevel);
+if(!list.length) list = st.courses.filter(c => c.free);
+if(!list.length) list = st.courses;
+const withStats = list.map(c => {
+const lessons = st.lessons.filter(l => l.courseId === c.id);
+const purchases = st.purchases.filter(p => lessons.some(l => l.id === p.lessonId));
+return { ...c, _lessonCount: lessons.length, _buyCount: purchases.length };
+});
+withStats.sort((a, b) => {
+const aNew = isCourseNew(a) ? 1 : 0;
+const bNew = isCourseNew(b) ? 1 : 0;
+if(aNew !== bNew) return bNew - aNew;
+return b._buyCount - a._buyCount;
+});
+if(!withStats.length){ box.innerHTML = '<div class="empty" style="padding:28px">لا دورات بعد</div>'; return; }
+box.innerHTML = withStats.slice(0, 6).map(c => {
+const t = st.users.find(u => u.id === c.teacherId);
+const lessons = st.lessons.filter(l => l.courseId === c.id);
+const owned = lessons.filter(l => l.price === 0 || mp.some(p => p.lessonId === l.id)).length;
+const pc = lessons.length ? Math.round((owned/lessons.length)*100) : 0;
+const lvl = getLevelInfo(getCourseLevel(c));
+const isNew = isCourseNew(c);
+const totalPrice = lessons.reduce((s, l) => s + (l.price || 0), 0);
+const isFree = c.free || totalPrice === 0;
+const started = owned > 0;
+const priceLabel = isFree ? '🆓 مجاني' : owned >= lessons.length ? '✓ مكتمل' : started ? `📍 ${pc}%` : `${fm(totalPrice)} ل.س`;
+return `<div class="course-card" data-course-card="${c.id}"><div class="course-cover" style="background:linear-gradient(135deg,${lvl.color},color-mix(in srgb,${lvl.color} 55%,#fff))"><div class="course-cover-icon">${lvl.icon}</div>${isNew ? '<div class="course-new-badge">جديد</div>' : ''}<div class="course-cover-price">${priceLabel}</div></div><div class="course-body"><div class="course-title-main">${esc(c.title)}</div><div class="course-teacher-row"><div class="course-teacher-av">${ini(t?.name) || '👤'}</div><div class="course-teacher-name">${esc(t?.name || '—')}</div></div><div class="course-meta-row"><div style="display:flex;gap:14px"><div class="course-meta-item">🎬 ${lessons.length}</div><div class="course-meta-item">👥 ${withStats.find(x => x.id === c.id)?._buyCount || 0}</div></div><button class="course-cta" data-cta="${c.id}">${started ? 'متابعة' : 'اكتشف'}</button></div>${started && pc > 0 ? `<div class="progress" style="margin-top:12px"><div class="progress-bar" style="width:${pc}%"></div></div>` : ''}</div></div>`;
+}).join('');
+box.querySelectorAll('[data-course-card]').forEach(el => { el.onclick = () => openCourse(el.dataset.courseCard); });
+}
+
+window.openTeacherProfile = function(teacherId){
+const t = st.users.find(u => u.id === teacherId);
+if(!t) return;
+const courses = st.courses.filter(c => c.teacherId === teacherId);
+const lessons = st.lessons.filter(l => l.teacherId === teacherId);
+const students = new Set();
+st.purchases.forEach(p => { if(lessons.some(l => l.id === p.lessonId)) students.add(p.userId); });
+const mp = st.purchases.filter(p => p.userId === st.me.id);
+const color = SPECIALTY_COLORS[t.specialty] || '#065f46';
+openM(`👨‍🏫 ${esc(t.name)}`, `<div style="text-align:center;padding:8px 0 4px"><div style="width:84px;height:84px;border-radius:26px;background:linear-gradient(135deg,${color},color-mix(in srgb,${color} 60%,#fff));color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:32px;font-weight:900;margin:0 auto 14px">${ini(t.name) || '👤'}</div><div style="font-family:var(--font-title);font-size:20px;font-weight:900">${esc(t.name)}</div><div style="font-size:13px;color:var(--text-3);margin-top:6px;font-weight:700">${esc(t.specialty || 'معلم')}</div><div style="display:flex;justify-content:center;gap:24px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)"><div style="text-align:center"><div style="font-size:22px;font-weight:900;color:${color}">${courses.length}</div><div style="font-size:10.5px;color:var(--text-3);font-weight:700">دورة</div></div><div style="text-align:center"><div style="font-size:22px;font-weight:900;color:${color}">${lessons.length}</div><div style="font-size:10.5px;color:var(--text-3);font-weight:700">درس</div></div><div style="text-align:center"><div style="font-size:22px;font-weight:900;color:${color}">${students.size}</div><div style="font-size:10.5px;color:var(--text-3);font-weight:700">طالب</div></div></div></div><div style="font-family:var(--font-title);font-size:15px;font-weight:900;margin:20px 0 12px;display:flex;align-items:center;gap:8px"><span style="width:4px;height:18px;background:${color};border-radius:2px"></span>دوراته</div>${courses.length ? courses.map(c => { const ls = st.lessons.filter(l => l.courseId === c.id); const owned = ls.filter(l => l.price === 0 || mp.some(p => p.lessonId === l.id)).length; const pc = ls.length ? Math.round((owned/ls.length)*100) : 0; const lvl = getLevelInfo(getCourseLevel(c)); return `<div class="list-item" data-tc="${c.id}"><div class="list-thumb" style="background:linear-gradient(135deg,${lvl.color},${lvl.color}dd);font-size:24px">${lvl.icon}</div><div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta"><span>🎬 ${ls.length} درس</span>${owned ? `<span style="color:var(--emerald-3);font-weight:800">✓ ${pc}%</span>` : ''}</div></div></div>`; }).join('') : '<div class="empty" style="padding:24px">لا دورات</div>'}<div style="display:flex;gap:10px;margin-top:18px"><a href="https://wa.me/?text=${encodeURIComponent('👨‍🏫 ' + t.name + ' على أكاديمية النبراس')}" target="_blank" class="btn btn-ghost" style="flex:1">📤 مشاركة</a><button class="btn btn-primary" onclick="closeM()" style="flex:2">إغلاق</button></div>`);
+$$('#modalBody [data-tc]').forEach(el => { el.onclick = () => { closeM(); openCourse(el.dataset.tc); }; });
 };
 
 function renderAdminHome(){
@@ -2342,6 +2435,8 @@ renderDailyTasks();
 const watch = getWatchHours();
 $('#studentStats').innerHTML = `<div class="stat-card" style="--sc:#d97706"><div class="stat-value">${fm(me.balance)}</div><div class="stat-label">رصيدي</div></div><div class="stat-card" style="--sc:#059669"><div class="stat-value">${mp.length}</div><div class="stat-label">دروس مشتراة</div></div><div class="stat-card" style="--sc:#0284c7"><div class="stat-value">${watch.hours}h ${watch.minutes}m</div><div class="stat-label">وقت المشاهدة</div></div><div class="stat-card" style="--sc:#7c3aed"><div class="stat-value">${getPoints()}</div><div class="stat-label">نقاطي</div></div>`;
 renderRecommendations(mp);
+renderFeaturedTeachers();
+renderFeaturedCourses();
 const allCourses = st.courses.map(c => ({ ...c, _lvl: getCourseLevel(c) }));
 let myCourses = myLevel ? allCourses.filter(c => c._lvl === myLevel) : [];
 if(!myCourses.length && allCourses.length > 0) myCourses = allCourses;
@@ -2377,6 +2472,7 @@ ae.appendChild(el);
 });
 } else { at.style.display = 'none'; ae.innerHTML = ''; }
 }
+
 function renderContactBanner(){
 const box = $('#contactBannerBox');
 if(!box) return;
@@ -2939,7 +3035,7 @@ c.scrollTop = c.scrollHeight;
 }
 function renderAISuggestions(){
 const s = $('#aiSuggestions');
-const sugg = ['كم رصيدي؟','كيف أشحن محفظتي؟','كيف أشتري درس؟','كيف أحصل على شهادة؟'];
+const sugg = ['كم رصيدي؟','كيف أشحن محفظتي؟','كيف أشتري درس؟','كيف أحصل على شهادة؟','كيف أبدأ امتحان؟','كيف أصبح معلماً؟','كيف أسحب الأرباح؟','التطبيق لا يعمل'];
 s.innerHTML = sugg.map(x => `<button class="ai-sugg" data-s="${esc(x)}">${esc(x)}</button>`).join('');
 s.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { $('#aiInput').value = b.dataset.s; sendAIMessage(); });
 }
@@ -3013,20 +3109,35 @@ $$('.auth-tab').forEach(x => x.classList.toggle('active', x === t));
 const tab = t.dataset.tab;
 $('#loginPane').style.display = tab === 'login' ? 'block' : 'none';
 $('#registerPane').style.display = tab === 'register' ? 'block' : 'none';
-if(tab === 'register'){ st.regStep = 1; updateStepper(); }
 });
 $('#loginBtn').onclick = doLogin;
 $('#loginPass').addEventListener('keypress', e => { if(e.key === 'Enter') doLogin(); });
+
 $$('.role-option').forEach(el => el.onclick = () => {
-$$('.role-option').forEach(x => x.style.borderColor = 'var(--border)');
-el.style.borderColor = 'var(--emerald-3)';
+$$('.role-option').forEach(x => x.classList.remove('selected'));
+el.classList.add('selected');
 el.querySelector('input').checked = true;
 st.regRole = el.dataset.role;
-$('#studentLevelGroup').style.display = st.regRole === 'student' ? 'block' : 'none';
-$('#teacherSpecialtyGroup').style.display = st.regRole === 'teacher' ? 'block' : 'none';
+const isStudent = st.regRole === 'student';
+$('#studentLevelGroup').style.display = isStudent ? 'block' : 'none';
+$('#teacherSpecialtyGroup').style.display = isStudent ? 'none' : 'block';
+$('#step3Label').textContent = isStudent ? 'اختر صفّك' : 'اختر تخصصك';
 });
-$('#nextStepBtn').onclick = () => { if(!validateStep()) return; if(st.regStep < 4){ st.regStep++; updateStepper(); } };
-$('#prevStepBtn').onclick = () => { if(st.regStep > 1){ st.regStep--; updateStepper(); } };
+
+$$('.level-option').forEach(el => el.onclick = () => {
+$$('.level-option').forEach(x => x.classList.remove('selected'));
+el.classList.add('selected');
+el.querySelector('input').checked = true;
+st.regLevel = el.dataset.level;
+const names = { '9': '📘 التاسع', '12sci': '🔬 بكالوريا علمي', '12lit': '📖 بكالوريا أدبي' };
+$('#levelHint').innerHTML = `✓ اخترت <strong style="color:var(--emerald-3)">${names[st.regLevel]}</strong>`;
+$('#levelHint').style.color = 'var(--emerald-3)';
+});
+
+$('#regPhone')?.addEventListener('input', e => {
+e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+});
+
 $('#registerBtn').onclick = doRegister;
 $('#logoutBtn').onclick = logout;
 $('#themeBtn').onclick = () => { st.theme = st.theme === 'dark' ? 'light' : 'dark'; localStorage.setItem('nb_theme', st.theme); applyTheme(); };
@@ -3147,7 +3258,6 @@ if(snap.exists()){ const el = document.getElementById('sharedCourseTitle'); if(e
 }
 bind();
 applyTheme();
-updateStepper();
 renderAISuggestions();
 setTimeout(hideLoading, 2500);
 });
