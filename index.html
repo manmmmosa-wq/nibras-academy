@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<!-- Version 15.0 — Ultimate Edition -->
+<!-- Version 16.0 — Ultimate Edition + Ordering & Categorization -->
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#065f46">
 <title>أكاديمية النبراس</title>
@@ -750,9 +750,25 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 
 <section class="page" id="page-adminUsers"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">المستخدمون</h2></div><div class="search-box"><input id="userSearch" placeholder="ابحث..."></div><div class="filter-chips" id="userFilterChips"><button class="filter-chip active" data-filter="all">الكل</button><button class="filter-chip" data-filter="student">الطلاب</button><button class="filter-chip" data-filter="teacher">المعلمون</button><button class="filter-chip" data-filter="pending">بانتظار</button></div><div id="usersList"></div></section>
 
-<section class="page" id="page-adminCourses"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الدورات</h2><button class="btn btn-primary btn-sm" id="addCourseBtn">+</button></div><div id="coursesList"></div></section>
+<section class="page" id="page-adminCourses">
+  <div class="page-header">
+    <button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <h2 class="page-title">الدورات</h2>
+    <button class="btn btn-primary btn-sm" id="addCourseBtn">+</button>
+  </div>
+  <div class="filter-chips" id="courseFilterChips"></div>
+  <div id="coursesList"></div>
+</section>
 
-<section class="page" id="page-adminLessons"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">الدروس</h2><button class="btn btn-primary btn-sm" id="addLessonBtn">+</button></div><div id="lessonsList"></div></section>
+<section class="page" id="page-adminLessons">
+  <div class="page-header">
+    <button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <h2 class="page-title">الدروس</h2>
+    <button class="btn btn-primary btn-sm" id="addLessonBtn">+</button>
+  </div>
+  <div class="filter-chips" id="lessonFilterChips"></div>
+  <div id="lessonsList"></div>
+</section>
 
 <section class="page" id="page-adminCards"><div class="page-header"><button class="back-btn" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button><h2 class="page-title">كروت الشحن</h2><button class="btn btn-gold btn-sm" id="createCardsBtn">+</button></div><div class="stats-grid" id="cardsStats"></div><div class="filter-chips" id="cardFilterChips"><button class="filter-chip active" data-filter="all">الكل</button><button class="filter-chip" data-filter="available">متاح</button><button class="filter-chip" data-filter="used">مستخدم</button><button class="filter-chip" data-filter="disabled">معطّل</button></div><div class="search-box"><input id="cardSearch" placeholder="ابحث..."></div><div id="cardsList"></div></section>
 
@@ -846,7 +862,7 @@ main{padding:24px 18px;max-width:900px;margin:0 auto}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, getDoc, addDoc, setDoc, updateDoc, deleteDoc, query, where, onSnapshot, serverTimestamp, limit, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
@@ -940,6 +956,7 @@ notifs:[], cards:[], notes:[], faq:[], partners:[], affiliates:[],
 coupons:[], audit:[], visits:[], progress:[], certificates:[],
 settings:{ defaultCommission:30, minWithdrawal:1000, maxDiscount:60 },
 theme:'light', userFilter:'all', cardFilter:'all',
+courseFilter:'all', lessonCourseFilter:'all',
 regRole:'student', regLevel:'12sci',
 curChat:null, curCourse:null, curLesson:null, unsubs:[],
 aiChat:[], aiWaitingForReply:false, searchFilter:'all', auditFilter:'all',
@@ -1857,83 +1874,289 @@ window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
 
 // ============ COURSES/LESSONS ============
 function renderAdminCourses(){
-let arr = [...st.courses].sort((a,b) => (a.order||0) - (b.order||0));
-const l = $('#coursesList');
-if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دورات</div></div>'; return; }
-l.innerHTML = '';
-arr.forEach(c => {
-const t = st.users.find(x => x.id === c.teacherId);
-const lvlInfo = getLevelInfo(getCourseLevel(c));
-const lessonCount = st.lessons.filter(x => x.courseId === c.id).length;
-const el = document.createElement('div');
-el.className = 'list-item no-click';
-el.innerHTML = `<div class="list-thumb" style="background:linear-gradient(135deg,${lvlInfo.color},${lvlInfo.color}dd);font-size:28px">${lvlInfo.icon}</div><div class="list-info"><div class="list-title">${esc(c.title)}</div><div class="list-meta"><span>${lvlInfo.name}</span><span>🎬 ${lessonCount}</span></div>${t ? `<div style="font-size:12px;color:var(--text-3);margin-top:6px">👨‍🏫 ${esc(t.name)}</div>` : ''}</div><div style="display:flex;flex-direction:column;gap:6px"><button class="btn btn-info btn-sm" data-share="${c.id}">🔗</button><button class="btn btn-ghost btn-sm" data-edit="${c.id}">✏️</button><button class="btn btn-info btn-sm" data-add="${c.id}">+</button><button class="btn btn-danger btn-sm" data-del="${c.id}">🗑</button></div>`;
-el.querySelector('[data-share]').onclick = e => { e.stopPropagation(); shareCourse(c.id); };
-el.querySelector('[data-edit]').onclick = e => { e.stopPropagation(); openCourseM(c); };
-el.querySelector('[data-add]').onclick = e => { e.stopPropagation(); openLessonM(null, c.id); };
-el.querySelector('[data-del]').onclick = async e => {
-e.stopPropagation();
-if(!confirm('حذف؟')) return;
-try{ await deleteDoc(doc(db,'courses',c.id)); for(const l of st.lessons.filter(x => x.courseId === c.id)) await deleteDoc(doc(db,'lessons',l.id)); toast('تم'); }catch(err){ toast('فشل','error'); }
-};
-l.appendChild(el);
-});
+  const filter = st.courseFilter || 'all';
+  let arr = [...st.courses].sort((a,b) => (a.order||0) - (b.order||0) || (a.createdAt?.seconds||0) - (b.createdAt?.seconds||0));
+  if(filter !== 'all') arr = arr.filter(c => getCourseLevel(c) === filter);
+  
+  const chipsBox = document.getElementById('courseFilterChips');
+  if(chipsBox){
+    chipsBox.innerHTML = `
+      <button class="filter-chip ${filter==='all'?'active':''}" data-cf="all">الكل</button>
+      <button class="filter-chip ${filter==='9'?'active':''}" data-cf="9">📘 تاسع</button>
+      <button class="filter-chip ${filter==='12sci'?'active':''}" data-cf="12sci">🔬 علمي</button>
+      <button class="filter-chip ${filter==='12lit'?'active':''}" data-cf="12lit">📖 أدبي</button>
+      <button class="filter-chip" id="resetOrderBtn" style="background:#dc2626;color:#fff;border-color:transparent">🔄 إعادة ترتيب</button>
+    `;
+    chipsBox.querySelectorAll('[data-cf]').forEach(b => b.onclick = () => {
+      st.courseFilter = b.dataset.cf;
+      renderAdminCourses();
+    });
+    chipsBox.querySelector('#resetOrderBtn').onclick = () => resetCourseOrder();
+  }
+  
+  const l = $('#coursesList');
+  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دورات</div></div>'; return; }
+  l.innerHTML = '';
+  arr.forEach((c, i) => {
+    const t = st.users.find(x => x.id === c.teacherId);
+    const lvlInfo = getLevelInfo(getCourseLevel(c));
+    const lessonCount = st.lessons.filter(x => x.courseId === c.id).length;
+    const el = document.createElement('div');
+    el.className = 'list-item no-click';
+    el.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+        <button class="btn btn-ghost btn-sm" data-up="${c.id}" style="padding:4px 8px;font-size:14px" ${i===0?'disabled':''}>⬆</button>
+        <span style="font-size:11px;font-weight:900;color:var(--text-3)">${c.order ?? i+1}</span>
+        <button class="btn btn-ghost btn-sm" data-down="${c.id}" style="padding:4px 8px;font-size:14px" ${i===arr.length-1?'disabled':''}>⬇</button>
+      </div>
+      <div class="list-thumb" style="background:linear-gradient(135deg,${lvlInfo.color},${lvlInfo.color}dd);font-size:28px">${lvlInfo.icon}</div>
+      <div class="list-info">
+        <div class="list-title">${esc(c.title)}</div>
+        <div class="list-meta">
+          <span>${lvlInfo.name}</span>
+          ${c.subject ? `<span style="background:#ede9fe;color:#5b21b6;padding:2px 8px;border-radius:6px;font-weight:800">${esc(c.subject)}</span>` : ''}
+          <span>🎬 ${lessonCount}</span>
+        </div>
+        ${t ? `<div style="font-size:12px;color:var(--text-3);margin-top:6px">👨‍🏫 ${esc(t.name)}</div>` : ''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-info btn-sm" data-share="${c.id}">🔗</button>
+        <button class="btn btn-ghost btn-sm" data-edit="${c.id}">✏️</button>
+        <button class="btn btn-info btn-sm" data-add="${c.id}">+</button>
+        <button class="btn btn-danger btn-sm" data-del="${c.id}">🗑</button>
+      </div>`;
+    el.querySelector('[data-up]').onclick = e => { e.stopPropagation(); moveCourse(c.id, 'up'); };
+    el.querySelector('[data-down]').onclick = e => { e.stopPropagation(); moveCourse(c.id, 'down'); };
+    el.querySelector('[data-share]').onclick = e => { e.stopPropagation(); shareCourse(c.id); };
+    el.querySelector('[data-edit]').onclick = e => { e.stopPropagation(); openCourseM(c); };
+    el.querySelector('[data-add]').onclick = e => { e.stopPropagation(); openLessonM(null, c.id); };
+    el.querySelector('[data-del]').onclick = async e => {
+      e.stopPropagation();
+      if(!confirm('حذف الدورة وكل دروسها؟')) return;
+      try{ 
+        await deleteDoc(doc(db,'courses',c.id)); 
+        for(const l of st.lessons.filter(x => x.courseId === c.id)) await deleteDoc(doc(db,'lessons',l.id)); 
+        toast('تم'); 
+      }catch(err){ toast('فشل','error'); }
+    };
+    l.appendChild(el);
+  });
 }
+
+async function moveCourse(courseId, direction) {
+  const arr = [...st.courses].sort((a,b) => (a.order||0) - (b.order||0) || (a.createdAt?.seconds||0) - (b.createdAt?.seconds||0));
+  const idx = arr.findIndex(c => c.id === courseId);
+  if(idx < 0) return;
+  const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+  if(newIdx < 0 || newIdx >= arr.length) return;
+  
+  const batch = writeBatch(db);
+  arr.forEach((c, i) => {
+    let newOrder = i;
+    if(i === idx) newOrder = newIdx;
+    else if(i === newIdx) newOrder = idx;
+    if((c.order ?? -1) !== newOrder) {
+      batch.update(doc(db, 'courses', c.id), { order: newOrder });
+    }
+  });
+  try { await batch.commit(); toast('✓', 'success'); } 
+  catch(e) { toast('فشل', 'error'); }
+}
+
+async function resetCourseOrder() {
+  if(!confirm('إعادة ترتيب كل الدورات من 1؟')) return;
+  const arr = [...st.courses].sort((a,b) => (a.order||0) - (b.order||0));
+  const batch = writeBatch(db);
+  arr.forEach((c, i) => batch.update(doc(db, 'courses', c.id), { order: i }));
+  try { await batch.commit(); toast('✓ تم الترتيب', 'success'); } 
+  catch(e) { toast('فشل', 'error'); }
+}
+
 function openCourseM(c){
-const isNew = !c;
-c = c || { id:'', title:'', level:'9', teacherId: st.me.role === 'teacher' ? st.me.id : '', description:'', free:false };
-const teachers = st.users.filter(u => u.role === 'teacher' && u.active);
-openM(isNew ? 'دورة جديدة' : 'تعديل', `<div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="cT" value="${esc(c.title)}"></div><div class="form-group"><label class="form-label">الصف</label><select class="form-select" id="cLvl">${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${getCourseLevel(c)===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}</select></div>${st.me.role === 'admin' ? `<div class="form-group"><label class="form-label">المعلم</label><select class="form-select" id="cTe"><option value="">— اختر —</option>${teachers.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>` : ''}<div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description||'')}</textarea></div><label style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg-2);border-radius:14px;cursor:pointer;margin-bottom:16px"><input type="checkbox" id="cFree" ${c.free?'checked':''} style="width:22px;height:22px"><span style="font-size:14px;font-weight:800">مجانية</span></label><div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="cOk">حفظ</button></div>`);
-$('#cOk').onclick = async () => {
-const t = $('#cT').value.trim();
-if(!t){ toast('أدخل العنوان','error'); return; }
-const teacherId = st.me.role === 'admin' ? ($('#cTe')?.value || '') : st.me.id;
-if(st.me.role === 'admin' && !teacherId){ toast('اختر المعلم','error'); return; }
-const btn = $('#cOk'); btn.disabled = true;
-try{
-const d = { title:t, level:$('#cLvl').value, teacherId, description:$('#cD').value.trim(), free:$('#cFree').checked };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'courses'), d); } else await updateDoc(doc(db,'courses',c.id), d);
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل','error'); btn.disabled = false; }
-};
+  const isNew = !c;
+  const defaultOrder = st.courses.length;
+  c = c || { id:'', title:'', level:'9', teacherId: st.me.role === 'teacher' ? st.me.id : '', description:'', free:false, subject:'', order:defaultOrder };
+  const teachers = st.users.filter(u => u.role === 'teacher' && u.active);
+  const subjects = ['رياضيات','فيزياء','كيمياء','أحياء','لغة عربية','لغة إنجليزية','تاريخ','جغرافيا','فلسفة','تربية إسلامية','عام'];
+  
+  openM(isNew ? 'دورة جديدة' : 'تعديل الدورة', `
+    <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="cT" value="${esc(c.title)}"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">الصف</label><select class="form-select" id="cLvl">
+        ${Object.entries(LEVELS).map(([k,v]) => `<option value="${k}" ${getCourseLevel(c)===k?'selected':''}>${v.icon} ${v.name}</option>`).join('')}
+      </select></div>
+      <div class="form-group"><label class="form-label">المادة</label><select class="form-select" id="cSubj">
+        <option value="">— بدون —</option>
+        ${subjects.map(s => `<option value="${s}" ${c.subject===s?'selected':''}>${s}</option>`).join('')}
+      </select></div>
+    </div>
+    ${st.me.role === 'admin' ? `<div class="form-group"><label class="form-label">المعلم</label><select class="form-select" id="cTe"><option value="">— اختر —</option>${teachers.map(t => `<option value="${t.id}" ${c.teacherId===t.id?'selected':''}>${esc(t.name)}</option>`).join('')}</select></div>` : ''}
+    <div class="form-group"><label class="form-label">الترتيب (0 = الأول)</label><input type="number" class="form-input" id="cOrder" value="${c.order ?? defaultOrder}" min="0"></div>
+    <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="cD">${esc(c.description||'')}</textarea></div>
+    <label style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg-2);border-radius:14px;cursor:pointer;margin-bottom:16px">
+      <input type="checkbox" id="cFree" ${c.free?'checked':''} style="width:22px;height:22px">
+      <span style="font-size:14px;font-weight:800">مجانية</span>
+    </label>
+    <div style="display:flex;gap:12px;margin-top:22px">
+      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
+      <button class="btn btn-primary" id="cOk">حفظ</button>
+    </div>
+  `);
+  
+  $('#cOk').onclick = async () => {
+    const t = $('#cT').value.trim();
+    if(!t){ toast('أدخل العنوان','error'); return; }
+    const teacherId = st.me.role === 'admin' ? ($('#cTe')?.value || '') : st.me.id;
+    if(st.me.role === 'admin' && !teacherId){ toast('اختر المعلم','error'); return; }
+    const btn = $('#cOk'); btn.disabled = true;
+    try{
+      const d = { 
+        title:t, 
+        level:$('#cLvl').value, 
+        subject: $('#cSubj').value || '',
+        teacherId, 
+        description:$('#cD').value.trim(), 
+        free:$('#cFree').checked,
+        order: parseInt($('#cOrder').value, 10) || 0
+      };
+      if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'courses'), d); } 
+      else await updateDoc(doc(db,'courses',c.id), d);
+      closeM(); toast('✓','success');
+    }catch(e){ toast('فشل','error'); btn.disabled = false; }
+  };
 }
+
 function renderAdminLessons(){
-const l = $('#lessonsList');
-if(!st.lessons.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
-l.innerHTML = '';
-[...st.lessons].sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x => {
-const c = st.courses.find(y => y.id === x.courseId);
-const el = document.createElement('div');
-el.className = 'list-item no-click';
-el.innerHTML = `<div class="list-thumb ${x.price === 0 ? 'free' : ''}">${x.price === 0 ? '🆓' : '🎬'}</div><div class="list-info"><div class="list-title">${esc(x.title)}</div><div class="list-meta"><span>${esc(c?.title||'')}</span><span>${x.price === 0 ? 'مجاني' : fm(x.price)+' ل.س'}</span></div></div><button class="btn btn-danger btn-sm" data-d="${x.id}">🗑</button>`;
-el.querySelector('[data-d]').onclick = async e => {
-e.stopPropagation();
-if(!confirm('حذف؟')) return;
-try{ await deleteDoc(doc(db,'lessons',x.id)); toast('تم'); }catch(err){ toast('فشل','error'); }
-};
-l.appendChild(el);
-});
+  const filterCourse = st.lessonCourseFilter || 'all';
+  let arr = [...st.lessons].sort((a,b) => (a.order||0) - (b.order||0) || (a.createdAt?.seconds||0) - (b.createdAt?.seconds||0));
+  if(filterCourse !== 'all') arr = arr.filter(x => x.courseId === filterCourse);
+  
+  const chipsBox = document.getElementById('lessonFilterChips');
+  if(chipsBox){
+    chipsBox.innerHTML = `
+      <button class="filter-chip ${filterCourse==='all'?'active':''}" data-lf="all">كل الدروس</button>
+      ${st.courses.map(c => `<button class="filter-chip ${filterCourse===c.id?'active':''}" data-lf="${c.id}">${esc(c.title)}</button>`).join('')}
+    `;
+    chipsBox.querySelectorAll('[data-lf]').forEach(b => b.onclick = () => {
+      st.lessonCourseFilter = b.dataset.lf;
+      renderAdminLessons();
+    });
+  }
+  
+  const l = $('#lessonsList');
+  if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
+  l.innerHTML = '';
+  arr.forEach((x, i) => {
+    const c = st.courses.find(y => y.id === x.courseId);
+    const siblings = st.lessons.filter(s => s.courseId === x.courseId)
+      .sort((a,b) => (a.order||0) - (b.order||0) || (a.createdAt?.seconds||0) - (b.createdAt?.seconds||0));
+    const siblingIdx = siblings.findIndex(s => s.id === x.id);
+    
+    const el = document.createElement('div');
+    el.className = 'list-item no-click';
+    el.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
+        <button class="btn btn-ghost btn-sm" data-up="${x.id}" style="padding:4px 8px;font-size:14px" ${siblingIdx===0?'disabled':''}>⬆</button>
+        <span style="font-size:11px;font-weight:900;color:var(--text-3)">${(x.order ?? siblingIdx+1) + 1}</span>
+        <button class="btn btn-ghost btn-sm" data-down="${x.id}" style="padding:4px 8px;font-size:14px" ${siblingIdx===siblings.length-1?'disabled':''}>⬇</button>
+      </div>
+      <div class="list-thumb ${x.price === 0 ? 'free' : ''}">${x.price === 0 ? '🆓' : '🎬'}</div>
+      <div class="list-info">
+        <div class="list-title">${esc(x.title)}</div>
+        <div class="list-meta">
+          <span style="color:var(--emerald-3);font-weight:800">${esc(c?.title||'')}</span>
+          <span>${x.price === 0 ? 'مجاني' : fm(x.price)+' ل.س'}</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn btn-ghost btn-sm" data-edit="${x.id}">✏️</button>
+        <button class="btn btn-danger btn-sm" data-d="${x.id}">🗑</button>
+      </div>`;
+    el.querySelector('[data-up]').onclick = e => { e.stopPropagation(); moveLesson(x.id, 'up'); };
+    el.querySelector('[data-down]').onclick = e => { e.stopPropagation(); moveLesson(x.id, 'down'); };
+    el.querySelector('[data-edit]').onclick = e => { e.stopPropagation(); openLessonM(x); };
+    el.querySelector('[data-d]').onclick = async e => {
+      e.stopPropagation();
+      if(!confirm('حذف الدرس؟')) return;
+      try{ await deleteDoc(doc(db,'lessons',x.id)); toast('تم'); }catch(err){ toast('فشل','error'); }
+    };
+    l.appendChild(el);
+  });
 }
+
+async function moveLesson(lessonId, direction) {
+  const lesson = st.lessons.find(l => l.id === lessonId);
+  if(!lesson) return;
+  const siblings = st.lessons.filter(l => l.courseId === lesson.courseId)
+    .sort((a,b) => (a.order||0) - (b.order||0) || (a.createdAt?.seconds||0) - (b.createdAt?.seconds||0));
+  const idx = siblings.findIndex(l => l.id === lessonId);
+  if(idx < 0) return;
+  const newIdx = direction === 'up' ? idx - 1 : idx + 1;
+  if(newIdx < 0 || newIdx >= siblings.length) return;
+  
+  const batch = writeBatch(db);
+  siblings.forEach((l, i) => {
+    let newOrder = i;
+    if(i === idx) newOrder = newIdx;
+    else if(i === newIdx) newOrder = idx;
+    if((l.order ?? -1) !== newOrder) {
+      batch.update(doc(db, 'lessons', l.id), { order: newOrder });
+    }
+  });
+  try { await batch.commit(); toast('✓', 'success'); } 
+  catch(e) { toast('فشل', 'error'); }
+}
+
 function openLessonM(l, preselectedCourseId){
-const isNew = !l;
-const availableCourses = st.me.role === 'teacher' ? st.courses.filter(c => c.teacherId === st.me.id) : st.courses;
-if(!availableCourses.length){ toast('أضف دورة أولاً','error'); return; }
-l = l || { id:'', courseId: preselectedCourseId || availableCourses[0].id, title:'', youtubeId:'', price:0, description:'' };
-if(!availableCourses.find(c => c.id === l.courseId)) l.courseId = availableCourses[0].id;
-openM(isNew ? 'درس جديد' : 'تعديل', `<div class="form-group"><label class="form-label">الدورة</label><select class="form-select" id="lC">${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${esc(c.title)}</option>`).join('')}</select></div><div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="lT" value="${esc(l.title)}"></div><div class="form-group"><label class="form-label">رابط يوتيوب</label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" dir="ltr" style="text-align:left"></div><div class="form-group"><label class="form-label">السعر (0=مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price||0}" min="0"></div><div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="lD">${esc(l.description||'')}</textarea></div><div style="display:flex;gap:12px;margin-top:22px"><button class="btn btn-ghost" onclick="closeM()">إلغاء</button><button class="btn btn-primary" id="lOk">حفظ</button></div>`);
-$('#lOk').onclick = async () => {
-const t = $('#lT').value.trim(), y = $('#lY').value.trim();
-if(!t || !y){ toast('أكمل','error'); return; }
-const yt = extractYT(y);
-if(!yt){ toast('رابط خطأ','error'); return; }
-const btn = $('#lOk'); btn.disabled = true;
-try{
-const co = st.courses.find(c => c.id === $('#lC').value);
-const d = { title:t, courseId:$('#lC').value, youtubeId:yt, price:parseInt($('#lP').value,10)||0, description:$('#lD').value.trim(), teacherId:co?.teacherId || st.me.id };
-if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'lessons'), d); } else await updateDoc(doc(db,'lessons',l.id), d);
-closeM(); toast('✓','success');
-}catch(e){ toast('فشل','error'); btn.disabled = false; }
-};
+  const isNew = !l;
+  const availableCourses = st.me.role === 'teacher' ? st.courses.filter(c => c.teacherId === st.me.id) : st.courses;
+  if(!availableCourses.length){ toast('أضف دورة أولاً','error'); return; }
+  
+  l = l || { id:'', courseId: preselectedCourseId || availableCourses[0].id, title:'', youtubeId:'', price:0, description:'', order:0 };
+  if(!availableCourses.find(c => c.id === l.courseId)) l.courseId = availableCourses[0].id;
+  
+  const siblings = st.lessons.filter(s => s.courseId === l.courseId);
+  const defaultOrder = siblings.length;
+  
+  openM(isNew ? 'درس جديد' : 'تعديل الدرس', `
+    <div class="form-group"><label class="form-label">الدورة</label><select class="form-select" id="lC">
+      ${availableCourses.map(c => `<option value="${c.id}" ${l.courseId===c.id?'selected':''}>${esc(c.title)}</option>`).join('')}
+    </select></div>
+    <div class="form-group"><label class="form-label">العنوان</label><input class="form-input" id="lT" value="${esc(l.title)}"></div>
+    <div class="form-group"><label class="form-label">رابط يوتيوب</label><input class="form-input" id="lY" value="${esc(l.youtubeId)}" dir="ltr" style="text-align:left"></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">السعر (0=مجاني)</label><input type="number" class="form-input" id="lP" value="${l.price||0}" min="0"></div>
+      <div class="form-group"><label class="form-label">الترتيب (0 = الأول)</label><input type="number" class="form-input" id="lOrder" value="${l.order ?? defaultOrder}" min="0"></div>
+    </div>
+    <div class="form-group"><label class="form-label">الوصف</label><textarea class="form-textarea" id="lD">${esc(l.description||'')}</textarea></div>
+    <div style="display:flex;gap:12px;margin-top:22px">
+      <button class="btn btn-ghost" onclick="closeM()">إلغاء</button>
+      <button class="btn btn-primary" id="lOk">حفظ</button>
+    </div>
+  `);
+  
+  $('#lOk').onclick = async () => {
+    const t = $('#lT').value.trim(), y = $('#lY').value.trim();
+    if(!t || !y){ toast('أكمل','error'); return; }
+    const yt = extractYT(y);
+    if(!yt){ toast('رابط خطأ','error'); return; }
+    const btn = $('#lOk'); btn.disabled = true;
+    try{
+      const co = st.courses.find(c => c.id === $('#lC').value);
+      const d = { 
+        title:t, 
+        courseId:$('#lC').value, 
+        youtubeId:yt, 
+        price:parseInt($('#lP').value,10)||0, 
+        description:$('#lD').value.trim(), 
+        teacherId:co?.teacherId || st.me.id,
+        order: parseInt($('#lOrder').value, 10) || 0
+      };
+      if(isNew){ d.createdAt = serverTimestamp(); await addDoc(collection(db,'lessons'), d); } 
+      else await updateDoc(doc(db,'lessons',l.id), d);
+      closeM(); toast('✓','success');
+    }catch(e){ toast('فشل','error'); btn.disabled = false; }
+  };
 }
 
 // ============ USERS ============
@@ -2302,7 +2525,7 @@ $('#teacherStats').innerHTML = `<div class="stat-card" style="--sc:#065f46"><div
 }
 function renderMyCourses(){
 const l = $('#myCoursesList');
-const arr = st.courses.filter(c => c.teacherId === st.me.id);
+const arr = st.courses.filter(c => c.teacherId === st.me.id).sort((a,b) => (a.order||0)-(b.order||0));
 if(!arr.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دورات</div></div>'; return; }
 l.innerHTML = '';
 arr.forEach(c => {
@@ -2322,7 +2545,7 @@ const l = $('#myLessonsList');
 const myLessons = st.lessons.filter(x => x.teacherId === st.me.id);
 if(!myLessons.length){ l.innerHTML = '<div class="empty"><div class="empty-title">لا دروس</div></div>'; return; }
 l.innerHTML = '';
-[...myLessons].sort((a,b) => (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x => {
+[...myLessons].sort((a,b) => (a.order||0) - (b.order||0) || (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0)).forEach(x => {
 const c = st.courses.find(y => y.id === x.courseId);
 const sales = st.purchases.filter(p => p.lessonId === x.id).length;
 const el = document.createElement('div');
@@ -2646,7 +2869,7 @@ $('#courseTitle').textContent = c.title;
 go('studentCourse');
 const t = st.users.find(u => u.id === c.teacherId);
 const mp = st.purchases.filter(p => p.userId === st.me.id);
-let ls = st.lessons.filter(x => x.courseId === id).sort((a,b) => (a.order||0)-(b.order||0));
+let ls = st.lessons.filter(x => x.courseId === id).sort((a,b) => (a.order||0)-(b.order||0) || (a.createdAt?.seconds||0)-(b.createdAt?.seconds||0));
 const con = $('#courseDetails');
 con.innerHTML = '';
 const h = document.createElement('div');
